@@ -260,7 +260,7 @@ def fetch_jobs(connector, token):
                         if item: jobs.append(item)
             # Follow same-site links only; limit total pages to avoid crawling a whole site.
             if len(visited) < 10:
-                for href in re.findall(r'href=["\\']([^"\\']+)["\\']', response.text, flags=re.I):
+                for href in re.findall(r"""href=["']([^"']+)["']""", response.text, flags=re.I):
                     absolute = urljoin(page, unescape(href))
                     target = urlparse(absolute)
                     if target.scheme in ("http", "https") and target.netloc == parsed.netloc and absolute not in visited and absolute not in queue:
