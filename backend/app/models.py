@@ -28,6 +28,7 @@ class Job(Base):
     source_id: Mapped[int]=mapped_column(ForeignKey('sources.id',ondelete='CASCADE'),index=True)
     source_job_id: Mapped[str]=mapped_column(String(300))
     title: Mapped[str]=mapped_column(String(500),index=True)
+    company_name: Mapped[str|None]=mapped_column(String(300),nullable=True,index=True)
     location: Mapped[str|None]=mapped_column(String(500),nullable=True,index=True)
     department: Mapped[str|None]=mapped_column(String(300),nullable=True)
     employment_type: Mapped[str|None]=mapped_column(String(100),nullable=True)
