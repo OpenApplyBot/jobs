@@ -2,13 +2,17 @@ from datetime import datetime, timezone
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sqlalchemy import select, func, or_
+from sqlalchemy import select, func, or_, inspect, text
 from sqlalchemy.orm import Session, joinedload
 from .db import Base, engine, get_db
 from .models import Company, Source, Job, ConnectorRun
 from .connectors import fetch_jobs
 
 Base.metadata.create_all(bind=engine)
+# Lightweight forward migration for existing local SQLite/PostgreSQL databases.
+if "company_name" not in {column["name"] for column in inspect(engine).get_columns("jobs")}:
+    with engine.begin() as connection:
+        connection.execute(text("ALTER TABLE jobs ADD COLUMN company_name VARCHAR(300)"))
 app = FastAPI(title="OpenApplyBot Jobs API", version="0.2.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
                    allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
@@ -27,7 +31,7 @@ class SourceCreate(BaseModel):
 
 
 def job_json(j):
-    return {"id": j.id, "title": j.title, "company": j.source.company.name,
+    return {"id": j.id, "title": j.title, "company": j.company_name or j.source.company.name,
             "company_id": j.source.company_id, "source_id": j.source_id, "location": j.location,
             "department": j.department, "employment_type": j.employment_type,
             "description": j.description, "url": j.url, "posted_at": j.posted_at,
@@ -154,7 +158,7 @@ def run_source(source_id: int, db: Session = Depends(get_db)):
                 j = Job(source_id=s.id, source_job_id=sid)
                 db.add(j)
                 inserted += 1
-            for key in ("title", "location", "department", "employment_type", "description", "url", "posted_at"):
+            for key in ("title", "company_name", "location", "department", "employment_type", "description", "url", "posted_at"):
                 setattr(j, key, item.get(key))
             j.active = True
             j.last_seen_at = datetime.now(timezone.utc)
