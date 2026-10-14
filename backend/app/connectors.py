@@ -18,7 +18,7 @@ def clean(value):
         value = value.get("html", value.get("text", ""))
     value = re.sub(r"<[^>]+>", " ", str(value))
     value = unescape(value)
-    return re.sub(r"\\s+", " ", value).strip() or None
+    return re.sub(r"\s+", " ", value).strip() or None
 
 
 def get_json(url, *, params=None, headers=None):
@@ -192,5 +192,84 @@ def fetch_jobs(connector, token):
                 j.get("description") or j.get("excerpt"), j.get("pubDate") or j.get("publishedAt"), j.get("companyName"))
             if item: jobs.append(item)
         return jobs
+
+
+    if connector == "jsonld":
+        # A single public careers page URL. Extract JobPosting JSON-LD without
+        # executing JavaScript or attempting to bypass access controls.
+        from html.parser import HTMLParser
+        from urllib.parse import urljoin, urlparse
+        import json
+
+        class JsonLdParser(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.capture = False
+                self.parts = []
+                self.blocks = []
+            def handle_starttag(self, tag, attrs):
+                if tag.lower() == "script" and dict(attrs).get("type", "").lower() == "application/ld+json":
+                    self.capture = True
+                    self.parts = []
+            def handle_data(self, data):
+                if self.capture:
+                    self.parts.append(data)
+            def handle_endtag(self, tag):
+                if tag.lower() == "script" and self.capture:
+                    self.blocks.append("".join(self.parts))
+                    self.capture = False
+
+        start = token
+        parsed = urlparse(start)
+        if parsed.scheme not in ("http", "https") or not parsed.netloc:
+            raise ValueError("jsonld board_token must be a public http(s) careers page URL")
+        queue = [start]
+        visited = set()
+        while queue and len(visited) < 10:
+            page = queue.pop(0)
+            if page in visited:
+                continue
+            visited.add(page)
+            response = requests.get(page, headers=HEADERS, timeout=TIMEOUT)
+            response.raise_for_status()
+            parser = JsonLdParser()
+            parser.feed(response.text)
+            for block in parser.blocks:
+                try:
+                    parsed_data = json.loads(block)
+                except (ValueError, TypeError):
+                    continue
+                records = parsed_data if isinstance(parsed_data, list) else [parsed_data]
+                for record in records:
+                    if not isinstance(record, dict):
+                        continue
+                    if record.get("@type") == "JobPosting":
+                        org = record.get("hiringOrganization") or {}
+                        loc = record.get("jobLocation") or []
+                        if isinstance(loc, dict): loc = [loc]
+                        locations = []
+                        for entry in loc:
+                            address = entry.get("address") or {} if isinstance(entry, dict) else {}
+                            if isinstance(address, dict):
+                                locations.append(", ".join(filter(None, [address.get("addressLocality"), address.get("addressRegion"), address.get("addressCountry")])))
+                        item = normalize(record.get("identifier", {}).get("value") if isinstance(record.get("identifier"), dict) else record.get("identifier") or record.get("url"),
+                            record.get("title"), record.get("url") or page, ", ".join(filter(None, locations)),
+                            record.get("industry") or record.get("occupationalCategory"),
+                            record.get("employmentType"), record.get("description"),
+                            record.get("datePosted"), org.get("name") if isinstance(org, dict) else None)
+                        if item: jobs.append(item)
+            # Follow same-site links only; limit total pages to avoid crawling a whole site.
+            if len(visited) < 10:
+                for href in re.findall(r'href=["\\']([^"\\']+)["\\']', response.text, flags=re.I):
+                    absolute = urljoin(page, unescape(href))
+                    target = urlparse(absolute)
+                    if target.scheme in ("http", "https") and target.netloc == parsed.netloc and absolute not in visited and absolute not in queue:
+                        if any(part in absolute.lower() for part in ("career", "jobs", "position", "opening")):
+                            queue.append(absolute)
+        # Deduplicate multiple structured-data copies of the same posting.
+        unique = {}
+        for item in jobs:
+            unique[item["source_job_id"]] = item
+        return list(unique.values())
 
     raise ValueError(f"Unsupported connector: {connector}")
