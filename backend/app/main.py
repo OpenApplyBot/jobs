@@ -15,7 +15,7 @@ app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http
 
 CONNECTORS = {
     "greenhouse", "lever", "ashby", "smartrecruiters", "workable", "recruitee",
-    "remoteok", "remotive", "arbeitnow", "themuse", "jobicy", "himalayas",
+    "remoteok", "remotive", "arbeitnow", "themuse", "jobicy", "himalayas", "jsonld",
 }
 
 
@@ -46,7 +46,7 @@ def connectors():
             {"greenhouse", "lever", "ashby", "smartrecruiters", "workable", "recruitee"}
             else "public_job_api"} for name in sorted(CONNECTORS)],
         "notes": {"public_job_api": "Use board_token='all' for all available listings or a keyword to filter.",
-                  "employer_ats": "Use the public board/company identifier from the employer's careers site."},
+                  "employer_ats": "Use the public board/company identifier from the employer's careers site.", "jsonld": "Use a public careers page URL; only same-site links and JobPosting JSON-LD are parsed."},
     }
 
 
@@ -105,7 +105,10 @@ def create_source(p: SourceCreate, db: Session = Depends(get_db)):
     token = p.board_token.strip()
     if connector not in CONNECTORS:
         raise HTTPException(400, f"Unsupported connector. Use one of: {', '.join(sorted(CONNECTORS))}")
-    if any(ch in token for ch in "/?#"):
+    if connector == "jsonld":
+        if not token.startswith(("http://", "https://")):
+            raise HTTPException(400, "jsonld board_token must be a public careers page URL")
+    elif any(ch in token for ch in "/?#"):
         raise HTTPException(400, "board_token must be a public board identifier or search keyword, not a URL")
     if db.scalar(select(Source).where(Source.connector == connector, Source.board_token == token)):
         raise HTTPException(409, "This connector and token are already registered")
