@@ -98,7 +98,7 @@ def create_source(p:SourceCreate,db:Session=Depends(get_db)):
     elif not token: raise HTTPException(400,"This connector requires a verified public board identifier or API keyword")
     if db.scalar(select(Source).where(Source.connector==connector,Source.board_token==token)): raise HTTPException(409,"This connector and token are already registered")
     company=db.scalar(select(Company).where(func.lower(Company.name)==p.company_name.strip().lower()))
-    if not company: company=Company(name=p.company_name.strip(),careers_url=url); db.add(company); db.flush()
+    if not company: company=Company(name=p.company_name.strip(),careers_url=url or None); db.add(company); db.flush()
     elif url: company.careers_url=url
     s=Source(company_id=company.id,connector=connector,board_token=token); db.add(s); db.commit(); db.refresh(s)
     return {"id":s.id,"company":company.name,"connector":connector,"board_token":token,"active":s.active}
