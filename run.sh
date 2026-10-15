@@ -10,7 +10,7 @@ export COMPOSE_BAKE=false
 dc() { "${DOCKER[@]}" compose "$@"; }
 log() { printf '\n[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
 die() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
-FOLLOW_LOGS="${FOLLOW_LOGS:-1}"
+FOLLOW_LOGS="${FOLLOW_LOGS:-0}"
 MAX_SCRAPE_WAIT_SECONDS="${MAX_SCRAPE_WAIT_SECONDS:-3600}"
 
 diagnostics() {
@@ -139,7 +139,7 @@ printf '\n'
 log "System is ready. Scrapers were not queued by run.sh."
 
 if [[ "$FOLLOW_LOGS" == "1" ]]; then
-  log "Following all service logs until the scraper queue is fully processed."
+  log "Following service logs (Ctrl+C stops log following; services remain running)."
   dc logs --follow --tail=100 api worker scheduler postgres redis frontend &
   logs_pid=$!
   cleanup_logs() { kill "$logs_pid" 2>/dev/null || true; wait "$logs_pid" 2>/dev/null || true; }
