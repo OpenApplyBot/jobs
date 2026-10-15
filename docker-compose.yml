@@ -34,7 +34,7 @@ services:
   scheduler:
     build: ./backend
     command: ["python", "-m", "app.scheduler"]
-    environment: {DATABASE_URL: postgresql+psycopg://jobs:jobs@postgres:5432/jobs, REDIS_URL: redis://redis:6379/0, SYNC_INTERVAL_SECONDS: "21600"}
+    environment: {DATABASE_URL: postgresql+psycopg://jobs:jobs@postgres:5432/jobs, REDIS_URL: redis://redis:6379/0, SYNC_INTERVAL_SECONDS: "${SYNC_INTERVAL_SECONDS:-21600}"}
     depends_on: {postgres: {condition: service_healthy}, redis: {condition: service_healthy}}
     restart: unless-stopped
   frontend:
