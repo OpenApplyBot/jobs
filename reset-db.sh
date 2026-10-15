@@ -10,8 +10,9 @@ if [[ "${1:-}" != "--yes" ]]; then
 fi
 command -v docker >/dev/null || { echo "Docker is required." >&2; exit 1; }
 docker compose down
-docker volume rm openapplybot-jobs_postgres_data openapplybot-jobs_redis_data 2>/dev/null || {
-  echo "Could not remove one or both expected volumes. Inspect with: docker volume ls"
-  exit 1
-}
+for volume in openapplybot-jobs_postgres_data openapplybot-jobs_redis_data; do
+  if docker volume inspect "$volume" >/dev/null 2>&1; then
+    docker volume rm "$volume"
+  fi
+done
 echo "Local database and queue volumes removed. Run ./run.sh to recreate the system."
