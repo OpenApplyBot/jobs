@@ -6,6 +6,8 @@ guessed.
 """
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse
+import re
+
 from . import greenhouse, lever, ashby, smartrecruiters, workable, recruitee, jsonld, workday
 from .common import get
 
@@ -54,8 +56,11 @@ def _provider_for(url):
 def _candidate_urls(html, page_url):
     parser = _Links()
     parser.feed(html)
+    values = list(parser.links)
+    # Also inspect script/config text where public ATS URLs are embedded.
+    values.extend(re.findall(r"""https?://[^\s"'<>]+""", html, flags=re.I))
     out, seen = [], set()
-    for value in parser.links:
+    for value in values:
         value = value.strip().rstrip(".,);]")
         if value.startswith(("mailto:", "javascript:", "#")):
             continue
