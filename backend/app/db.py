@@ -2,7 +2,10 @@ import os
 from sqlalchemy import create_engine, text, inspect
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 DATABASE_URL=os.getenv("DATABASE_URL","postgresql+psycopg://jobs:jobs@postgres:5432/jobs")
-engine=create_engine(DATABASE_URL,pool_pre_ping=True,pool_size=5,max_overflow=10,pool_recycle=1800)
+# Bound connection use for small local machines; override through environment when needed.
+POOL_SIZE=max(1,int(os.getenv("DB_POOL_SIZE","3")))
+MAX_OVERFLOW=max(0,int(os.getenv("DB_MAX_OVERFLOW","2")))
+engine=create_engine(DATABASE_URL,pool_pre_ping=True,pool_size=POOL_SIZE,max_overflow=MAX_OVERFLOW,pool_recycle=1800,connect_args={"connect_timeout":5} if DATABASE_URL.startswith("postgresql") else {})
 SessionLocal=sessionmaker(bind=engine,autoflush=False,autocommit=False,expire_on_commit=False)
 class Base(DeclarativeBase): pass
 
