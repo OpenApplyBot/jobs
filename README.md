@@ -11,7 +11,7 @@ chmod +x run.sh  # only if needed
 ./run.sh
 ```
 
-The launcher builds and starts PostgreSQL, Redis, FastAPI, the RQ worker, the recurring scheduler, and the static React dashboard. It seeds the company list and queues an initial scrape. The scheduler queues sources every six hours (override with `SYNC_INTERVAL_SECONDS` in your shell/environment if desired).
+The launcher builds and starts PostgreSQL, Redis, FastAPI, the RQ worker, the recurring scheduler, and the static React dashboard. It seeds the company list, queues every active scraper, and follows API, worker, scheduler, database, Redis, and frontend logs in the terminal. The scheduler queues sources every six hours (override with `SYNC_INTERVAL_SECONDS` in your shell/environment if desired). Set `FOLLOW_LOGS=0` to leave the stack running without following logs.
 
 - Dashboard: http://localhost:5173
 - API / OpenAPI docs: http://localhost:8000/docs

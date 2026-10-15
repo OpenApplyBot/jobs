@@ -40,7 +40,7 @@ def scrape(url):
             for j in _walk(data):
                 org=j.get("hiringOrganization") or {}; ident=j.get("identifier") or {}; jid=ident.get("value") if isinstance(ident,dict) else ident
                 loc=j.get("jobLocation") or j.get("applicantLocationRequirements")
-                x=normalize(jid or j.get("url"),j.get("title"),urljoin(page,j.get("url") or page),location_text(loc),j.get("occupationalCategory"),j.get("employmentType"),j.get("description"),j.get("datePosted"),org.get("name") if isinstance(org,dict) else None)
+                x=normalize(jid or j.get("url"),j.get("title"),urljoin(page,j.get("url") or page),location_text(loc),j.get("occupationalCategory"),j.get("employmentType"),j.get("description"),j.get("datePosted"),org.get("name") if isinstance(org,dict) else None,raw_payload=j,apply_url=j.get("url"))
                 if x: out.append(x)
         for href in p.links:
             nxt=urljoin(page,href); path=urlparse(nxt).path.lower()

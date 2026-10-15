@@ -23,7 +23,7 @@ def scrape(careers_url):
                 info=row.get("jobPostingInfo") or row
                 path=info.get("externalPath") or row.get("externalPath")
                 if not path: continue
-                x=normalize(info.get("jobReqId") or row.get("bulletFields") and "|".join(row.get("bulletFields",[])) or path,info.get("title") or row.get("title"),urljoin(f"{parsed.scheme}://{host}",path),info.get("location") or row.get("locationsText"),info.get("jobFamily"),info.get("timeType"),info.get("jobDescription"),info.get("postedOn"))
+                x=normalize(info.get("jobReqId") or row.get("bulletFields") and "|".join(row.get("bulletFields",[])) or path,info.get("title") or row.get("title"),urljoin(f"{parsed.scheme}://{host}",path),info.get("location") or row.get("locationsText"),info.get("jobFamily"),info.get("timeType"),info.get("jobDescription"),info.get("postedOn"),raw_payload=row,apply_url=urljoin(f"{parsed.scheme}://{host}",path))
                 if x: out.append(x)
             if len(rows)<page_size: break
             offset+=page_size

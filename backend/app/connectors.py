@@ -9,6 +9,6 @@ def fetch_jobs(connector,token):
     rows=SCRAPERS[name](token.strip()); result=[]; seen=set()
     for row in rows:
         if not isinstance(row,dict): continue
-        item=normalize(row.get("source_job_id"),row.get("title"),row.get("url"),row.get("location"),row.get("department"),row.get("employment_type"),row.get("description"),row.get("posted_at"),row.get("company_name"))
+        item=normalize(row.get("source_job_id"),row.get("title"),row.get("url"),row.get("location"),row.get("department"),row.get("employment_type"),row.get("description"),row.get("posted_at"),row.get("company_name"),raw_payload=row.get("raw_payload",row),apply_url=row.get("apply_url"))
         if item and item["source_job_id"] not in seen: seen.add(item["source_job_id"]); result.append(item)
     return result

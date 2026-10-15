@@ -10,6 +10,7 @@ export COMPOSE_BAKE=false
 dc() { "${DOCKER[@]}" compose "$@"; }
 log() { printf '\n[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
 die() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
+FOLLOW_LOGS="${FOLLOW_LOGS:-1}"
 
 diagnostics() {
   echo
@@ -139,16 +140,13 @@ if ! dc exec -T api python scripts/seed_companies.py; then
   die "Company seeding failed. The stack is running; inspect API logs, fix the cause, and rerun ./run.sh."
 fi
 
-# Avoid queuing another full scrape if the launcher is rerun during recovery.
-# The API's queue endpoint is used only for a best-effort check; if unavailable,
-# queueing is attempted once and errors are surfaced with logs.
-queue_json="$(curl --connect-timeout 3 --max-time 8 -fsS http://127.0.0.1:8000/api/queue 2>/dev/null || true)"
-if [[ -n "$queue_json" ]] && grep -Eq '"(queued|started|pending)"[[:space:]]*:[[:space:]]*[1-9]' <<<"$queue_json"; then
-  log "Scrape queue already has work; skipping duplicate initial scrape."
-else
-  log "Queueing the initial scrape pass."
-  curl --connect-timeout 5 --max-time 20 -fsS -X POST http://127.0.0.1:8000/api/connectors/run-all || die "Could not queue the initial scrape. The app is up; inspect API logs and retry from the dashboard/API."
-  printf '\n'
+log "Queueing every active scraper."
+queue_response="$(curl --connect-timeout 5 --max-time 20 -fsS -X POST http://127.0.0.1:8000/api/connectors/run-all)" || die "Could not queue the scraper run. The app is up; inspect API logs and retry from the dashboard/API."
+printf 'Queued scraper jobs: %s\n' "$queue_response"
+
+if [[ "$FOLLOW_LOGS" == "1" ]]; then
+  log "Following API, worker, scheduler, database, Redis and frontend logs. Press Ctrl-C to stop viewing logs; containers keep running."
+  dc logs --follow --tail=100 api worker scheduler postgres redis frontend
 fi
 
 cat <<'EOF'

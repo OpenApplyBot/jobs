@@ -2,6 +2,8 @@
 from html import unescape
 import re
 from urllib.parse import urljoin, urlparse
+from hashlib import sha256
+import json
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -26,13 +28,34 @@ def clean(value):
     value = re.sub(r"\s+", " ", value).strip()
     return value or None
 
-def normalize(job_id, title, url, location=None, department=None, employment_type=None, description=None, posted_at=None, company=None):
+SKILLS=("python","java","javascript","typescript","sql","c++","go","rust","kotlin","swift","react","node.js","fastapi","django","flask","postgresql","mysql","redis","docker","kubernetes","aws","azure","gcp","terraform","graphql","selenium","playwright","browser automation","machine learning","deep learning","pytorch","tensorflow")
+
+def _details(title,description,location,employment_type,raw):
+    text=clean(" ".join(str(x or "") for x in (title,description,location,employment_type))).lower()
+    skills=[skill for skill in SKILLS if re.search(r"(?<![a-z0-9])"+re.escape(skill)+r"(?![a-z0-9])",text)]
+    work_mode="Remote" if "remote" in text else "Hybrid" if "hybrid" in text else "On-site" if "on-site" in text or "onsite" in text else None
+    salary_text=clean((raw or {}).get("salary") or (raw or {}).get("salaryText") or (raw or {}).get("compensation")) if isinstance(raw,dict) else None
+    currency=None
+    if salary_text:
+        currency="INR" if "₹" in salary_text or "inr" in salary_text.lower() else "USD" if "$" in salary_text or "usd" in salary_text.lower() else "EUR" if "€" in salary_text or "eur" in salary_text.lower() else None
+    period="monthly" if salary_text and re.search(r"month|monthly",salary_text,re.I) else "yearly" if salary_text and re.search(r"year|annual|annum",salary_text,re.I) else None
+    experience=re.search(r"(\d+)\s*(?:-|to)\s*(\d+)?\s*years?",text)
+    education=next((phrase for phrase in ("bachelor's degree","bachelors degree","master's degree","masters degree","computer science degree","degree in computer science") if phrase in text),None)
+    countries=[country for country in ("India","United States","United Kingdom","Canada","Germany","Australia") if country.lower() in text]
+    parts=[part.strip() for part in (location or "").split(",") if part.strip()]
+    return {"work_mode":work_mode,"location_city":parts[0] if parts else None,"location_region":parts[1] if len(parts)>2 else None,"location_country":parts[-1] if len(parts)>1 else None,"remote_scope":"Worldwide" if "worldwide" in text else None,"required_skills":skills,"preferred_skills":skills,"programming_languages":[x for x in skills if x in {"python","java","javascript","typescript","c++","go","rust","kotlin","swift"}],"tech_stack":skills,"education_requirements":education,"experience_min_months":int(experience.group(1))*12 if experience else None,"eligible_countries":countries,"visa_sponsorship":True if "visa sponsorship" in text or "sponsorship available" in text else None,"relocation_available":True if "relocation" in text else None,"salary_currency":currency,"salary_period":period,"compensation_text":salary_text,"status":"open" if any(x in text for x in ("apply","job","position")) else "unverified"}
+
+def normalize(job_id, title, url, location=None, department=None, employment_type=None, description=None, posted_at=None, company=None, raw_payload=None, apply_url=None):
     title, url = clean(title), clean(url)
     if not job_id or not title or not url: return None
-    return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url,
+    payload=raw_payload if isinstance(raw_payload,dict) else {}
+    details=_details(title,description,location,employment_type,payload)
+    raw=json.loads(json.dumps(payload,default=str))
+    content_hash=sha256(((title or "")+"\n"+(description or "")+"\n"+url).encode()).hexdigest()
+    return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url, "apply_url":clean(apply_url or payload.get("applyUrl") or payload.get("application_url") or url),
             "location": clean(location), "department": clean(department), "employment_type": clean(employment_type),
             "description": clean(description), "posted_at": str(posted_at)[:100] if posted_at else None,
-            "company_name": clean(company)}
+            "company_name": clean(company), "raw_payload":raw, "content_hash":content_hash, "parser_version":"1.0", **details}
 
 def location_text(value):
     if isinstance(value, str): return value

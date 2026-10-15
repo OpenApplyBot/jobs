@@ -1,43 +1,599 @@
-import {useEffect,useState} from 'react';
-import {Search,RefreshCw,BriefcaseBusiness,Building2,RadioTower,ExternalLink,MapPin,Plus,Activity,SlidersHorizontal} from 'lucide-react';
-const API=import.meta.env.VITE_API_URL||'http://localhost:8000';
-type Job={id:number;title:string;company:string;location:string|null;department:string|null;employment_type:string|null;description:string|null;url:string;posted_at:string|null;source:string};
-type Stats={jobs:number;companies:number;sources:number;runs:number;queued:number};
-type Source={id:number;company:string;connector:string;board_token:string;active:boolean;last_error:string|null};
-type Filters={companies:string[];employment_types:string[];sources:string[];locations:string[]};
-const emptyFilters:Filters={companies:[],employment_types:[],sources:[],locations:[]};
-export default function App(){
- const [jobs,setJobs]=useState<Job[]>([]),[stats,setStats]=useState<Stats>({jobs:0,companies:0,sources:0,runs:0,queued:0}),[sources,setSources]=useState<Source[]>([]),[filters,setFilters]=useState<Filters>(emptyFilters);
- const [search,setSearch]=useState(''),[location,setLocation]=useState(''),[company,setCompany]=useState(''),[kind,setKind]=useState(''),[source,setSource]=useState(''),[remote,setRemote]=useState(false),[offset,setOffset]=useState(0);
- const [loading,setLoading]=useState(true),[error,setError]=useState(''),[showAdd,setShowAdd]=useState(false),[busy,setBusy]=useState(false);
- const [form,setForm]=useState({company_name:'',careers_url:'',connector:'auto',board_token:''});
- async function load(){
-  setLoading(true);setError('');
-  try{
-   const q=new URLSearchParams({limit:'50',offset:String(offset)});
-   if(search.trim())q.set('search',search.trim());if(location.trim())q.set('location',location.trim());if(company)q.set('company',company);if(kind)q.set('employment_type',kind);if(source)q.set('source',source);if(remote)q.set('remote','true');
-   const [jr,sr,cr,fr,rr]=await Promise.all([fetch(API+'/api/jobs?'+q),fetch(API+'/api/stats'),fetch(API+'/api/sources'),fetch(API+'/api/filters'),fetch(API+'/api/queue')]);
-   for(const r of [jr,sr,cr,fr,rr])if(!r.ok)throw Error('API request failed ('+r.status+')');
-   setJobs(await jr.json());setStats({...await sr.json(),...(await rr.json())});setSources(await cr.json());setFilters(await fr.json());
-  }catch(e){setError(e instanceof Error?e.message:'Could not reach the local API. Start ./run.sh and refresh.')}finally{setLoading(false)}
- }
- useEffect(()=>{const t=setTimeout(()=>{load()},250);return()=>clearTimeout(t)},[search,location,company,kind,source,remote,offset]);
- async function sync(url:string){setBusy(true);try{const r=await fetch(API+url,{method:'POST'});const d=await r.json();if(!r.ok)throw Error(d.detail||'Could not queue sync');await load()}catch(e){setError(e instanceof Error?e.message:'Sync failed')}finally{setBusy(false)}}
- async function add(e:React.FormEvent){e.preventDefault();setBusy(true);try{const needsUrl=["auto","jsonld","workday"].includes(form.connector);const payload={...form,careers_url:form.careers_url||null,board_token:form.board_token||(needsUrl?form.careers_url:"")};const r=await fetch(API+'/api/sources',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const d=await r.json();if(!r.ok)throw Error(d.detail||'Could not add source');setShowAdd(false);setForm({company_name:'',careers_url:'',connector:'auto',board_token:''});await load()}catch(e){setError(e instanceof Error?e.message:'Could not add source')}finally{setBusy(false)}}
- function resetFilters(){setSearch('');setLocation('');setCompany('');setKind('');setSource('');setRemote(false);setOffset(0)}
- return <main className="shell">
-  <header className="top"><a className="brand" href="#"><span className="logo"><BriefcaseBusiness size={19}/></span><span>OpenApply<span className="muted">Bot</span><small>JOBS INTELLIGENCE</small></span></a><div className="topright"><span className="live"><i/> LOCAL STACK</span><button className="outline" onClick={()=>setShowAdd(true)}><Plus size={16}/> Add source</button><button className="primary" disabled={busy} onClick={()=>sync('/api/connectors/run-all')}><RefreshCw size={16} className={busy?'spin':''}/> Queue sync</button></div></header>
-  <section className="hero"><div><div className="eyebrow"><span/> PHASE 01 / JOB AGGREGATION</div><h1>One search. <em>Every opportunity.</em></h1><p>Public job listings normalized into one searchable PostgreSQL index.</p></div><div className="hero-mark"><BriefcaseBusiness size={36}/><div className="orbit orbit1"/><div className="orbit orbit2"/></div></section>
-  <section className="stats"><Stat icon={<BriefcaseBusiness/>} label="ACTIVE LISTINGS" value={stats.jobs}/><Stat icon={<Building2/>} label="COMPANIES" value={stats.companies}/><Stat icon={<RadioTower/>} label="SOURCES" value={stats.sources}/><Stat icon={<Activity/>} label="QUEUED TASKS" value={stats.queued||0}/></section>
-  <section className="workspace"><div className="sectionhead"><div><div className="eyebrow">DISCOVERY FEED</div><h2>Job listings <span>{stats.jobs}</span></h2></div><div className="feedtools"><label className="search"><Search size={17}/><input value={search} onChange={e=>{setOffset(0);setSearch(e.target.value)}} placeholder="Role, company, keyword..."/></label><label className="search loc"><MapPin size={16}/><input value={location} onChange={e=>{setOffset(0);setLocation(e.target.value)}} placeholder="Location"/></label></div></div>
-   <div className="filterbar"><span className="filterlabel"><SlidersHorizontal size={14}/> FILTERS</span><select value={company} onChange={e=>{setOffset(0);setCompany(e.target.value)}}><option value="">All companies</option>{filters.companies.map(x=><option key={x}>{x}</option>)}</select><select value={kind} onChange={e=>{setOffset(0);setKind(e.target.value)}}><option value="">All job types</option>{filters.employment_types.map(x=><option key={x}>{x}</option>)}</select><select value={source} onChange={e=>{setOffset(0);setSource(e.target.value)}}><option value="">All sources</option>{filters.sources.map(x=><option key={x}>{x}</option>)}</select><label className="remotecheck"><input type="checkbox" checked={remote} onChange={e=>{setOffset(0);setRemote(e.target.checked)}}/> Remote</label><button className="clearfilters" onClick={resetFilters}>Clear</button></div>
-   {error&&<div className="alert">{error}<button onClick={()=>setError('')}>×</button></div>}
-   {loading?<div className="empty"><RefreshCw className="spin"/><p>Loading indexed listings…</p></div>:jobs.length===0?<div className="empty"><div className="emptyicon"><BriefcaseBusiness size={26}/></div><h3>No listings found yet</h3><p>{stats.sources===0?'No sources configured. Start a source sync or add a public careers page.':'No jobs match those filters, or sources have not returned listings yet.'}</p><button className="primary" onClick={()=>stats.sources===0?setShowAdd(true):sync('/api/connectors/run-all')}><RefreshCw size={16}/> {stats.sources===0?'Add first source':'Queue source sync'}</button></div>:<div className="joblist">{jobs.map(j=><article className="job" key={j.id}><div className="companybadge">{(j.company||'?').slice(0,1).toUpperCase()}</div><div className="jobbody"><div className="jobtitle"><h3>{j.title}</h3>{j.employment_type&&<span className="tag">{j.employment_type}</span>}</div><div className="jobmeta"><b>{j.company}</b>{j.location&&<span><MapPin size={13}/>{j.location}</span>}{j.department&&<span>{j.department}</span>}<span>{j.source}</span></div>{j.description&&<p className="desc">{j.description.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').slice(0,240)}{j.description.length>240?'…':''}</p>}</div><a className="apply" href={j.url} target="_blank" rel="noreferrer">View role <ExternalLink size={14}/></a></article>)}</div>}
-   <div className="pagination"><button className="outline" disabled={offset===0||loading} onClick={()=>setOffset(Math.max(0,offset-50))}>Previous</button><span>Showing {jobs.length?offset+1:0}–{offset+jobs.length} of {stats.jobs}</span><button className="outline" disabled={loading||jobs.length<50||offset+50>=stats.jobs} onClick={()=>setOffset(offset+50)}>Next</button></div>
-  </section>
-  <section className="sources"><div className="sectionhead"><div><div className="eyebrow">PIPELINE</div><h2>Connected sources</h2></div><span className="subtle">{sources.length} registered</span></div>{sources.length===0?<p className="subtle">No sources configured. Add a public careers URL.</p>:<div className="sourcegrid">{sources.map(s=><div className="source" key={s.id}><div className="sourceicon"><RadioTower size={17}/></div><div className="sourceinfo"><b>{s.company}</b><span>{s.connector} / {s.board_token}</span>{s.last_error&&<small className="errortext">{s.last_error}</small>}</div><button className="iconbtn" title="Queue source sync" disabled={busy} onClick={()=>sync('/api/sources/'+s.id+'/run')}><RefreshCw size={15}/></button><span className={s.active?'dotgood':'dotbad'}/></div>)}</div>}</section>
-  <footer><span>OPENAPPLYBOT / JOBS</span><span>POSTGRESQL · REDIS QUEUE · PUBLIC SOURCES</span><a href={API+'/docs'} target="_blank" rel="noreferrer">API documentation <ExternalLink size={12}/></a></footer>
-  {showAdd&&<div className="modalback" onClick={()=>setShowAdd(false)}><form className="modal" onSubmit={add} onClick={e=>e.stopPropagation()}><button type="button" className="close" onClick={()=>setShowAdd(false)}>×</button><div className="eyebrow">SOURCE REGISTRY</div><h2>Connect a job board</h2><p>Prefer Auto-detect with the employer’s official public careers URL. For a direct ATS, provide a verified public board identifier.</p><label>Company name<input required value={form.company_name} onChange={e=>setForm({...form,company_name:e.target.value})} placeholder="Example, Inc."/></label><label>Official careers URL<input type="url" value={form.careers_url} onChange={e=>setForm({...form,careers_url:e.target.value})} placeholder="https://example.com/careers"/></label><label>Scraper<select value={form.connector} onChange={e=>setForm({...form,connector:e.target.value})}><option value="auto">Auto-detect (recommended)</option><option value="jsonld">JSON-LD careers page</option><option value="greenhouse">Greenhouse</option><option value="lever">Lever</option><option value="ashby">Ashby</option><option value="smartrecruiters">SmartRecruiters</option><option value="workable">Workable</option><option value="recruitee">Recruitee</option><option value="workday">Workday</option><option value="remoteok">RemoteOK API</option><option value="remotive">Remotive API</option><option value="arbeitnow">Arbeitnow API</option><option value="themuse">The Muse API</option><option value="jobicy">Jobicy API</option><option value="himalayas">Himalayas API</option></select></label>{form.connector!=='auto'&&form.connector!=='jsonld'&&form.connector!=='workday'&&<label>Public board ID or API keyword<input required value={form.board_token} onChange={e=>setForm({...form,board_token:e.target.value})} placeholder="Verified board identifier"/></label>}<div className="modalactions"><button type="button" className="outline" onClick={()=>setShowAdd(false)}>Cancel</button><button className="primary" disabled={busy} type="submit"><Plus size={15}/> Add source</button></div></form></div>}
- </main>
+import { useEffect, useState } from "react";
+import {
+  Search,
+  RefreshCw,
+  BriefcaseBusiness,
+  Building2,
+  RadioTower,
+  ExternalLink,
+  MapPin,
+  Plus,
+  Activity,
+  SlidersHorizontal,
+} from "lucide-react";
+const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+type Job = {
+  id: number;
+  title: string;
+  company: string;
+  location: string | null;
+  department: string | null;
+  employment_type: string | null;
+  description: string | null;
+  url: string;
+  posted_at: string | null;
+  source: string;
+};
+type Stats = {
+  jobs: number;
+  companies: number;
+  sources: number;
+  runs: number;
+  queued: number;
+};
+type Source = {
+  id: number;
+  company: string;
+  connector: string;
+  board_token: string;
+  active: boolean;
+  last_error: string | null;
+};
+type Filters = {
+  companies: string[];
+  employment_types: string[];
+  sources: string[];
+  locations: string[];
+};
+const emptyFilters: Filters = {
+  companies: [],
+  employment_types: [],
+  sources: [],
+  locations: [],
+};
+export default function App() {
+  const [jobs, setJobs] = useState<Job[]>([]),
+    [stats, setStats] = useState<Stats>({
+      jobs: 0,
+      companies: 0,
+      sources: 0,
+      runs: 0,
+      queued: 0,
+    }),
+    [sources, setSources] = useState<Source[]>([]),
+    [filters, setFilters] = useState<Filters>(emptyFilters);
+  const [search, setSearch] = useState(""),
+    [location, setLocation] = useState(""),
+    [company, setCompany] = useState(""),
+    [kind, setKind] = useState(""),
+    [source, setSource] = useState(""),
+    [remote, setRemote] = useState(false),
+    [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(true),
+    [error, setError] = useState(""),
+    [showAdd, setShowAdd] = useState(false),
+    [busy, setBusy] = useState(false);
+  const [form, setForm] = useState({
+    company_name: "",
+    careers_url: "",
+    connector: "auto",
+    board_token: "",
+  });
+  async function load() {
+    setLoading(true);
+    setError("");
+    try {
+      const q = new URLSearchParams({ limit: "50", offset: String(offset) });
+      if (search.trim()) q.set("search", search.trim());
+      if (location.trim()) q.set("location", location.trim());
+      if (company) q.set("company", company);
+      if (kind) q.set("employment_type", kind);
+      if (source) q.set("source", source);
+      if (remote) q.set("remote", "true");
+      const [jr, sr, cr, fr, rr] = await Promise.all([
+        fetch(API + "/api/jobs?" + q),
+        fetch(API + "/api/stats"),
+        fetch(API + "/api/sources"),
+        fetch(API + "/api/filters"),
+        fetch(API + "/api/queue"),
+      ]);
+      for (const r of [jr, sr, cr, fr, rr])
+        if (!r.ok) throw Error("API request failed (" + r.status + ")");
+      setJobs(await jr.json());
+      setStats({ ...(await sr.json()), ...(await rr.json()) });
+      setSources(await cr.json());
+      setFilters(await fr.json());
+    } catch (e) {
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Could not reach the local API. Start ./run.sh and refresh.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+  useEffect(() => {
+    const t = setTimeout(() => {
+      load();
+    }, 250);
+    return () => clearTimeout(t);
+  }, [search, location, company, kind, source, remote, offset]);
+  useEffect(() => {
+    if (!stats.queued) return;
+    const t = window.setInterval(() => {
+      void load();
+    }, 10000);
+    return () => window.clearInterval(t);
+  }, [stats.queued]);
+  async function sync(url: string) {
+    setBusy(true);
+    try {
+      const r = await fetch(API + url, { method: "POST" });
+      const d = await r.json();
+      if (!r.ok) throw Error(d.detail || "Could not queue sync");
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Sync failed");
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function add(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    try {
+      const needsUrl = ["auto", "jsonld", "workday"].includes(form.connector);
+      const payload = {
+        ...form,
+        careers_url: form.careers_url || null,
+        board_token: form.board_token || (needsUrl ? form.careers_url : ""),
+      };
+      const r = await fetch(API + "/api/sources", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const d = await r.json();
+      if (!r.ok) throw Error(d.detail || "Could not add source");
+      setShowAdd(false);
+      setForm({
+        company_name: "",
+        careers_url: "",
+        connector: "auto",
+        board_token: "",
+      });
+      await load();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Could not add source");
+    } finally {
+      setBusy(false);
+    }
+  }
+  function resetFilters() {
+    setSearch("");
+    setLocation("");
+    setCompany("");
+    setKind("");
+    setSource("");
+    setRemote(false);
+    setOffset(0);
+  }
+  return (
+    <main className="shell">
+      <header className="top">
+        <a className="brand" href="#">
+          <span className="logo">
+            <BriefcaseBusiness size={19} />
+          </span>
+          <span>
+            OpenApply<span className="muted">Bot</span>
+            <small>JOBS INTELLIGENCE</small>
+          </span>
+        </a>
+        <div className="topright">
+          <span className="live">
+            <i /> LOCAL STACK
+          </span>
+          <button className="outline" onClick={() => setShowAdd(true)}>
+            <Plus size={16} /> Add source
+          </button>
+          <button
+            className="primary"
+            disabled={busy}
+            onClick={() => sync("/api/connectors/run-all")}
+          >
+            <RefreshCw size={16} className={busy ? "spin" : ""} /> Queue sync
+          </button>
+        </div>
+      </header>
+      <section className="hero">
+        <div>
+          <div className="eyebrow">
+            <span /> PHASE 01 / JOB AGGREGATION
+          </div>
+          <h1>
+            One search. <em>Every opportunity.</em>
+          </h1>
+          <p>
+            Public job listings normalized into one searchable PostgreSQL index.
+          </p>
+        </div>
+        <div className="hero-mark">
+          <BriefcaseBusiness size={36} />
+          <div className="orbit orbit1" />
+          <div className="orbit orbit2" />
+        </div>
+      </section>
+      <section className="stats">
+        <Stat
+          icon={<BriefcaseBusiness />}
+          label="ACTIVE LISTINGS"
+          value={stats.jobs}
+        />
+        <Stat icon={<Building2 />} label="COMPANIES" value={stats.companies} />
+        <Stat icon={<RadioTower />} label="SOURCES" value={stats.sources} />
+        <Stat
+          icon={<Activity />}
+          label="QUEUED TASKS"
+          value={stats.queued || 0}
+        />
+      </section>
+      <section className="workspace">
+        <div className="sectionhead">
+          <div>
+            <div className="eyebrow">DISCOVERY FEED</div>
+            <h2>
+              Job listings <span>{stats.jobs}</span>
+            </h2>
+          </div>
+          <div className="feedtools">
+            <label className="search">
+              <Search size={17} />
+              <input
+                value={search}
+                onChange={(e) => {
+                  setOffset(0);
+                  setSearch(e.target.value);
+                }}
+                placeholder="Role, company, keyword..."
+              />
+            </label>
+            <label className="search loc">
+              <MapPin size={16} />
+              <input
+                value={location}
+                onChange={(e) => {
+                  setOffset(0);
+                  setLocation(e.target.value);
+                }}
+                placeholder="Location"
+              />
+            </label>
+          </div>
+        </div>
+        <div className="filterbar">
+          <span className="filterlabel">
+            <SlidersHorizontal size={14} /> FILTERS
+          </span>
+          <select
+            value={company}
+            onChange={(e) => {
+              setOffset(0);
+              setCompany(e.target.value);
+            }}
+          >
+            <option value="">All companies</option>
+            {filters.companies.map((x) => (
+              <option key={x}>{x}</option>
+            ))}
+          </select>
+          <select
+            value={kind}
+            onChange={(e) => {
+              setOffset(0);
+              setKind(e.target.value);
+            }}
+          >
+            <option value="">All job types</option>
+            {filters.employment_types.map((x) => (
+              <option key={x}>{x}</option>
+            ))}
+          </select>
+          <select
+            value={source}
+            onChange={(e) => {
+              setOffset(0);
+              setSource(e.target.value);
+            }}
+          >
+            <option value="">All sources</option>
+            {filters.sources.map((x) => (
+              <option key={x}>{x}</option>
+            ))}
+          </select>
+          <label className="remotecheck">
+            <input
+              type="checkbox"
+              checked={remote}
+              onChange={(e) => {
+                setOffset(0);
+                setRemote(e.target.checked);
+              }}
+            />{" "}
+            Remote
+          </label>
+          <button className="clearfilters" onClick={resetFilters}>
+            Clear
+          </button>
+        </div>
+        {error && (
+          <div className="alert">
+            {error}
+            <button onClick={() => setError("")}>×</button>
+          </div>
+        )}
+        {loading ? (
+          <div className="empty">
+            <RefreshCw className="spin" />
+            <p>Loading indexed listings…</p>
+          </div>
+        ) : jobs.length === 0 ? (
+          <div className="empty">
+            <div className="emptyicon">
+              <BriefcaseBusiness size={26} />
+            </div>
+            <h3>No listings found yet</h3>
+            <p>
+              {stats.sources === 0
+                ? "No sources configured. Start a source sync or add a public careers page."
+                : "No jobs match those filters, or sources have not returned listings yet."}
+            </p>
+            <button
+              className="primary"
+              onClick={() =>
+                stats.sources === 0
+                  ? setShowAdd(true)
+                  : sync("/api/connectors/run-all")
+              }
+            >
+              <RefreshCw size={16} />{" "}
+              {stats.sources === 0 ? "Add first source" : "Queue source sync"}
+            </button>
+          </div>
+        ) : (
+          <div className="joblist">
+            {jobs.map((j) => (
+              <article className="job" key={j.id}>
+                <div className="companybadge">
+                  {(j.company || "?").slice(0, 1).toUpperCase()}
+                </div>
+                <div className="jobbody">
+                  <div className="jobtitle">
+                    <h3>{j.title}</h3>
+                    {j.employment_type && (
+                      <span className="tag">{j.employment_type}</span>
+                    )}
+                  </div>
+                  <div className="jobmeta">
+                    <b>{j.company}</b>
+                    {j.location && (
+                      <span>
+                        <MapPin size={13} />
+                        {j.location}
+                      </span>
+                    )}
+                    {j.department && <span>{j.department}</span>}
+                    <span>{j.source}</span>
+                  </div>
+                  {j.description && (
+                    <p className="desc">
+                      {j.description
+                        .replace(/<[^>]*>/g, " ")
+                        .replace(/\s+/g, " ")
+                        .slice(0, 240)}
+                      {j.description.length > 240 ? "…" : ""}
+                    </p>
+                  )}
+                </div>
+                <a
+                  className="apply"
+                  href={j.url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View role <ExternalLink size={14} />
+                </a>
+              </article>
+            ))}
+          </div>
+        )}
+        <div className="pagination">
+          <button
+            className="outline"
+            disabled={offset === 0 || loading}
+            onClick={() => setOffset(Math.max(0, offset - 50))}
+          >
+            Previous
+          </button>
+          <span>
+            Showing {jobs.length ? offset + 1 : 0}–{offset + jobs.length} of{" "}
+            {stats.jobs}
+          </span>
+          <button
+            className="outline"
+            disabled={loading || jobs.length < 50 || offset + 50 >= stats.jobs}
+            onClick={() => setOffset(offset + 50)}
+          >
+            Next
+          </button>
+        </div>
+      </section>
+      <section className="sources">
+        <div className="sectionhead">
+          <div>
+            <div className="eyebrow">PIPELINE</div>
+            <h2>Connected sources</h2>
+          </div>
+          <span className="subtle">{sources.length} registered</span>
+        </div>
+        {sources.length === 0 ? (
+          <p className="subtle">
+            No sources configured. Add a public careers URL.
+          </p>
+        ) : (
+          <div className="sourcegrid">
+            {sources.map((s) => (
+              <div className="source" key={s.id}>
+                <div className="sourceicon">
+                  <RadioTower size={17} />
+                </div>
+                <div className="sourceinfo">
+                  <b>{s.company}</b>
+                  <span>
+                    {s.connector} / {s.board_token}
+                  </span>
+                  {s.last_error && (
+                    <small className="errortext">{s.last_error}</small>
+                  )}
+                </div>
+                <button
+                  className="iconbtn"
+                  title="Queue source sync"
+                  disabled={busy}
+                  onClick={() => sync("/api/sources/" + s.id + "/run")}
+                >
+                  <RefreshCw size={15} />
+                </button>
+                <span className={s.active ? "dotgood" : "dotbad"} />
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+      <footer>
+        <span>OPENAPPLYBOT / JOBS</span>
+        <span>POSTGRESQL · REDIS QUEUE · PUBLIC SOURCES</span>
+        <a href={API + "/docs"} target="_blank" rel="noreferrer">
+          API documentation <ExternalLink size={12} />
+        </a>
+      </footer>
+      {showAdd && (
+        <div className="modalback" onClick={() => setShowAdd(false)}>
+          <form
+            className="modal"
+            onSubmit={add}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className="close"
+              onClick={() => setShowAdd(false)}
+            >
+              ×
+            </button>
+            <div className="eyebrow">SOURCE REGISTRY</div>
+            <h2>Connect a job board</h2>
+            <p>
+              Prefer Auto-detect with the employer’s official public careers
+              URL. For a direct ATS, provide a verified public board identifier.
+            </p>
+            <label>
+              Company name
+              <input
+                required
+                value={form.company_name}
+                onChange={(e) =>
+                  setForm({ ...form, company_name: e.target.value })
+                }
+                placeholder="Example, Inc."
+              />
+            </label>
+            <label>
+              Official careers URL
+              <input
+                type="url"
+                value={form.careers_url}
+                onChange={(e) =>
+                  setForm({ ...form, careers_url: e.target.value })
+                }
+                placeholder="https://example.com/careers"
+              />
+            </label>
+            <label>
+              Scraper
+              <select
+                value={form.connector}
+                onChange={(e) =>
+                  setForm({ ...form, connector: e.target.value })
+                }
+              >
+                <option value="auto">Auto-detect (recommended)</option>
+                <option value="jsonld">JSON-LD careers page</option>
+                <option value="greenhouse">Greenhouse</option>
+                <option value="lever">Lever</option>
+                <option value="ashby">Ashby</option>
+                <option value="smartrecruiters">SmartRecruiters</option>
+                <option value="workable">Workable</option>
+                <option value="recruitee">Recruitee</option>
+                <option value="workday">Workday</option>
+                <option value="remoteok">RemoteOK API</option>
+                <option value="remotive">Remotive API</option>
+                <option value="arbeitnow">Arbeitnow API</option>
+                <option value="themuse">The Muse API</option>
+                <option value="jobicy">Jobicy API</option>
+                <option value="himalayas">Himalayas API</option>
+              </select>
+            </label>
+            {form.connector !== "auto" &&
+              form.connector !== "jsonld" &&
+              form.connector !== "workday" && (
+                <label>
+                  Public board ID or API keyword
+                  <input
+                    required
+                    value={form.board_token}
+                    onChange={(e) =>
+                      setForm({ ...form, board_token: e.target.value })
+                    }
+                    placeholder="Verified board identifier"
+                  />
+                </label>
+              )}
+            <div className="modalactions">
+              <button
+                type="button"
+                className="outline"
+                onClick={() => setShowAdd(false)}
+              >
+                Cancel
+              </button>
+              <button className="primary" disabled={busy} type="submit">
+                <Plus size={15} /> Add source
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+    </main>
+  );
 }
-function Stat({icon,label,value}:{icon:React.ReactNode;label:string;value:number}){return <div className="stat"><div className="staticon">{icon}</div><div><span>{label}</span><strong>{value.toLocaleString()}</strong></div></div>}
+function Stat({
+  icon,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: number;
+}) {
+  return (
+    <div className="stat">
+      <div className="staticon">{icon}</div>
+      <div>
+        <span>{label}</span>
+        <strong>{value.toLocaleString()}</strong>
+      </div>
+    </div>
+  );
+}

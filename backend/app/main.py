@@ -6,13 +6,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel,Field,HttpUrl
 from sqlalchemy import select,func,or_,text
 from sqlalchemy.orm import Session,joinedload
-from .db import Base,engine,get_db
+from .db import Base,engine,get_db,migrate_schema
 from .models import Company,Source,Job,ConnectorRun
 from .connectors import CONNECTORS
 from .queue import queue,redis_conn
 
 @asynccontextmanager
 async def lifespan(app):
+    migrate_schema()
     Base.metadata.create_all(bind=engine)
     # Trigram indexes accelerate substring search on PostgreSQL; regular indexes remain the fallback.
     try:
@@ -35,7 +36,7 @@ class CompanyCreate(BaseModel):
     name:str=Field(min_length=1,max_length=200)
     careers_url:str=Field(min_length=8,max_length=1000)
 def job_json(j):
-    return {"id":j.id,"title":j.title,"company":j.company_name or j.source.company.name,"company_id":j.source.company_id,"source_id":j.source_id,"source":j.source.connector,"location":j.location,"department":j.department,"employment_type":j.employment_type,"description":j.description,"url":j.url,"posted_at":j.posted_at,"first_seen_at":j.first_seen_at}
+    return {"id":j.id,"title":j.title,"company":j.company_name or j.source.company.name,"company_id":j.source.company_id,"source_id":j.source_id,"source":j.source.connector,"location":j.location,"department":j.department,"employment_type":j.employment_type,"description":j.description,"url":j.url,"apply_url":j.apply_url or j.url,"posted_at":j.posted_at,"first_seen_at":j.first_seen_at,"team_name":j.team_name,"seniority":j.seniority,"summary":j.summary,"work_mode":j.work_mode,"location_city":j.location_city,"location_region":j.location_region,"location_country":j.location_country,"eligible_countries":j.eligible_countries or [],"remote_scope":j.remote_scope,"visa_sponsorship":j.visa_sponsorship,"relocation_available":j.relocation_available,"timezone_requirements":j.timezone_requirements,"salary_min":j.salary_min,"salary_max":j.salary_max,"salary_currency":j.salary_currency,"salary_period":j.salary_period,"compensation_type":j.compensation_type,"compensation_text":j.compensation_text,"benefits":j.benefits or [],"required_skills":j.required_skills or [],"preferred_skills":j.preferred_skills or [],"programming_languages":j.programming_languages or [],"tech_stack":j.tech_stack or [],"education_requirements":j.education_requirements,"experience_min_months":j.experience_min_months,"graduation_years":j.graduation_years or [],"visa_or_work_auth":j.visa_or_work_auth,"application_method":j.application_method,"application_email":j.application_email,"application_deadline":j.application_deadline,"raw_payload":j.raw_payload or {},"content_hash":j.content_hash,"parser_version":j.parser_version,"status":j.status,"data_quality_score":j.data_quality_score}
 @app.get("/api/health")
 def health():
     with engine.connect() as c: c.execute(text("SELECT 1"))
