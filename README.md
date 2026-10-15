@@ -18,13 +18,15 @@ Run these from the repository root. The scripts are intentionally separated so s
 The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. To avoid accidental deletion, `--yes` is supported for automation, but should only be used deliberately. Scripts can be run with `bash <script>` without executable permissions.
 
 - Dashboard: http://localhost:5173
+- Source registry: http://localhost:5173/sources
+- Scraper run history: http://localhost:5173/runs
 - API / OpenAPI docs: http://localhost:8000/docs
 - Health (checks Postgres and Redis): http://localhost:8000/api/health
 - Connector registry: http://localhost:8000/api/connectors
 - Queue state: http://localhost:8000/api/queue
 - PostgreSQL: localhost:5432, local development credentials `jobs/jobs`
 
-The directory supports server-side query parameters such as `search`, `company`, `employment_type`, `work_mode`, `country`, `skill`, `sort=newest|relevance|deadline`, `limit`, and `offset`. Job details are available at `/jobs/{id}` in the dashboard and `/api/jobs/{id}` in the API. Scraped HTML is normalized and rendered as text; raw source payloads remain in the local database and are not exposed publicly.
+The UI includes the searchable job directory, source registration and per-source run controls, plus recent scraper run history and error reporting. The directory supports server-side query parameters such as `search`, `company`, `employment_type`, `work_mode`, `country`, `skill`, `sort=newest|relevance|deadline`, `limit`, and `offset`. Job details are available at `/jobs/{id}` in the dashboard and `/api/jobs/{id}` in the API. Scraped HTML is normalized and rendered as text; raw source payloads remain in the local database and are not exposed publicly.
 
 Data persists in Docker volumes. `docker compose down` stops the stack without deleting data. `docker compose down -v` deletes the local database and queue volumes.
 
