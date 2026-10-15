@@ -1,94 +1,44 @@
 # OpenApplyBot Jobs
 
-Local-first public job listing aggregator built with FastAPI, SQLAlchemy, SQLite, and a React dashboard. SQLite is the zero-setup default; PostgreSQL is optional via Docker Compose.
+Local-first job index: **PostgreSQL → Redis queue → isolated scrapers → normalization/deduplication → indexed API → searchable dashboard**. Docker Compose runs the complete stack locally; no cloud database or hosted queue is required.
 
-## Run the full system
+## Start everything
 
-From the repository root:
+Requirements: Docker Engine, Docker Compose v2, and curl. From the repo root:
 
 ```bash
-chmod +x run.sh  # only needed if the executable bit is missing in your checkout
+chmod +x run.sh  # only if needed
 ./run.sh
 ```
 
-The launcher creates the Python virtual environment, installs backend dependencies and frontend packages when needed, then starts both services. Press Ctrl+C to stop both.
+The launcher builds and starts PostgreSQL, Redis, FastAPI, the RQ worker, the recurring scheduler, and the static React dashboard. It seeds the company list and queues an initial scrape. The scheduler queues sources every six hours (override with `SYNC_INTERVAL_SECONDS` in your shell/environment if desired).
 
 - Dashboard: http://localhost:5173
-- API: http://127.0.0.1:8000
-- API docs: http://127.0.0.1:8000/docs
-- Available connectors: http://127.0.0.1:8000/api/connectors
+- API / OpenAPI docs: http://localhost:8000/docs
+- Health (checks Postgres and Redis): http://localhost:8000/api/health
+- Connector registry: http://localhost:8000/api/connectors
+- Queue state: http://localhost:8000/api/queue
+- PostgreSQL: localhost:5432, local development credentials `jobs/jobs`
 
-Requirements: Python 3, Node.js/npm, and (recommended for the startup health check) curl. SQLite is used by default.
+Data persists in Docker volumes. `docker compose down` stops the stack without deleting data. `docker compose down -v` deletes the local database and queue volumes.
 
-## Implemented scrapers
+## Pipeline
 
-### Employer ATS APIs
+1. The seed registry adds the 46 user-specified employer careers URLs and registers each as an `auto` source. It does not guess ATS board IDs.
+2. Auto-discovery checks public careers-page markup for supported ATS links (Greenhouse, Lever, Ashby, SmartRecruiters, Workable) and tries the provider's public endpoint. Otherwise it extracts Schema.org `JobPosting` JSON-LD from the public page and same-site career/job links.
+3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific API adapters live in separate files too.
+4. Every result is normalized to a common schema, deduplicated within a fetch, then upserted by `(source_id, source_job_id)`. Failed fetches are recorded and do not deactivate existing jobs. A successful fetch deactivates listings no longer returned by that source.
+5. PostgreSQL stores canonical jobs and source/run state. B-tree indexes support common filters and optional `pg_trgm` GIN indexes accelerate substring search. Redis/RQ buffers scraper tasks so API requests do not wait on slow websites.
+6. FastAPI exposes searchable/filterable jobs, source management, sync controls, queue health, and run history. The React page reads from this API.
 
-| Connector | Token / identifier |
-| --- | --- |
-| Greenhouse | Public Greenhouse board token |
-| Lever | Public Lever company/board slug |
-| Ashby | Public Ashby job-board name |
-| SmartRecruiters | Public SmartRecruiters company identifier |
-| Workable | Public Workable account slug |
-| Recruitee | Public Recruitee tenant slug (the subdomain before `.recruitee.com`) |
+## Scraper policy and limitations
 
-### Public multi-employer job APIs
+Scrapers use public APIs and public careers pages, with bounded request timeouts. They do not log in, bypass CAPTCHAs, evade access controls, or scrape private job portals. Each company's careers page is seeded as an auto-discovery source, but **not every site necessarily exposes a supported public ATS link or JSON-LD**; JS-only portals and blocked pages need a verified, site-specific public integration. A registered source is not proof that it has returned jobs. Inspect `/api/runs`, `/api/sources`, and `docker compose logs -f worker` to validate each source's result/error before relying on its coverage.
 
-| Connector | Token |
-| --- | --- |
-| RemoteOK | `all` or a keyword |
-| Remotive | `all` or a keyword |
-| Arbeitnow | `all` or a keyword |
-| The Muse | `all` or a keyword |
-| Jobicy | `all` or a tag |
-| Himalayas | `all` or a keyword |
+## Add a source
 
-### Careers-page fallback scraper
+Use `POST /api/sources` with company name and official careers URL. The default `auto` connector discovers known public ATS links and falls back to JSON-LD. Use an explicit provider only when its public board identifier has been verified from that employer's official careers page. Use public APIs with `board_token: "all"` or a provider-supported search keyword.
 
-`jsonld` fetches a public careers page and extracts Schema.org `JobPosting` JSON-LD. It follows only same-site links with careers/jobs-related paths, caps a run at 10 pages, and does not execute JavaScript or bypass access controls. Sites without structured job data may need a dedicated connector.
+## Development and tests
 
-## Register and run a source
-
-Use `POST /api/sources`:
-
-```json
-{
-  "company_name": "Example Co",
-  "connector": "greenhouse",
-  "board_token": "example",
-  "careers_url": "https://example.com/careers"
-}
-```
-
-For a public API, `company_name` can be a label such as `Remotive API`, connector can be `remotive`, and `board_token` can be `all` or a search keyword. For the JSON-LD fallback, set connector to `jsonld` and board_token to the public careers-page URL.
-
-Run one source with `POST /api/sources/{id}/run`, or all active sources with `POST /api/connectors/run-all`. Use `GET /api/connectors` to retrieve the supported connector list and setup hints.
-
-## API endpoints
-
-- `GET /api/health`
-- `GET /api/connectors`
-- `GET /api/stats`
-- `GET /api/jobs` (supports search, location, source_id, limit, offset)
-- `GET /api/jobs/{id}`
-- `GET /api/companies`
-- `GET /api/sources`
-- `GET /api/runs`
-- `POST /api/sources`
-- `POST /api/sources/{id}/run`
-- `POST /api/connectors/run-all`
-
-## Development
-
-```bash
-cd backend
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-pytest -q
-```
-
-## Scope and responsible use
-
-Job APIs and public pages can change or impose rate limits; a connector can fail temporarily if a provider changes its response format. Use public board identifiers and comply with each provider's terms and robots/access rules. Do not bypass authentication, CAPTCHAs, or access controls. Listings link out to employer application pages; this project does not submit applications. Each source is synchronized independently and repeated runs deduplicate jobs by source and source-job ID.
+Backend tests run with SQLite in CI as an isolated test database; the local application itself uses PostgreSQL. Run backend tests from `backend/` with `DATABASE_URL=sqlite:///./test.db pytest -q`. Build the frontend from `frontend/` with `npm install && npm run build`.
