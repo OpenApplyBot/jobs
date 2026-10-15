@@ -8,6 +8,7 @@ if [[ "${1:-}" != "--yes" ]]; then
   read -r -p 'Type RESET to permanently delete local DB and queue data: ' answer
   [[ "$answer" == "RESET" ]] || { echo "Cancelled."; exit 1; }
 fi
+command -v docker >/dev/null || { echo "Docker is required." >&2; exit 1; }
 docker compose down
 docker volume rm openapplybot-jobs_postgres_data openapplybot-jobs_redis_data 2>/dev/null || {
   echo "Could not remove one or both expected volumes. Inspect with: docker volume ls"
