@@ -8,7 +8,11 @@ def scrape(url):
     parsed=urlparse(url); host=parsed.hostname or ""
     if host.endswith(".myworkdayjobs.com"): return workday.scrape(url)
     if host.endswith(".recruitee.com"): return recruitee.scrape(host.split(".")[0])
-    html=get(url).text; found=[]
+    response=get(url); final_url=getattr(response,"url",None) or url
+    final_host=urlparse(final_url).hostname or ""
+    if final_host.endswith(".myworkdayjobs.com"): return workday.scrape(final_url)
+    if final_host.endswith(".recruitee.com"): return recruitee.scrape(final_host.split(".")[0])
+    html=response.text; found=[]
     for provider_host,provider in PROVIDERS.items():
         for token in re.findall(r'https?://'+re.escape(provider_host)+r'/([A-Za-z0-9_.-]+)',html,re.I):
             if token not in ("jobs","postings"): found.append((provider,token))
@@ -23,4 +27,4 @@ def scrape(url):
             rows=functions[provider](token)
             if rows: return rows
         except Exception: continue
-    return jsonld.scrape(url)
+    return jsonld.scrape(final_url)
