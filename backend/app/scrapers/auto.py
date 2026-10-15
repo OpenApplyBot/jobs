@@ -3,7 +3,7 @@ from urllib.parse import urljoin, urlparse
 from .common import get
 from . import greenhouse, lever, ashby, smartrecruiters, workable, recruitee, jsonld
 
-PROVIDERS={"boards.greenhouse.io":"greenhouse","jobs.lever.co":"lever","jobs.ashbyhq.com":"ashby","careers.smartrecruiters.com":"smartrecruiters","apply.workable.com":"workable"}
+PROVIDERS={"boards.greenhouse.io":"greenhouse","job-boards.greenhouse.io":"greenhouse","jobs.lever.co":"lever","jobs.ashbyhq.com":"ashby","careers.smartrecruiters.com":"smartrecruiters","apply.workable.com":"workable"}
 def scrape(url):
     html=get(url).text
     # Match provider links in page markup; tokens come from the page, never from a guessed registry.
