@@ -30,7 +30,9 @@ def scrape(url):
         if page in visited: continue
         visited.add(page)
         try: html=get(page).text
-        except Exception: continue
+        except Exception:
+            if page==root: raise
+            continue
         p=_Parser(); p.feed(html)
         for block in p.blocks:
             try: data=json.loads(block)
