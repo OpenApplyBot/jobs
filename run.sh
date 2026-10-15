@@ -6,7 +6,11 @@ if ! command -v docker >/dev/null 2>&1; then echo "Docker is required. Install D
 if ! docker compose version >/dev/null 2>&1; then echo "Docker Compose v2 plugin is required." >&2; exit 1; fi
 if ! command -v curl >/dev/null 2>&1; then echo "curl is required for the local health check." >&2; exit 1; fi
 printf '\n OpenApplyBot Jobs — local stack\n\n'
-docker compose up -d --build --scale worker=3
+if ! docker compose up -d --build --scale worker=3; then
+  echo "Docker stack failed to build/start. Recent logs:" >&2
+  docker compose logs --tail=80 >&2 || true
+  exit 1
+fi
 printf '\nWaiting for API/Postgres/Redis health'
 ready=0
 for _ in $(seq 1 90); do
@@ -17,11 +21,9 @@ printf '\n'
 if [[ "$ready" -ne 1 ]]; then echo "API did not become healthy. Diagnostics:" >&2; docker compose ps; docker compose logs --tail=80 api postgres redis >&2; exit 1; fi
 printf 'Seeding company registry and public careers-page sources...\n'
 docker compose exec -T api python scripts/seed_companies.py
-if command -v curl >/dev/null 2>&1; then
-  printf 'Queueing first scrape pass...\n'
-  curl -fsS -X POST http://127.0.0.1:8000/api/connectors/run-all || true
-  printf '\n'
-fi
+printf 'Queueing first scrape pass...\n'
+curl -fsS -X POST http://127.0.0.1:8000/api/connectors/run-all
+printf '\n'
 cat <<'EOF'
 
 OpenApplyBot is running locally:
