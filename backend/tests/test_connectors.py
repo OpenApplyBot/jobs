@@ -7,7 +7,7 @@ class Response:
     def raise_for_status(self): pass
 
 def test_every_connector_is_registered():
-    assert set(CONNECTORS)=={"greenhouse","lever","ashby","smartrecruiters","workable","recruitee","remoteok","remotive","arbeitnow","themuse","jobicy","himalayas","jsonld","auto"}
+    assert set(CONNECTORS)=={"greenhouse","lever","ashby","smartrecruiters","workable","recruitee","workday","remoteok","remotive","arbeitnow","themuse","jobicy","himalayas","jsonld","auto"}
 
 def test_greenhouse(monkeypatch):
     monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":"Backend Engineer","absolute_url":"https://x.test/1","location":{"name":"Remote"},"content":"<p>Build</p>"}]}))
