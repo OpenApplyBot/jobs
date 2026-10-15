@@ -13,6 +13,13 @@ from sqlalchemy import select
 from .db import Base, engine, SessionLocal, migrate_schema
 from .models import Company, Source
 
+# Known official careers domains that are branded separately from the company's
+# main corporate domain. Keep this explicit; never allow arbitrary third-party ATS domains.
+OFFICIAL_DOMAIN_ALIASES = {
+    "github.com": {"github.careers"},
+    "jpmorganchase.com": {"jpmorgan.com"},
+}
+
 
 def official_url_allowed(url, domain):
     parsed = urlparse((url or "").strip())
@@ -20,8 +27,9 @@ def official_url_allowed(url, domain):
     host = (parsed.hostname or "").lower().removeprefix("www.")
     if parsed.scheme not in {"http", "https"} or not host or not official:
         return False
-    # The CSV should point at the employer's own domain, not a job aggregator.
-    return host == official or host.endswith("." + official)
+    if host == official or host.endswith("." + official):
+        return True
+    return host in OFFICIAL_DOMAIN_ALIASES.get(official, set())
 
 
 def seed(csv_path, offset=0, limit=None, activate=True):
