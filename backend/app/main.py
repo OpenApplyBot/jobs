@@ -42,7 +42,7 @@ def health():
     return {"status":"ok","database":"postgresql","queue":"redis","service":"openapplybot-jobs"}
 @app.get("/api/connectors")
 def connectors():
-    kinds={"greenhouse":"ATS","lever":"ATS","ashby":"ATS","smartrecruiters":"ATS","workable":"ATS","recruitee":"ATS","remoteok":"Public API","remotive":"Public API","arbeitnow":"Public API","themuse":"Public API","jobicy":"Public API","himalayas":"Public API","jsonld":"Careers-page JSON-LD","auto":"Auto-detect ATS then JSON-LD"}
+    kinds={"greenhouse":"ATS","lever":"ATS","ashby":"ATS","smartrecruiters":"ATS","workable":"ATS","recruitee":"ATS","workday":"Workday CXS API","remoteok":"Public API","remotive":"Public API","arbeitnow":"Public API","themuse":"Public API","jobicy":"Public API","himalayas":"Public API","jsonld":"Careers-page JSON-LD","auto":"Auto-detect ATS then JSON-LD"}
     return {"connectors":[{"id":n,"kind":kinds.get(n,"ATS")} for n in CONNECTORS],"default":"auto","notes":"Use public endpoints and public career pages only. ATS board identifiers must be discovered from official pages; auto mode discovers supported ATS links and falls back to same-site JobPosting JSON-LD."}
 @app.get("/api/stats")
 def stats(db:Session=Depends(get_db)):
@@ -91,7 +91,7 @@ def sources(db:Session=Depends(get_db)):
 def create_source(p:SourceCreate,db:Session=Depends(get_db)):
     connector=p.connector.strip().lower(); url=p.careers_url.strip(); token=(p.board_token or url).strip()
     if connector not in CONNECTORS: raise HTTPException(400,f"Unsupported connector. Use: {', '.join(CONNECTORS)}")
-    if connector in ("auto","jsonld"):
+    if connector in ("auto","jsonld","workday"):
         token=token or url
         if not token.startswith(("https://","http://")): raise HTTPException(400,"auto/jsonld needs a public careers-page URL")
     elif not p.board_token: raise HTTPException(400,"This ATS/API connector requires a public board identifier or keyword")
