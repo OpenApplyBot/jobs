@@ -1,5 +1,5 @@
 from app.connectors import fetch_jobs, CONNECTORS
-from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto
+from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto
 
 class Response:
     def __init__(self,data=None,text=""): self.data=data; self.text=text
@@ -32,6 +32,17 @@ def test_workable(monkeypatch):
 def test_recruitee(monkeypatch):
     monkeypatch.setattr(recruitee,"get",lambda *a,**k:Response({"offers":[{"id":1,"title":"SWE","careers_url":"https://x.test/a","locations":[{"city":"Pune"}]}]}))
     assert fetch_jobs("recruitee","x")[0]["location"]=="Pune"
+
+def test_workday(monkeypatch):
+    class FakeSession:
+        def __enter__(self): return self
+        def __exit__(self,*args): pass
+        def post(self,*args,**kwargs):
+            return Response({"jobPostings":[{"jobPostingInfo":{"jobReqId":"123","title":"Platform Engineer","externalPath":"/job/Pune/Platform-Engineer_R123","location":"Pune"}}]})
+    monkeypatch.setattr(workday.requests,"Session",FakeSession)
+    rows=fetch_jobs("workday","https://acme.wd5.myworkdayjobs.com/External")
+    assert rows[0]["title"]=="Platform Engineer"
+    assert rows[0]["url"].endswith("/job/Pune/Platform-Engineer_R123")
 
 def test_remoteok(monkeypatch):
     monkeypatch.setattr(remoteok,"get",lambda *a,**k:Response([{"legal":"metadata"},{"id":1,"position":"SWE","url":"https://x.test/a","company":"Acme"}]))
