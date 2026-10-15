@@ -27,7 +27,7 @@ app=FastAPI(title="OpenApplyBot Jobs API",version="1.0.0",lifespan=lifespan)
 app.add_middleware(CORSMiddleware,allow_origins=["http://localhost:5173","http://127.0.0.1:5173","http://localhost:8000"],allow_credentials=False,allow_methods=["*"],allow_headers=["*"])
 class SourceCreate(BaseModel):
     company_name:str=Field(min_length=1,max_length=200)
-    careers_url:str=Field(min_length=8,max_length=1000)
+    careers_url:str|None=None
     connector:str="auto"
     board_token:str|None=None
 class CompanyCreate(BaseModel):
@@ -89,12 +89,12 @@ def sources(db:Session=Depends(get_db)):
     return [{"id":s.id,"company":s.company.name,"careers_url":s.company.careers_url,"connector":s.connector,"board_token":s.board_token,"active":s.active,"last_run_at":s.last_run_at,"last_error":s.last_error} for s in rows]
 @app.post("/api/sources")
 def create_source(p:SourceCreate,db:Session=Depends(get_db)):
-    connector=p.connector.strip().lower(); url=p.careers_url.strip(); token=(p.board_token or url).strip()
+    connector=p.connector.strip().lower(); url=(p.careers_url or "").strip(); token=(p.board_token or "").strip()
     if connector not in CONNECTORS: raise HTTPException(400,f"Unsupported connector. Use: {', '.join(CONNECTORS)}")
     if connector in ("auto","jsonld","workday"):
         token=token or url
-        if not token.startswith(("https://","http://")): raise HTTPException(400,"auto/jsonld needs a public careers-page URL")
-    elif not p.board_token: raise HTTPException(400,"This ATS/API connector requires a public board identifier or keyword")
+        if not token.startswith(("https://","http://")): raise HTTPException(400,"auto/jsonld/workday needs a public careers-page URL")
+    elif not token: raise HTTPException(400,"This connector requires a verified public board identifier or API keyword")
     if db.scalar(select(Source).where(Source.connector==connector,Source.board_token==token)): raise HTTPException(409,"This connector and token are already registered")
     company=db.scalar(select(Company).where(func.lower(Company.name)==p.company_name.strip().lower()))
     if not company: company=Company(name=p.company_name.strip(),careers_url=url); db.add(company); db.flush()
