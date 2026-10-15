@@ -22,21 +22,27 @@ def run_source(source_id):
             source=db.get(Source,source_id); run=db.get(ConnectorRun,run_id)
             if source is None: return {"source_id":source_id,"status":"deleted"}
             existing={j.source_job_id:j for j in db.scalars(select(Job).where(Job.source_id==source_id)).all()}
+            # Prefetch source links and snapshot keys once instead of issuing two queries per listing.
+            existing_links={link.source_job_id:link for link in db.scalars(select(JobSource).where(JobSource.source_id==source_id)).all()}
+            existing_snapshot_keys=set(db.execute(select(JobSnapshot.job_id,JobSnapshot.content_hash).join(Job,Job.id==JobSnapshot.job_id).where(Job.source_id==source_id)).all())
             seen=set(); inserted=updated=0
             items=[item for item in items if item.get("title") and item.get("url") and item.get("apply_url")]
             for item in items:
                 sid=item["source_job_id"]; seen.add(sid); job=existing.get(sid)
                 if job is None:
-                    job=Job(source_id=source_id,source_job_id=sid,title=item["title"],url=item["url"]); db.add(job); inserted+=1
+                    job=Job(source_id=source_id,source_job_id=sid,title=item["title"],url=item["url"]); db.add(job); db.flush(); inserted+=1
                 else: updated+=1
-                db.flush()
                 for key in ("title","company_name","location","department","employment_type","description","url","posted_at","team_name","seniority","summary","apply_url","work_mode","location_city","location_region","location_country","eligible_countries","remote_scope","visa_sponsorship","relocation_available","timezone_requirements","salary_min","salary_max","salary_currency","salary_period","compensation_type","compensation_text","benefits","required_skills","preferred_skills","programming_languages","tech_stack","education_requirements","experience_min_months","graduation_years","visa_or_work_auth","other_requirements","application_method","application_email","application_deadline","raw_payload","content_hash","parser_version","status"): setattr(job,key,item.get(key))
                 job.active=True; job.last_seen_at=now()
-                link=db.scalar(select(JobSource).where(JobSource.source_id==source_id,JobSource.source_job_id==sid))
-                if link is None: db.add(JobSource(job_id=job.id,source_id=source_id,source_job_id=sid,source_url=item["url"],apply_url=item.get("apply_url"),last_verified_at=now(),raw_payload=item.get("raw_payload") or {}))
-                else: link.last_seen_at=now(); link.last_verified_at=now(); link.source_url=item["url"]; link.raw_payload=item.get("raw_payload") or {}
-                snapshot=db.scalar(select(JobSnapshot).where(JobSnapshot.job_id==job.id,JobSnapshot.content_hash==item.get("content_hash")))
-                if snapshot is None: db.add(JobSnapshot(job_id=job.id,content_hash=item.get("content_hash") or "",description=item.get("description"),raw_payload=item.get("raw_payload") or {}))
+                link=existing_links.get(sid)
+                if link is None:
+                    link=JobSource(job_id=job.id,source_id=source_id,source_job_id=sid,source_url=item["url"],apply_url=item.get("apply_url"),last_verified_at=now(),raw_payload=item.get("raw_payload") or {})
+                    db.add(link); existing_links[sid]=link
+                else: link.last_seen_at=now(); link.last_verified_at=now(); link.source_url=item["url"]; link.apply_url=item.get("apply_url"); link.raw_payload=item.get("raw_payload") or {}
+                snapshot_key=(job.id,item.get("content_hash") or "")
+                if snapshot_key not in existing_snapshot_keys:
+                    db.add(JobSnapshot(job_id=job.id,content_hash=item.get("content_hash") or "",description=item.get("description"),raw_payload=item.get("raw_payload") or {}))
+                    existing_snapshot_keys.add(snapshot_key)
             if items:
                 for sid,job in existing.items():
                     if sid not in seen: job.active=False
