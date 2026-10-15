@@ -11,6 +11,7 @@ dc() { "${DOCKER[@]}" compose "$@"; }
 log() { printf '\n[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
 die() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
 FOLLOW_LOGS="${FOLLOW_LOGS:-1}"
+MAX_SCRAPE_WAIT_SECONDS="${MAX_SCRAPE_WAIT_SECONDS:-3600}"
 
 diagnostics() {
   echo
@@ -145,8 +146,30 @@ queue_response="$(curl --connect-timeout 5 --max-time 20 -fsS -X POST http://127
 printf 'Queued scraper jobs: %s\n' "$queue_response"
 
 if [[ "$FOLLOW_LOGS" == "1" ]]; then
-  log "Following API, worker, scheduler, database, Redis and frontend logs. Press Ctrl-C to stop viewing logs; containers keep running."
-  dc logs --follow --tail=100 api worker scheduler postgres redis frontend
+  log "Following all service logs until the scraper queue is fully processed."
+  dc logs --follow --tail=100 api worker scheduler postgres redis frontend &
+  logs_pid=$!
+  cleanup_logs() { kill "$logs_pid" 2>/dev/null || true; wait "$logs_pid" 2>/dev/null || true; }
+  trap 'cleanup_logs' EXIT INT TERM
+  started_at="$(date +%s)"
+  while true; do
+    queue_status="$(curl --connect-timeout 3 --max-time 5 -fsS http://127.0.0.1:8000/api/queue 2>/dev/null || true)"
+    queued="$(printf '%s' "$queue_status" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("queued",0))' 2>/dev/null || echo 0)"
+    running="$(printf '%s' "$queue_status" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("started",0))' 2>/dev/null || echo 0)"
+    failed="$(printf '%s' "$queue_status" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("failed",0))' 2>/dev/null || echo 0)"
+    log "Scraper queue: queued=$queued running=$running failed=$failed"
+    if [[ "$queued" == "0" && "$running" == "0" ]]; then
+      log "All queued scraper jobs finished."
+      break
+    fi
+    now="$(date +%s)"
+    if (( now - started_at >= MAX_SCRAPE_WAIT_SECONDS )); then
+      die "Scraper queue did not finish within ${MAX_SCRAPE_WAIT_SECONDS}s. Services remain running; inspect the logs above."
+    fi
+    sleep 5
+  done
+  cleanup_logs
+  trap - EXIT INT TERM
 fi
 
 cat <<'EOF'

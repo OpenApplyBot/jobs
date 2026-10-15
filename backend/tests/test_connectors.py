@@ -1,4 +1,5 @@
 from app.connectors import fetch_jobs, CONNECTORS
+from app.scrapers.common import normalize
 from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto
 
 class Response:
@@ -11,7 +12,8 @@ def test_every_connector_is_registered():
 
 def test_greenhouse(monkeypatch):
     monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":"Backend Engineer","absolute_url":"https://x.test/1","location":{"name":"Remote"},"content":"<p>Build</p>"}]}))
-    assert fetch_jobs("greenhouse","x")[0]["title"]=="Backend Engineer"
+    row=fetch_jobs("greenhouse","x")[0]
+    assert row["title"]=="Backend Engineer" and row["content_hash"] and row["raw_payload"]["id"]==1
 
 def test_lever(monkeypatch):
     monkeypatch.setattr(lever,"get",lambda *a,**k:Response([{"id":"a","text":"SWE","hostedUrl":"https://x.test/a","categories":{"location":"Remote","department":"Eng"}}]))
@@ -39,10 +41,12 @@ def test_workday(monkeypatch):
         def __exit__(self,*args): pass
         def post(self,*args,**kwargs):
             return Response({"jobPostings":[{"jobPostingInfo":{"jobReqId":"123","title":"Platform Engineer","externalPath":"/job/Pune/Platform-Engineer_R123","location":"Pune"}}]})
+        def get(self,*args,**kwargs):
+            return Response({})
     monkeypatch.setattr(workday.requests,"Session",FakeSession)
     rows=fetch_jobs("workday","https://acme.wd5.myworkdayjobs.com/External")
     assert rows[0]["title"]=="Platform Engineer"
-    assert rows[0]["url"].endswith("/job/Pune/Platform-Engineer_R123")
+    assert rows[0]["url"].endswith("/External/job/Pune/Platform-Engineer_R123")
 
 def test_remoteok(monkeypatch):
     monkeypatch.setattr(remoteok,"get",lambda *a,**k:Response([{"legal":"metadata"},{"id":1,"position":"SWE","url":"https://x.test/a","company":"Acme"}]))
@@ -82,6 +86,11 @@ def test_auto_discovers_supported_ats(monkeypatch):
 def test_unknown_connector_fails_loudly():
     import pytest
     with pytest.raises(ValueError): fetch_jobs("not-a-provider","x")
+
+def test_normalizer_rejects_bad_links_and_keeps_valid_application_url():
+    assert normalize("x", "Role", "not-a-url") is None
+    row=normalize("x", "Role", "https://jobs.example.test/role", apply_url="https://apply.example.test/role")
+    assert row["url"].startswith("https://") and row["apply_url"].startswith("https://")
 
 def test_deduplicates_and_cleans_html(monkeypatch):
     monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":" SWE ","absolute_url":"https://x.test/1","content":"<p>A &amp; B</p>"},{"id":1,"title":"SWE","absolute_url":"https://x.test/1"}]}))

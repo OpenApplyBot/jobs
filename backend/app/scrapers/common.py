@@ -1,7 +1,7 @@
 """Shared HTTP, HTML cleanup, and normalization utilities."""
 from html import unescape
 import re
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, urldefrag
 from hashlib import sha256
 import json
 import requests
@@ -28,6 +28,18 @@ def clean(value):
     value = re.sub(r"\s+", " ", value).strip()
     return value or None
 
+def valid_url(value):
+    value=clean(value)
+    if not value: return None
+    try:
+        value=urldefrag(value)[0]
+        parsed=urlparse(value)
+        if parsed.scheme not in ("http","https") or not parsed.netloc: return None
+        if parsed.hostname in {"example.com","example.org","localhost"}: return None
+        return value
+    except ValueError:
+        return None
+
 SKILLS=("python","java","javascript","typescript","sql","c++","go","rust","kotlin","swift","react","node.js","fastapi","django","flask","postgresql","mysql","redis","docker","kubernetes","aws","azure","gcp","terraform","graphql","selenium","playwright","browser automation","machine learning","deep learning","pytorch","tensorflow")
 
 def _details(title,description,location,employment_type,raw):
@@ -46,13 +58,14 @@ def _details(title,description,location,employment_type,raw):
     return {"work_mode":work_mode,"location_city":parts[0] if parts else None,"location_region":parts[1] if len(parts)>2 else None,"location_country":parts[-1] if len(parts)>1 else None,"remote_scope":"Worldwide" if "worldwide" in text else None,"required_skills":skills,"preferred_skills":skills,"programming_languages":[x for x in skills if x in {"python","java","javascript","typescript","c++","go","rust","kotlin","swift"}],"tech_stack":skills,"education_requirements":education,"experience_min_months":int(experience.group(1))*12 if experience else None,"eligible_countries":countries,"visa_sponsorship":True if "visa sponsorship" in text or "sponsorship available" in text else None,"relocation_available":True if "relocation" in text else None,"salary_currency":currency,"salary_period":period,"compensation_text":salary_text,"status":"open" if any(x in text for x in ("apply","job","position")) else "unverified"}
 
 def normalize(job_id, title, url, location=None, department=None, employment_type=None, description=None, posted_at=None, company=None, raw_payload=None, apply_url=None):
-    title, url = clean(title), clean(url)
+    title, url = clean(title), valid_url(url)
     if not job_id or not title or not url: return None
     payload=raw_payload if isinstance(raw_payload,dict) else {}
     details=_details(title,description,location,employment_type,payload)
     raw=json.loads(json.dumps(payload,default=str))
     content_hash=sha256(((title or "")+"\n"+(description or "")+"\n"+url).encode()).hexdigest()
-    return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url, "apply_url":clean(apply_url or payload.get("applyUrl") or payload.get("application_url") or url),
+    resolved_apply=valid_url(apply_url or payload.get("applyUrl") or payload.get("application_url")) or url
+    return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url, "apply_url":resolved_apply,
             "location": clean(location), "department": clean(department), "employment_type": clean(employment_type),
             "description": clean(description), "posted_at": str(posted_at)[:100] if posted_at else None,
             "company_name": clean(company), "raw_payload":raw, "content_hash":content_hash, "parser_version":"1.0", **details}

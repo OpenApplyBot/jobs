@@ -1,28 +1,70 @@
 import { useEffect, useState } from "react";
 import {
-  Search,
-  RefreshCw,
+  ArrowLeft,
+  ArrowUpRight,
   BriefcaseBusiness,
-  Building2,
-  RadioTower,
-  ExternalLink,
+  Check,
+  ChevronDown,
+  Clock3,
+  Filter,
   MapPin,
-  Plus,
-  Activity,
+  RefreshCw,
+  Search,
   SlidersHorizontal,
+  Sparkles,
 } from "lucide-react";
+
 const API = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const PAGE_SIZE = 24;
 type Job = {
   id: number;
   title: string;
   company: string;
   location: string | null;
+  location_country: string | null;
   department: string | null;
   employment_type: string | null;
   description: string | null;
   url: string;
+  apply_url: string | null;
   posted_at: string | null;
+  first_seen_at: string | null;
+  last_seen_at: string | null;
   source: string;
+  work_mode: string | null;
+  required_skills: string[];
+  preferred_skills: string[];
+  tech_stack: string[];
+  salary_min: number | null;
+  salary_max: number | null;
+  salary_currency: string | null;
+  salary_period: string | null;
+  compensation_text: string | null;
+  education_requirements: string | null;
+  experience_min_months: number | null;
+  visa_sponsorship: boolean | null;
+  relocation_available: boolean | null;
+  status: string;
+  application_deadline: string | null;
+  benefits: string[];
+  parser_version: string | null;
+};
+type Page = {
+  items: Job[];
+  total: number;
+  limit: number;
+  offset: number;
+  has_more: boolean;
+};
+type Filters = {
+  companies: string[];
+  employment_types: string[];
+  sources: string[];
+  locations: string[];
+  work_modes: string[];
+  countries: string[];
+  skills: string[];
+  currencies: string[];
 };
 type Stats = {
   jobs: number;
@@ -31,569 +73,665 @@ type Stats = {
   runs: number;
   queued: number;
 };
-type Source = {
-  id: number;
-  company: string;
-  connector: string;
-  board_token: string;
-  active: boolean;
-  last_error: string | null;
-};
-type Filters = {
-  companies: string[];
-  employment_types: string[];
-  sources: string[];
-  locations: string[];
-};
 const emptyFilters: Filters = {
   companies: [],
   employment_types: [],
   sources: [],
   locations: [],
+  work_modes: [],
+  countries: [],
+  skills: [],
+  currencies: [],
 };
+const emptyStats: Stats = {
+  jobs: 0,
+  companies: 0,
+  sources: 0,
+  runs: 0,
+  queued: 0,
+};
+
+function queryState() {
+  const q = new URLSearchParams(location.search);
+  return {
+    search: q.get("q") || "",
+    company: q.get("company") || "",
+    type: q.get("type") || "",
+    mode: q.get("mode") || "",
+    country: q.get("country") || "",
+    skill: q.get("skill") || "",
+    sort: q.get("sort") || "newest",
+    page: Number(q.get("page") || 1) || 1,
+  };
+}
+function formatDate(value: string | null) {
+  if (!value) return null;
+  const date = new Date(value);
+  return Number.isNaN(date.valueOf())
+    ? value
+    : date.toLocaleDateString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+}
+function safeUrl(value: string | null) {
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return ["http:", "https:"].includes(url.protocol) ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+function humanAge(value: string | null) {
+  const date = value && new Date(value);
+  if (!date || Number.isNaN(date.valueOf())) return "Recently verified";
+  const days = Math.max(
+    0,
+    Math.floor((Date.now() - date.valueOf()) / 86400000),
+  );
+  return days === 0 ? "Verified today" : `${days}d ago`;
+}
+
 export default function App() {
+  const detailId = location.pathname.match(/^\/jobs\/(\d+)$/)?.[1];
+  return detailId ? <JobDetail id={detailId} /> : <Directory />;
+}
+
+function Directory() {
+  const initial = queryState();
   const [jobs, setJobs] = useState<Job[]>([]),
-    [stats, setStats] = useState<Stats>({
-      jobs: 0,
-      companies: 0,
-      sources: 0,
-      runs: 0,
-      queued: 0,
-    }),
-    [sources, setSources] = useState<Source[]>([]),
-    [filters, setFilters] = useState<Filters>(emptyFilters);
-  const [search, setSearch] = useState(""),
-    [location, setLocation] = useState(""),
-    [company, setCompany] = useState(""),
-    [kind, setKind] = useState(""),
-    [source, setSource] = useState(""),
-    [remote, setRemote] = useState(false),
-    [offset, setOffset] = useState(0);
+    [total, setTotal] = useState(0),
+    [stats, setStats] = useState(emptyStats),
+    [filters, setFilters] = useState(emptyFilters);
+  const [search, setSearch] = useState(initial.search),
+    [company, setCompany] = useState(initial.company),
+    [type, setType] = useState(initial.type),
+    [mode, setMode] = useState(initial.mode),
+    [country, setCountry] = useState(initial.country),
+    [skill, setSkill] = useState(initial.skill),
+    [sort, setSort] = useState(initial.sort),
+    [page, setPage] = useState(initial.page);
   const [loading, setLoading] = useState(true),
     [error, setError] = useState(""),
-    [showAdd, setShowAdd] = useState(false),
-    [busy, setBusy] = useState(false);
-  const [form, setForm] = useState({
-    company_name: "",
-    careers_url: "",
-    connector: "auto",
-    board_token: "",
-  });
-  async function load() {
-    setLoading(true);
-    setError("");
-    try {
-      const q = new URLSearchParams({ limit: "50", offset: String(offset) });
-      if (search.trim()) q.set("search", search.trim());
-      if (location.trim()) q.set("location", location.trim());
-      if (company) q.set("company", company);
-      if (kind) q.set("employment_type", kind);
-      if (source) q.set("source", source);
-      if (remote) q.set("remote", "true");
-      const [jr, sr, cr, fr, rr] = await Promise.all([
-        fetch(API + "/api/jobs?" + q),
-        fetch(API + "/api/stats"),
-        fetch(API + "/api/sources"),
-        fetch(API + "/api/filters"),
-        fetch(API + "/api/queue"),
-      ]);
-      for (const r of [jr, sr, cr, fr, rr])
-        if (!r.ok) throw Error("API request failed (" + r.status + ")");
-      setJobs(await jr.json());
-      setStats({ ...(await sr.json()), ...(await rr.json()) });
-      setSources(await cr.json());
-      setFilters(await fr.json());
-    } catch (e) {
-      setError(
-        e instanceof Error
-          ? e.message
-          : "Could not reach the local API. Start ./run.sh and refresh.",
-      );
-    } finally {
-      setLoading(false);
-    }
-  }
-  useEffect(() => {
-    const t = setTimeout(() => {
-      load();
-    }, 250);
-    return () => clearTimeout(t);
-  }, [search, location, company, kind, source, remote, offset]);
-  useEffect(() => {
-    if (!stats.queued) return;
-    const t = window.setInterval(() => {
-      void load();
-    }, 10000);
-    return () => window.clearInterval(t);
-  }, [stats.queued]);
-  async function sync(url: string) {
-    setBusy(true);
-    try {
-      const r = await fetch(API + url, { method: "POST" });
-      const d = await r.json();
-      if (!r.ok) throw Error(d.detail || "Could not queue sync");
-      await load();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Sync failed");
-    } finally {
-      setBusy(false);
-    }
-  }
-  async function add(e: React.FormEvent) {
-    e.preventDefault();
-    setBusy(true);
-    try {
-      const needsUrl = ["auto", "jsonld", "workday"].includes(form.connector);
-      const payload = {
-        ...form,
-        careers_url: form.careers_url || null,
-        board_token: form.board_token || (needsUrl ? form.careers_url : ""),
-      };
-      const r = await fetch(API + "/api/sources", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const d = await r.json();
-      if (!r.ok) throw Error(d.detail || "Could not add source");
-      setShowAdd(false);
-      setForm({
-        company_name: "",
-        careers_url: "",
-        connector: "auto",
-        board_token: "",
-      });
-      await load();
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not add source");
-    } finally {
-      setBusy(false);
-    }
-  }
-  function resetFilters() {
+    [mobileFilters, setMobileFilters] = useState(false),
+    [syncing, setSyncing] = useState(false);
+  const activeCount = [company, type, mode, country, skill].filter(
+    Boolean,
+  ).length;
+  function reset() {
     setSearch("");
-    setLocation("");
     setCompany("");
-    setKind("");
-    setSource("");
-    setRemote(false);
-    setOffset(0);
+    setType("");
+    setMode("");
+    setCountry("");
+    setSkill("");
+    setSort("newest");
+    setPage(1);
+  }
+  useEffect(() => {
+    const q = new URLSearchParams();
+    if (search) q.set("q", search);
+    if (company) q.set("company", company);
+    if (type) q.set("type", type);
+    if (mode) q.set("mode", mode);
+    if (country) q.set("country", country);
+    if (skill) q.set("skill", skill);
+    if (sort !== "newest") q.set("sort", sort);
+    if (page > 1) q.set("page", String(page));
+    window.history.replaceState(null, "", q.toString() ? `/?${q}` : "/");
+  }, [search, company, type, mode, country, skill, sort, page]);
+  useEffect(() => {
+    const controller = new AbortController();
+    const timer = window.setTimeout(async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const q = new URLSearchParams({
+          limit: String(PAGE_SIZE),
+          offset: String((page - 1) * PAGE_SIZE),
+          sort,
+        });
+        if (search) q.set("search", search);
+        if (company) q.set("company", company);
+        if (type) q.set("employment_type", type);
+        if (mode) q.set("work_mode", mode);
+        if (country) q.set("country", country);
+        if (skill) q.set("skill", skill);
+        const responses = await Promise.all([
+          fetch(`${API}/api/jobs?${q}`, { signal: controller.signal }),
+          fetch(`${API}/api/stats`, { signal: controller.signal }),
+          fetch(`${API}/api/filters`, { signal: controller.signal }),
+          fetch(`${API}/api/queue`, { signal: controller.signal }),
+        ]);
+        if (!responses.every((r) => r.ok))
+          throw new Error("The local API returned an error.");
+        const data: Page = await responses[0].json();
+        setJobs(data.items);
+        setTotal(data.total);
+        setStats({
+          ...(await responses[1].json()),
+          ...(await responses[3].json()),
+        });
+        setFilters(await responses[2].json());
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+        setError(
+          err instanceof Error ? err.message : "The local API is unavailable.",
+        );
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    }, 250);
+    return () => {
+      window.clearTimeout(timer);
+      controller.abort();
+    };
+  }, [search, company, type, mode, country, skill, sort, page]);
+  async function sync() {
+    setSyncing(true);
+    try {
+      const response = await fetch(`${API}/api/connectors/run-all`, {
+        method: "POST",
+      });
+      if (!response.ok) throw new Error("Could not queue a sync.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Sync failed.");
+    } finally {
+      setSyncing(false);
+    }
   }
   return (
-    <main className="shell">
-      <header className="top">
-        <a className="brand" href="#">
-          <span className="logo">
-            <BriefcaseBusiness size={19} />
-          </span>
-          <span>
-            OpenApply<span className="muted">Bot</span>
-            <small>JOBS INTELLIGENCE</small>
-          </span>
-        </a>
-        <div className="topright">
-          <span className="live">
-            <i /> LOCAL STACK
-          </span>
-          <button className="outline" onClick={() => setShowAdd(true)}>
-            <Plus size={16} /> Add source
-          </button>
-          <button
-            className="primary"
-            disabled={busy}
-            onClick={() => sync("/api/connectors/run-all")}
-          >
-            <RefreshCw size={16} className={busy ? "spin" : ""} /> Queue sync
-          </button>
-        </div>
-      </header>
-      <section className="hero">
+    <main className="app-shell">
+      <Header onSync={sync} syncing={syncing} />
+      <section className="intro">
         <div>
-          <div className="eyebrow">
-            <span /> PHASE 01 / JOB AGGREGATION
-          </div>
+          <p className="kicker">
+            <Sparkles size={14} /> LOCAL JOB INDEX
+          </p>
           <h1>
-            One search. <em>Every opportunity.</em>
+            Find work worth
+            <br />
+            <em>following up on.</em>
           </h1>
-          <p>
-            Public job listings normalized into one searchable PostgreSQL index.
+          <p className="lede">
+            A focused directory of public roles, normalized from the sources you
+            trust.
           </p>
         </div>
-        <div className="hero-mark">
-          <BriefcaseBusiness size={36} />
-          <div className="orbit orbit1" />
-          <div className="orbit orbit2" />
-        </div>
-      </section>
-      <section className="stats">
-        <Stat
-          icon={<BriefcaseBusiness />}
-          label="ACTIVE LISTINGS"
-          value={stats.jobs}
-        />
-        <Stat icon={<Building2 />} label="COMPANIES" value={stats.companies} />
-        <Stat icon={<RadioTower />} label="SOURCES" value={stats.sources} />
-        <Stat
-          icon={<Activity />}
-          label="QUEUED TASKS"
-          value={stats.queued || 0}
-        />
-      </section>
-      <section className="workspace">
-        <div className="sectionhead">
-          <div>
-            <div className="eyebrow">DISCOVERY FEED</div>
-            <h2>
-              Job listings <span>{stats.jobs}</span>
-            </h2>
-          </div>
-          <div className="feedtools">
-            <label className="search">
-              <Search size={17} />
-              <input
-                value={search}
-                onChange={(e) => {
-                  setOffset(0);
-                  setSearch(e.target.value);
-                }}
-                placeholder="Role, company, keyword..."
-              />
-            </label>
-            <label className="search loc">
-              <MapPin size={16} />
-              <input
-                value={location}
-                onChange={(e) => {
-                  setOffset(0);
-                  setLocation(e.target.value);
-                }}
-                placeholder="Location"
-              />
-            </label>
-          </div>
-        </div>
-        <div className="filterbar">
-          <span className="filterlabel">
-            <SlidersHorizontal size={14} /> FILTERS
-          </span>
-          <select
-            value={company}
-            onChange={(e) => {
-              setOffset(0);
-              setCompany(e.target.value);
-            }}
-          >
-            <option value="">All companies</option>
-            {filters.companies.map((x) => (
-              <option key={x}>{x}</option>
-            ))}
-          </select>
-          <select
-            value={kind}
-            onChange={(e) => {
-              setOffset(0);
-              setKind(e.target.value);
-            }}
-          >
-            <option value="">All job types</option>
-            {filters.employment_types.map((x) => (
-              <option key={x}>{x}</option>
-            ))}
-          </select>
-          <select
-            value={source}
-            onChange={(e) => {
-              setOffset(0);
-              setSource(e.target.value);
-            }}
-          >
-            <option value="">All sources</option>
-            {filters.sources.map((x) => (
-              <option key={x}>{x}</option>
-            ))}
-          </select>
-          <label className="remotecheck">
-            <input
-              type="checkbox"
-              checked={remote}
-              onChange={(e) => {
-                setOffset(0);
-                setRemote(e.target.checked);
-              }}
-            />{" "}
-            Remote
-          </label>
-          <button className="clearfilters" onClick={resetFilters}>
-            Clear
-          </button>
-        </div>
-        {error && (
-          <div className="alert">
-            {error}
-            <button onClick={() => setError("")}>×</button>
-          </div>
-        )}
-        {loading ? (
-          <div className="empty">
-            <RefreshCw className="spin" />
-            <p>Loading indexed listings…</p>
-          </div>
-        ) : jobs.length === 0 ? (
-          <div className="empty">
-            <div className="emptyicon">
-              <BriefcaseBusiness size={26} />
-            </div>
-            <h3>No listings found yet</h3>
-            <p>
-              {stats.sources === 0
-                ? "No sources configured. Start a source sync or add a public careers page."
-                : "No jobs match those filters, or sources have not returned listings yet."}
-            </p>
-            <button
-              className="primary"
-              onClick={() =>
-                stats.sources === 0
-                  ? setShowAdd(true)
-                  : sync("/api/connectors/run-all")
-              }
-            >
-              <RefreshCw size={16} />{" "}
-              {stats.sources === 0 ? "Add first source" : "Queue source sync"}
-            </button>
-          </div>
-        ) : (
-          <div className="joblist">
-            {jobs.map((j) => (
-              <article className="job" key={j.id}>
-                <div className="companybadge">
-                  {(j.company || "?").slice(0, 1).toUpperCase()}
-                </div>
-                <div className="jobbody">
-                  <div className="jobtitle">
-                    <h3>{j.title}</h3>
-                    {j.employment_type && (
-                      <span className="tag">{j.employment_type}</span>
-                    )}
-                  </div>
-                  <div className="jobmeta">
-                    <b>{j.company}</b>
-                    {j.location && (
-                      <span>
-                        <MapPin size={13} />
-                        {j.location}
-                      </span>
-                    )}
-                    {j.department && <span>{j.department}</span>}
-                    <span>{j.source}</span>
-                  </div>
-                  {j.description && (
-                    <p className="desc">
-                      {j.description
-                        .replace(/<[^>]*>/g, " ")
-                        .replace(/\s+/g, " ")
-                        .slice(0, 240)}
-                      {j.description.length > 240 ? "…" : ""}
-                    </p>
-                  )}
-                </div>
-                <a
-                  className="apply"
-                  href={j.url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View role <ExternalLink size={14} />
-                </a>
-              </article>
-            ))}
-          </div>
-        )}
-        <div className="pagination">
-          <button
-            className="outline"
-            disabled={offset === 0 || loading}
-            onClick={() => setOffset(Math.max(0, offset - 50))}
-          >
-            Previous
-          </button>
+        <div className="intro-note">
+          <strong>{stats.jobs.toLocaleString()}</strong>
           <span>
-            Showing {jobs.length ? offset + 1 : 0}–{offset + jobs.length} of{" "}
-            {stats.jobs}
+            active listings
+            <br />
+            in the local index
           </span>
+        </div>
+      </section>
+      <section className="search-panel">
+        <div className="search-wrap">
+          <Search size={20} />
+          <input
+            aria-label="Search jobs"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Search roles, companies, skills, or technologies"
+          />
+          <kbd>⌘ K</kbd>
+        </div>
+        <button
+          className="filter-toggle"
+          onClick={() => setMobileFilters(!mobileFilters)}
+        >
+          <Filter size={16} /> Filters{" "}
+          {activeCount ? <b>{activeCount}</b> : null}
+        </button>
+      </section>
+      <div
+        className={`directory-layout ${mobileFilters ? "filters-open" : ""}`}
+      >
+        <aside className="filters">
+          <div className="filters-title">
+            <span>
+              <SlidersHorizontal size={16} /> Refine results
+            </span>
+            <button onClick={reset}>Reset</button>
+          </div>
+          <FilterSelect
+            label="Company"
+            value={company}
+            options={filters.companies}
+            onChange={(v) => {
+              setCompany(v);
+              setPage(1);
+            }}
+          />
+          <FilterSelect
+            label="Employment"
+            value={type}
+            options={filters.employment_types}
+            onChange={(v) => {
+              setType(v);
+              setPage(1);
+            }}
+          />
+          <FilterSelect
+            label="Work mode"
+            value={mode}
+            options={filters.work_modes}
+            onChange={(v) => {
+              setMode(v);
+              setPage(1);
+            }}
+          />
+          <FilterSelect
+            label="Country"
+            value={country}
+            options={filters.countries}
+            onChange={(v) => {
+              setCountry(v);
+              setPage(1);
+            }}
+          />
+          <FilterSelect
+            label="Skill or technology"
+            value={skill}
+            options={filters.skills}
+            onChange={(v) => {
+              setSkill(v);
+              setPage(1);
+            }}
+          />
           <button
-            className="outline"
-            disabled={loading || jobs.length < 50 || offset + 50 >= stats.jobs}
-            onClick={() => setOffset(offset + 50)}
+            className="close-filters"
+            onClick={() => setMobileFilters(false)}
           >
-            Next
+            Show {total.toLocaleString()} results <Check size={15} />
           </button>
-        </div>
-      </section>
-      <section className="sources">
-        <div className="sectionhead">
-          <div>
-            <div className="eyebrow">PIPELINE</div>
-            <h2>Connected sources</h2>
+        </aside>
+        <section className="results">
+          <div className="results-head">
+            <div>
+              <p className="kicker">DISCOVERY FEED</p>
+              <h2>
+                {total.toLocaleString()} <span>matching roles</span>
+              </h2>
+            </div>
+            <label className="sort">
+              Sort by{" "}
+              <select
+                value={sort}
+                onChange={(e) => {
+                  setSort(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <option value="newest">Recently verified</option>
+                <option value="relevance">Relevance</option>
+                <option value="deadline">Application deadline</option>
+              </select>
+              <ChevronDown size={14} />
+            </label>
           </div>
-          <span className="subtle">{sources.length} registered</span>
-        </div>
-        {sources.length === 0 ? (
-          <p className="subtle">
-            No sources configured. Add a public careers URL.
-          </p>
-        ) : (
-          <div className="sourcegrid">
-            {sources.map((s) => (
-              <div className="source" key={s.id}>
-                <div className="sourceicon">
-                  <RadioTower size={17} />
-                </div>
-                <div className="sourceinfo">
-                  <b>{s.company}</b>
-                  <span>
-                    {s.connector} / {s.board_token}
-                  </span>
-                  {s.last_error && (
-                    <small className="errortext">{s.last_error}</small>
-                  )}
-                </div>
-                <button
-                  className="iconbtn"
-                  title="Queue source sync"
-                  disabled={busy}
-                  onClick={() => sync("/api/sources/" + s.id + "/run")}
-                >
-                  <RefreshCw size={15} />
-                </button>
-                <span className={s.active ? "dotgood" : "dotbad"} />
+          {error ? (
+            <div className="state error-state">
+              <h3>Could not load listings</h3>
+              <p>{error}</p>
+              <button
+                className="button primary-button"
+                onClick={() => setPage(page)}
+              >
+                Retry
+              </button>
+            </div>
+          ) : loading ? (
+            <Skeletons />
+          ) : jobs.length ? (
+            <>
+              <div className="job-list">
+                {jobs.map((job) => (
+                  <JobCard key={job.id} job={job} />
+                ))}
               </div>
-            ))}
-          </div>
-        )}
-      </section>
+              <Pagination page={page} total={total} onChange={setPage} />
+            </>
+          ) : (
+            <div className="state">
+              <BriefcaseBusiness size={26} />
+              <h3>No roles match those filters</h3>
+              <p>
+                Try widening your search or clear one of the active filters.
+              </p>
+              <button className="button outline-button" onClick={reset}>
+                Clear filters
+              </button>
+            </div>
+          )}
+        </section>
+      </div>
       <footer>
-        <span>OPENAPPLYBOT / JOBS</span>
-        <span>POSTGRESQL · REDIS QUEUE · PUBLIC SOURCES</span>
-        <a href={API + "/docs"} target="_blank" rel="noreferrer">
-          API documentation <ExternalLink size={12} />
+        <span>OPENAPPLYBOT / LOCAL JOB INDEX</span>
+        <span>
+          {stats.companies} companies · {stats.sources} sources · {stats.queued}{" "}
+          queued
+        </span>
+        <a href={`${API}/docs`} target="_blank" rel="noreferrer">
+          API docs <ArrowUpRight size={13} />
         </a>
       </footer>
-      {showAdd && (
-        <div className="modalback" onClick={() => setShowAdd(false)}>
-          <form
-            className="modal"
-            onSubmit={add}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              type="button"
-              className="close"
-              onClick={() => setShowAdd(false)}
-            >
-              ×
-            </button>
-            <div className="eyebrow">SOURCE REGISTRY</div>
-            <h2>Connect a job board</h2>
-            <p>
-              Prefer Auto-detect with the employer’s official public careers
-              URL. For a direct ATS, provide a verified public board identifier.
-            </p>
-            <label>
-              Company name
-              <input
-                required
-                value={form.company_name}
-                onChange={(e) =>
-                  setForm({ ...form, company_name: e.target.value })
-                }
-                placeholder="Example, Inc."
-              />
-            </label>
-            <label>
-              Official careers URL
-              <input
-                type="url"
-                value={form.careers_url}
-                onChange={(e) =>
-                  setForm({ ...form, careers_url: e.target.value })
-                }
-                placeholder="https://example.com/careers"
-              />
-            </label>
-            <label>
-              Scraper
-              <select
-                value={form.connector}
-                onChange={(e) =>
-                  setForm({ ...form, connector: e.target.value })
-                }
-              >
-                <option value="auto">Auto-detect (recommended)</option>
-                <option value="jsonld">JSON-LD careers page</option>
-                <option value="greenhouse">Greenhouse</option>
-                <option value="lever">Lever</option>
-                <option value="ashby">Ashby</option>
-                <option value="smartrecruiters">SmartRecruiters</option>
-                <option value="workable">Workable</option>
-                <option value="recruitee">Recruitee</option>
-                <option value="workday">Workday</option>
-                <option value="remoteok">RemoteOK API</option>
-                <option value="remotive">Remotive API</option>
-                <option value="arbeitnow">Arbeitnow API</option>
-                <option value="themuse">The Muse API</option>
-                <option value="jobicy">Jobicy API</option>
-                <option value="himalayas">Himalayas API</option>
-              </select>
-            </label>
-            {form.connector !== "auto" &&
-              form.connector !== "jsonld" &&
-              form.connector !== "workday" && (
-                <label>
-                  Public board ID or API keyword
-                  <input
-                    required
-                    value={form.board_token}
-                    onChange={(e) =>
-                      setForm({ ...form, board_token: e.target.value })
-                    }
-                    placeholder="Verified board identifier"
-                  />
-                </label>
-              )}
-            <div className="modalactions">
-              <button
-                type="button"
-                className="outline"
-                onClick={() => setShowAdd(false)}
-              >
-                Cancel
-              </button>
-              <button className="primary" disabled={busy} type="submit">
-                <Plus size={15} /> Add source
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
     </main>
   );
 }
-function Stat({
-  icon,
+
+function Header({ onSync, syncing }: { onSync: () => void; syncing: boolean }) {
+  return (
+    <header className="header">
+      <a href="/" className="brand">
+        <span className="brand-mark">
+          <BriefcaseBusiness size={18} />
+        </span>
+        <span>
+          OpenApply<em>Bot</em>
+          <small>JOBS INTELLIGENCE</small>
+        </span>
+      </a>
+      <nav>
+        <a href="/">Explore</a>
+        <button
+          className="button primary-button"
+          onClick={onSync}
+          disabled={syncing}
+        >
+          <RefreshCw size={15} className={syncing ? "spin" : ""} />{" "}
+          {syncing ? "Queuing" : "Refresh sources"}
+        </button>
+      </nav>
+    </header>
+  );
+}
+function FilterSelect({
   label,
   value,
+  options,
+  onChange,
 }: {
-  icon: React.ReactNode;
   label: string;
-  value: number;
+  value: string;
+  options: string[];
+  onChange: (value: string) => void;
 }) {
   return (
-    <div className="stat">
-      <div className="staticon">{icon}</div>
-      <div>
-        <span>{label}</span>
-        <strong>{value.toLocaleString()}</strong>
+    <label className="filter-field">
+      <span>{label}</span>
+      <select value={value} onChange={(e) => onChange(e.target.value)}>
+        <option value="">All {label.toLowerCase()}s</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      <ChevronDown size={14} />
+    </label>
+  );
+}
+function JobCard({ job }: { job: Job }) {
+  const skills = [
+    ...new Set([...(job.required_skills || []), ...(job.tech_stack || [])]),
+  ].slice(0, 4);
+  return (
+    <article className="job-card">
+      <div className="company-avatar">
+        {job.company.slice(0, 1).toUpperCase()}
       </div>
+      <div className="job-card-body">
+        <div className="job-card-top">
+          <div>
+            <a className="job-title" href={`/jobs/${job.id}`}>
+              {job.title}
+            </a>
+            <p className="company-name">{job.company}</p>
+          </div>
+          <span className={`status status-${job.status}`}>
+            {job.status === "open" ? "Open" : "Unverified"}
+          </span>
+        </div>
+        <div className="job-facts">
+          {job.location ? (
+            <span>
+              <MapPin size={14} /> {job.location}
+            </span>
+          ) : (
+            <span>
+              <MapPin size={14} /> Location not listed
+            </span>
+          )}
+          {job.work_mode && <span>{job.work_mode}</span>}
+          {job.employment_type && <span>{job.employment_type}</span>}
+          <span>
+            <Clock3 size={14} />{" "}
+            {humanAge(job.last_seen_at || job.first_seen_at)}
+          </span>
+        </div>
+        {skills.length > 0 && (
+          <div className="skill-row">
+            {skills.map((skill) => (
+              <span key={skill}>{skill}</span>
+            ))}
+          </div>
+        )}
+      </div>
+      <a
+        className="card-arrow"
+        href={`/jobs/${job.id}`}
+        aria-label={`View ${job.title}`}
+      >
+        <ArrowUpRight size={18} />
+      </a>
+    </article>
+  );
+}
+function Skeletons() {
+  return (
+    <div className="job-list">
+      {Array.from({ length: 5 }, (_, index) => (
+        <div className="job-card skeleton" key={index}>
+          <i />
+          <div>
+            <b />
+            <span />
+            <small />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+function Pagination({
+  page,
+  total,
+  onChange,
+}: {
+  page: number;
+  total: number;
+  onChange: (page: number) => void;
+}) {
+  const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  return (
+    <div className="pagination">
+      <button
+        className="button outline-button"
+        disabled={page <= 1}
+        onClick={() => onChange(page - 1)}
+      >
+        Previous
+      </button>
+      <span>
+        Page {page} of {pages}
+      </span>
+      <button
+        className="button outline-button"
+        disabled={page >= pages}
+        onClick={() => onChange(page + 1)}
+      >
+        Next
+      </button>
+    </div>
+  );
+}
+function JobDetail({ id }: { id: string }) {
+  const [job, setJob] = useState<Job | null>(null),
+    [loading, setLoading] = useState(true),
+    [error, setError] = useState("");
+  useEffect(() => {
+    const controller = new AbortController();
+    fetch(`${API}/api/jobs/${id}`, { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 404)
+          throw new Error("This listing no longer exists in the local index.");
+        if (!response.ok) throw new Error("Could not load this listing.");
+        return response.json();
+      })
+      .then(setJob)
+      .catch((err) => {
+        if (err.name !== "AbortError") setError(err.message);
+      })
+      .finally(() => setLoading(false));
+    return () => controller.abort();
+  }, [id]);
+  if (loading)
+    return (
+      <main className="app-shell">
+        <Header onSync={() => undefined} syncing={false} />
+        <div className="detail-loading">
+          <RefreshCw className="spin" /> Loading listing
+        </div>
+      </main>
+    );
+  if (error || !job)
+    return (
+      <main className="app-shell">
+        <Header onSync={() => undefined} syncing={false} />
+        <div className="state error-state">
+          <h2>Listing unavailable</h2>
+          <p>{error}</p>
+          <a className="button outline-button" href="/">
+            <ArrowLeft size={15} /> Back to directory
+          </a>
+        </div>
+      </main>
+    );
+  const apply = safeUrl(job.apply_url || job.url);
+  return (
+    <main className="app-shell">
+      <Header onSync={() => undefined} syncing={false} />
+      <article className="detail">
+        <a className="back-link" href="/">
+          <ArrowLeft size={15} /> Back to directory
+        </a>
+        <header className="detail-header">
+          <div className="company-avatar large">
+            {job.company.slice(0, 1).toUpperCase()}
+          </div>
+          <div>
+            <p className="kicker">
+              {job.source} · {humanAge(job.last_seen_at || job.first_seen_at)}
+            </p>
+            <h1>{job.title}</h1>
+            <p className="detail-company">
+              {job.company} {job.location && ` · ${job.location}`}
+            </p>
+          </div>
+          {apply && (
+            <a
+              className="button primary-button apply-button"
+              href={apply}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Apply on source <ArrowUpRight size={16} />
+            </a>
+          )}
+        </header>
+        <div className="detail-grid">
+          <div className="detail-main">
+            <section>
+              <h2>About the role</h2>
+              <div className="description">
+                {job.description ||
+                  "The source did not provide a full description."}
+              </div>
+            </section>
+            {job.required_skills?.length || job.tech_stack?.length ? (
+              <section>
+                <h2>Skills and technologies</h2>
+                <div className="detail-tags">
+                  {[
+                    ...new Set([
+                      ...(job.required_skills || []),
+                      ...(job.tech_stack || []),
+                    ]),
+                  ].map((skill) => (
+                    <span key={skill}>{skill}</span>
+                  ))}
+                </div>
+              </section>
+            ) : null}
+          </div>
+          <aside className="detail-aside">
+            <Info
+              label="Work arrangement"
+              value={job.work_mode || "Not specified"}
+            />
+            <Info
+              label="Employment"
+              value={job.employment_type || "Not specified"}
+            />
+            <Info
+              label="Posted"
+              value={formatDate(job.posted_at) || "Date not provided"}
+            />
+            <Info
+              label="Verified"
+              value={
+                formatDate(job.last_seen_at || job.first_seen_at) ||
+                "Not available"
+              }
+            />
+            <Info
+              label="Experience"
+              value={
+                job.experience_min_months
+                  ? `${job.experience_min_months / 12}+ years`
+                  : "Not specified"
+              }
+            />
+            <Info
+              label="Education"
+              value={job.education_requirements || "Not specified"}
+            />
+            {job.compensation_text && (
+              <Info label="Compensation" value={job.compensation_text} />
+            )}
+          </aside>
+        </div>
+        <p className="source-note">
+          This listing is collected from a public source. Application links open
+          the original website; OpenApplyBot does not submit applications.
+        </p>
+      </article>
+    </main>
+  );
+}
+function Info({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="info">
+      <span>{label}</span>
+      <strong>{value}</strong>
     </div>
   );
 }

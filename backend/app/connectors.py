@@ -6,9 +6,10 @@ def fetch_jobs(connector,token):
     name=connector.strip().lower()
     if name not in SCRAPERS: raise ValueError(f"Unsupported connector: {name}. Supported: {', '.join(CONNECTORS)}")
     from .scrapers.common import normalize
-    rows=SCRAPERS[name](token.strip()); result=[]; seen=set()
+    rows=SCRAPERS[name](token.strip()) or []; result=[]; seen=set()
     for row in rows:
         if not isinstance(row,dict): continue
         item=normalize(row.get("source_job_id"),row.get("title"),row.get("url"),row.get("location"),row.get("department"),row.get("employment_type"),row.get("description"),row.get("posted_at"),row.get("company_name"),raw_payload=row.get("raw_payload",row),apply_url=row.get("apply_url"))
-        if item and item["source_job_id"] not in seen: seen.add(item["source_job_id"]); result.append(item)
+        if item and item["source_job_id"] not in seen and item["title"] and item["url"]:
+            seen.add(item["source_job_id"]); result.append(item)
     return result

@@ -23,6 +23,7 @@ def run_source(source_id):
             if source is None: return {"source_id":source_id,"status":"deleted"}
             existing={j.source_job_id:j for j in db.scalars(select(Job).where(Job.source_id==source_id)).all()}
             seen=set(); inserted=updated=0
+            items=[item for item in items if item.get("title") and item.get("url") and item.get("apply_url")]
             for item in items:
                 sid=item["source_job_id"]; seen.add(sid); job=existing.get(sid)
                 if job is None:

@@ -18,6 +18,13 @@ def migrate_schema():
     }
     with engine.begin() as connection:
         for name,definition in columns.items(): connection.execute(text(f"ALTER TABLE jobs ADD COLUMN IF NOT EXISTS {name} {definition}"))
+
+def repair_job_links():
+    """Repair unsafe application links without inventing replacement job URLs."""
+    if engine.dialect.name != "postgresql" or not inspect(engine).has_table("jobs"): return
+    with engine.begin() as connection:
+        connection.execute(text("UPDATE jobs SET apply_url=url WHERE apply_url IS NULL OR apply_url !~* '^https?://[^[:space:]]+$'"))
+        connection.execute(text("UPDATE jobs SET active=false, status='unverified' WHERE url IS NULL OR url !~* '^https?://[^[:space:]]+$'"))
 def get_db():
     db=SessionLocal()
     try: yield db

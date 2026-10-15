@@ -4,9 +4,9 @@ from datetime import datetime,timezone
 from fastapi import FastAPI,Depends,HTTPException,Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel,Field,HttpUrl
-from sqlalchemy import select,func,or_,text
+from sqlalchemy import select,func,or_,text,cast,String,desc,asc,case
 from sqlalchemy.orm import Session,joinedload
-from .db import Base,engine,get_db,migrate_schema
+from .db import Base,engine,get_db,migrate_schema,repair_job_links
 from .models import Company,Source,Job,ConnectorRun
 from .connectors import CONNECTORS
 from .queue import queue,redis_conn
@@ -15,6 +15,7 @@ from .queue import queue,redis_conn
 async def lifespan(app):
     migrate_schema()
     Base.metadata.create_all(bind=engine)
+    repair_job_links()
     # Trigram indexes accelerate substring search on PostgreSQL; regular indexes remain the fallback.
     try:
         with engine.begin() as c:
@@ -36,7 +37,7 @@ class CompanyCreate(BaseModel):
     name:str=Field(min_length=1,max_length=200)
     careers_url:str=Field(min_length=8,max_length=1000)
 def job_json(j):
-    return {"id":j.id,"title":j.title,"company":j.company_name or j.source.company.name,"company_id":j.source.company_id,"source_id":j.source_id,"source":j.source.connector,"location":j.location,"department":j.department,"employment_type":j.employment_type,"description":j.description,"url":j.url,"apply_url":j.apply_url or j.url,"posted_at":j.posted_at,"first_seen_at":j.first_seen_at,"team_name":j.team_name,"seniority":j.seniority,"summary":j.summary,"work_mode":j.work_mode,"location_city":j.location_city,"location_region":j.location_region,"location_country":j.location_country,"eligible_countries":j.eligible_countries or [],"remote_scope":j.remote_scope,"visa_sponsorship":j.visa_sponsorship,"relocation_available":j.relocation_available,"timezone_requirements":j.timezone_requirements,"salary_min":j.salary_min,"salary_max":j.salary_max,"salary_currency":j.salary_currency,"salary_period":j.salary_period,"compensation_type":j.compensation_type,"compensation_text":j.compensation_text,"benefits":j.benefits or [],"required_skills":j.required_skills or [],"preferred_skills":j.preferred_skills or [],"programming_languages":j.programming_languages or [],"tech_stack":j.tech_stack or [],"education_requirements":j.education_requirements,"experience_min_months":j.experience_min_months,"graduation_years":j.graduation_years or [],"visa_or_work_auth":j.visa_or_work_auth,"application_method":j.application_method,"application_email":j.application_email,"application_deadline":j.application_deadline,"raw_payload":j.raw_payload or {},"content_hash":j.content_hash,"parser_version":j.parser_version,"status":j.status,"data_quality_score":j.data_quality_score}
+    return {"id":j.id,"title":j.title,"company":j.company_name or j.source.company.name,"company_id":j.source.company_id,"source_id":j.source_id,"source":j.source.connector,"location":j.location,"department":j.department,"employment_type":j.employment_type,"description":j.description,"url":j.url,"apply_url":j.apply_url or j.url,"posted_at":j.posted_at,"first_seen_at":j.first_seen_at,"last_seen_at":j.last_seen_at,"team_name":j.team_name,"seniority":j.seniority,"summary":j.summary,"work_mode":j.work_mode,"location_city":j.location_city,"location_region":j.location_region,"location_country":j.location_country,"eligible_countries":j.eligible_countries or [],"remote_scope":j.remote_scope,"visa_sponsorship":j.visa_sponsorship,"relocation_available":j.relocation_available,"timezone_requirements":j.timezone_requirements,"salary_min":j.salary_min,"salary_max":j.salary_max,"salary_currency":j.salary_currency,"salary_period":j.salary_period,"compensation_type":j.compensation_type,"compensation_text":j.compensation_text,"benefits":j.benefits or [],"required_skills":j.required_skills or [],"preferred_skills":j.preferred_skills or [],"programming_languages":j.programming_languages or [],"tech_stack":j.tech_stack or [],"education_requirements":j.education_requirements,"experience_min_months":j.experience_min_months,"graduation_years":j.graduation_years or [],"visa_or_work_auth":j.visa_or_work_auth,"application_method":j.application_method,"application_email":j.application_email,"application_deadline":j.application_deadline,"content_hash":j.content_hash,"parser_version":j.parser_version,"status":j.status,"data_quality_score":j.data_quality_score}
 @app.get("/api/health")
 def health():
     with engine.connect() as c: c.execute(text("SELECT 1"))
@@ -50,24 +51,40 @@ def connectors():
 def stats(db:Session=Depends(get_db)):
     return {"jobs":db.scalar(select(func.count(Job.id)).where(Job.active.is_(True))) or 0,"companies":db.scalar(select(func.count(Company.id))) or 0,"sources":db.scalar(select(func.count(Source.id)).where(Source.active.is_(True))) or 0,"runs":db.scalar(select(func.count(ConnectorRun.id))) or 0,"queued":queue.count}
 @app.get("/api/jobs")
-def list_jobs(search:str="",location:str="",company:str="",employment_type:str="",source:str="",remote:bool|None=None,limit:int=Query(50,ge=1,le=200),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
+def list_jobs(search:str="",location:str="",company:str="",employment_type:str="",source:str="",remote:bool|None=None,work_mode:str="",country:str="",skill:str="",posted_after:str="",min_salary:float|None=None,salary_currency:str="",sort:str=Query("newest",pattern="^(newest|relevance|deadline)$"),limit:int=Query(50,ge=1,le=100),offset:int=Query(0,ge=0),db:Session=Depends(get_db)):
     stmt=select(Job).join(Source).join(Company).options(joinedload(Job.source).joinedload(Source.company)).where(Job.active.is_(True))
     if search.strip():
-        q=f"%{search.strip()}%"; stmt=stmt.where(or_(Job.title.ilike(q),Job.description.ilike(q),Job.department.ilike(q),Job.company_name.ilike(q),Company.name.ilike(q)))
+        q=f"%{search.strip()}%"; stmt=stmt.where(or_(Job.title.ilike(q),Job.description.ilike(q),Job.department.ilike(q),Job.company_name.ilike(q),Company.name.ilike(q),cast(Job.required_skills,String).ilike(q),cast(Job.tech_stack,String).ilike(q)))
     if location.strip(): stmt=stmt.where(Job.location.ilike(f"%{location.strip()}%"))
     if company.strip(): stmt=stmt.where(or_(Job.company_name.ilike(f"%{company.strip()}%"),Company.name.ilike(f"%{company.strip()}%")))
     if employment_type.strip(): stmt=stmt.where(Job.employment_type.ilike(f"%{employment_type.strip()}%"))
     if source.strip(): stmt=stmt.where(Source.connector==source.strip())
-    if remote is True: stmt=stmt.where(or_(Job.location.ilike("%remote%"),Job.employment_type.ilike("%remote%")))
-    stmt=stmt.order_by(Job.first_seen_at.desc()).offset(offset).limit(limit)
-    return [job_json(j) for j in db.scalars(stmt).unique().all()]
+    if remote is True: stmt=stmt.where(Job.work_mode=="Remote")
+    if work_mode.strip(): stmt=stmt.where(Job.work_mode==work_mode.strip())
+    if country.strip(): stmt=stmt.where(Job.location_country.ilike(f"%{country.strip()}%"))
+    if skill.strip(): stmt=stmt.where(or_(cast(Job.required_skills,String).ilike(f"%{skill.strip()}%"),cast(Job.tech_stack,String).ilike(f"%{skill.strip()}%")))
+    if salary_currency.strip(): stmt=stmt.where(Job.salary_currency==salary_currency.strip().upper())
+    if min_salary is not None: stmt=stmt.where(Job.salary_max >= min_salary)
+    if posted_after.strip(): stmt=stmt.where(Job.posted_at >= posted_after.strip())
+    total=db.scalar(select(func.count()).select_from(stmt.order_by(None).subquery())) or 0
+    if sort=="deadline": stmt=stmt.order_by(Job.application_deadline.is_(None),asc(Job.application_deadline),desc(Job.first_seen_at))
+    elif sort=="relevance" and search.strip():
+        q=f"%{search.strip()}%"; stmt=stmt.order_by(desc(case((Job.title.ilike(q),3),(Company.name.ilike(q),2),(Job.description.ilike(q),1),else_=0)),desc(Job.first_seen_at))
+    else: stmt=stmt.order_by(desc(Job.first_seen_at))
+    rows=db.scalars(stmt.offset(offset).limit(limit)).unique().all()
+    return {"items":[job_json(j) for j in rows],"total":total,"limit":limit,"offset":offset,"has_more":offset+len(rows)<total,"sort":sort}
 @app.get("/api/filters")
 def filters(db:Session=Depends(get_db)):
     companies=db.scalars(select(Company.name).join(Source).join(Job).where(Job.active.is_(True)).distinct().order_by(Company.name)).all()
     types=db.scalars(select(Job.employment_type).where(Job.active.is_(True),Job.employment_type.is_not(None)).distinct().order_by(Job.employment_type)).all()
     sources=db.scalars(select(Source.connector).join(Job).where(Job.active.is_(True)).distinct().order_by(Source.connector)).all()
     locations=db.scalars(select(Job.location).where(Job.active.is_(True),Job.location.is_not(None)).distinct().order_by(Job.location).limit(200)).all()
-    return {"companies":companies,"employment_types":types,"sources":sources,"locations":locations}
+    modes=db.scalars(select(Job.work_mode).where(Job.active.is_(True),Job.work_mode.is_not(None)).distinct().order_by(Job.work_mode)).all()
+    countries=db.scalars(select(Job.location_country).where(Job.active.is_(True),Job.location_country.is_not(None)).distinct().order_by(Job.location_country)).all()
+    skills=db.scalars(select(Job.required_skills).where(Job.active.is_(True))).all()
+    currencies=db.scalars(select(Job.salary_currency).where(Job.active.is_(True),Job.salary_currency.is_not(None)).distinct().order_by(Job.salary_currency)).all()
+    skill_values=sorted({skill for row in skills for skill in (row or [])})
+    return {"companies":companies,"employment_types":types,"sources":sources,"locations":locations,"work_modes":modes,"countries":countries,"skills":skill_values,"currencies":currencies}
 @app.get("/api/jobs/{job_id}")
 def get_job(job_id:int,db:Session=Depends(get_db)):
     j=db.scalar(select(Job).options(joinedload(Job.source).joinedload(Source.company)).where(Job.id==job_id))
