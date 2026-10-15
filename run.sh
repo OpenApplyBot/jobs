@@ -136,14 +136,7 @@ done
 printf '\n'
 [[ "$ready" -eq 1 ]] || die "API did not become healthy within 4 minutes. Check the service logs above."
 
-log "Seeding company registry (safe to rerun)."
-if ! dc exec -T api python scripts/seed_companies.py; then
-  die "Company seeding failed. The stack is running; inspect API logs, fix the cause, and rerun ./run.sh."
-fi
-
-log "Queueing every active scraper."
-queue_response="$(curl --connect-timeout 5 --max-time 20 -fsS -X POST http://127.0.0.1:8000/api/connectors/run-all)" || die "Could not queue the scraper run. The app is up; inspect API logs and retry from the dashboard/API."
-printf 'Queued scraper jobs: %s\n' "$queue_response"
+log "System is ready. Scrapers were not queued by run.sh."
 
 if [[ "$FOLLOW_LOGS" == "1" ]]; then
   log "Following all service logs until the scraper queue is fully processed."
