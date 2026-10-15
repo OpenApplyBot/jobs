@@ -3,12 +3,17 @@ from html import unescape
 import re
 from urllib.parse import urljoin, urlparse
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 HEADERS = {"User-Agent": "OpenApplyBot-Jobs/1.0 (+https://github.com/OpenApplyBot/jobs; public job indexer)"}
 TIMEOUT = 20
+HTTP = requests.Session()
+HTTP.mount("https://", HTTPAdapter(max_retries=Retry(total=3, connect=3, read=2, backoff_factor=0.4, status_forcelist=(429, 500, 502, 503, 504), allowed_methods=frozenset({"GET"}), respect_retry_after_header=True)))
+HTTP.mount("http://", HTTPAdapter(max_retries=Retry(total=3, connect=3, read=2, backoff_factor=0.4, status_forcelist=(429, 500, 502, 503, 504), allowed_methods=frozenset({"GET"}), respect_retry_after_header=True)))
 
 def get(url, *, params=None):
-    r = requests.get(url, params=params, headers=HEADERS, timeout=TIMEOUT)
+    r = HTTP.get(url, params=params, headers=HEADERS, timeout=TIMEOUT)
     r.raise_for_status()
     return r
 
