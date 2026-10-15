@@ -2,16 +2,20 @@
 
 Local-first job index: **PostgreSQL → Redis queue → isolated scrapers → normalization/deduplication → indexed API → searchable dashboard**. Docker Compose runs the complete stack locally; no cloud database or hosted queue is required.
 
-## Start everything
+## Local commands
 
-Requirements: Docker Engine, Docker Compose v2, and curl. From the repo root:
+Run these from the repository root. The scripts are intentionally separated so starting the UI/API does not automatically launch scraper jobs.
 
-```bash
-chmod +x run.sh  # only if needed
-./run.sh
-```
+| Command | Purpose |
+|---|---|
+| `bash run.sh` | Build/start the local database, Redis, API, workers, scheduler and frontend. Preserves existing data; does not queue a scrape. |
+| `bash run-scrapers.sh` | Ensure PostgreSQL, Redis, API and workers are up; seed the source registry and queue all active scrapers. |
+| `bash reset-db.sh` | Stop services and delete local PostgreSQL/Redis volumes after typing `RESET`. |
+| `bash run-from-scratch.sh` | Confirm destructive reset, recreate the system, then seed and queue scrapers. |
+| `docker compose logs -f worker` | Watch scraper progress. |
+| `docker compose ps` | Inspect service health. |
 
-The launcher builds and starts PostgreSQL, Redis, FastAPI, the RQ worker, the recurring scheduler, and the static React dashboard. It seeds the company list, queues every active scraper, and follows API, worker, scheduler, database, Redis, and frontend logs in the terminal. The scheduler queues sources every six hours (override with `SYNC_INTERVAL_SECONDS` in your shell/environment if desired). Set `FOLLOW_LOGS=0` to leave the stack running without following logs.
+The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. To avoid accidental deletion, `--yes` is supported for automation, but should only be used deliberately. Scripts can be run with `bash <script>` without executable permissions.
 
 - Dashboard: http://localhost:5173
 - API / OpenAPI docs: http://localhost:8000/docs
