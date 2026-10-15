@@ -22,6 +22,14 @@ async def lifespan(app):
             c.execute(text("CREATE EXTENSION IF NOT EXISTS pg_trgm"))
             for col in ("title","company_name","location","description"):
                 c.execute(text(f"CREATE INDEX IF NOT EXISTS ix_jobs_{col}_trgm ON jobs USING gin ({col} gin_trgm_ops)"))
+            for statement in (
+                "CREATE INDEX IF NOT EXISTS ix_jobs_active_seen ON jobs (active, first_seen_at DESC)",
+                "CREATE INDEX IF NOT EXISTS ix_jobs_active_company ON jobs (active, company_name)",
+                "CREATE INDEX IF NOT EXISTS ix_jobs_active_mode ON jobs (active, work_mode)",
+                "CREATE INDEX IF NOT EXISTS ix_jobs_active_country ON jobs (active, location_country)",
+                "CREATE INDEX IF NOT EXISTS ix_runs_source_started ON connector_runs (source_id, started_at DESC)",
+            ):
+                c.execute(text(statement))
     except Exception:
         pass
     yield
