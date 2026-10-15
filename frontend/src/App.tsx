@@ -2,6 +2,11 @@ import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
+  Activity,
+  Database,
+  ExternalLink,
+  Play,
+  Plus,
   BriefcaseBusiness,
   Check,
   ChevronDown,
@@ -441,6 +446,8 @@ function Header({ onSync, syncing }: { onSync: () => void; syncing: boolean }) {
       </a>
       <nav>
         <a href="/">Explore</a>
+        <a href="/sources">Sources</a>
+        <a href="/runs">Run history</a>
         <button
           className="button primary-button"
           onClick={onSync}
@@ -734,4 +741,103 @@ function Info({ label, value }: { label: string; value: string }) {
       <strong>{value}</strong>
     </div>
   );
+}
+
+
+type SourceRow = {
+  id: number; company: string; careers_url: string | null; connector: string;
+  board_token: string; active: boolean; last_run_at: string | null; last_error: string | null;
+};
+type RunRow = {
+  id: number; source_id: number | null; connector: string; started_at: string;
+  finished_at: string | null; fetched: number; inserted: number; updated: number;
+  status: string; error: string | null;
+};
+
+function SourcesPage() {
+  const [sources, setSources] = useState<SourceRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState<number | null>(null);
+  const [company, setCompany] = useState("");
+  const [url, setUrl] = useState("");
+  const [connector, setConnector] = useState("auto");
+  const [token, setToken] = useState("");
+  const [adding, setAdding] = useState(false);
+  async function load() {
+    setLoading(true);
+    try {
+      const r = await fetch(`${API}/api/sources`);
+      if (!r.ok) throw new Error("Could not load sources from the local API.");
+      setSources(await r.json()); setError("");
+    } catch (e) { setError(e instanceof Error ? e.message : "Request failed."); }
+    finally { setLoading(false); }
+  }
+  useEffect(() => { void load(); }, []);
+  async function addSource(e: React.FormEvent) {
+    e.preventDefault(); setAdding(true); setError(""); setNotice("");
+    try {
+      const r = await fetch(`${API}/api/sources`, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({company_name:company,careers_url:url,connector,board_token:token || undefined})});
+      const body = await r.json();
+      if (!r.ok) throw new Error(body.detail || "Could not add source.");
+      setCompany(""); setUrl(""); setToken(""); setNotice("Source registered. You can queue it when ready."); await load();
+    } catch (e) { setError(e instanceof Error ? e.message : "Request failed."); }
+    finally { setAdding(false); }
+  }
+  async function runSource(id:number) {
+    setBusy(id); setError(""); setNotice("");
+    try {
+      const r = await fetch(`${API}/api/sources/${id}/run`, {method:"POST"});
+      const body = await r.json();
+      if (!r.ok) throw new Error(body.detail || "Could not queue source.");
+      setNotice(`Source #${id} queued successfully.`);
+    } catch (e) { setError(e instanceof Error ? e.message : "Request failed."); }
+    finally { setBusy(null); }
+  }
+  return <main className="app-shell">
+    <Header onSync={async()=>{try{const r=await fetch(`${API}/api/connectors/run-all`,{method:"POST"});if(!r.ok)throw new Error("Could not queue scrapers.");setNotice("All active sources queued.");}catch(e){setError(e instanceof Error?e.message:"Request failed.");}}} syncing={false}/>
+    <section className="page-heading"><p className="kicker"><Database size={14}/> INGESTION CONTROL</p><h1>Source <em>registry.</em></h1><p className="lede">Manage public job feeds and employer career pages connected to your local index.</p></section>
+    {error && <div className="notice error-state">{error}</div>}{notice && <div className="notice success-state">{notice}</div>}
+    <section className="panel">
+      <h2><Plus size={18}/> Register a source</h2>
+      <form className="source-form" onSubmit={addSource}>
+        <label>Company name<input required value={company} onChange={e=>setCompany(e.target.value)} placeholder="Example: Example Inc."/></label>
+        <label>Public careers URL<input type="url" value={url} onChange={e=>setUrl(e.target.value)} placeholder="https://company.com/careers"/></label>
+        <label>Connector<select value={connector} onChange={e=>setConnector(e.target.value)}>{["auto","jsonld","greenhouse","lever","ashby","smartrecruiters","workable","recruitee","workday","remoteok","remotive","arbeitnow","themuse","jobicy","himalayas"].map(x=><option key={x}>{x}</option>)}</select></label>
+        <label>Board ID / keyword<input value={token} onChange={e=>setToken(e.target.value)} placeholder={["auto","jsonld","workday"].includes(connector)?"Optional; defaults to careers URL":"Required for this connector"}/></label>
+        <button className="button primary-button" disabled={adding}><Plus size={15}/>{adding?"Adding source…":"Add source"}</button>
+      </form>
+      <p className="muted-note">Use verified public board IDs for ATS connectors. Auto-discovery does not guarantee every website is crawlable.</p>
+    </section>
+    <section className="panel">
+      <div className="panel-heading"><h2>Registered sources <span>{sources.length}</span></h2><button className="button outline-button" onClick={()=>void load()}>Refresh list</button></div>
+      {loading ? <p className="muted-note">Loading sources…</p> : sources.length===0 ? <p className="muted-note">No sources yet. Add one above or run the scraper command to seed the employer registry.</p> :
+        <div className="table-scroll"><table className="data-table"><thead><tr><th>Company / source</th><th>Connector</th><th>Last run</th><th>State</th><th></th></tr></thead><tbody>{sources.map(s=><tr key={s.id}><td><strong>{s.company}</strong><small>{s.careers_url || s.board_token}</small>{s.last_error && <small className="error-text">{s.last_error}</small>}</td><td><code>{s.connector}</code></td><td>{s.last_run_at ? formatDate(s.last_run_at) : "Never"}</td><td><span className={`status ${s.last_error?"status-unverified":"status-open"}`}>{s.last_error?"Error":s.active?"Active":"Inactive"}</span></td><td><button className="button outline-button" disabled={!s.active || busy===s.id} onClick={()=>void runSource(s.id)}><Play size={13}/>{busy===s.id?"Queueing":"Run"}</button></td></tr>)}</tbody></table></div>}
+    </section>
+    <footer><span>LOCAL-FIRST · SOURCE CONTROL</span><a href="/runs">View run history <ExternalLink size={13}/></a><a href="/">Back to jobs</a></footer>
+  </main>;
+}
+
+function RunsPage() {
+  const [runs,setRuns] = useState<RunRow[]>([]);
+  const [loading,setLoading] = useState(true);
+  const [error,setError] = useState("");
+  async function load() {
+    setLoading(true);
+    try { const r=await fetch(`${API}/api/runs?limit=100`); if(!r.ok)throw new Error("Could not load run history."); setRuns(await r.json()); setError(""); }
+    catch(e){setError(e instanceof Error?e.message:"Request failed.");}
+    finally{setLoading(false);}
+  }
+  useEffect(()=>{void load();const timer=window.setInterval(()=>void load(),15000);return()=>window.clearInterval(timer);},[]);
+  return <main className="app-shell">
+    <Header onSync={async()=>{await fetch(`${API}/api/connectors/run-all`,{method:"POST"});}} syncing={false}/>
+    <section className="page-heading"><p className="kicker"><Activity size={14}/> PIPELINE OBSERVABILITY</p><h1>Run <em>history.</em></h1><p className="lede">Recent scraper executions, fetched records, changes and failures. Refreshes every 15 seconds.</p></section>
+    {error && <div className="notice error-state">{error}</div>}
+    <section className="panel"><div className="panel-heading"><h2>Recent executions <span>{runs.length}</span></h2><button className="button outline-button" onClick={()=>void load()}>Refresh</button></div>
+    {loading ? <p className="muted-note">Loading run history…</p> : runs.length===0 ? <p className="muted-note">No scraper runs recorded yet. Queue sources from the source registry.</p> :
+      <div className="table-scroll"><table className="data-table"><thead><tr><th>Started</th><th>Connector</th><th>Source</th><th>Fetched</th><th>Inserted</th><th>Updated</th><th>Status</th></tr></thead><tbody>{runs.map(r=><tr key={r.id}><td>{formatDate(r.started_at)}</td><td><code>{r.connector}</code></td><td>{r.source_id ?? "—"}</td><td>{r.fetched}</td><td>{r.inserted}</td><td>{r.updated}</td><td><span className={`status ${r.status==="success"?"status-open":"status-unverified"}`}>{r.status}</span>{r.error&&<small className="error-text">{r.error}</small>}</td></tr>)}</tbody></table></div>}
+    </section>
+    <footer><span>LOCAL-FIRST · PIPELINE HEALTH</span><a href="/sources">Manage sources</a><a href="/">Back to jobs</a></footer>
+  </main>;
 }
