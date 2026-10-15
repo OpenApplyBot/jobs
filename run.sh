@@ -4,6 +4,7 @@ ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 if ! command -v docker >/dev/null 2>&1; then echo "Docker is required. Install Docker Engine and the Compose plugin." >&2; exit 1; fi
 if ! docker compose version >/dev/null 2>&1; then echo "Docker Compose v2 plugin is required." >&2; exit 1; fi
+if ! command -v curl >/dev/null 2>&1; then echo "curl is required for the local health check." >&2; exit 1; fi
 printf '\n OpenApplyBot Jobs — local stack\n\n'
 docker compose up -d --build
 printf '\nWaiting for API/Postgres/Redis health'
