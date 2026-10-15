@@ -13,44 +13,65 @@ Run these from the repository root. The scripts are intentionally separated so s
 | `bash reset-db.sh` | Stop services and delete local PostgreSQL/Redis volumes after typing `RESET`. |
 | `bash run-from-scratch.sh` | Confirm destructive reset, recreate the system, then seed and queue scrapers. |
 | `docker compose logs -f worker` | Watch scraper progress. |
-| `docker compose ps` | Inspect service health. |
 
-The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. To avoid accidental deletion, `--yes` is supported for automation, but should only be used deliberately. Scripts can be run with `bash <script>` without executable permissions.
+The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. Scripts can be run with `bash <script>` without executable permissions.
 
 - Dashboard: http://localhost:5173
 - Source registry: http://localhost:5173/sources
 - Scraper run history: http://localhost:5173/runs
 - API / OpenAPI docs: http://localhost:8000/docs
-- Health (checks Postgres and Redis): http://localhost:8000/api/health
+- Health: http://localhost:8000/api/health
 - Connector registry: http://localhost:8000/api/connectors
 - Queue state: http://localhost:8000/api/queue
-- PostgreSQL: localhost:5432, local development credentials `jobs/jobs`
 
-The UI includes the searchable job directory, source registration and per-source run controls, plus recent scraper run history and error reporting. The directory supports server-side query parameters such as `search`, `company`, `employment_type`, `work_mode`, `country`, `skill`, `sort=newest|relevance|deadline`, `limit`, and `offset`. Job details are available at `/jobs/{id}` in the dashboard and `/api/jobs/{id}` in the API. Scraped HTML is normalized and rendered as text; raw source payloads remain in the local database and are not exposed publicly.
+## Import and scrape the 500-company CSV
 
-Data persists in Docker volumes. `docker compose down` stops the stack without deleting data. `docker compose down -v` deletes the local database and queue volumes.
+Download `top_500_official_company_careers.csv` into the repository root. The URLs are candidates and **must not be treated as pre-verified**. This workflow uses only employer-owned careers URLs from the CSV; discovered ATS pages are used only when linked from those pages. No fake or fixture jobs are inserted.
+
+Start the local stack first:
+
+```bash
+bash run.sh
+```
+
+Then from the repository root, run a small live batch first (50 companies):
+
+```docker compose exec -T api python -m app.scrape_company_csv --csv /app/top_500_official_company_careers.csv --offset 0 --limit 50 --report /app/company_scrape_report.jsonl```
+
+If the CSV is on the host and not mounted into the API container, run the command from `backend/` against the host file using your local Python environment configured for the same `DATABASE_URL` and `REDIS_URL`:
+
+```bash
+cd backend
+python -m app.scrape_company_csv --csv ../top_500_official_company_careers.csv --offset 0 --limit 50 --report ../company_scrape_report.jsonl
+```
+
+Continue in non-overlapping batches:
+
+```bash
+python -m app.scrape_company_csv --csv ../top_500_official_company_careers.csv --offset 50 --limit 50 --report ../company_scrape_report.jsonl
+python -m app.scrape_company_csv --csv ../top_500_official_company_careers.csv --offset 100 --limit 50 --report ../company_scrape_report.jsonl
+# Continue offsets 150, 200, 250, 300, 350, 400, 450.
+```
+
+For all remaining rows in one run, omit `--offset` and `--limit`; this may take a long time and rate limits/blocked sites will still fail. The command runs the real production connector/worker path synchronously, persists successful job results to PostgreSQL, and appends per-source outcomes to the JSONL report. Check failed/empty results rather than interpreting registration as proof of coverage. It is idempotent for company/source registration, but scraping the same source again creates another run record.
+
+The source registry's `active` state is not proof a site works. A source is successful only when the live connector returns listings; zero-job and error results are preserved in run history for follow-up.
 
 ## Pipeline
 
-1. The seed registry adds the 47 user-specified employer careers URLs and registers each as an `auto` source. It does not guess ATS board IDs.
-2. Auto-discovery checks public careers-page markup for supported ATS links (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Workday) and tries the provider's public endpoint. Otherwise it extracts Schema.org `JobPosting` JSON-LD from the public page and same-site career/job links.
-3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific API adapters (including Workday CXS) live in separate files too.
-4. Every result is normalized to a common schema, deduplicated within a fetch, then upserted by `(source_id, source_job_id)`. Failed fetches are recorded and do not deactivate existing jobs. Only a successful non-empty fetch deactivates listings no longer returned by that source, preventing an empty/blocked page from hiding all stored jobs.
-5. PostgreSQL stores canonical jobs and source/run state. B-tree indexes support common filters and optional `pg_trgm` GIN indexes accelerate substring search. Redis/RQ buffers scraper tasks so API requests do not wait on slow websites.
-6. FastAPI exposes searchable/filterable jobs, source management, sync controls, queue health, and run history. The React page reads from this API.
+1. Existing seed registry covers 47 employer careers URLs. The CSV batch importer can add the 500-company candidates without guessing ATS board IDs.
+2. Auto-discovery inspects public careers-page links for Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, and Workday. It uses a provider's public API only when the provider URL/token is evidenced by the careers page, then falls back to Schema.org `JobPosting` JSON-LD.
+3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific adapters, including Workday CXS, live in separate files.
+4. Results are normalized and deduplicated, then upserted. Failed fetches are recorded and do not deactivate existing jobs. Only a successful non-empty fetch deactivates listings no longer returned by that source.
+5. PostgreSQL stores canonical jobs and source/run state. Redis/RQ buffers queued scraper tasks so API requests do not wait on slow websites.
+6. FastAPI exposes searchable/filterable jobs, source management, sync controls, queue health, and run history.
 
 ## Scraper policy and limitations
 
-Scrapers use public APIs and public careers pages, with bounded request timeouts. They do not log in, bypass CAPTCHAs, evade access controls, or scrape private job portals. Each company's careers page is seeded as an auto-discovery source, but **not every site necessarily exposes a supported public ATS link or JSON-LD**; JS-only portals and blocked pages need a verified, site-specific public integration. A registered source is not proof that it has returned jobs. Inspect `/api/runs`, `/api/sources`, and `docker compose logs -f worker` to validate each source's result/error before relying on its coverage.
-
-## Add a source
-
-Use `POST /api/sources` with company name and official careers URL. The default `auto` connector discovers known public ATS links and falls back to JSON-LD. Use an explicit provider only when its public board identifier has been verified from that employer's official careers page. Use public APIs with `board_token: "all"` or a provider-supported search keyword.
+Scrapers use public APIs and public careers pages with bounded request timeouts. They do not log in, bypass CAPTCHAs, evade access controls, or scrape private job portals. **Not every site necessarily exposes a supported public ATS link or JSON-LD**; JS-only portals and blocked pages may need a verified, site-specific public integration. The importer intentionally does not fabricate jobs or mark untested URLs as verified.
 
 ## Development and tests
 
 Backend tests run with SQLite in CI as an isolated test database; the local application itself uses PostgreSQL. Run backend tests from `backend/` with Redis available locally: `docker compose up -d redis`, then `DATABASE_URL=sqlite:///./test.db REDIS_URL=redis://localhost:6379/0 pytest -q`. Build the frontend from `frontend/` with `npm install && npm run build`.
 
-For a complete local verification, run `FOLLOW_LOGS=0 ./run.sh`, then check `http://127.0.0.1:8000/api/health`, `http://127.0.0.1:8000/api/jobs?limit=10`, and `http://localhost:5173`. PostgreSQL schema changes are applied automatically at API startup without dropping existing records. Back up the local database with `docker compose exec -T postgres pg_dump -U jobs jobs > jobs-backup.sql`; restore with `cat jobs-backup.sql | docker compose exec -T postgres psql -U jobs jobs`.
-
-To run one source, use `curl -X POST http://127.0.0.1:8000/api/sources/{source_id}/run`; to run all active sources, use `curl -X POST http://127.0.0.1:8000/api/connectors/run-all`. Source failures are recorded and do not close existing jobs automatically. Public pages that require authentication, CAPTCHA bypass, or blocked access remain unsupported by design.
+For a complete local verification, check `http://127.0.0.1:8000/api/health`, `http://127.0.0.1:8000/api/jobs?limit=10`, and `http://localhost:5173`. Back up the local database with `docker compose exec -T postgres pg_dump -U jobs jobs > jobs-backup.sql`; restore with `cat jobs-backup.sql | docker compose exec -T postgres psql -U jobs jobs`.
