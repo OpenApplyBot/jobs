@@ -26,8 +26,9 @@ def run_source(source_id):
                 else: updated+=1
                 for key in ("title","company_name","location","department","employment_type","description","url","posted_at"): setattr(job,key,item.get(key))
                 job.active=True; job.last_seen_at=now()
-            for sid,job in existing.items():
-                if sid not in seen: job.active=False
+            if items:
+                for sid,job in existing.items():
+                    if sid not in seen: job.active=False
             source.last_run_at=now(); source.last_error=None; run.finished_at=now(); run.fetched=len(items); run.inserted=inserted; run.updated=updated; run.status="success"; db.commit()
             return {"source_id":source_id,"status":"success","fetched":len(items),"inserted":inserted,"updated":updated}
     except Exception as exc:
