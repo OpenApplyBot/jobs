@@ -6,6 +6,7 @@ set -Eeuo pipefail
 ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 DOCKER=(docker)
+export COMPOSE_BAKE=false
 dc() { "${DOCKER[@]}" compose "$@"; }
 log() { printf '\n[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
 die() { printf '\nERROR: %s\n' "$*" >&2; exit 1; }
@@ -73,6 +74,22 @@ if ! docker info >/dev/null 2>&1; then
 fi
 "${DOCKER[@]}" compose version
 
+# Diagnose disk exhaustion before retrying expensive builds. Reclaim only Docker
+# build cache and dangling images; never prune named volumes or active containers.
+disk_available_kb() {
+  df -Pk "$ROOT" 2>/dev/null | awk 'NR==2 {print $4}'
+}
+available_kb="$(disk_available_kb || echo 0)"
+if [[ "$available_kb" =~ ^[0-9]+$ ]] && (( available_kb < 2097152 )); then
+  log "Low disk space detected ($(awk "BEGIN {printf \"%.2f\", $available_kb/1048576}" 2>/dev/null || echo unknown) GiB available). Attempting safe Docker cache cleanup."
+  dc builder prune -af || true
+  "${DOCKER[@]}" image prune -f || true
+  available_kb="$(disk_available_kb || echo 0)"
+  if [[ "$available_kb" =~ ^[0-9]+$ ]] && (( available_kb < 524288 )); then
+    die "Less than 512 MiB disk space is available after safe cache cleanup. Free disk space manually, then rerun ./run.sh. Database volumes were not deleted."
+  fi
+fi
+
 log "Starting PostgreSQL, Redis, API, workers, scheduler and dashboard."
 started=0
 for attempt in 1 2 3; do
@@ -82,6 +99,13 @@ for attempt in 1 2 3; do
   fi
   echo "Stack startup attempt $attempt/3 failed." >&2
   dc logs --tail=60 >&2 || true
+  # If a build or database initialization ran out of space, reclaim only caches
+  # and retry once resources have been recovered. Do not touch named volumes.
+  if dc logs --tail=100 2>&1 | grep -qiE 'no space left on device|no space left'; then
+    log "Disk exhaustion detected in container logs; cleaning disposable Docker build cache."
+    dc builder prune -af || true
+    "${DOCKER[@]}" image prune -f || true
+  fi
   if [[ "$attempt" -lt 3 ]]; then
     log "Recovering by checking Docker and retrying in 4 seconds."
     if command -v systemctl >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1; then
