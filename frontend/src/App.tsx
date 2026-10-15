@@ -141,7 +141,10 @@ function humanAge(value: string | null) {
 }
 
 export default function App() {
-  const detailId = location.pathname.match(/^\/jobs\/(\d+)$/)?.[1];
+  const path = location.pathname;
+  const detailId = path.match(/^\/jobs\/(\d+)$/)?.[1];
+  if (path === "/sources") return <SourcesPage />;
+  if (path === "/runs") return <RunsPage />;
   return detailId ? <JobDetail id={detailId} /> : <Directory />;
 }
 
