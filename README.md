@@ -41,4 +41,4 @@ Use `POST /api/sources` with company name and official careers URL. The default 
 
 ## Development and tests
 
-Backend tests run with SQLite in CI as an isolated test database; the local application itself uses PostgreSQL. Run backend tests from `backend/` with `DATABASE_URL=sqlite:///./test.db pytest -q`. Build the frontend from `frontend/` with `npm install && npm run build`.
+Backend tests run with SQLite in CI as an isolated test database; the local application itself uses PostgreSQL. Run backend tests from `backend/` with Redis available locally: `docker compose up -d redis`, then `DATABASE_URL=sqlite:///./test.db REDIS_URL=redis://localhost:6379/0 pytest -q`. Build the frontend from `frontend/` with `npm install && npm run build`.
