@@ -24,7 +24,7 @@ Data persists in Docker volumes. `docker compose down` stops the stack without d
 
 ## Pipeline
 
-1. The seed registry adds the 46 user-specified employer careers URLs and registers each as an `auto` source. It does not guess ATS board IDs.
+1. The seed registry adds the 47 user-specified employer careers URLs and registers each as an `auto` source. It does not guess ATS board IDs.
 2. Auto-discovery checks public careers-page markup for supported ATS links (Greenhouse, Lever, Ashby, SmartRecruiters, Workable) and tries the provider's public endpoint. Otherwise it extracts Schema.org `JobPosting` JSON-LD from the public page and same-site career/job links.
 3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific API adapters live in separate files too.
 4. Every result is normalized to a common schema, deduplicated within a fetch, then upserted by `(source_id, source_job_id)`. Failed fetches are recorded and do not deactivate existing jobs. A successful fetch deactivates listings no longer returned by that source.
