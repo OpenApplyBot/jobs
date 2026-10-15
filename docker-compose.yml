@@ -3,43 +3,82 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: jobs
-      POSTGRES_USER: jobs
-      POSTGRES_PASSWORD: jobs
-    volumes: ["postgres_data:/var/lib/postgresql/data"]
-    healthcheck: {test: ["CMD-SHELL", "pg_isready -U jobs -d jobs"], interval: 5s, timeout: 3s, retries: 20}
+      POSTGRES_DB: ${POSTGRES_DB:-jobs}
+      POSTGRES_USER: ${POSTGRES_USER:-jobs}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jobs}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-jobs} -d ${POSTGRES_DB:-jobs}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 10s
     restart: unless-stopped
+    shm_size: 128mb
+    command: ["postgres", "-c", "max_connections=60", "-c", "shared_buffers=128MB", "-c", "effective_cache_size=384MB", "-c", "work_mem=4MB"]
   redis:
     image: redis:7-alpine
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes: ["redis_data:/data"]
-    healthcheck: {test: ["CMD", "redis-cli", "ping"], interval: 5s, timeout: 3s, retries: 20}
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "${REDIS_MAXMEMORY:-128mb}", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
     restart: unless-stopped
   api:
     build: ./backend
     environment:
-      DATABASE_URL: postgresql+psycopg://jobs:jobs@postgres:5432/jobs
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-jobs}:${POSTGRES_PASSWORD:-jobs}@postgres:5432/${POSTGRES_DB:-jobs}
       REDIS_URL: redis://redis:6379/0
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-3}
+      DB_MAX_OVERFLOW: ${DB_MAX_OVERFLOW:-2}
     ports: ["127.0.0.1:8000:8000"]
-    depends_on: {postgres: {condition: service_healthy}, redis: {condition: service_healthy}}
-    healthcheck: {test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"], interval: 10s, timeout: 5s, retries: 12}
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
     restart: unless-stopped
+    init: true
   worker:
     build: ./backend
     command: ["rq", "worker", "--url", "redis://redis:6379/0", "job-scrapes"]
-    environment: {DATABASE_URL: postgresql+psycopg://jobs:jobs@postgres:5432/jobs, REDIS_URL: redis://redis:6379/0}
-    depends_on: {postgres: {condition: service_healthy}, redis: {condition: service_healthy}}
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-jobs}:${POSTGRES_PASSWORD:-jobs}@postgres:5432/${POSTGRES_DB:-jobs}
+      REDIS_URL: redis://redis:6379/0
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-2}
+      DB_MAX_OVERFLOW: ${DB_MAX_OVERFLOW:-1}
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
     restart: unless-stopped
+    init: true
   scheduler:
     build: ./backend
     command: ["python", "-m", "app.scheduler"]
-    environment: {DATABASE_URL: postgresql+psycopg://jobs:jobs@postgres:5432/jobs, REDIS_URL: redis://redis:6379/0, SYNC_INTERVAL_SECONDS: "${SYNC_INTERVAL_SECONDS:-21600}"}
-    depends_on: {postgres: {condition: service_healthy}, redis: {condition: service_healthy}}
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-jobs}:${POSTGRES_PASSWORD:-jobs}@postgres:5432/${POSTGRES_DB:-jobs}
+      REDIS_URL: redis://redis:6379/0
+      DB_POOL_SIZE: 1
+      DB_MAX_OVERFLOW: 1
+      SYNC_INTERVAL_SECONDS: "${SYNC_INTERVAL_SECONDS:-21600}"
+    depends_on:
+      postgres: {condition: service_healthy}
+      redis: {condition: service_healthy}
     restart: unless-stopped
+    init: true
   frontend:
     build: ./frontend
     ports: ["127.0.0.1:5173:80"]
-    depends_on: {api: {condition: service_healthy}}
+    depends_on:
+      api: {condition: service_healthy}
     restart: unless-stopped
 volumes:
   postgres_data:
