@@ -6,7 +6,7 @@ if ! command -v docker >/dev/null 2>&1; then echo "Docker is required. Install D
 if ! docker compose version >/dev/null 2>&1; then echo "Docker Compose v2 plugin is required." >&2; exit 1; fi
 if ! command -v curl >/dev/null 2>&1; then echo "curl is required for the local health check." >&2; exit 1; fi
 printf '\n OpenApplyBot Jobs — local stack\n\n'
-docker compose up -d --build
+docker compose up -d --build --scale worker=3
 printf '\nWaiting for API/Postgres/Redis health'
 ready=0
 for _ in $(seq 1 90); do
