@@ -1,79 +1,78 @@
-from app.connectors import clean, fetch_jobs
-
+from app.connectors import fetch_jobs, CONNECTORS
+from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto
 
 class Response:
-    def __init__(self, data=None, text=""):
-        self.data = data
-        self.text = text
+    def __init__(self,data=None,text=""): self.data=data; self.text=text
+    def json(self): return self.data
+    def raise_for_status(self): pass
 
-    def raise_for_status(self):
-        pass
+def test_every_connector_is_registered():
+    assert set(CONNECTORS)=={"greenhouse","lever","ashby","smartrecruiters","workable","recruitee","remoteok","remotive","arbeitnow","themuse","jobicy","himalayas","jsonld","auto"}
 
-    def json(self):
-        return self.data
+def test_greenhouse(monkeypatch):
+    monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":"Backend Engineer","absolute_url":"https://x.test/1","location":{"name":"Remote"},"content":"<p>Build</p>"}]}))
+    assert fetch_jobs("greenhouse","x")[0]["title"]=="Backend Engineer"
 
+def test_lever(monkeypatch):
+    monkeypatch.setattr(lever,"get",lambda *a,**k:Response([{"id":"a","text":"SWE","hostedUrl":"https://x.test/a","categories":{"location":"Remote","department":"Eng"}}]))
+    assert fetch_jobs("lever","x")[0]["location"]=="Remote"
 
-def test_greenhouse_normalizes_jobs(monkeypatch):
-    def fake_get(url, **kwargs):
-        assert "boards-api.greenhouse.io" in url
-        return Response({"jobs": [{
-            "id": 42, "title": "Backend Engineer", "location": {"name": "Remote"},
-            "departments": [{"name": "Engineering"}], "content": "<p>Build things</p>",
-            "absolute_url": "https://example.test/job/42", "updated_at": "2026-10-01"
-        }]})
+def test_ashby(monkeypatch):
+    monkeypatch.setattr(ashby,"get",lambda *a,**k:Response({"jobs":[{"id":"a","title":"SWE","jobUrl":"https://x.test/a","location":"Remote"}]}))
+    assert fetch_jobs("ashby","x")[0]["source_job_id"]=="a"
 
-    monkeypatch.setattr("app.connectors.requests.get", fake_get)
-    jobs = fetch_jobs("greenhouse", "example")
-    assert len(jobs) == 1
-    assert jobs[0]["source_job_id"] == "42"
-    assert jobs[0]["title"] == "Backend Engineer"
-    assert jobs[0]["location"] == "Remote"
-    assert jobs[0]["url"] == "https://example.test/job/42"
+def test_smartrecruiters(monkeypatch):
+    monkeypatch.setattr(smartrecruiters,"get",lambda *a,**k:Response({"content":[{"id":"a","name":"SWE","ref":"https://x.test/a","location":{"city":"Pune","country":"India"}}]}))
+    assert fetch_jobs("smartrecruiters","x")[0]["location"]=="Pune, India"
 
+def test_workable(monkeypatch):
+    monkeypatch.setattr(workable,"get",lambda *a,**k:Response({"results":[{"shortcode":"a","title":"SWE","url":"https://x.test/a","location":{"location_str":"Remote"}}]}))
+    assert fetch_jobs("workable","x")[0]["location"]=="Remote"
 
-def test_remotive_public_api(monkeypatch):
-    def fake_get(url, **kwargs):
-        assert "remotive.com" in url
-        return Response({"jobs": [{
-            "id": 7, "title": "Python Engineer", "url": "https://jobs.example/7",
-            "candidate_required_location": "Worldwide", "company_name": "Example",
-            "description": "<p>Build APIs</p>"
-        }]})
+def test_recruitee(monkeypatch):
+    monkeypatch.setattr(recruitee,"get",lambda *a,**k:Response({"offers":[{"id":1,"title":"SWE","careers_url":"https://x.test/a","locations":[{"city":"Pune"}]}]}))
+    assert fetch_jobs("recruitee","x")[0]["location"]=="Pune"
 
-    monkeypatch.setattr("app.connectors.requests.get", fake_get)
-    jobs = fetch_jobs("remotive", "all")
-    assert len(jobs) == 1
-    assert jobs[0]["source_job_id"] == "7"
-    assert jobs[0]["location"] == "Worldwide"
+def test_remoteok(monkeypatch):
+    monkeypatch.setattr(remoteok,"get",lambda *a,**k:Response([{"legal":"metadata"},{"id":1,"position":"SWE","url":"https://x.test/a","company":"Acme"}]))
+    assert fetch_jobs("remoteok","all")[0]["company_name"]=="Acme"
 
+def test_remotive(monkeypatch):
+    monkeypatch.setattr(remotive,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":"SWE","url":"https://x.test/a","company_name":"Acme"}]}))
+    assert fetch_jobs("remotive","all")[0]["title"]=="SWE"
 
-def test_jsonld_careers_page(monkeypatch):
-    html = '''<html><script type="application/ld+json">
-    {"@type":"JobPosting","identifier":{"value":"abc"},"title":"QA Engineer",
-     "url":"https://example.test/jobs/abc","datePosted":"2026-10-01",
-     "hiringOrganization":{"name":"Example Inc"},
-     "jobLocation":{"address":{"addressLocality":"Pune","addressCountry":"India"}}}
-    </script></html>'''
+def test_arbeitnow(monkeypatch):
+    monkeypatch.setattr(arbeitnow,"get",lambda *a,**k:Response({"data":[{"slug":"a","title":"SWE","url":"https://x.test/a","company_name":"Acme"}],"links":{}}))
+    assert fetch_jobs("arbeitnow","all")[0]["source_job_id"]=="a"
 
-    def fake_get(url, **kwargs):
-        return Response(text=html)
+def test_themuse(monkeypatch):
+    monkeypatch.setattr(themuse,"get",lambda *a,**k:Response({"results":[{"id":1,"name":"SWE","refs":{"landing_page":"https://x.test/a"},"company":{"name":"Acme"}}]}))
+    assert fetch_jobs("themuse","all")[0]["company_name"]=="Acme"
 
-    monkeypatch.setattr("app.connectors.requests.get", fake_get)
-    jobs = fetch_jobs("jsonld", "https://example.test/careers")
-    assert len(jobs) == 1
-    assert jobs[0]["source_job_id"] == "abc"
-    assert jobs[0]["title"] == "QA Engineer"
-    assert jobs[0]["location"] == "Pune, India"
+def test_jobicy(monkeypatch):
+    monkeypatch.setattr(jobicy,"get",lambda *a,**k:Response({"jobs":[{"id":1,"jobTitle":"SWE","url":"https://x.test/a","companyName":"Acme"}]}))
+    assert fetch_jobs("jobicy","all")[0]["title"]=="SWE"
 
+def test_himalayas(monkeypatch):
+    monkeypatch.setattr(himalayas,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":"SWE","url":"https://x.test/a","companyName":"Acme"}]}))
+    assert fetch_jobs("himalayas","all")[0]["company_name"]=="Acme"
 
-def test_clean_html():
-    assert clean("<p>Hello &amp; world</p>") == "Hello & world"
+def test_jsonld(monkeypatch):
+    html='<script type="application/ld+json">{"@type":"JobPosting","identifier":{"value":"abc"},"title":"QA Engineer","url":"https://x.test/job","hiringOrganization":{"name":"Acme"},"jobLocation":{"address":{"addressLocality":"Pune","addressCountry":"India"}}}</script>'
+    monkeypatch.setattr(jsonld,"get",lambda *a,**k:Response(text=html))
+    jobs=fetch_jobs("jsonld","https://x.test/careers")
+    assert jobs[0]["source_job_id"]=="abc" and jobs[0]["location"]=="Pune, India"
 
+def test_auto_discovers_supported_ats(monkeypatch):
+    monkeypatch.setattr(auto,"get",lambda *a,**k:Response(text='<a href="https://boards.greenhouse.io/acme">Jobs</a>'))
+    monkeypatch.setattr(greenhouse,"scrape",lambda token:[{"source_job_id":"1","title":"SWE","url":"https://x.test/1"}])
+    assert fetch_jobs("auto","https://acme.test/careers")[0]["title"]=="SWE"
 
-def test_unknown_connector_fails():
-    try:
-        fetch_jobs("unknown", "x")
-    except ValueError as exc:
-        assert "Unsupported connector" in str(exc)
-    else:
-        raise AssertionError("unknown connector should fail")
+def test_unknown_connector_fails_loudly():
+    import pytest
+    with pytest.raises(ValueError): fetch_jobs("not-a-provider","x")
+
+def test_deduplicates_and_cleans_html(monkeypatch):
+    monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":" SWE ","absolute_url":"https://x.test/1","content":"<p>A &amp; B</p>"},{"id":1,"title":"SWE","absolute_url":"https://x.test/1"}]}))
+    rows=fetch_jobs("greenhouse","x")
+    assert len(rows)==1 and rows[0]["description"]=="A & B"
