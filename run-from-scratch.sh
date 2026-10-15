@@ -7,9 +7,9 @@ if [[ "${1:-}" != "--yes" ]]; then
   read -r -p 'Type RESET to continue from scratch: ' answer
   [[ "$answer" == "RESET" ]] || { echo "Cancelled."; exit 1; }
 fi
-./reset-db.sh --yes
-FOLLOW_LOGS=0 ./run.sh
-./run-scrapers.sh
+bash ./reset-db.sh --yes
+FOLLOW_LOGS=0 bash ./run.sh
+bash ./run-scrapers.sh
 echo "Fresh system started and scrapers queued."
 echo "Dashboard: http://localhost:5173"
 echo "API docs:  http://localhost:8000/docs"
