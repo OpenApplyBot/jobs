@@ -6,7 +6,7 @@ services:
       POSTGRES_DB: jobs
       POSTGRES_USER: jobs
       POSTGRES_PASSWORD: jobs
-    ports: ["5432:5432"]
+    ports: ["127.0.0.1:5432:5432"]
     volumes: ["postgres_data:/var/lib/postgresql/data"]
     healthcheck: {test: ["CMD-SHELL", "pg_isready -U jobs -d jobs"], interval: 5s, timeout: 3s, retries: 20}
     restart: unless-stopped
@@ -21,7 +21,7 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://jobs:jobs@postgres:5432/jobs
       REDIS_URL: redis://redis:6379/0
-    ports: ["8000:8000"]
+    ports: ["127.0.0.1:8000:8000"]
     depends_on: {postgres: {condition: service_healthy}, redis: {condition: service_healthy}}
     healthcheck: {test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=3)"], interval: 10s, timeout: 5s, retries: 12}
     restart: unless-stopped
@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
   frontend:
     build: ./frontend
-    ports: ["5173:80"]
+    ports: ["127.0.0.1:5173:80"]
     depends_on: {api: {condition: service_healthy}}
     restart: unless-stopped
 volumes:
