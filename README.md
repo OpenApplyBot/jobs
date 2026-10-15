@@ -4,17 +4,16 @@ Local-first job index: **PostgreSQL → Redis queue → isolated scrapers → no
 
 ## Local commands
 
-Run these from the repository root. The scripts are intentionally separated so starting the UI/API does not automatically launch scraper jobs.
+Run these from the repository root.
 
 | Command | Purpose |
 |---|---|
 | `bash run.sh` | Build/start the local database, Redis, API, workers, scheduler and frontend. Preserves existing data; does not queue a scrape. |
 | `bash run-scrapers.sh` | Ensure PostgreSQL, Redis, API and workers are up; seed the source registry and queue all active scrapers. |
-| `bash reset-db.sh` | Stop services and delete local PostgreSQL/Redis volumes after typing `RESET`. |
-| `bash run-from-scratch.sh` | Confirm destructive reset, recreate the system, then seed and queue scrapers. |
-| `docker compose logs -f worker` | Watch scraper progress. |
+| `docker compose logs -f worker` | Watch queued scraper progress. |
+| `docker compose ps` | Inspect service health. |
 
-The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. Scripts can be run with `bash <script>` without executable permissions.
+The reset/fresh-start scripts delete local database/queue volumes permanently. Back up first. Scripts can be run with `bash <script>` without executable permissions.
 
 - Dashboard: http://localhost:5173
 - Source registry: http://localhost:5173/sources
@@ -26,49 +25,42 @@ The fresh-start and reset scripts delete local database/queue data permanently. 
 
 ## Import and scrape the 500-company CSV
 
-Download `top_500_official_company_careers.csv` into the repository root. The URLs are candidates and **must not be treated as pre-verified**. This workflow uses only employer-owned careers URLs from the CSV; discovered ATS pages are used only when linked from those pages. No fake or fixture jobs are inserted.
+Download `top_500_official_company_careers.csv` into the repository root. The CSV contains candidate URLs, **not 500 pre-verified working sources**. The batch command uses only the employer-owned URLs in the CSV, discovers a supported ATS only when linked from the public careers page, and uses real public API/HTML/JSON-LD connectors. It never inserts fixture or mock jobs.
 
-Start the local stack first:
+Start the local stack:
 
 ```bash
 bash run.sh
 ```
 
-Then from the repository root, run a small live batch first (50 companies):
-
-```docker compose exec -T api python -m app.scrape_company_csv --csv /app/top_500_official_company_careers.csv --offset 0 --limit 50 --report /app/company_scrape_report.jsonl```
-
-If the CSV is on the host and not mounted into the API container, run the command from `backend/` against the host file using your local Python environment configured for the same `DATABASE_URL` and `REDIS_URL`:
+Run a live batch of 50 companies from the repository root. This mounts the CSV and report into a one-off API container, which uses the same local PostgreSQL database as the app:
 
 ```bash
-cd backend
-python -m app.scrape_company_csv --csv ../top_500_official_company_careers.csv --offset 0 --limit 50 --report ../company_scrape_report.jsonl
+touch company_scrape_report.jsonl
+docker compose run --rm \
+  -v "$PWD/top_500_official_company_careers.csv:/app/top_500_official_company_careers.csv:ro" \
+  -v "$PWD/company_scrape_report.jsonl:/app/company_scrape_report.jsonl" \
+  api python -m app.scrape_company_csv \
+  --csv /app/top_500_official_company_careers.csv \
+  --offset 0 --limit 50 --report /app/company_scrape_report.jsonl
 ```
 
-Continue in non-overlapping batches:
+Continue in non-overlapping batches, using the same command and changing the offset to `50`, `100`, `150`, `200`, `250`, `300`, `350`, `400`, and `450`. For example, replace `--offset 0 --limit 50` with `--offset 50 --limit 50` for batch two. To run all remaining companies at once, omit `--limit`; this can take a long time and some sites will fail or return no public job listings.
 
-```bash
-python -m app.scrape_company_csv --csv ../top_500_official_company_careers.csv --offset 50 --limit 50 --report ../company_scrape_report.jsonl
-python -m app.scrape_company_csv --csv ../top_500_official_company_careers.csv --offset 100 --limit 50 --report ../company_scrape_report.jsonl
-# Continue offsets 150, 200, 250, 300, 350, 400, 450.
-```
-
-For all remaining rows in one run, omit `--offset` and `--limit`; this may take a long time and rate limits/blocked sites will still fail. The command runs the real production connector/worker path synchronously, persists successful job results to PostgreSQL, and appends per-source outcomes to the JSONL report. Check failed/empty results rather than interpreting registration as proof of coverage. It is idempotent for company/source registration, but scraping the same source again creates another run record.
-
-The source registry's `active` state is not proof a site works. A source is successful only when the live connector returns listings; zero-job and error results are preserved in run history for follow-up.
+The command registers sources idempotently, calls the real production worker path for each source, persists successful jobs to PostgreSQL, records run status/errors, and appends one JSON result per source to the report. A source counts as working only when a live fetch returns jobs; a successful zero-job response is reported separately. Check the dashboard's source/run history and the JSONL report before relying on coverage.
 
 ## Pipeline
 
-1. Existing seed registry covers 47 employer careers URLs. The CSV batch importer can add the 500-company candidates without guessing ATS board IDs.
+1. The existing seed registry contains 47 employer careers URLs. The CSV importer can add the 500-company candidates without guessing ATS board IDs.
 2. Auto-discovery inspects public careers-page links for Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Recruitee, and Workday. It uses a provider's public API only when the provider URL/token is evidenced by the careers page, then falls back to Schema.org `JobPosting` JSON-LD.
-3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific adapters, including Workday CXS, live in separate files.
+3. Public multi-employer API connectors live under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific adapters, including Workday CXS, live in separate files.
 4. Results are normalized and deduplicated, then upserted. Failed fetches are recorded and do not deactivate existing jobs. Only a successful non-empty fetch deactivates listings no longer returned by that source.
 5. PostgreSQL stores canonical jobs and source/run state. Redis/RQ buffers queued scraper tasks so API requests do not wait on slow websites.
 6. FastAPI exposes searchable/filterable jobs, source management, sync controls, queue health, and run history.
 
 ## Scraper policy and limitations
 
-Scrapers use public APIs and public careers pages with bounded request timeouts. They do not log in, bypass CAPTCHAs, evade access controls, or scrape private job portals. **Not every site necessarily exposes a supported public ATS link or JSON-LD**; JS-only portals and blocked pages may need a verified, site-specific public integration. The importer intentionally does not fabricate jobs or mark untested URLs as verified.
+Scrapers use public APIs and public careers pages with bounded request timeouts. They do not log in, bypass CAPTCHAs, evade access controls, or scrape private job portals. **Not every site necessarily exposes a supported public ATS link or JSON-LD**; JS-only portals and blocked pages may need a verified, site-specific public integration. The importer does not fabricate jobs or claim untested URLs are verified.
 
 ## Development and tests
 
