@@ -9,7 +9,7 @@ def scrape(careers_url):
     if not host.endswith(".myworkdayjobs.com"):
         raise ValueError("Workday connector requires a public *.myworkdayjobs.com careers URL")
     tenant=host.split(".wd",1)[0]
-    site=parsed.path.strip("/").split("/")[0]
+    parts=[p for p in parsed.path.strip("/").split("/") if p]\n    if parts and len(parts[0])==5 and parts[0][2]=="-": parts=parts[1:]\n    site=parts[0] if parts else ""
     if not tenant or not site: raise ValueError("Could not infer Workday tenant/site from careers URL")
     endpoint=f"{parsed.scheme or 'https'}://{host}/wday/cxs/{tenant}/{site}/jobs"
     out=[]; offset=0; page_size=20
