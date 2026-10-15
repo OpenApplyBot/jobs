@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import type { FormEvent } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -775,7 +776,7 @@ function SourcesPage() {
     finally { setLoading(false); }
   }
   useEffect(() => { void load(); }, []);
-  async function addSource(e: React.FormEvent) {
+  async function addSource(e: FormEvent) {
     e.preventDefault(); setAdding(true); setError(""); setNotice("");
     try {
       const r = await fetch(`${API}/api/sources`, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({company_name:company,careers_url:url,connector,board_token:token || undefined})});
