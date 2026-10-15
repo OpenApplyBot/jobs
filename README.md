@@ -54,3 +54,25 @@ Backend tests run with SQLite in CI as an isolated test database; the local appl
 For a complete local verification, run `FOLLOW_LOGS=0 ./run.sh`, then check `http://127.0.0.1:8000/api/health`, `http://127.0.0.1:8000/api/jobs?limit=10`, and `http://localhost:5173`. PostgreSQL schema changes are applied automatically at API startup without dropping existing records. Back up the local database with `docker compose exec -T postgres pg_dump -U jobs jobs > jobs-backup.sql`; restore with `cat jobs-backup.sql | docker compose exec -T postgres psql -U jobs jobs`.
 
 To run one source, use `curl -X POST http://127.0.0.1:8000/api/sources/{source_id}/run`; to run all active sources, use `curl -X POST http://127.0.0.1:8000/api/connectors/run-all`. Source failures are recorded and do not close existing jobs automatically. Public pages that require authentication, CAPTCHA bypass, or blocked access remain unsupported by design.
+
+
+## Generate and test the 500 company-specific scrapers
+
+The CSV contains candidate URLs, not verified live integrations. Generate one editable Python module per CSV row (500 modules plus a manifest):
+
+```bash
+cd backend
+python -m app.scrapers.companies.generate --csv ../top_500_official_company_careers.csv
+```
+
+This creates `backend/app/scrapers/companies/001_<company>.py` through `500_<company>.py`. Each module has its own company name, careers URL, and domain constants and calls the real public careers/ATS discovery implementation. No fake jobs are inserted. The initial modules intentionally share the robust auto-discovery engine; customize individual files with verified public APIs or site-specific parsing as live test results identify the need.
+
+Test in bounded batches and inspect the JSONL report:
+
+```bash
+python -m app.scrapers.companies.test_batch --offset 0 --limit 50
+python -m app.scrapers.companies.test_batch --offset 50 --limit 50
+# Continue offsets 100, 150, 200, 250, 300, 350, 400, 450.
+```
+
+Reports append to `company_scraper_test_report.jsonl`. `success` with zero jobs is not proof that a source works; inspect the actual page and report before customizing that company's module. The generated modules are testable scraper entry points; the existing production database pipeline still uses the source registry and worker.
