@@ -4,14 +4,15 @@ import re
 from urllib.parse import urljoin, urlparse, urldefrag
 from hashlib import sha256
 import json
+import os
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
 HEADERS = {"User-Agent": "OpenApplyBot-Jobs/1.0 (+https://github.com/OpenApplyBot/jobs; public job indexer)"}
-TIMEOUT = 20
+TIMEOUT = max(5, int(os.getenv("JOB_HTTP_TIMEOUT", "12")))
 HTTP = requests.Session()
-HTTP.mount("https://", HTTPAdapter(max_retries=Retry(total=3, connect=3, read=2, backoff_factor=0.4, status_forcelist=(429, 500, 502, 503, 504), allowed_methods=frozenset({"GET"}), respect_retry_after_header=True)))
+HTTP.mount("https://", HTTPAdapter(pool_connections=20, pool_maxsize=20, max_retries=Retry(total=2, connect=2, read=1, backoff_factor=0.3, status_forcelist=(429, 500, 502, 503, 504), allowed_methods=frozenset({"GET"}), respect_retry_after_header=True)))
 HTTP.mount("http://", HTTPAdapter(max_retries=Retry(total=3, connect=3, read=2, backoff_factor=0.4, status_forcelist=(429, 500, 502, 503, 504), allowed_methods=frozenset({"GET"}), respect_retry_after_header=True)))
 
 def get(url, *, params=None):
