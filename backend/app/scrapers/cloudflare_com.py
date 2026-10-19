@@ -1,5 +1,5 @@
 """Company-specific scraper for Cloudflare.
-Official careers URL candidate: https://www.cloudflare.com/careers/
+Official careers URL candidate: https://www.cloudflare.com/careers/jobs/
 Expected company domain: cloudflare.com
 Customize this module with a verified public API/parser after live testing.
 """
