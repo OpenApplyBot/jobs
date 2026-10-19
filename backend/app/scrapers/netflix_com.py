@@ -26,6 +26,10 @@ def _diagnose_official_page():
         response = requests.get(CAREERS_URL, headers=HEADERS, timeout=TIMEOUT)
         print(f"[Netflix] Careers page status={response.status_code} url={response.url}")
         html = response.text
+        for marker in ("canonicalPositionUrl", "posting_name", "ats_job_id", "job_postings", "positions"):
+            marker_index = html.find(marker)
+            if marker_index >= 0:
+                print(f"[Netflix] HTML evidence for {marker}: {html[max(0, marker_index - 180):marker_index + 420]}")
         scripts = re.findall(r'<script[^>]+src="([^"]+)"', html, re.I)[:10]
         pattern = r'"([^"]{0,80}(?:/api/|api/v[0-9]+/|/careers|/search|/job/|/position|graphql)[^"]{0,120})"'
         candidates = set(re.findall(pattern, html, re.I))
