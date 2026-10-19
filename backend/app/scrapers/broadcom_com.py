@@ -1,5 +1,5 @@
 """Company-specific scraper for Broadcom.
-Official careers URL candidate: https://broadcom.com/careers
+Official careers URL candidate: https://careers.broadcom.com/careers-home/jobs
 Expected company domain: broadcom.com
 Customize this module with a verified public API/parser after live testing.
 """
