@@ -1,15 +1,11 @@
-"""Company-specific scraper for Scale AI.
-Official careers URL candidate: https://scale.com/careers
-Expected company domain: scale.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Scale AI scraper using its official public Greenhouse job board API."""
+from .greenhouse import scrape as _scrape_greenhouse
 
-COMPANY_NAME = 'Scale AI'
-CAREERS_URL = 'https://scale.com/careers'
-OFFICIAL_DOMAIN = 'scale.com'
+COMPANY_NAME = "Scale AI"
+CAREERS_URL = "https://boards.greenhouse.io/scaleai"
+OFFICIAL_DOMAIN = "greenhouse.io"
 CSV_RANK = 53
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "scaleai"
+    return _scrape_greenhouse(board, company=COMPANY_NAME)
