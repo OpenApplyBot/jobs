@@ -85,19 +85,22 @@ def main() -> int:
     print(f"Scraper: {args.scraper}")
     print(f"Records: {len(rows)}")
     print(f"JSON:    {output_path}")
-    if rows:
-        first = rows[0]
-        if isinstance(first, dict):
-            print("Fields:  " + ", ".join(sorted(first.keys())))
-            invalid_rows = [
-                index for index, row in enumerate(rows)
-                if not isinstance(row, dict) or not row.get("title") or not row.get("url")
-            ]
-            print(f"Records missing object/title/URL: {len(invalid_rows)}")
-            if invalid_rows:
-                print(f"First invalid record indexes: {invalid_rows[:20]}")
-    else:
-        print("WARNING: scraper returned zero records; inspect its logs and official careers page.")
+    if not rows:
+        print("ERROR: scraper returned zero records; this live test is not verified.", file=sys.stderr)
+        return 1
+
+    first = rows[0]
+    if isinstance(first, dict):
+        print("Fields:  " + ", ".join(sorted(first.keys())))
+    invalid_rows = [
+        index for index, row in enumerate(rows)
+        if not isinstance(row, dict) or not row.get("source_job_id") or not row.get("title") or not row.get("url")
+    ]
+    print(f"Records missing object/ID/title/URL: {len(invalid_rows)}")
+    if invalid_rows:
+        print(f"First invalid record indexes: {invalid_rows[:20]}")
+        print("ERROR: scraper output failed required-field validation.", file=sys.stderr)
+        return 1
     return 0
 
 
