@@ -1,6 +1,7 @@
 """Salesforce Careers scraper using its public Workday CXS jobs API."""
 from __future__ import annotations
 import os
+import time
 import requests
 from urllib.parse import urljoin
 from .common import HEADERS, TIMEOUT, clean, normalize
@@ -23,9 +24,24 @@ def scrape(token: str | None = None):
         session.get(CAREERS_URL, timeout=TIMEOUT)
         for page in range(MAX_PAGES):
             body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
-            response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
+            response = None
+            for attempt in range(4):
+                response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
+                if response.status_code != 429:
+                    break
+                if output:
+                    print(f"[Salesforce] Rate limited after {len(output)} valid listings; returning collected records")
+                    break
+                wait = response.headers.get("Retry-After")
+                try:
+                    delay = min(8, max(1, int(wait))) if wait else min(8, 2 ** attempt)
+                except ValueError:
+                    delay = min(8, 2 ** attempt)
+                print(f"[Salesforce] First-page rate limit; retry {attempt + 1}/4 after {delay}s")
+                time.sleep(delay)
+            if response is None:
+                raise RuntimeError("Salesforce Workday API did not return a response")
             if response.status_code == 429 and output:
-                print(f"[Salesforce] Rate limited after {len(output)} valid listings; returning collected records")
                 break
             response.raise_for_status()
             payload = response.json()
