@@ -63,7 +63,7 @@ def _parse_page(html_text):
         if job_id not in seen:
             seen.add(job_id)
             rows.append({"shortcode": job_id, "title": title, "url": url})
-    for match in re.finditer(r'<script[^>]*type=["\\']application/ld\\+json["\\'][^>]*>(.*?)</script>', html_text, re.I | re.S):
+    for match in re.finditer(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html_text, re.I | re.S):
         try:
             value = json.loads(match.group(1).strip())
         except (ValueError, TypeError):
@@ -79,7 +79,7 @@ def _parse_page(html_text):
                              "description": row.get("description"), "datePosted": row.get("datePosted"),
                              "jobLocation": row.get("jobLocation"), "employmentType": row.get("employmentType")})
     # Workable SSR payloads vary; walk JSON script blocks for job objects too.
-    for match in re.finditer(r'<script[^>]*type=["\\']application/json["\\'][^>]*>(.*?)</script>', html_text, re.I | re.S):
+    for match in re.finditer(r'<script[^>]*type=["\']application/json["\'][^>]*>(.*?)</script>', html_text, re.I | re.S):
         try:
             value = json.loads(match.group(1).strip())
         except (ValueError, TypeError):
