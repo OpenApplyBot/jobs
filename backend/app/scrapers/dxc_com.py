@@ -1,12 +1,12 @@
 """Company-specific scraper for DXC Technology.
-Official careers URL candidate: https://dxc.com/careers
+Official careers URL candidate: https://careers.dxc.com/
 Expected company domain: dxc.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'DXC Technology'
-CAREERS_URL = 'https://dxc.com/careers'
+CAREERS_URL = 'https://careers.dxc.com/'
 OFFICIAL_DOMAIN = 'dxc.com'
 CSV_RANK = 160
 
