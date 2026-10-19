@@ -89,17 +89,26 @@ def test_auto_discovers_supported_ats(monkeypatch):
     assert fetch_jobs("auto","https://acme.test/careers")[0]["title"]=="SWE"
 
 def test_apple_search_page_returns_jobs(monkeypatch):
-        html='''<div id="title-search-job-list-0"><div id="search-search-job-title-PIPE-123-1">
-            <h3><a href="/en-us/details/123/platform-engineer?team=SOFT">Platform Engineer</a></h3>
-            <span class="team-name">Software and Services</span>
-            <span class="job-posted-date">Oct 16, 2026</span>
-            <span class="table--advanced-search__location-sub">Cupertino</span>
-        </div></div>'''
-        monkeypatch.setattr(apple_com, "get", lambda *args, **kwargs: Response(text=html))
-        rows = fetch_jobs("company", "apple.com")
-        assert rows[0]["source_job_id"] == "123"
-        assert rows[0]["title"] == "Platform Engineer"
-        assert rows[0]["url"].endswith("/en-us/details/123/platform-engineer?team=SOFT")
+    def fake_post(url, payload):
+        assert url.endswith("/api/v1/search")
+        assert payload["format"]
+        if payload["page"] == 1:
+            return {"res": {"searchResults": [{
+                "positionId": "123",
+                "postingTitle": "Platform Engineer",
+                "transformedPostingTitle": "platform-engineer",
+                "team": {"teamName": "Software and Services"},
+                "postingDate": "Oct 16, 2026",
+                "locations": [{"name": "Cupertino"}],
+            }], "totalRecords": 1}}
+        return {"res": {"searchResults": [], "totalRecords": 1}}
+
+    monkeypatch.setattr(apple_com, "_post", fake_post)
+    monkeypatch.setattr(apple_com, "FETCH_DETAILS", False)
+    rows = fetch_jobs("company", "apple.com")
+    assert rows[0]["source_job_id"] == "123"
+    assert rows[0]["title"] == "Platform Engineer"
+    assert rows[0]["url"].endswith("/en-us/details/123/platform-engineer")
 
 def test_unknown_connector_fails_loudly():
     import pytest
