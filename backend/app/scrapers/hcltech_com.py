@@ -1,5 +1,5 @@
 """Company-specific scraper for HCLTech.
-Official careers URL candidate: https://www.hcltech.com/careers
+Official careers URL candidate: https://careers.hcltech.com/
 Expected company domain: hcltech.com
 Customize this module with a verified public API/parser after live testing.
 """
