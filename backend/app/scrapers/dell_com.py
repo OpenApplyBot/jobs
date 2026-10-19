@@ -23,6 +23,14 @@ def scrape(token: str | None = None):
         for page in range(MAX_PAGES):
             body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
             response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
+            if response.status_code == 422:
+                # A few Workday tenants publish an array-shaped facet contract.
+                alt_body = {**body, "appliedFacets": []}
+                alternate = session.post(API_URL, json=alt_body, headers=headers, timeout=TIMEOUT)
+                if alternate.ok:
+                    response = alternate
+                else:
+                    raise RuntimeError(f"Dell Workday API rejected both public payload shapes; object={response.text[:300]!r}; array={alternate.text[:300]!r}")
             response.raise_for_status()
             payload = response.json()
             rows = payload.get("jobPostings") or []
