@@ -19,8 +19,14 @@ MANUAL_BROWSER_VERIFIED = {
 with open(DOC, encoding="utf-8") as f:
     text = f.read()
 rows = re.findall(r"^\|\s*\d+\s*\|\s*([^|]+?)\s*\|\s*(https?://[^|\s]+)\s*\|$", text, re.M)
+# Also validate the additional-domain backlog so every URL in the PR is checked.
+with open("docs/DOMAINS_TO_COVER.md", encoding="utf-8") as f:
+    backlog = f.read()
+rows += re.findall(r"^\|\s*([^|]+?)\s*\|\s*[^|]+\s*\|\s*(https?://[^|\s]+)\s*\|", backlog, re.M)
+# Keep one check per unique destination, preserving the first company label.
+rows = list({url: (company, url) for company, url in reversed(rows)}.values())
 if len(rows) < 100:
-    print(f"FAIL: expected at least 100 URL rows, found {len(rows)}")
+    print(f"FAIL: expected at least 100 unique URLs, found {len(rows)}")
     sys.exit(1)
 
 def check(row):
