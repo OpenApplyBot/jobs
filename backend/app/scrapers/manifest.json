@@ -1435,7 +1435,7 @@
     "company_name": "DXC Technology",
     "slug": "dxc_technology",
     "module": "dxc_com.py",
-    "official_careers_url": "https://dxc.com/careers",
+    "official_careers_url": "https://careers.dxc.com/",
     "official_domain": "dxc.com",
     "verification_status": "Needs live URL verification"
   },
@@ -1444,7 +1444,7 @@
     "company_name": "NTT DATA",
     "slug": "ntt_data",
     "module": "nttdata_com.py",
-    "official_careers_url": "https://nttdata.com/careers",
+    "official_careers_url": "https://www.nttdata.com/en-us/careers",
     "official_domain": "nttdata.com",
     "verification_status": "Needs live URL verification"
   },
@@ -1831,7 +1831,7 @@
     "company_name": "Tata 1mg",
     "slug": "tata_1mg",
     "module": "1mg_com.py",
-    "official_careers_url": "https://1mg.com/careers",
+    "official_careers_url": "https://www.1mg.com/jobs",
     "official_domain": "1mg.com",
     "verification_status": "Needs live URL verification"
   },
@@ -2020,7 +2020,7 @@
     "company_name": "Cleartrip",
     "slug": "cleartrip",
     "module": "cleartrip_com.py",
-    "official_careers_url": "https://cleartrip.com/careers",
+    "official_careers_url": "https://careers.cleartrip.com/",
     "official_domain": "cleartrip.com",
     "verification_status": "Needs live URL verification"
   },
@@ -2551,7 +2551,7 @@
     "company_name": "Dropbox",
     "slug": "dropbox",
     "module": "dropbox_com.py",
-    "official_careers_url": "https://dropbox.com/careers",
+    "official_careers_url": "https://www.dropbox.jobs/",
     "official_domain": "dropbox.com",
     "verification_status": "Needs live URL verification"
   },
@@ -2677,7 +2677,7 @@
     "company_name": "OVHcloud",
     "slug": "ovhcloud",
     "module": "ovhcloud_com.py",
-    "official_careers_url": "https://ovhcloud.com/careers",
+    "official_careers_url": "https://careers.ovhcloud.com/en-in/",
     "official_domain": "ovhcloud.com",
     "verification_status": "Needs live URL verification"
   },
@@ -2902,7 +2902,7 @@
     "company_name": "Capital One",
     "slug": "capital_one",
     "module": "capitalone_com.py",
-    "official_careers_url": "https://capitalone.com/careers",
+    "official_careers_url": "https://www.capitalonecareers.com/",
     "official_domain": "capitalone.com",
     "verification_status": "Needs live URL verification"
   },
@@ -3235,7 +3235,7 @@
     "company_name": "Volkswagen",
     "slug": "volkswagen",
     "module": "volkswagen_group_com.py",
-    "official_careers_url": "https://volkswagen-group.com/careers",
+    "official_careers_url": "https://jobs.volkswagen-group.com/VWGIS/?locale=en_US",
     "official_domain": "volkswagen-group.com",
     "verification_status": "Needs live URL verification"
   },
@@ -3613,7 +3613,7 @@
     "company_name": "IKEA",
     "slug": "ikea",
     "module": "ikea_com.py",
-    "official_careers_url": "https://ikea.com/careers",
+    "official_careers_url": "https://jobs.ikea.com/",
     "official_domain": "ikea.com",
     "verification_status": "Needs live URL verification"
   },
@@ -3655,7 +3655,7 @@
   },
   {
     "rank": 407,
-    "company_name": "L'Or\u00e9al",
+    "company_name": "L'Oréal",
     "slug": "l_or_al",
     "module": "loreal_com.py",
     "official_careers_url": "https://loreal.com/careers",
@@ -3682,7 +3682,7 @@
   },
   {
     "rank": 410,
-    "company_name": "Nestl\u00e9",
+    "company_name": "Nestlé",
     "slug": "nestl",
     "module": "nestle_com.py",
     "official_careers_url": "https://nestle.com/careers",
@@ -3799,7 +3799,7 @@
   },
   {
     "rank": 423,
-    "company_name": "Dassault Syst\u00e8mes",
+    "company_name": "Dassault Systèmes",
     "slug": "dassault_syst_mes",
     "module": "3ds_com.py",
     "official_careers_url": "https://3ds.com/careers",
@@ -4036,7 +4036,7 @@
     "company_name": "Deutsche Telekom",
     "slug": "deutsche_telekom",
     "module": "telekom_com.py",
-    "official_careers_url": "https://telekom.com/careers",
+    "official_careers_url": "https://careers.telekom.com/en",
     "official_domain": "telekom.com",
     "verification_status": "Needs live URL verification"
   },
@@ -4072,7 +4072,7 @@
     "company_name": "Kaspersky",
     "slug": "kaspersky",
     "module": "kaspersky_com.py",
-    "official_careers_url": "https://kaspersky.com/careers",
+    "official_careers_url": "https://careers.kaspersky.com/vacancies",
     "official_domain": "kaspersky.com",
     "verification_status": "Needs live URL verification"
   },
@@ -4171,7 +4171,7 @@
     "company_name": "Veeam",
     "slug": "veeam",
     "module": "veeam_com.py",
-    "official_careers_url": "https://veeam.com/careers",
+    "official_careers_url": "https://careers.veeam.com/",
     "official_domain": "veeam.com",
     "verification_status": "Needs live URL verification"
   },
@@ -4387,7 +4387,7 @@
     "company_name": "Snap Inc.",
     "slug": "snap_inc",
     "module": "snap_com.py",
-    "official_careers_url": "https://snap.com/careers",
+    "official_careers_url": "https://careers.snap.com/jobs",
     "official_domain": "snap.com",
     "verification_status": "Needs live URL verification"
   },
@@ -4477,7 +4477,7 @@
     "company_name": "Hostinger",
     "slug": "hostinger",
     "module": "hostinger_com.py",
-    "official_careers_url": "https://hostinger.com/careers",
+    "official_careers_url": "https://www.hostinger.com/career",
     "official_domain": "hostinger.com",
     "verification_status": "Needs live URL verification"
   },
