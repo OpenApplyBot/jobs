@@ -80,7 +80,7 @@ def _anchor_job_rows(root, page, anchors):
         "view all jobs", "view all openings", "search jobs", "search careers",
         "explore opportunities", "load more", "show more",
     }
-    marker = re.compile(r"/(?:jobs?|positions?|openings?|opportunities|roles?)(?:/|$)", re.I)
+    marker = re.compile(r"/(?:jobs?|positions?|openings?|open-positions|opportunities|roles?)(?:/|$)|/careers/(?:details|jobs?)(?:/|$)", re.I)
 
     for anchor in anchors:
         href = anchor.get("href")
