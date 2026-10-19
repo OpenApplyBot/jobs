@@ -1,4 +1,5 @@
 name: Salesforce scraper live test
+# Re-run after inspecting the current public careers page scripts.
 
 on:
   push:
