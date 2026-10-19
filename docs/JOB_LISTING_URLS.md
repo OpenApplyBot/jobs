@@ -110,9 +110,9 @@
 | 100 | Shopify | https://www.shopify.com/careers |
 | 101 | Mercury | https://mercury.com/jobs |
 | 102 | Snowplow | https://jobs.ashbyhq.com/snowplow |
-| 103 | Temporal | https://job-boards.greenhouse.io/temporaltechnologies |
-| 104 | dbt Labs | https://job-boards.greenhouse.io/dbtlabs |
-| 105 | Astronomer | https://job-boards.greenhouse.io/astronomer |
+| 103 | Temporal | https://temporal.io/careers |
+| 104 | dbt Labs | https://www.getdbt.com/about-us/careers |
+| 105 | Astronomer | https://www.astronomer.io/careers/ |
 | 106 | Retool | https://retool.com/careers |
 | 107 | Kong | https://careers.konghq.com/ |
 | 108 | Render | https://render.com/careers |
