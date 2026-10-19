@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Elastic'
-CAREERS_URL = 'https://elastic.co/careers'
+CAREERS_URL = 'https://jobs.elastic.co/'
 OFFICIAL_DOMAIN = 'elastic.co'
 CSV_RANK = 65
 
