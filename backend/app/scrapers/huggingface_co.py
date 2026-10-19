@@ -9,7 +9,7 @@ from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "Hugging Face"
 CAREERS_URL = "https://apply.workable.com/huggingface/?not_found=true"
-API_URL = "https://apply.workable.com/api/v3/widget/accounts/huggingface/jobs"
+API_URL = "https://www.workable.com/api/accounts/huggingface?details=true"
 OFFICIAL_DOMAIN = "apply.workable.com"
 CSV_RANK = 56
 MAX_JOBS = max(1, min(1000, int(os.getenv("HUGGINGFACE_MAX_JOBS", "200"))))
