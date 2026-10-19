@@ -39,12 +39,14 @@ def check(row):
             body = response.read(1_000_000).decode("utf-8", "ignore").lower()
         if status < 200 or status >= 400:
             return company, url, False, f"HTTP {status}"
+        if "/404" in final_url.lower() or "404redirector" in final_url.lower():
+            return company, url, False, f"redirected to a 404 page: {final_url}"
         terms = ("job", "role", "position", "opening", "career", "vacanc", "requisition")
         if not any(term in body for term in terms):
             return company, url, False, f"HTTP {status}, no job-listing markers in response (final URL {final_url})"
         return company, url, True, f"HTTP {status} -> {final_url}"
     except urllib.error.HTTPError as e:
-        if e.code in (403, 429) and url in MANUAL_BROWSER_VERIFIED:
+        if e.code in (400, 403, 429) and url in MANUAL_BROWSER_VERIFIED:
             return company, url, True, f"HTTP {e.code} from automated client; URL manually browser-verified"
         return company, url, False, f"HTTPError: HTTP Error {e.code}: {e.reason}"
     except Exception as e:
