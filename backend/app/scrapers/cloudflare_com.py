@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Cloudflare'
-CAREERS_URL = 'https://www.cloudflare.com/careers/'
+CAREERS_URL = 'https://www.cloudflare.com/careers/jobs/'
 OFFICIAL_DOMAIN = 'cloudflare.com'
 CSV_RANK = 75
 
