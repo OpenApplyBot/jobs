@@ -1,4 +1,4 @@
-name: Next 100 company scrapers (sequential live tests)
+name: Remaining company scrapers (8-way parallel batches)
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ on:
       - "backend/scripts/test_scraper.py"
 
 concurrency:
-  group: next-100-company-scrapers
+  group: remaining-company-scrapers
   cancel-in-progress: false
 
 permissions:
@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   prepare:
-    name: Prepare ranks 65–164 from the canonical manifest
+    name: Prepare all remaining manifest entries
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
@@ -33,33 +33,36 @@ jobs:
           import json, os, pathlib, re
           manifest = json.loads(pathlib.Path("backend/app/scrapers/manifest.json").read_text())
           chosen = []
+          seen = set()
           for item in manifest:
               rank = item.get("rank")
               module = pathlib.Path(item.get("module", "")).stem
-              if isinstance(rank, int) and 65 <= rank <= 164 and re.fullmatch(r"[A-Za-z0-9_]+", module):
+              if isinstance(rank, int) and rank >= 65 and re.fullmatch(r"[A-Za-z0-9_]+", module):
+                  if rank in seen:
+                      raise SystemExit(f"Duplicate manifest rank: {rank}")
+                  seen.add(rank)
+                  if not pathlib.Path("backend/app/scrapers", module + ".py").is_file():
+                      raise SystemExit(f"Missing scraper module for rank {rank}: {module}")
                   chosen.append({"rank": rank, "module": module, "company": item.get("company_name", module)})
           chosen.sort(key=lambda x: x["rank"])
-          if len(chosen) != 100:
-              raise SystemExit(f"Expected 100 manifest entries at ranks 65–164, found {len(chosen)}")
-          missing = [x["module"] for x in chosen if not pathlib.Path("backend/app/scrapers", x["module"] + ".py").is_file()]
-          if missing:
-              raise SystemExit("Missing scraper modules: " + ", ".join(missing))
+          if not chosen:
+              raise SystemExit("No remaining scraper entries found at ranks >= 65")
+          shards = [{"shard": i, "total_shards": 8} for i in range(8)]
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-              f.write("matrix=" + json.dumps({"include": chosen}, separators=(",", ":")) + "\n")
+              f.write("matrix=" + json.dumps({"include": shards}, separators=(",", ":")) + "\n")
               f.write("count=" + str(len(chosen)) + "\n")
-          print(f"Prepared {len(chosen)} scraper modules from manifest ranks 65–164")
-          for item in chosen:
-              print(f'{item["rank"]}: {item["company"]} ({item["module"]})')
+          print(f"Prepared {len(chosen)} remaining company scrapers across 8 parallel shards")
+          print("Ranks: " + str(chosen[0]["rank"]) + "–" + str(chosen[-1]["rank"]))
           PY
 
   test:
-    name: "Rank ${{ matrix.rank }} — ${{ matrix.company }}"
+    name: Shard ${{ matrix.shard }} / 8
     needs: prepare
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 90
     strategy:
       fail-fast: false
-      max-parallel: 1
+      max-parallel: 8
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
@@ -70,18 +73,60 @@ jobs:
           cache-dependency-path: backend/requirements.txt
       - name: Install backend requirements
         run: python -m pip install -r backend/requirements.txt
-      - name: Prepare JSON output
-        run: mkdir -p backend/test-results
-      - name: Run live scraper and validate records
-        working-directory: backend
+      - name: Run this shard's live scraper tests
+        shell: bash
         env:
+          SHARD: ${{ matrix.shard }}
+          TOTAL_SHARDS: ${{ matrix.total_shards }}
           JOB_HTTP_TIMEOUT: "15"
-        run: python scripts/test_scraper.py ${{ matrix.module }} --output test-results/${{ matrix.module }}.json
-      - name: Upload per-company JSON result
+        run: |
+          set +e
+          mkdir -p backend/test-results
+          python - <<'PY'
+          import json, os, pathlib
+          manifest = json.loads(pathlib.Path("backend/app/scrapers/manifest.json").read_text())
+          shard, total = int(os.environ["SHARD"]), int(os.environ["TOTAL_SHARDS"])
+          chosen = []
+          for item in manifest:
+              rank = item.get("rank")
+              if isinstance(rank, int) and rank >= 65 and (rank - 65) % total == shard:
+                  module = pathlib.Path(item.get("module", "")).stem
+                  chosen.append({"rank": rank, "module": module, "company": item.get("company_name", module)})
+          chosen.sort(key=lambda x: x["rank"])
+          pathlib.Path("backend/test-results/shard-manifest.json").write_text(json.dumps(chosen, indent=2))
+          print(f"Shard {shard}: {len(chosen)} companies")
+          PY
+          failed=0
+          while IFS=$'\t' read -r rank module company; do
+            [ -n "$module" ] || continue
+            echo "::group::Rank $rank — $company ($module)"
+            timeout 90s python backend/scripts/test_scraper.py "$module" --output "backend/test-results/$module.json"
+            rc=$?
+            if [ "$rc" -eq 0 ]; then
+              echo "RESULT PASS rank=$rank module=$module"
+            else
+              echo "RESULT FAIL rank=$rank module=$module exit=$rc"
+              failed=$((failed + 1))
+            fi
+            echo "::endgroup::"
+          done < <(python - <<'PY'
+          import json, pathlib
+          for x in json.loads(pathlib.Path("backend/test-results/shard-manifest.json").read_text()):
+              print(f'{x["rank"]}\t{x["module"]}\t{x["company"]}')
+          PY
+          )
+          python - "$failed" "$SHARD" <<'PY'
+          import json, pathlib, sys
+          failed, shard = int(sys.argv[1]), int(sys.argv[2])
+          pathlib.Path(f"backend/test-results/shard-{shard}-summary.json").write_text(json.dumps({"shard": shard, "failed": failed}, indent=2))
+          print(f"SHARD SUMMARY shard={shard} failed={failed}")
+          PY
+          exit 0
+      - name: Upload shard results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: scraper-${{ matrix.rank }}-${{ matrix.module }}-json
-          path: backend/test-results/${{ matrix.module }}.json
+          name: remaining-scrapers-shard-${{ matrix.shard }}
+          path: backend/test-results/
           if-no-files-found: warn
           retention-days: 14
