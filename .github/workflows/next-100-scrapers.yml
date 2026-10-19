@@ -1,0 +1,87 @@
+name: Next 100 company scrapers (sequential live tests)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/next-100-scrapers.yml"
+      - "backend/app/scrapers/*.py"
+      - "backend/app/scrapers/manifest.json"
+      - "backend/scripts/test_scraper.py"
+
+concurrency:
+  group: next-100-company-scrapers
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    name: Prepare ranks 65–164 from the canonical manifest
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      count: ${{ steps.matrix.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: matrix
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, re
+          manifest = json.loads(pathlib.Path("backend/app/scrapers/manifest.json").read_text())
+          chosen = []
+          for item in manifest:
+              rank = item.get("rank")
+              module = pathlib.Path(item.get("module", "")).stem
+              if isinstance(rank, int) and 65 <= rank <= 164 and re.fullmatch(r"[A-Za-z0-9_]+", module):
+                  chosen.append({"rank": rank, "module": module, "company": item.get("company_name", module)})
+          chosen.sort(key=lambda x: x["rank"])
+          if len(chosen) != 100:
+              raise SystemExit(f"Expected 100 manifest entries at ranks 65–164, found {len(chosen)}")
+          missing = [x["module"] for x in chosen if not pathlib.Path("backend/app/scrapers", x["module"] + ".py").is_file()]
+          if missing:
+              raise SystemExit("Missing scraper modules: " + ", ".join(missing))
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write("matrix=" + json.dumps({"include": chosen}, separators=(",", ":")) + "\n")
+              f.write("count=" + str(len(chosen)) + "\n")
+          print(f"Prepared {len(chosen)} scraper modules from manifest ranks 65–164")
+          for item in chosen:
+              print(f'{item["rank"]}: {item["company"]} ({item["module"]})')
+          PY
+
+  test:
+    name: "Rank ${{ matrix.rank }} — ${{ matrix.company }}"
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install backend requirements
+        run: python -m pip install -r backend/requirements.txt
+      - name: Prepare JSON output
+        run: mkdir -p backend/test-results
+      - name: Run live scraper and validate records
+        working-directory: backend
+        env:
+          JOB_HTTP_TIMEOUT: "15"
+        run: python scripts/test_scraper.py ${{ matrix.module }} --output test-results/${{ matrix.module }}.json
+      - name: Upload per-company JSON result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-${{ matrix.rank }}-${{ matrix.module }}-json
+          path: backend/test-results/${{ matrix.module }}.json
+          if-no-files-found: warn
+          retention-days: 14
