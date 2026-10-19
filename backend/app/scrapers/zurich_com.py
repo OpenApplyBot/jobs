@@ -39,6 +39,9 @@ class _PageParser(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.links = []
+        self.rows = []
+        self._row = None
+        self._cell = None
         self.jsonld = []
         self.text = []
         self._href = None
@@ -50,6 +53,10 @@ class _PageParser(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
+        if tag == "tr":
+            self._row = []
+        elif tag in {"td", "th"} and self._row is not None:
+            self._cell = []
         if tag in {"script", "style", "noscript"}:
             self._skip_depth += 1
         if tag == "a" and attrs.get("href"):
@@ -62,12 +69,21 @@ class _PageParser(HTMLParser):
             value = " ".join(data.split())
             if value:
                 self.text.append(value)
+                if self._cell is not None:
+                    self._cell.append(value)
             if self._href is not None:
                 self._anchor.append(value)
         if self._script:
             self._script_buf.append(data)
 
     def handle_endtag(self, tag):
+        if tag in {"td", "th"} and self._cell is not None and self._row is not None:
+            self._row.append(" ".join(self._cell).strip())
+            self._cell = None
+        if tag == "tr" and self._row is not None:
+            if self._row:
+                self.rows.append(self._row)
+            self._row = None
         if tag == "a" and self._href is not None:
             self.links.append((self._href, " ".join(self._anchor).strip()))
             self._href, self._anchor = None, []
@@ -292,6 +308,19 @@ def scrape(token: str | None = None):
 
     listings = {}
     def collect(parser, page_url):
+        # Search result rows have columns: Job Title, Job Area, City-State-Country, Date Posted.
+        row_by_url = {}
+        for cells in parser.rows:
+            if len(cells) >= 4:
+                for href, label in parser.links:
+                    absolute = urljoin(page_url, href)
+                    if _official(absolute) and re.search(r"/job/[^/]+/\d+/?$", urlparse(absolute).path, re.I):
+                        if label and label.strip() in cells[0]:
+                            row_by_url[_canonical(absolute)] = {
+                                "department": cells[1] or None,
+                                "location": cells[2] or None,
+                                "posted_at": cells[3] or None,
+                            }
         for href, label in parser.links:
             absolute = urljoin(page_url, href)
             if not _official(absolute):
@@ -300,9 +329,12 @@ def scrape(token: str | None = None):
             if re.search(r"/job/[^/]+/\d+/?$", path, re.I):
                 title = label.strip()
                 if title and title.lower() not in {"apply now", "apply now »", "more"}:
+                    metadata = row_by_url.get(_canonical(absolute), {})
                     listings.setdefault(_canonical(absolute), {
                         "title": title, "url": _canonical(absolute),
-                        "department": None, "location": None, "posted_at": None,
+                        "department": metadata.get("department"),
+                        "location": metadata.get("location"),
+                        "posted_at": metadata.get("posted_at"),
                     })
 
     collect(first_parser, first_url)
