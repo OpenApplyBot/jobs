@@ -7,7 +7,7 @@ import requests
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Huawei"
-CAREERS_URL = "https://career.huawei.com/reccampportal/portal5/social-recruitment.html"
+CAREERS_URL = "https://career.huawei.com/reccampportal/portal5/campus-recruitment.html"
 API_BASE = "https://career.huawei.com/reccampportal/services/portal/portalpub/getJob/newHr/page"
 OFFICIAL_DOMAIN = "huawei.com"
 CSV_RANK = 16
@@ -50,7 +50,7 @@ def scrape(token: str | None = None):
                 "searchText": "",
                 "language": "zh_CN",
                 "orderBy": "ISS_STARTDATE_DESC_AND_IS_HOT_JOB",
-                "jobType": "0",
+                "jobType": "3",
             }
             url = f"{API_BASE}/{PAGE_SIZE}/{page}"
             response = session.get(url, params=params, headers=API_HEADERS, timeout=TIMEOUT)
@@ -72,7 +72,7 @@ def scrape(token: str | None = None):
                 seen.add(job_id)
                 detail_id = clean(row.get("jobId") or job_id)
                 data_source = clean(row.get("dataSource")) or "1"
-                job_url = f"https://career.huawei.com/reccampportal/portal5/social-recruitment-detail.html?jobId={detail_id}&dataSource={data_source}"
+                job_url = f"https://career.huawei.com/reccampportal/portal5/campus-recruitment-detail.html?jobId={detail_id}&dataSource={data_source}"
                 location = clean(row.get("jobArea") or row.get("jobAddress") or row.get("workLocation") or row.get("city"))
                 department = clean(row.get("jobFamilyName") or row.get("jobClassName") or row.get("jobSubcategoryName") or row.get("deptNameEn") or row.get("deptName") or row.get("department"))
                 description = clean(row.get("mainBusiness") or row.get("mostlyDuty") or row.get("jobDesc") or row.get("description") or row.get("responsibility"))
