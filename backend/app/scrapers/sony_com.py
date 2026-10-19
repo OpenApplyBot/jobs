@@ -1,12 +1,12 @@
 """Company-specific scraper for Sony.
-Official careers URL candidate: https://sony.com/careers
+Official global careers portal: https://www.sony.com/en/SonyInfo/Careers/
 Expected company domain: sony.com
 Customize this module with a verified public API/parser after live testing.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Sony'
-CAREERS_URL = 'https://sony.com/careers'
+CAREERS_URL = 'https://www.sony.com/en/SonyInfo/Careers/'
 OFFICIAL_DOMAIN = 'sony.com'
 CSV_RANK = 18
 
