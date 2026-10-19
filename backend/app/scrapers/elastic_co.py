@@ -1,5 +1,5 @@
 """Company-specific scraper for Elastic.
-Official careers URL candidate: https://elastic.co/careers
+Official careers URL candidate: https://jobs.elastic.co/
 Expected company domain: elastic.co
 Customize this module with a verified public API/parser after live testing.
 """
