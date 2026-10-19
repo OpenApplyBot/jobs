@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Unity'
-CAREERS_URL = 'https://unity.com/careers'
+CAREERS_URL = 'https://unity.com/careers/positions'
 OFFICIAL_DOMAIN = 'unity.com'
 CSV_RANK = 275
 
