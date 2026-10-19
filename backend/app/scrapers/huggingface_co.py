@@ -9,6 +9,7 @@ from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "Hugging Face"
 CAREERS_URL = "https://apply.workable.com/huggingface/"
+API_URL = "https://apply.workable.com/api/v3/widget/accounts/huggingface/jobs"
 OFFICIAL_DOMAIN = "apply.workable.com"
 CSV_RANK = 56
 MAX_JOBS = max(1, min(1000, int(os.getenv("HUGGINGFACE_MAX_JOBS", "200"))))
@@ -74,6 +75,17 @@ def scrape(token: str | None = None):
         parser = _WorkablePage()
         parser.feed(response.text)
         rows = []
+        # Prefer Workable's public board API when its SSR HTML has no job cards.
+        if not parser.links and not parser.scripts:
+            api_response = session.get(API_URL, headers={**headers, "Accept": "application/json"}, timeout=TIMEOUT)
+            if api_response.ok:
+                try:
+                    api_payload = api_response.json()
+                    api_rows = api_payload.get("jobs") or api_payload.get("results") or [] if isinstance(api_payload, dict) else []
+                    if isinstance(api_rows, list):
+                        rows.extend(x for x in api_rows if isinstance(x, dict))
+                except ValueError:
+                    pass
         seen = set()
         for url, title in parser.links:
             job_id = url.rstrip("/").rsplit("/", 1)[-1]
