@@ -1,4 +1,5 @@
 name: HP scraper live test
+# Live test for the public Eightfold feed implementation.
 
 on:
   push:
