@@ -23,7 +23,8 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
-BACKEND = ROOT / "backend"\nSCRAPERS = BACKEND / "app" / "scrapers"
+BACKEND = ROOT / "backend"
+SCRAPERS = BACKEND / "app" / "scrapers"
 MANIFEST = SCRAPERS / "manifest.json"
 REPORT_DIR = ROOT / "reports"
 
