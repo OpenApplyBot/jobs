@@ -1,47 +1,107 @@
-"""Alibaba Group careers scraper using its official public position-list page."""
+"""Alibaba Group Careers scraper using its public position search API."""
 from __future__ import annotations
-import re
-from urllib.parse import urljoin, urlparse
+
+import os
 import requests
-from .auto import scrape as _auto_scrape
-from .common import HEADERS, TIMEOUT
 
-COMPANY_NAME = "Alibaba"
-CAREERS_URL = "https://talent.alibaba.com/off-campus/position-list?lang=zh"
-OFFICIAL_DOMAIN = "alibaba.com"
+from .common import HEADERS, TIMEOUT, clean, normalize, location_text
+
+COMPANY_NAME = "Alibaba Group"
+CAREERS_URL = "https://talent.alibaba.com/off-campus/position-list?lang=en"
+API_URL = "https://talent.alibaba.com/pubapis/position/search"
+OFFICIAL_DOMAIN = "talent.alibaba.com"
 CSV_RANK = 14
+PAGE_SIZE = max(1, min(100, int(os.getenv("ALIBABA_PAGE_SIZE", "50"))))
+MAX_PAGES = max(1, min(100, int(os.getenv("ALIBABA_MAX_PAGES", "20"))))
+CHANNEL = os.getenv("ALIBABA_CHANNEL", "social")
 
-def _diagnose_official_page():
-    """Inspect public page bundles for a documented feed; do not evade risk controls."""
-    try:
-        response = requests.get(CAREERS_URL, headers=HEADERS, timeout=TIMEOUT)
-        print(f"[Alibaba] Careers page status={response.status_code} url={response.url}")
-        html = response.text
-        scripts = re.findall(r'<script[^>]+src="([^"]+)"', html, re.I)[:10]
-        candidates = set(re.findall(r'"(/[^"]{1,160}(?:api|search|job|position)[^"]{0,120})"', html, re.I))
-        allowed_suffixes = ("talent.alibaba.com", "alibaba.com", "alibabagroup.com", "alicdn.com")
-        inspected = 0
-        for script in scripts:
-            script_url = urljoin(response.url, script)
-            host = urlparse(script_url).hostname or ""
-            if not any(host == suffix or host.endswith("." + suffix) for suffix in allowed_suffixes):
-                continue
-            try:
-                script_response = requests.get(script_url, headers=HEADERS, timeout=TIMEOUT)
-                if script_response.ok:
-                    inspected += 1
-                    candidates.update(re.findall(r'"(/[^"]{1,160}(?:api|search|job|position)[^"]{0,120})"', script_response.text, re.I))
-            except requests.RequestException:
-                continue
-        print(f"[Alibaba] Public script bundles inspected={inspected}")
-        print(f"[Alibaba] API-like path candidates={sorted(candidates)[:25]}")
-    except requests.RequestException as exc:
-        print(f"[Alibaba] Could not inspect official position-list page: {type(exc).__name__}: {exc}")
+API_HEADERS = {
+    **HEADERS,
+    "accept": "application/json, text/plain, */*",
+    "content-type": "application/json",
+    "origin": "https://talent.alibaba.com",
+    "referer": CAREERS_URL,
+    "accept-language": "en-US,en;q=0.9,zh-CN;q=0.8",
+}
+
+def _unwrap(payload):
+    """Handle current and legacy envelopes returned by Alibaba's recruiting API."""
+    if not isinstance(payload, dict):
+        return [], None
+    node = payload
+    for key in ("data", "content", "result", "resultData"):
+        value = node.get(key)
+        if isinstance(value, dict):
+            node = value
+            break
+    rows = []
+    for key in ("datas", "records", "list", "positions", "items", "rows"):
+        if isinstance(node.get(key), list):
+            rows = node[key]
+            break
+    total = node.get("totalCount") or node.get("total") or node.get("totalSize") or node.get("count")
+    if not rows and isinstance(payload.get("data"), list):
+        rows = payload["data"]
+    return rows, total
 
 def scrape(token: str | None = None):
-    """Fetch public listings from Alibaba's official position-list page."""
-    url = token.strip() if token and token.strip() else CAREERS_URL
-    rows = _auto_scrape(url)
-    if not rows:
-        _diagnose_official_page()
-    return rows
+    """Fetch paginated public jobs and normalize to OpenApplyBot's canonical schema."""
+    if token and token.strip():
+        page_url = token.strip()
+        if page_url.startswith("https://talent.alibaba.com/"):
+            from .jsonld import scrape as scrape_jsonld
+            rows = scrape_jsonld(page_url)
+            if rows:
+                return rows
+    output, seen = [], set()
+    with requests.Session() as session:
+        for page in range(1, MAX_PAGES + 1):
+            payload = {
+                "keyword": "",
+                "pageIndex": page,
+                "pageSize": PAGE_SIZE,
+                "category": "",
+                "channel": CHANNEL,
+            }
+            response = session.post(API_URL, json=payload, headers=API_HEADERS, timeout=TIMEOUT)
+            response.raise_for_status()
+            body = response.json()
+            rows, total = _unwrap(body)
+            if not rows:
+                if page == 1:
+                    raise RuntimeError(f"Alibaba public position API returned no records; response keys={list(body)[:12]}")
+                break
+            added = 0
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                job_id = clean(row.get("id") or row.get("positionId") or row.get("code") or row.get("jobId"))
+                title = clean(row.get("name") or row.get("positionName") or row.get("title"))
+                if not job_id or not title or job_id in seen:
+                    continue
+                seen.add(job_id)
+                url = f"https://talent.alibaba.com/off-campus/position-detail?positionId={job_id}"
+                locations = row.get("workLocations") or row.get("workLocation") or row.get("location") or row.get("city")
+                if isinstance(locations, list):
+                    location = ", ".join(clean(v.get("name") or v.get("cityName") or v.get("enName") or v.get("city")) if isinstance(v, dict) else clean(v) for v in locations if v)
+                elif isinstance(locations, dict):
+                    location = locations.get("name") or locations.get("cityName") or locations.get("enName") or location_text(locations)
+                else:
+                    location = clean(locations)
+                department = row.get("deptName") or row.get("departmentName") or row.get("department") or row.get("buName") or row.get("category")
+                description = clean(row.get("description") or row.get("jobDescription"))
+                requirement = clean(row.get("requirement") or row.get("requirements"))
+                if requirement:
+                    description = "\n\n".join(filter(None, [description, "Requirements: " + requirement]))
+                posted_at = row.get("publishTime") or row.get("publishDate") or row.get("createTime") or row.get("gmtCreate")
+                employment_type = row.get("employmentType") or row.get("jobType") or row.get("recruitType")
+                item = normalize(job_id, title, url, clean(location), clean(department), clean(employment_type),
+                                 description, posted_at, COMPANY_NAME, raw_payload=row, apply_url=url)
+                if item:
+                    output.append(item)
+                    added += 1
+            print(f"[Alibaba] Page {page}: {len(rows)} source rows, {added} new, {len(output)} cumulative")
+            if (total is not None and page * PAGE_SIZE >= int(total)) or len(rows) < PAGE_SIZE:
+                break
+    print(f"[Alibaba] Complete: {len(output)} jobs")
+    return output
