@@ -1,6 +1,6 @@
 from app.connectors import fetch_jobs, CONNECTORS
 from app.scrapers.common import normalize
-from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com
+from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com,company as company_dispatch
 from app.scrapers.company_registry import COMPANY_SCRAPERS
 
 class Response:
@@ -87,6 +87,33 @@ def test_jsonld(monkeypatch):
     monkeypatch.setattr(jsonld,"get",lambda *a,**k:Response(text=html))
     jobs=fetch_jobs("jsonld","https://x.test/careers")
     assert jobs[0]["source_job_id"]=="abc" and jobs[0]["location"]=="Pune, India"
+
+def test_jsonld_fallback_extracts_job_card(monkeypatch):
+    html = '<a href="/careers/jobs/platform-engineer-123">Platform Engineer</a><a href="/careers/jobs">View All Jobs</a>'
+    monkeypatch.setattr(jsonld, "get", lambda *a, **k: Response(text=html))
+    rows = fetch_jobs("jsonld", "https://x.test/careers")
+    assert len(rows) == 1
+    assert rows[0]["title"] == "Platform Engineer"
+    assert rows[0]["source_job_id"] == "platform-engineer-123"
+
+
+def test_company_direct_ats_overrides(monkeypatch):
+    calls = []
+    def fake_ashby(token, company=None, known_job_ids=None):
+        calls.append(("ashby", token, company))
+        return [{"source_job_id": "r1", "title": "SWE", "url": "https://jobs.ashbyhq.com/redis/r1"}]
+    def fake_greenhouse(token, company=None):
+        calls.append(("greenhouse", token, company))
+        return [{"source_job_id": "g1", "title": "SWE", "url": "https://boards.greenhouse.io/clickhouse/jobs/g1"}]
+    monkeypatch.setattr(company_dispatch.ashby, "scrape", fake_ashby)
+    monkeypatch.setattr(company_dispatch.greenhouse, "scrape", fake_greenhouse)
+    assert fetch_jobs("company", "redis.io")[0]["title"] == "SWE"
+    assert fetch_jobs("company", "clickhouse.com")[0]["title"] == "SWE"
+    assert calls == [
+        ("ashby", "redis", "Redis"),
+        ("greenhouse", "clickhouse", "ClickHouse"),
+    ]
+
 
 def test_auto_discovers_supported_ats(monkeypatch):
     monkeypatch.setattr(auto,"get",lambda *a,**k:Response(text='<a href="https://boards.greenhouse.io/acme">Jobs</a>'))
