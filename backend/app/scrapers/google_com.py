@@ -187,6 +187,40 @@ def _listing_urls(parser, page_url):
     return jobs
 
 
+def _listing_urls_from_markup(page_url, html):
+    """Recover Google job detail URLs embedded in non-anchor React markup.
+
+    Some careers page variants render the result count and cards in the HTML but
+    use data attributes or serialized state instead of ordinary <a href> links.
+    This fallback only accepts Google Careers job-result paths with a numeric ID.
+    """
+    if not html:
+        return {}
+    source = (
+        html.replace(r"\\/", "/")
+        .replace(r"\\u002F", "/")
+        .replace(r"\\u002f", "/")
+        .replace("&amp;", "&")
+    )
+    pattern = re.compile(
+        r"(?P<path>/(?:about/)?careers/applications/jobs/results/"
+        r"(?P<id>\d+)-(?P<slug>[A-Za-z0-9][A-Za-z0-9-]*))",
+        re.I,
+    )
+    jobs = {}
+    for match in pattern.finditer(source):
+        job_url = _canonical_job_url(urljoin(page_url, match.group("path")))
+        if not _google_url(job_url) or not _is_job_url(job_url):
+            continue
+        slug = re.sub(r"-search$", "", match.group("slug"), flags=re.I)
+        title = re.sub(r"-+", " ", slug).strip().title() or None
+        jobs.setdefault(
+            job_url,
+            {"url": job_url, "source_job_id": match.group("id"), "title": title},
+        )
+    return jobs
+
+
 def _next_page(parser, current_url, visited):
     candidates = []
     for href, label, attrs in parser.links:
@@ -368,6 +402,10 @@ def scrape(token: str | None = None):
             continue
 
         page_jobs = _listing_urls(parser, final_url)
+        # React-driven cards may serialize detail URLs into HTML without exposing
+        # conventional anchors; merge those only after strict host/path validation.
+        for job_url, item in _listing_urls_from_markup(final_url, response.text).items():
+            page_jobs.setdefault(job_url, item)
         before = len(listings)
         for url, item in page_jobs.items():
             listings.setdefault(url, item)
