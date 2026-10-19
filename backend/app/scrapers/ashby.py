@@ -28,7 +28,7 @@ def _balanced_value(source: str, start: int, opening: str, closing: str):
         if in_string:
             if escaped:
                 escaped = False
-            elif char == "\\\\":
+            elif char == "\\":
                 escaped = True
             elif char == '"':
                 in_string = False
