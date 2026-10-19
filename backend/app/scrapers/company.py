@@ -1,4 +1,6 @@
 """Dispatch a manifest-backed company scraper by its official domain."""
+import inspect
+
 from .company_registry import COMPANY_SCRAPERS
 
 
@@ -13,8 +15,11 @@ def scrape(domain, known_job_ids=None):
         return scraper()
 
     # Company-specific scrapers can opt in directly to incremental behavior.
-    if "known_job_ids" in getattr(scraper, "__code__", object()).co_varnames if hasattr(scraper, "__code__") else False:
-        return scraper(known_job_ids=known_job_ids)
+    try:
+        if "known_job_ids" in inspect.signature(scraper).parameters:
+            return scraper(known_job_ids=known_job_ids)
+    except (TypeError, ValueError):
+        pass
 
     # Most generated company wrappers delegate to auto.scrape. Call that shared
     # adapter with the known set so it can forward it to any incremental-capable
