@@ -1,0 +1,40 @@
+name: Applied Materials scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/appliedmaterials_com.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/appliedmaterials-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  appliedmaterials-scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install backend requirements
+        run: python -m pip install -r backend/requirements.txt
+      - name: Prepare JSON output
+        run: mkdir -p backend/test-results
+      - name: Test Applied Materials listings
+        working-directory: backend
+        env:
+          JOB_HTTP_TIMEOUT: "10"
+          APPLIED_MATERIALS_MAX_PAGES: "2"
+        run: python scripts/test_scraper.py appliedmaterials_com --output test-results/appliedmaterials_com.json
+      - name: Upload Applied Materials JSON output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: appliedmaterials-scraper-test-results
+          path: backend/test-results/appliedmaterials_com.json
+          if-no-files-found: warn
+          retention-days: 7
