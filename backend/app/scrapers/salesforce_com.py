@@ -1,90 +1,57 @@
-"""Salesforce Careers scraper for its public paginated jobs search."""
+"""Salesforce Careers scraper using its public Workday CXS jobs API."""
 from __future__ import annotations
-
 import os
-import re
-from html.parser import HTMLParser
-from urllib.parse import urljoin, urlparse
 import requests
-
+from urllib.parse import urljoin
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Salesforce"
-CAREERS_URL = "https://careers.salesforce.com/en/jobs/"
-OFFICIAL_DOMAIN = "careers.salesforce.com"
+CAREERS_URL = "https://salesforce.wd12.myworkdayjobs.com/en-US/External_Career_Site"
+API_URL = "https://salesforce.wd12.myworkdayjobs.com/wday/cxs/salesforce/External_Career_Site/jobs"
+OFFICIAL_DOMAIN = "salesforce.wd12.myworkdayjobs.com"
 CSV_RANK = 23
 PAGE_SIZE = max(1, min(100, int(os.getenv("SALESFORCE_PAGE_SIZE", "20"))))
-MAX_PAGES = max(1, min(100, int(os.getenv("SALESFORCE_MAX_PAGES", "20"))))
-
-class _JobLinkParser(HTMLParser):
-    def __init__(self):
-        super().__init__(convert_charrefs=True)
-        self.active_href = None
-        self.active_text = []
-        self.links = []
-    def handle_starttag(self, tag, attrs):
-        if tag == "a":
-            attrs = dict(attrs)
-            href = attrs.get("href", "")
-            absolute = urljoin("https://www.salesforce.com", href)
-            parsed_path = urlparse(absolute).path
-            if re.match(r"^/en/jobs/[^/?#]+", parsed_path) or re.match(r"^/company/careers/jobs/[^/?#]+", parsed_path):
-                self.active_href = absolute
-                self.active_text = []
-    def handle_data(self, data):
-        if self.active_href:
-            self.active_text.append(data)
-    def handle_endtag(self, tag):
-        if tag == "a" and self.active_href:
-            title = clean(" ".join(self.active_text))
-            self.links.append((self.active_href, title))
-            self.active_href = None
-            self.active_text = []
+MAX_PAGES = max(1, min(100, int(os.getenv("SALESFORCE_MAX_PAGES", "2"))))
 
 def scrape(token: str | None = None):
-    base_url = token.strip() if token and token.strip() else CAREERS_URL
     output, seen = [], set()
+    headers = {**HEADERS, "Accept": "application/json", "Content-Type": "application/json",
+               "Origin": "https://salesforce.wd12.myworkdayjobs.com", "Referer": CAREERS_URL}
     with requests.Session() as session:
-        session.headers.update({**HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Accept": "text/html,application/xhtml+xml", "Referer": "https://www.salesforce.com/company/careers/jobs/"})
-        for page in range(1, MAX_PAGES + 1):
-            response = session.get(base_url, params={"page": page, "pagesize": PAGE_SIZE}, timeout=TIMEOUT)
+        session.headers.update(headers)
+        # Bootstrap the official career site for session/cookies.
+        session.get(CAREERS_URL, timeout=TIMEOUT)
+        for page in range(MAX_PAGES):
+            body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
+            response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
             response.raise_for_status()
-            parser = _JobLinkParser()
-            parser.feed(response.text)
-            candidate_paths = re.findall(r"""(?:href|url)["'=:\\s]+([^"'< >]*jobs[^"'< >]*)""", response.text, re.I)
-            print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, job-like links={candidate_paths[:12]}")
-            scripts = re.findall(r'<script[^>]+src="([^"]+)"', response.text, re.I)[:12]
-            api_candidates = set()
-            for script in scripts:
-                script_url = urljoin(response.url, script)
-                if not script_url.startswith(("https://www.salesforce.com/", "https://careers.salesforce.com/")):
-                    continue
-                try:
-                    bundle = session.get(script_url, timeout=TIMEOUT)
-                    if bundle.ok:
-                        api_candidates.update(re.findall(r"""["']([^"']{0,100}(?:/api/|graphql|job-search|jobs/search|jobSearch|job-list)[^"']{0,100})["']""", bundle.text, re.I))
-                except requests.RequestException:
-                    continue
-            print(f"[Salesforce] Public scripts inspected={len(scripts)}; API-like candidates={sorted(api_candidates)[:25]}")
-            for marker in ("jr304196", "jobRequisitionId", "jobTitle", "jobPosting", "__NEXT_DATA__", "eagerLoadRefineSearch"):
-                if marker in response.text:
-                    print(f"[Salesforce] Embedded marker present: {marker}")
+            payload = response.json()
+            rows = payload.get("jobPostings") or []
+            total = payload.get("total")
+            if not rows:
+                if page == 0:
+                    raise RuntimeError(f"Salesforce Workday API returned no jobPostings; keys={list(payload)[:10]}")
+                break
             added = 0
-            for href, title in parser.links:
-                job_url = urljoin(response.url, href)
-                match = re.search(r"/(?:en/jobs|company/careers/jobs)/([^/?#]+)", urlparse(href).path)
-                job_id = clean(match.group(1)) if match else None
-                if not job_id or not title or title.lower() in {"view job", "learn more"} or job_id in seen:
+            for row in rows:
+                if not isinstance(row, dict):
                     continue
-                seen.add(job_id)
-                item = normalize(job_id, title, job_url, company=COMPANY_NAME, raw_payload={"source": "Salesforce public careers HTML"}, apply_url=job_url)
+                external_path = clean(row.get("externalPath"))
+                title = clean(row.get("title"))
+                if not external_path or not title or external_path in seen:
+                    continue
+                seen.add(external_path)
+                url = urljoin(CAREERS_URL + "/", external_path.lstrip("/"))
+                item = normalize(external_path, title, url, clean(row.get("locationsText")),
+                                 clean(row.get("jobFamily")), None, None, row.get("postedOn"),
+                                 COMPANY_NAME, raw_payload=row, apply_url=url)
                 if item:
                     output.append(item)
                     added += 1
-            print(f"[Salesforce] Page {page}: {added} job links, {len(output)} unique")
-            if added == 0 or added < PAGE_SIZE:
+            print(f"[Salesforce] Page {page + 1}: {len(rows)} source rows, {added} new, {len(output)} total of {total}")
+            if (total is not None and (page * PAGE_SIZE + len(rows)) >= int(total)) or len(rows) < PAGE_SIZE:
                 break
     if not output:
-        raise RuntimeError("Salesforce official jobs page yielded no parseable job links")
+        raise RuntimeError("Salesforce Workday API returned no normalized jobs")
     print(f"[Salesforce] Complete: {len(output)} jobs")
     return output
