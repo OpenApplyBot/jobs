@@ -1,15 +1,17 @@
-"""Company-specific scraper for OpenAI.
-Official careers URL candidate: https://openai.com/careers/
-Expected company domain: openai.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""OpenAI Careers scraper using the public Ashby job-board API.
 
-COMPANY_NAME = 'OpenAI'
-CAREERS_URL = 'https://openai.com/careers/'
-OFFICIAL_DOMAIN = 'openai.com'
+The official OpenAI careers page links its open roles to jobs.ashbyhq.com/openai.
+"""
+from .ashby import scrape as _scrape_ashby
+
+COMPANY_NAME = "OpenAI"
+CAREERS_URL = "https://openai.com/careers/search/"
+BOARD_TOKEN = "openai"
+OFFICIAL_DOMAIN = "openai.com"
 CSV_RANK = 8
 
+
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    """Fetch OpenAI's public Ashby postings; token can override the board slug."""
+    board = token.strip() if token and token.strip() else BOARD_TOKEN
+    return _scrape_ashby(board)
