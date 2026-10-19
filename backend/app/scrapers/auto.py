@@ -20,11 +20,11 @@ _PROVIDER_HOSTS = {
     "apply.workable.com": "workable",
 }
 _FUNCTIONS = {
-    "greenhouse": greenhouse.scrape,
-    "lever": lever.scrape,
-    "ashby": ashby.scrape,
-    "smartrecruiters": smartrecruiters.scrape,
-    "workable": workable.scrape,
+    "greenhouse": greenhouse,
+    "lever": lever,
+    "ashby": ashby,
+    "smartrecruiters": smartrecruiters,
+    "workable": workable,
 }
 _SKIP_TOKENS = {"jobs", "postings", "job", "search", "api", "application"}
 _GENERIC_JOB_HOSTS = ("jobs.jobvite.com", "careers-page.com", "jobs.ultipro.com", "careers.icims.com")
@@ -128,7 +128,7 @@ def _run_targets(targets):
             elif provider == "recruitee":
                 rows = recruitee.scrape(token)
             else:
-                rows = _FUNCTIONS[provider](token)
+                rows = _FUNCTIONS[provider].scrape(token)
             if rows:
                 return rows
         except Exception:
