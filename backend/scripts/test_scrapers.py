@@ -28,6 +28,9 @@ SCRAPERS = BACKEND / "app" / "scrapers"
 MANIFEST = SCRAPERS / "manifest.json"
 REPORT_DIR = ROOT / "reports"
 
+# Make `app.scrapers` importable when launched as a script from any cwd.
+sys.path.insert(0, str(BACKEND))
+
 
 def valid_url(value):
     if not isinstance(value, str):
