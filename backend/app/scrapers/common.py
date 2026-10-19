@@ -64,8 +64,22 @@ def normalize(job_id, title, url, location=None, department=None, employment_typ
     payload=raw_payload if isinstance(raw_payload,dict) else {}
     details=_details(title,description,location,employment_type,payload)
     raw=json.loads(json.dumps(payload,default=str))
-    content_hash=sha256(((title or "")+"\n"+(description or "")+"\n"+url).encode()).hexdigest()
     resolved_apply=valid_url(apply_url or payload.get("applyUrl") or payload.get("application_url")) or url
+    fingerprint = {
+        "title": title[:500],
+        "url": url,
+        "apply_url": resolved_apply,
+        "location": clean(location),
+        "department": clean(department),
+        "employment_type": clean(employment_type),
+        "description": clean(description),
+        "posted_at": str(posted_at)[:100] if posted_at else None,
+        "company_name": clean(company),
+        "derived": details,
+    }
+    content_hash = sha256(
+        json.dumps(fingerprint, ensure_ascii=False, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
+    ).hexdigest()
     return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url, "apply_url":resolved_apply,
             "location": clean(location), "department": clean(department), "employment_type": clean(employment_type),
             "description": clean(description), "posted_at": str(posted_at)[:100] if posted_at else None,
