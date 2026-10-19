@@ -88,7 +88,7 @@ def main() -> int:
         }
         try:
             output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(json.dumps(error_payload, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+            output_path.write_text(json.dumps(error_payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             print(f"ERROR: scraper run failed; diagnostic JSON saved to {output_path}: {exc}", file=sys.stderr)
         except Exception as write_exc:
             print(f"ERROR: scraper run failed and diagnostic JSON could not be written: {exc}; write error: {write_exc}", file=sys.stderr)
