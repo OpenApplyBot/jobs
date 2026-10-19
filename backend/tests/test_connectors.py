@@ -1,6 +1,6 @@
 from app.connectors import fetch_jobs, CONNECTORS
 from app.scrapers.common import normalize
-from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com,company as company_dispatch
+from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com,company as company_dispatch,canva_com,airtable_com
 from app.scrapers.company_registry import COMPANY_SCRAPERS
 
 class Response:
@@ -88,6 +88,33 @@ def test_jsonld(monkeypatch):
     monkeypatch.setattr(jsonld,"get",lambda *a,**k:Response(text=html))
     jobs=fetch_jobs("jsonld","https://x.test/careers")
     assert jobs[0]["source_job_id"]=="abc" and jobs[0]["location"]=="Pune, India"
+
+def test_jsonld_fallback_extracts_query_keyed_job_card(monkeypatch):
+    html = '<a href="/careers/positions?gh_jid=7900846">Senior Software Engineer</a>'
+    monkeypatch.setattr(jsonld, "get", lambda *a, **k: Response(text=html))
+    rows = fetch_jobs("jsonld", "https://unity.com/careers/positions")
+    assert len(rows) == 1
+    assert rows[0]["source_job_id"] == "7900846"
+    assert rows[0]["title"] == "Senior Software Engineer"
+
+
+def test_canva_uses_smartrecruiters_board(monkeypatch):
+    monkeypatch.setattr(smartrecruiters, "get", lambda *a, **k: Response({
+        "content": [{"id": "c1", "name": "Software Engineer", "ref": "https://jobs.smartrecruiters.com/Canva/c1"}]
+    }))
+    rows = canva_com.scrape()
+    assert rows[0]["source_job_id"] == "c1"
+    assert rows[0]["company_name"] == "Canva"
+
+
+def test_airtable_uses_greenhouse_board(monkeypatch):
+    monkeypatch.setattr(greenhouse, "get", lambda *a, **k: Response({
+        "jobs": [{"id": 12, "title": "Backend Engineer", "absolute_url": "https://job-boards.greenhouse.io/airtable/jobs/12"}]
+    }))
+    rows = airtable_com.scrape()
+    assert rows[0]["source_job_id"] == "12"
+    assert rows[0]["company_name"] == "Airtable"
+
 
 def test_jsonld_fallback_extracts_job_card(monkeypatch):
     html = '<a href="/careers/jobs/platform-engineer-123">Platform Engineer</a><a href="/careers/jobs">View All Jobs</a>'
