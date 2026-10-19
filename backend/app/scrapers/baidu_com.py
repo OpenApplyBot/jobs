@@ -57,8 +57,19 @@ def scrape(token: str | None = None):
                 payload = response.json()
                 rows, total = _unwrap(payload)
                 if not rows:
-                    if page == 1 and recruit_type == RECRUIT_TYPES[0]:
-                        raise RuntimeError(f"Baidu official job API returned no rows; keys={list(payload)[:10]}")
+                    # Baidu's public career page is server-rendered even when its
+                    # older JSON endpoint changes envelope/schema. Fall back to the
+                    # official listing page rather than classifying an API mismatch
+                    # as an empty employer.
+                    if page == 1 and not output:
+                        try:
+                            from .jsonld import scrape as scrape_official_html
+                            fallback = scrape_official_html(CAREERS_URL)
+                            if fallback:
+                                print(f"[Baidu] Public-page fallback: {len(fallback)} jobs")
+                                return fallback
+                        except Exception as exc:
+                            print(f"[Baidu] Public-page fallback failed: {type(exc).__name__}: {exc}", flush=True)
                     break
                 added = 0
                 for row in rows:
