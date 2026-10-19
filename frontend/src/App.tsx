@@ -13,7 +13,7 @@ import {
   ChevronDown,
   Clock3,
   Filter,
-  Github,
+  GitBranch,
   MapPin,
   RefreshCw,
   Search,
@@ -487,7 +487,7 @@ function Header({ onSync, syncing }: { onSync: () => void; syncing: boolean }) {
         <a href="/">Explore</a>
         <a href="/sources">Sources</a>
         <a href="/runs">Run history</a>
-        <a href="https://github.com/OpenApplyBot/jobs" target="_blank" rel="noreferrer" className="github-nav"><Github size={14} /> OpenApplyBot/jobs <ExternalLink size={12} /></a>
+        <a href="https://github.com/OpenApplyBot/jobs" target="_blank" rel="noreferrer" className="github-nav"><GitBranch size={14} /> OpenApplyBot/jobs <ExternalLink size={12} /></a>
         <button
           className="button primary-button"
           onClick={onSync}
