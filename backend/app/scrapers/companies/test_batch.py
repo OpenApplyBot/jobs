@@ -9,6 +9,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import importlib
 import json
 import multiprocessing
+from queue import Empty
 from pathlib import Path
 from time import monotonic
 
@@ -34,9 +35,13 @@ def _run_scraper(module_name, timeout):
         process.terminate()
         process.join(2)
         raise TimeoutError("scraper exceeded batch timeout")
-    if result_queue.empty():
-        raise RuntimeError(f"scraper worker exited with code {process.exitcode}")
-    result = result_queue.get()
+    try:
+        # Queue.empty() is unreliable across processes; allow time for the feeder to flush.
+        result = result_queue.get(timeout=2)
+    except Empty as exc:
+        raise RuntimeError(f"scraper worker exited with code {process.exitcode} without a result") from exc
+    finally:
+        result_queue.close()
     if result[0] == "error":
         raise RuntimeError(f"{result[1]}: {result[2]}")
     return result[1]
