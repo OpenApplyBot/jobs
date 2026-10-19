@@ -1,5 +1,5 @@
 """Company-specific scraper for Oracle.
-Official careers URL candidate: https://careers.oracle.com/
+Official careers URL candidate: https://careers.oracle.com/en/sites/jobsearch/jobs?hl=en-IN
 Expected company domain: oracle.com
 Customize this module with a verified public API/parser after live testing.
 """
