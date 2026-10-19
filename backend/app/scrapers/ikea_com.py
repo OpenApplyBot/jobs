@@ -1,12 +1,12 @@
 """Company-specific scraper for IKEA.
-Official careers URL candidate: https://ikea.com/careers
+Official careers URL candidate: https://jobs.ikea.com/
 Expected company domain: ikea.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'IKEA'
-CAREERS_URL = 'https://ikea.com/careers'
+CAREERS_URL = 'https://jobs.ikea.com/'
 OFFICIAL_DOMAIN = 'ikea.com'
 CSV_RANK = 402
 
