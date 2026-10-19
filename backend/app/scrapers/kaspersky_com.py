@@ -1,12 +1,12 @@
 """Company-specific scraper for Kaspersky.
-Official careers URL candidate: https://kaspersky.com/careers
+Official careers URL candidate: https://careers.kaspersky.com/vacancies
 Expected company domain: kaspersky.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Kaspersky'
-CAREERS_URL = 'https://kaspersky.com/careers'
+CAREERS_URL = 'https://careers.kaspersky.com/vacancies'
 OFFICIAL_DOMAIN = 'kaspersky.com'
 CSV_RANK = 453
 
