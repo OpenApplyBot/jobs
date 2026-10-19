@@ -1,0 +1,48 @@
+name: OpenAI scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/openai_com.py"
+      - "backend/app/scrapers/ashby.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/openai-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare JSON output directory
+        run: mkdir -p backend/test-results
+      - name: Test OpenAI public listings
+        continue-on-error: true
+        run: |
+          docker compose run --build --rm \
+            -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
+            api python scripts/test_scraper.py openai_com \
+            --output test-results/openai_com.json
+      - name: Require real jobs with title and URL
+        if: always()
+        run: |
+          test -f backend/test-results/openai_com.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          rows = json.loads(Path("backend/test-results/openai_com.json").read_text())
+          assert isinstance(rows, list) and rows, "No live jobs returned"
+          invalid = [i for i, row in enumerate(rows) if not isinstance(row, dict) or not row.get("title") or not row.get("url")]
+          assert not invalid, f"Missing title/URL in records: {invalid[:10]}"
+          print(f"Verified {len(rows)} live jobs; all have titles and URLs")
+          PY
+      - name: Upload OpenAI JSON test output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openai-scraper-test-results
+          path: backend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
