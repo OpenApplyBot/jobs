@@ -1,7 +1,7 @@
 """Company-specific scraper for Snap Inc..
-Official careers URL candidate: https://snap.com/careers
+Official careers URL candidate: https://careers.snap.com/jobs
 Expected company domain: snap.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
