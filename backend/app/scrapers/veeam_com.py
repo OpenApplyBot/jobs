@@ -1,12 +1,12 @@
 """Company-specific scraper for Veeam.
-Official careers URL candidate: https://veeam.com/careers
+Official careers URL candidate: https://careers.veeam.com/
 Expected company domain: veeam.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Veeam'
-CAREERS_URL = 'https://veeam.com/careers'
+CAREERS_URL = 'https://careers.veeam.com/'
 OFFICIAL_DOMAIN = 'veeam.com'
 CSV_RANK = 464
 
