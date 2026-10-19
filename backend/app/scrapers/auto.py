@@ -38,25 +38,28 @@ def _safe_host(url):
 
 
 def _candidate_urls(url):
-    """Yield the supplied URL and a few conventional official careers paths."""
+    """Yield a small, deterministic set of official careers URL fallbacks."""
     try:
         parsed = urlparse(url)
         host = parsed.hostname
         if not host or parsed.scheme not in ("http", "https"):
             return
-        hosts = [parsed.netloc]
+        alternate_host = None
         if host.startswith("www."):
-            hosts.append(parsed.netloc[len("www."):])
+            alternate_host = parsed.netloc[len("www."):]
         elif not host.startswith("careers."):
-            hosts.append("www." + parsed.netloc)
-        paths = [parsed.path or "/", "/jobs", "/careers", "/about/careers", "/company/careers", "/"]
+            alternate_host = "www." + parsed.netloc
+        paths = [parsed.path or "/", "/", "/jobs", "/careers"]
+        candidates = [(parsed.netloc, paths[0])]
+        if alternate_host:
+            candidates.append((alternate_host, paths[0]))
+        candidates.extend((parsed.netloc, path) for path in paths[1:])
         seen = set()
-        for candidate_host in hosts:
-            for path in paths:
-                candidate = urlunparse((parsed.scheme, candidate_host, path, "", "", ""))
-                if candidate not in seen:
-                    seen.add(candidate)
-                    yield candidate
+        for candidate_host, path in candidates:
+            candidate = urlunparse((parsed.scheme, candidate_host, path, "", "", ""))
+            if candidate not in seen:
+                seen.add(candidate)
+                yield candidate
     except (TypeError, ValueError):
         return
 
