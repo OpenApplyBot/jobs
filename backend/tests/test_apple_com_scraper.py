@@ -99,3 +99,36 @@ def test_apple_incremental_scrape_stops_after_known_only_page(monkeypatch):
 
     assert pages == [1, 2]
     assert {row["source_job_id"] for row in rows} == {"new-1", "old-1", "old-2"}
+
+
+def test_apple_incremental_scrape_stops_after_known_only_page(monkeypatch):
+    pages = []
+
+    def posting(job_id, title):
+        return {
+            "positionId": job_id,
+            "postingTitle": title,
+            "transformedPostingTitle": title.lower().replace(" ", "-"),
+        }
+
+    def fake_post(url, payload):
+        page = payload["page"]
+        pages.append(page)
+        if page == 1:
+            rows = [posting("new-1", "New Engineer"), posting("old-1", "Existing Engineer")]
+        elif page == 2:
+            rows = [posting("old-2", "Another Existing Engineer")]
+        else:
+            raise AssertionError("incremental scraper should stop at the known-only page")
+        return {"res": {"searchResults": rows, "totalRecords": 1000}}
+
+    monkeypatch.setattr(apple_com, "_post", fake_post)
+    monkeypatch.setattr(apple_com, "MAX_PAGES", 30)
+    monkeypatch.setattr(apple_com, "FETCH_DETAILS", False)
+
+    # The source must have completed a full scan before this mode is enabled.
+    rows = apple_com.scrape(known_job_ids={"old-1", "old-2"})
+
+    assert pages == [1, 2]
+    assert {row["source_job_id"] for row in rows} == {"new-1", "old-1", "old-2"}
+    assert rows.incremental_ready
