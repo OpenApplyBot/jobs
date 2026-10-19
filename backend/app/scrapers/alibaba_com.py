@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import os
 import re
+import uuid
 import requests
 
 from .common import HEADERS, TIMEOUT, clean, normalize, location_text
@@ -29,12 +30,9 @@ def _unwrap(payload):
     """Handle current and legacy envelopes returned by Alibaba's recruiting API."""
     if not isinstance(payload, dict):
         return [], None
-    node = payload
-    for key in ("data", "content", "result", "resultData"):
-        value = node.get(key)
-        if isinstance(value, dict):
-            node = value
-            break
+    node = payload.get("content") if isinstance(payload.get("content"), dict) else payload
+    if not isinstance(node, dict):
+        node = payload.get("data") if isinstance(payload.get("data"), dict) else payload
     rows = []
     for key in ("datas", "records", "list", "positions", "items", "rows"):
         if isinstance(node.get(key), list):
@@ -55,43 +53,41 @@ def scrape(token: str | None = None):
             if rows:
                 return rows
     output, seen = [], set()
+    # The public endpoint uses a double-submit CSRF check: the same
+    # anonymous token is sent in the cookie and header. No login is required.
+    csrf = str(uuid.uuid4())
     with requests.Session() as session:
-        # Establish a normal first-party browser session before calling the
-        # same public JSON endpoint used by the careers page.
-        bootstrap = session.get(CAREERS_URL, headers=API_HEADERS, timeout=TIMEOUT)
-        bootstrap.raise_for_status()
-        session.headers.update(API_HEADERS)
-        csrf = None
-        for pattern in (
-            r'name="_csrf"\s+content="([^"]+)',
-            r'name="_csrf"\s+value="([^"]+)',
-            r'"_csrf"\s*:\s*"([^"]+)',
-            r'_csrf=([A-Za-z0-9._-]+)',
-        ):
-            match = re.search(pattern, bootstrap.text, re.I)
-            if match:
-                csrf = match.group(1)
-                break
-        if not csrf:
-            csrf = session.cookies.get("_csrf") or session.cookies.get("XSRF-TOKEN")
-        if not csrf:
-            raise RuntimeError("Alibaba careers page did not expose a public CSRF token; refusing to guess the API token")
-        session.headers.update({"x-csrf-token": csrf})
+        session.headers.update({
+            **API_HEADERS,
+            "cookie": f"XSRF-TOKEN={csrf}",
+            "x-xsrf-token": csrf,
+        })
         for page in range(1, MAX_PAGES + 1):
             payload = {
-                "keyword": "",
+                "channel": CHANNEL,
+                "language": "zh",
+                "batchId": "",
+                "categories": "",
+                "deptCodes": [],
+                "key": "",
                 "pageIndex": page,
                 "pageSize": PAGE_SIZE,
-                "category": "",
-                "channel": CHANNEL,
+                "regions": "",
+                "subCategories": "",
             }
-            response = session.post(API_URL, params={"_csrf": csrf}, json=payload, headers=API_HEADERS, timeout=TIMEOUT)
+            response = session.post(API_URL, json=payload, headers={
+                **API_HEADERS,
+                "cookie": f"XSRF-TOKEN={csrf}",
+                "x-xsrf-token": csrf,
+            }, timeout=TIMEOUT)
             response.raise_for_status()
             body = response.json()
+            if body.get("success") is False:
+                raise RuntimeError(f"Alibaba public position API reported failure: {body.get('errorMsg') or body.get('errorCode') or 'success=false'}")
             rows, total = _unwrap(body)
             if not rows:
                 if page == 1:
-                    raise RuntimeError(f"Alibaba public position API returned no records; response keys={list(body)[:12]}")
+                    raise RuntimeError(f"Alibaba public position API returned no records; top-level keys={list(body)[:12]}, content keys={list(body.get('content', {}))[:12] if isinstance(body.get('content'), dict) else []}")
                 break
             added = 0
             for row in rows:
@@ -110,19 +106,21 @@ def scrape(token: str | None = None):
                     location = locations.get("name") or locations.get("cityName") or locations.get("enName") or location_text(locations)
                 else:
                     location = clean(locations)
-                department = row.get("deptName") or row.get("departmentName") or row.get("department") or row.get("buName") or row.get("category")
+                department = row.get("deptName") or row.get("departmentName") or row.get("department") or row.get("buName") or row.get("categories")
+                if isinstance(department, list):
+                    department = ", ".join(clean(x) for x in department if x)
                 description = clean(row.get("description") or row.get("jobDescription"))
                 requirement = clean(row.get("requirement") or row.get("requirements"))
                 if requirement:
-                    description = "\n\n".join(filter(None, [description, "Requirements: " + requirement]))
-                posted_at = row.get("publishTime") or row.get("publishDate") or row.get("createTime") or row.get("gmtCreate")
+                    description = "\\n\\n".join(filter(None, [description, "Requirements: " + requirement]))
+                posted_at = row.get("publishTime") or row.get("publishDate") or row.get("createTime") or row.get("gmtCreate") or row.get("modifyTime")
                 employment_type = row.get("employmentType") or row.get("jobType") or row.get("recruitType")
                 item = normalize(job_id, title, url, clean(location), clean(department), clean(employment_type),
                                  description, posted_at, COMPANY_NAME, raw_payload=row, apply_url=url)
                 if item:
                     output.append(item)
                     added += 1
-            print(f"[Alibaba] Page {page}: {len(rows)} source rows, {added} new, {len(output)} cumulative")
+            print(f"[Alibaba] Page {page}: {len(rows)} source rows, {added} normalized, {len(output)} cumulative / {total}")
             if (total is not None and page * PAGE_SIZE >= int(total)) or len(rows) < PAGE_SIZE:
                 break
     print(f"[Alibaba] Complete: {len(output)} jobs")
