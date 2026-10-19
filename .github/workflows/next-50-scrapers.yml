@@ -2,13 +2,6 @@ name: Next 50 company scrapers (sequential live tests)
 # Each company runs in its own sequential job and saves a JSON artifact.
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/next-50-scrapers.yml"
-      - "backend/app/scrapers/**"
-      - "backend/scripts/test_scraper.py"
-      - "backend/requirements.txt"
   workflow_dispatch:
 
 permissions:
