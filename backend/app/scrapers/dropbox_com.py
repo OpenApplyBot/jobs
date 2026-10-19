@@ -1,12 +1,12 @@
 """Company-specific scraper for Dropbox.
-Official careers URL candidate: https://dropbox.com/careers
+Official careers URL candidate: https://www.dropbox.jobs/
 Expected company domain: dropbox.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Dropbox'
-CAREERS_URL = 'https://dropbox.com/careers'
+CAREERS_URL = 'https://www.dropbox.jobs/'
 OFFICIAL_DOMAIN = 'dropbox.com'
 CSV_RANK = 284
 
