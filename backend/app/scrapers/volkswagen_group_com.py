@@ -1,12 +1,12 @@
 """Company-specific scraper for Volkswagen.
-Official careers URL candidate: https://volkswagen-group.com/careers
+Official careers URL candidate: https://jobs.volkswagen-group.com/VWGIS/?locale=en_US
 Expected company domain: volkswagen-group.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Volkswagen'
-CAREERS_URL = 'https://volkswagen-group.com/careers'
+CAREERS_URL = 'https://jobs.volkswagen-group.com/VWGIS/?locale=en_US'
 OFFICIAL_DOMAIN = 'volkswagen-group.com'
 CSV_RANK = 360
 
