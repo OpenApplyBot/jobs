@@ -1,5 +1,5 @@
 """Company-specific scraper for Samsung Electronics.
-Official careers URL candidate: https://samsung.com/careers
+Official careers URL candidate: https://www.samsungcareers.com/?lang=en
 Expected company domain: samsung.com
 Customize this module with a verified public API/parser after live testing.
 """
