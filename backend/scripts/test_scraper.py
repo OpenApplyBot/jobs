@@ -79,7 +79,19 @@ def main() -> int:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(encoded + "\n", encoding="utf-8")
     except Exception as exc:
-        print(f"ERROR: scraper run failed; JSON was not written: {exc}", file=sys.stderr)
+        # Preserve a machine-readable diagnostic artifact even when live scraping fails.
+        error_payload = {
+            "scraper": args.scraper,
+            "error": f"{type(exc).__name__}: {exc}",
+            "records": [],
+            "verified": False,
+        }
+        try:
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_text(json.dumps(error_payload, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+            print(f"ERROR: scraper run failed; diagnostic JSON saved to {output_path}: {exc}", file=sys.stderr)
+        except Exception as write_exc:
+            print(f"ERROR: scraper run failed and diagnostic JSON could not be written: {exc}; write error: {write_exc}", file=sys.stderr)
         return 1
 
     print(f"Scraper: {args.scraper}")
