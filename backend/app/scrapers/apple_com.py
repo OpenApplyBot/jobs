@@ -284,8 +284,13 @@ def scrape(token: str | None = None, known_job_ids=None):
             + (f" / {total_reported} reported" if total_reported is not None else ""),
             flush=True,
         )
-        if not rows or new_count == 0:
+        if not rows:
             source_complete = total_reported is None or len(discovered) >= total_reported
+            break
+        if new_count == 0:
+            # A repeated page is not proof that pagination reached the end when
+            # an advertised total says more records should exist.
+            source_complete = total_reported is not None and len(discovered) >= total_reported
             break
         if incremental_mode and known_on_page > 0 and new_on_page == 0:
             checkpoint_reached = True
