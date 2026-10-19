@@ -8,7 +8,7 @@ import requests
 from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "Hugging Face"
-CAREERS_URL = "https://apply.workable.com/huggingface/"
+CAREERS_URL = "https://apply.workable.com/huggingface/?not_found=true"
 API_URL = "https://apply.workable.com/api/v3/widget/accounts/huggingface/jobs"
 OFFICIAL_DOMAIN = "apply.workable.com"
 CSV_RANK = 56
@@ -68,7 +68,7 @@ def _collect_json(value, output):
 
 def scrape(token: str | None = None):
     page_url = token.strip() if token and token.strip() else CAREERS_URL
-    headers = {**HEADERS, "Accept": "text/html,application/xhtml+xml"}
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36", "Accept": "text/html,application/xhtml+xml,application/json", "Accept-Language": "en-US,en;q=0.9", "Referer": "https://huggingface.co/"}
     with requests.Session() as session:
         response = session.get(page_url, headers=headers, timeout=TIMEOUT)
         response.raise_for_status()
