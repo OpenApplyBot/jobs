@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Postman'
-CAREERS_URL = 'https://postman.com/careers'
+CAREERS_URL = 'https://www.postman.com/company/careers/open-positions/'
 OFFICIAL_DOMAIN = 'postman.com'
 CSV_RANK = 83
 
