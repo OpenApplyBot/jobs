@@ -2,18 +2,19 @@
 from __future__ import annotations
 
 import os
+import re
 import requests
 
 from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "Alibaba Group"
 CAREERS_URL = "https://talent.alibaba.com/off-campus/position-list?lang=zh"
-API_URL = "https://talent.alibaba.com/pubapis/position/search"
+API_URL = "https://talent.alibaba.com/position/search"
 OFFICIAL_DOMAIN = "talent.alibaba.com"
 CSV_RANK = 14
 PAGE_SIZE = max(1, min(100, int(os.getenv("ALIBABA_PAGE_SIZE", "50"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("ALIBABA_MAX_PAGES", "20"))))
-CHANNEL = os.getenv("ALIBABA_CHANNEL", "social")
+CHANNEL = os.getenv("ALIBABA_CHANNEL", "group_official_site")
 
 API_HEADERS = {
     **HEADERS,
@@ -60,6 +61,22 @@ def scrape(token: str | None = None):
         bootstrap = session.get(CAREERS_URL, headers=API_HEADERS, timeout=TIMEOUT)
         bootstrap.raise_for_status()
         session.headers.update(API_HEADERS)
+        csrf = None
+        for pattern in (
+            r'name=["\\']_csrf["\\']\\s+content=["\\']([^"\\']+)',
+            r'name=["\\']_csrf["\\']\\s+value=["\\']([^"\\']+)',
+            r'["\\']_csrf["\\']\\s*:\\s*["\\']([^"\\']+)',
+            r'_csrf=([A-Za-z0-9._-]+)',
+        ):
+            match = re.search(pattern, bootstrap.text, re.I)
+            if match:
+                csrf = match.group(1)
+                break
+        if not csrf:
+            csrf = session.cookies.get("_csrf") or session.cookies.get("XSRF-TOKEN")
+        if not csrf:
+            raise RuntimeError("Alibaba careers page did not expose a public CSRF token; refusing to guess the API token")
+        session.headers.update({"x-csrf-token": csrf})
         for page in range(1, MAX_PAGES + 1):
             payload = {
                 "keyword": "",
@@ -68,7 +85,7 @@ def scrape(token: str | None = None):
                 "category": "",
                 "channel": CHANNEL,
             }
-            response = session.post(API_URL, json=payload, headers=API_HEADERS, timeout=TIMEOUT)
+            response = session.post(API_URL, params={"_csrf": csrf}, json=payload, headers=API_HEADERS, timeout=TIMEOUT)
             response.raise_for_status()
             body = response.json()
             rows, total = _unwrap(body)
