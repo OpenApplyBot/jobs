@@ -23,7 +23,7 @@
 | Fivetran | fivetran.com | https://www.fivetran.com/careers | Verified: careers page and role listings present |
 | Airbyte | airbyte.com | https://airbyte.com/company/careers | Verified: official careers page reachable; recheck current openings |
 | Toast | toasttab.com | https://careers.toasttab.com/ | Verified: direct careers/job board reachable |
-| Superhuman (formerly Grammarly careers URL) | superhuman.com | https://superhuman.com/company/careers | Verified: former Grammarly jobs URL redirects here; use the current destination |
+| Superhuman | superhuman.com | https://superhuman.com/company/careers/jobs | Verified: direct “Open Roles at Superhuman” listing page; the parent `/company/careers` is a marketing landing page |
 
 ## Integration checklist
 
