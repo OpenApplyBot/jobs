@@ -1,95 +1,87 @@
-"""Dell Technologies Careers scraper using the public Radancy/TalentBrew results endpoint."""
+"""Dell Technologies scraper using its official public careers search pages."""
 from __future__ import annotations
-import html
 import os
 import re
+from html.parser import HTMLParser
+from urllib.parse import urljoin, urlparse, parse_qs
 import requests
-from urllib.parse import urlsplit, urljoin
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Dell Technologies"
-CAREERS_URL = "https://jobs.dell.com/en/search-jobs/india%20general/375/1/1"
-API_URL = "https://jobs.dell.com/search-jobs/results"
-OFFICIAL_DOMAIN = "jobs.dell.com"
+CAREERS_URL = "https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers/jobs?source=pagebuilder_landingpage"
+RADANCY_URL = "https://jobs.dell.com/en/search-jobs/india%20general/375/1/1"
+OFFICIAL_DOMAIN = "dell.com"
 CSV_RANK = 30
-MAX_PAGES = max(1, min(10, int(os.getenv("DELL_MAX_PAGES", "2"))))
-PAGE_SIZE = max(1, min(20, int(os.getenv("DELL_PAGE_SIZE", "20"))))
-KEYWORDS = tuple(x.strip() for x in os.getenv("DELL_KEYWORDS", "software engineer,intern,new grad,development program").split(",") if x.strip())
+MAX_JOBS = max(1, min(1000, int(os.getenv("DELL_MAX_JOBS", "100"))))
 
-ANCHOR_RE = re.compile(r'<a\b(?=[^>]*\bhref=["\']([^"\']*/job/[^"\']+)["\'])(?=[^>]*\bdata-job-id=["\'](\d+)["\'])[^>]*>(.*?)</a>', re.I | re.S)
-TITLE_RE = re.compile(r'<h2[^>]*>(.*?)</h2>', re.I | re.S)
-LOCATION_RE = re.compile(r'class=["\']job-location["\'][^>]*>(.*?)</span>', re.I | re.S)
-DATE_RE = re.compile(r'class=["\']job-date-posted["\'][^>]*>(.*?)</span>', re.I | re.S)
+class _JobLinks(HTMLParser):
+    def __init__(self, base):
+        super().__init__(convert_charrefs=True)
+        self.base = base
+        self.links = []
+        self.href = None
+        self.text = []
+    def handle_starttag(self, tag, attrs):
+        if tag != "a":
+            return
+        href = dict(attrs).get("href", "")
+        absolute = urljoin(self.base, href)
+        path = urlparse(absolute).path.lower()
+        if re.search(r"/(?:job|jobs)/[^/?#]+", path) and not re.search(r"/sites/[^/]+/jobs/?$", path):
+            self.href = absolute
+            self.text = []
+    def handle_data(self, data):
+        if self.href:
+            self.text.append(data)
+    def handle_endtag(self, tag):
+        if tag == "a" and self.href:
+            title = clean(" ".join(self.text))
+            self.links.append((self.href, title))
+            self.href = None
+            self.text = []
 
-def _text(fragment):
-    return clean(html.unescape(re.sub(r"<[^>]+>", " ", fragment)))
+def _records(html_text, page_url):
+    parser = _JobLinks(page_url)
+    parser.feed(html_text)
+    records, seen = [], set()
+    for url, title in parser.links:
+        if not title or len(title) < 4:
+            continue
+        parsed = urlparse(url)
+        query = parse_qs(parsed.query)
+        match = re.search(r"/(?:job|jobs)/([^/?#]+)", parsed.path, re.I)
+        job_id = clean((query.get("jobId") or query.get("requisitionId") or [None])[0]) or (clean(match.group(1)) if match else None)
+        if not job_id:
+            job_id = clean(url)
+        if job_id in seen:
+            continue
+        seen.add(job_id)
+        item = normalize(job_id, title, url, company=COMPANY_NAME,
+                         raw_payload={"source": "official Dell careers HTML"}, apply_url=url)
+        if item:
+            records.append(item)
+    return records
 
 def scrape(token: str | None = None):
-    page_url = token.strip() if token and token.strip() else CAREERS_URL
-    parsed = urlsplit(page_url)
-    base = f"{parsed.scheme or 'https'}://{parsed.netloc or 'jobs.dell.com'}"
-    api_url = urljoin(base + "/", "search-jobs/results")
-    headers = {**HEADERS, "Accept": "application/json, text/javascript, */*; q=0.01",
-               "X-Requested-With": "XMLHttpRequest", "Referer": page_url}
-    jobs = {}
+    pages = [token.strip()] if token and token.strip() else [CAREERS_URL, RADANCY_URL]
+    output, errors = [], []
+    headers = {**HEADERS, "Accept": "text/html,application/xhtml+xml", "Referer": "https://www.dell.com/"}
     with requests.Session() as session:
-        session.headers.update(headers)
-        bootstrap = session.get(page_url, headers={**headers, "Accept": "text/html,application/xhtml+xml"}, timeout=TIMEOUT)
-        bootstrap.raise_for_status()
-        for keyword in KEYWORDS:
-            for page in range(1, MAX_PAGES + 1):
-                params = {
-                    "ActiveFacetID": 0,
-                    "CurrentPage": page,
-                    "RecordsPerPage": PAGE_SIZE,
-                    "Distance": 50,
-                    "RadiusUnitType": 0,
-                    "Keywords": keyword,
-                    "Location": "",
-                    "ShowRadius": "False",
-                    "IsPagination": "False" if page == 1 else "True",
-                    "SearchResultsModuleName": "Search Results",
-                    "SearchFiltersModuleName": "Search Filters",
-                    "SortCriteria": 0,
-                    "SortDirection": 1,
-                    "SearchType": 5,
-                    "ResultsType": 0,
-                }
-                response = session.get(api_url, params=params, headers=headers, timeout=TIMEOUT)
-                if not response.ok:
-                    print(f"[Dell Technologies] Results endpoint returned HTTP {response.status_code}; parsing official search HTML")
-                    fragment = bootstrap.text
-                else:
-                    try:
-                        payload = response.json()
-                        fragment = payload.get("results", "") if isinstance(payload, dict) else ""
-                    except ValueError:
-                        fragment = response.text
-                if not fragment:
-                    fragment = bootstrap.text
-                matches = list(ANCHOR_RE.finditer(fragment or ""))
-                added = 0
-                for match in matches:
-                    href, job_id, body = match.group(1), match.group(2), match.group(3)
-                    title_match = TITLE_RE.search(body)
-                    if not title_match or job_id in jobs:
-                        continue
-                    location_match = LOCATION_RE.search(body)
-                    date_match = DATE_RE.search(body)
-                    title = _text(title_match.group(1))
-                    job_url = urljoin(base, href)
-                    item = normalize(job_id, title, job_url,
-                                     _text(location_match.group(1)) if location_match else None,
-                                     None, None, None,
-                                     _text(date_match.group(1)) if date_match else None,
-                                     COMPANY_NAME, raw_payload={"keyword": keyword}, apply_url=job_url)
-                    if item:
-                        jobs[job_id] = item
-                        added += 1
-                print(f"[Dell Technologies] keyword={keyword!r} page={page}: {len(matches)} source rows, {added} new, {len(jobs)} unique")
-                if added == 0 or len(matches) < PAGE_SIZE:
+        for page_url in pages:
+            try:
+                response = session.get(page_url, headers=headers, timeout=TIMEOUT)
+                response.raise_for_status()
+                rows = _records(response.text, response.url)
+                print(f"[Dell Technologies] Official page {response.url}: parsed {len(rows)} job links")
+                for row in rows:
+                    if row["source_job_id"] not in {x["source_job_id"] for x in output}:
+                        output.append(row)
+                if len(output) >= MAX_JOBS:
                     break
-    if not jobs:
-        raise RuntimeError("Dell Technologies official Radancy results endpoint returned no parseable listings")
-    print(f"[Dell Technologies] Complete: {len(jobs)} jobs")
-    return list(jobs.values())
+            except Exception as exc:
+                errors.append(f"{page_url}: {type(exc).__name__}: {exc}")
+                print(f"[Dell Technologies] Page fallback failed: {errors[-1]}")
+    if not output:
+        raise RuntimeError("Dell official careers pages yielded no parseable job links; " + " | ".join(errors))
+    print(f"[Dell Technologies] Complete: {len(output)} jobs")
+    return output[:MAX_JOBS]
