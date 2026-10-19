@@ -1,0 +1,35 @@
+name: NVIDIA scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/nvidia_com.py"
+      - "backend/app/scrapers/workday.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/nvidia-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  nvidia-scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare JSON output directory
+        run: mkdir -p backend/test-results
+      - name: Test NVIDIA search and pagination
+        continue-on-error: true
+        run: |
+          docker compose run --build --rm \
+            -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
+            api python scripts/test_scraper.py nvidia_com \
+            --output test-results/nvidia_com.json
+      - name: Upload NVIDIA JSON test output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nvidia-scraper-test-results
+          path: backend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
