@@ -51,8 +51,11 @@ def scrape(token: str | None = None):
             response.raise_for_status()
             parser = _JobLinkParser()
             parser.feed(response.text)
-            candidate_paths = re.findall(r"/en/jobs/[A-Za-z0-9_./-]+", response.text, re.I)
-            print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, candidate job paths={len(candidate_paths)}")
+            candidate_paths = re.findall(r"""(?:href|url)["'=:\\s]+([^"'< >]*jobs[^"'< >]*)""", response.text, re.I)
+            print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, job-like links={candidate_paths[:12]}")
+            for marker in ("jr304196", "jobRequisitionId", "jobTitle", "jobPosting", "__NEXT_DATA__", "eagerLoadRefineSearch"):
+                if marker in response.text:
+                    print(f"[Salesforce] Embedded marker present: {marker}")
             added = 0
             for href, title in parser.links:
                 job_url = urljoin(response.url, href)
