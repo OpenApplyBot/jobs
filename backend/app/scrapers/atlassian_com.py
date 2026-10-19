@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Atlassian'
-CAREERS_URL = 'https://www.atlassian.com/company/careers'
+CAREERS_URL = 'https://www.atlassian.com/company/careers/all-jobs?location=&search=&team='
 OFFICIAL_DOMAIN = 'atlassian.com'
 CSV_RANK = 80
 
