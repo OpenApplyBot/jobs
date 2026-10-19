@@ -12,6 +12,8 @@ import multiprocessing
 from queue import Empty
 from pathlib import Path
 from time import monotonic
+import os
+import tempfile
 
 MANIFEST = json.loads(
     (Path(__file__).resolve().parents[1] / "manifest.json").read_text(encoding="utf-8")
@@ -19,10 +21,26 @@ MANIFEST = json.loads(
 
 
 def _scrape_in_worker(module_name, result_queue):
+    """Run a scraper and send only a small status message through the IPC queue.
+
+    Job lists can be large enough to fill multiprocessing.Queue's pipe and block
+    the child while it serializes the payload. Persist the result to a temporary
+    JSON file instead; the queue carries only the file path.
+    """
+    result_path = None
     try:
         module = importlib.import_module(".." + module_name, package=__package__)
-        result_queue.put(("ok", module.scrape()))
+        jobs = module.scrape()
+        fd, result_path = tempfile.mkstemp(prefix="openapplybot-scrape-", suffix=".json")
+        with os.fdopen(fd, "w", encoding="utf-8") as stream:
+            json.dump(jobs, stream, ensure_ascii=False, default=str)
+        result_queue.put(("ok_file", result_path))
     except Exception as exc:
+        if result_path:
+            try:
+                os.unlink(result_path)
+            except OSError:
+                pass
         result_queue.put(("error", type(exc).__name__, str(exc)))
 
 
@@ -30,12 +48,8 @@ def _run_scraper(module_name, timeout):
     result_queue = multiprocessing.Queue()
     process = multiprocessing.Process(target=_scrape_in_worker, args=(module_name, result_queue))
     process.start()
+    result_path = None
 
-    # IMPORTANT: drain the queue before joining the child. Large scrapes return
-    # hundreds/thousands of job dictionaries; multiprocessing.Queue's pipe can
-    # fill while the child is serializing the result. Joining first deadlocks
-    # the child feeder thread and falsely reports a timeout even after scrape()
-    # has finished successfully.
     try:
         try:
             result = result_queue.get(timeout=max(1, timeout))
@@ -44,24 +58,31 @@ def _run_scraper(module_name, timeout):
             if process.is_alive():
                 process.terminate()
                 process.join(2)
-                raise TimeoutError("scraper exceeded batch timeout") from exc
+                raise TimeoutError(f"scraper exceeded {timeout}s execution timeout") from exc
             raise RuntimeError(
                 f"scraper worker exited with code {process.exitcode} without a result"
             ) from exc
 
-        # The complete result has been drained, so the child should be able to
-        # exit now. Give it a short grace period, then clean up without throwing
-        # away the already-received result.
         process.join(timeout=2)
         if process.is_alive():
             process.terminate()
             process.join(2)
-    finally:
-        result_queue.close()
 
-    if result[0] == "error":
-        raise RuntimeError(f"{result[1]}: {result[2]}")
-    return result[1]
+        if result[0] == "error":
+            raise RuntimeError(f"{result[1]}: {result[2]}")
+        if result[0] != "ok_file":
+            raise RuntimeError(f"Unexpected scraper worker result: {result[0]!r}")
+
+        result_path = result[1]
+        with open(result_path, "r", encoding="utf-8") as stream:
+            return json.load(stream)
+    finally:
+        if result_path:
+            try:
+                os.unlink(result_path)
+            except OSError:
+                pass
+        result_queue.close()
 
 
 def main() -> None:
