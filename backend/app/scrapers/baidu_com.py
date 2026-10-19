@@ -11,7 +11,7 @@ CAREERS_URL = "https://talent.baidu.com/jobs/list?recruitType=GRADUATE"
 API_URL = "https://talent.baidu.com/httservice/getPostListNew"
 OFFICIAL_DOMAIN = "talent.baidu.com"
 CSV_RANK = 15
-PAGE_SIZE = max(1, min(100, int(os.getenv("BAIDU_PAGE_SIZE", "20"))))
+PAGE_SIZE = max(1, min(100, int(os.getenv("BAIDU_PAGE_SIZE", "100"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("BAIDU_MAX_PAGES", "20"))))
 RECRUIT_TYPES = tuple(x.strip() for x in os.getenv("BAIDU_RECRUIT_TYPES", "GRADUATE,SOCIAL,INTERN").split(",") if x.strip())
 
