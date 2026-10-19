@@ -1,5 +1,5 @@
 """Company-specific scraper for Postman.
-Official careers URL candidate: https://postman.com/careers
+Official careers URL candidate: https://www.postman.com/company/careers/open-positions/
 Expected company domain: postman.com
 Customize this module with a verified public API/parser after live testing.
 """
