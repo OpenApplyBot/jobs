@@ -16,6 +16,7 @@ _PROVIDER_HOSTS = {
     "jobs.ashbyhq.com": "ashby",
     "careers.smartrecruiters.com": "smartrecruiters",
     "jobs.smartrecruiters.com": "smartrecruiters",
+    "jobs.greenhouse.io": "greenhouse",
     "apply.workable.com": "workable",
 }
 _FUNCTIONS = {
@@ -26,6 +27,7 @@ _FUNCTIONS = {
     "workable": workable.scrape,
 }
 _SKIP_TOKENS = {"jobs", "postings", "job", "search", "api", "application"}
+_GENERIC_JOB_HOSTS = ("jobs.jobvite.com", "careers-page.com", "jobs.ultipro.com", "careers.icims.com")
 
 
 def _safe_host(url):
@@ -78,6 +80,13 @@ def _provider_targets(page_url, html):
         except (TypeError, ValueError):
             continue
 
+        if any(host == suffix or host.endswith("." + suffix) for suffix in _GENERIC_JOB_HOSTS):
+            key = ("jsonld", candidate.split("#", 1)[0])
+            if key not in seen:
+                seen.add(key)
+                found.append(key)
+            continue
+
         if host.endswith(".myworkdayjobs.com"):
             key = ("workday", candidate.split("#", 1)[0])
             if key not in seen:
@@ -112,7 +121,9 @@ def _provider_targets(page_url, html):
 def _run_targets(targets):
     for provider, token in targets:
         try:
-            if provider == "workday":
+            if provider == "jsonld":
+                rows = jsonld.scrape(token)
+            elif provider == "workday":
                 rows = workday.scrape(token)
             elif provider == "recruitee":
                 rows = recruitee.scrape(token)
