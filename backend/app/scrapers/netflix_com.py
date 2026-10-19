@@ -27,8 +27,8 @@ def _diagnose_official_page():
         response = requests.get(CAREERS_URL, headers=HEADERS, timeout=TIMEOUT)
         print(f"[Netflix] Careers page status={response.status_code} url={response.url}")
         html = response.text
-        scripts = re.findall(r'<script[^>]+src=["\\']([^"\\']+)["\\']', html, re.I)[:8]
-        candidates = set(re.findall(r'["\\'](/[^"\\']{1,160}(?:api|search|job|posting)[^"\\']{0,120})["\\']', html, re.I))
+        scripts = re.findall(r'<script[^>]+src="([^"]+)"', html, re.I)[:8]
+        candidates = set(re.findall(r'"(/[^"]{1,160}(?:api|search|job|posting)[^"]{0,120})"', html, re.I))
         for script in scripts:
             script_url = urljoin(response.url, script)
             if urlparse(script_url).hostname not in {"jobs.netflix.com", "www.jobs.netflix.com"}:
@@ -36,7 +36,7 @@ def _diagnose_official_page():
             try:
                 script_response = requests.get(script_url, headers=HEADERS, timeout=TIMEOUT)
                 if script_response.ok:
-                    candidates.update(re.findall(r'["\\'](/[^"\\']{1,160}(?:api|search|job|posting)[^"\\']{0,120})["\\']', script_response.text, re.I))
+                    candidates.update(re.findall(r'"(/[^"]{1,160}(?:api|search|job|posting)[^"]{0,120})"', script_response.text, re.I))
             except requests.RequestException:
                 continue
         print(f"[Netflix] Public page script count inspected={len(scripts)}")
