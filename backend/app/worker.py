@@ -138,6 +138,11 @@ def run_source(source_id):
                         updated += 1
                     else:
                         skipped += 1
+                        # Migrate the stored fingerprint format without treating
+                        # an identical listing as changed or adding a duplicate snapshot.
+                        if job.content_hash != item.get("content_hash"):
+                            job.content_hash = item.get("content_hash")
+                            job.parser_version = item.get("parser_version")
 
                 if changed:
                     for key in JOB_DATA_FIELDS:
