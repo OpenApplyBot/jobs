@@ -1,15 +1,19 @@
-"""Company-specific scraper for ASML.
-Official careers URL candidate: https://asml.com/careers
-Expected company domain: asml.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""ASML Careers scraper using the ASML-branded public SmartRecruiters board."""
+from __future__ import annotations
+from .smartrecruiters import scrape as _smartrecruiters_scrape
 
-COMPANY_NAME = 'ASML'
-CAREERS_URL = 'https://asml.com/careers'
-OFFICIAL_DOMAIN = 'asml.com'
+COMPANY_NAME = "ASML"
+CAREERS_URL = "https://careers.smartrecruiters.com/ASML1"
+OFFICIAL_DOMAIN = "careers.smartrecruiters.com"
 CSV_RANK = 39
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "ASML1"
+    rows = _smartrecruiters_scrape(board)
+    for row in rows:
+        row["company_name"] = COMPANY_NAME
+        row["raw_payload"] = {**(row.get("raw_payload") or {}), "company_board": "ASML1"}
+    if not rows:
+        raise RuntimeError("ASML-branded SmartRecruiters board returned no public listings")
+    print(f"[ASML] Complete: {len(rows)} jobs")
+    return rows
