@@ -1,5 +1,5 @@
 """Company-specific scraper for Sony.
-Official global careers portal: https://www.sony.com/en/SonyInfo/Careers/
+Official global careers portal: https://www.sonyjobs.com/jobs.html
 Expected company domain: sony.com
 Customize this module with a verified public API/parser after live testing.
 """
