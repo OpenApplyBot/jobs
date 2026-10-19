@@ -1,0 +1,43 @@
+name: Apple scraper smoke test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/apple_com.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/apple-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  apple-scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare JSON output directory
+        run: mkdir -p backend/test-results
+      - name: Test Apple search and pagination
+        run: |
+          docker compose run --build --rm \
+            -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
+            api python scripts/test_scraper.py apple_com \
+            --env APPLE_MAX_PAGES=2 \
+            --env APPLE_FETCH_DETAILS=0 \
+            --output test-results/apple_com.json
+      - name: Test Apple detail enrichment
+        run: |
+          docker compose run --build --rm \
+            -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
+            api python scripts/test_scraper.py apple_com \
+            --env APPLE_MAX_PAGES=1 \
+            --env APPLE_FETCH_DETAILS=1 \
+            --output test-results/apple_com_details.json
+      - name: Upload Apple scraper JSON results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: apple-scraper-test-results
+          path: backend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
