@@ -1,5 +1,5 @@
 """Company-specific scraper for Cisco.
-Official careers URL candidate: https://jobs.cisco.com/
+Official careers URL candidate: https://careers.cisco.com/global/en/search-results
 Expected company domain: cisco.com
 Customize this module with a verified public API/parser after live testing.
 """
