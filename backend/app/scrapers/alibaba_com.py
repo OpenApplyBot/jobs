@@ -7,7 +7,7 @@ import requests
 from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "Alibaba Group"
-CAREERS_URL = "https://talent.alibaba.com/off-campus/position-list?lang=en"
+CAREERS_URL = "https://talent.alibaba.com/off-campus/position-list?lang=zh"
 API_URL = "https://talent.alibaba.com/pubapis/position/search"
 OFFICIAL_DOMAIN = "talent.alibaba.com"
 CSV_RANK = 14
@@ -55,6 +55,11 @@ def scrape(token: str | None = None):
                 return rows
     output, seen = [], set()
     with requests.Session() as session:
+        # Establish a normal first-party browser session before calling the
+        # same public JSON endpoint used by the careers page.
+        bootstrap = session.get(CAREERS_URL, headers=API_HEADERS, timeout=TIMEOUT)
+        bootstrap.raise_for_status()
+        session.headers.update(API_HEADERS)
         for page in range(1, MAX_PAGES + 1):
             payload = {
                 "keyword": "",
