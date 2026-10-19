@@ -158,7 +158,7 @@ def test_fetch_jobs_separates_hash_verified_unchanged_rows(monkeypatch):
         "https://jobs.example.test/existing-1",
         location="Pune",
         description="Build systems",
-        company="Acme",
+        company="acme",
         raw_payload=existing_row,
     )
     assert stored is not None
