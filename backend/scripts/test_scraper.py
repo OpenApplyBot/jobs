@@ -1,7 +1,7 @@
 """Run one scraper manually and save its returned records to JSON.
 
 Run from the backend directory:
-    python scripts/test_scraper.py google_com --output test-results/google_com.json
+    python scripts/test_scraper.py google_com --env GOOGLE_MAX_PAGES=1 --env GOOGLE_FETCH_DETAILS=0
 This calls the scraper directly; it does not write to the application database.
 """
 from __future__ import annotations
@@ -9,14 +9,14 @@ from __future__ import annotations
 import argparse
 import importlib
 import json
+import os
 import re
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Run a single scraper and save its results as JSON.")
+    parser = argparse.ArgumentParser(description="Run one scraper and save its results as JSON.")
     parser.add_argument("scraper", help="Scraper module name, e.g. google_com or microsoft_com")
     parser.add_argument(
         "--output",
@@ -28,10 +28,23 @@ def main() -> int:
         default=None,
         help="Optional URL/token passed to the scraper's scrape(token) function",
     )
+    parser.add_argument(
+        "--env",
+        action="append",
+        default=[],
+        metavar="KEY=VALUE",
+        help="Set an environment variable before importing the scraper; repeat as needed",
+    )
     args = parser.parse_args()
 
     if not re.fullmatch(r"[a-zA-Z0-9_]+", args.scraper):
         parser.error("scraper must be a simple Python module name, e.g. google_com")
+
+    for assignment in args.env:
+        key, separator, value = assignment.partition("=")
+        if not separator or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", key):
+            parser.error(f"invalid --env {assignment!r}; expected KEY=VALUE")
+        os.environ[key] = value
 
     try:
         module = importlib.import_module(f"app.scrapers.{args.scraper}")
@@ -54,9 +67,8 @@ def main() -> int:
             rows = []
         if not isinstance(rows, list):
             raise TypeError(f"scrape() returned {type(rows).__name__}, expected list")
-        # Ensure every returned record can be represented as valid JSON before replacing output.
         encoded = json.dumps(rows, ensure_ascii=False, indent=2, default=str, allow_nan=False)
-        json.loads(encoded)
+        json.loads(encoded)  # Verify valid JSON before writing the output.
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(encoded + "\n", encoding="utf-8")
     except Exception as exc:
@@ -70,12 +82,13 @@ def main() -> int:
         first = rows[0]
         if isinstance(first, dict):
             print("Fields:  " + ", ".join(sorted(first.keys())))
-            for index, row in enumerate(rows):
-                if not isinstance(row, dict):
-                    print(f"WARNING: record {index} is {type(row).__name__}, not an object")
-            missing_title = sum(not row.get("title") for row in rows if isinstance(row, dict))
-            missing_url = sum(not row.get("url") for row in rows if isinstance(row, dict))
-            print(f"Missing title: {missing_title}; missing URL: {missing_url}")
+            invalid_rows = [
+                index for index, row in enumerate(rows)
+                if not isinstance(row, dict) or not row.get("title") or not row.get("url")
+            ]
+            print(f"Records missing object/title/URL: {len(invalid_rows)}")
+            if invalid_rows:
+                print(f"First invalid record indexes: {invalid_rows[:20]}")
     else:
         print("WARNING: scraper returned zero records; inspect its logs and official careers page.")
     return 0
