@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Dell Technologies"
-CAREERS_URL = "https://dell.wd1.myworkdayjobs.com/en-US/External"
+CAREERS_URL = "https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers/jobs"
 API_URL = "https://dell.wd1.myworkdayjobs.com/wday/cxs/dell/External/jobs"
 OFFICIAL_DOMAIN = "dell.wd1.myworkdayjobs.com"
 CSV_RANK = 30
@@ -14,6 +14,16 @@ PAGE_SIZE = max(1, min(20, int(os.getenv("DELL_PAGE_SIZE", "20"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("DELL_MAX_PAGES", "2"))))
 
 def scrape(token: str | None = None):
+    # Dell migrated its public job-search experience to Oracle Candidate
+    # Experience. Prefer the current official portal, retaining Workday as fallback.
+    try:
+        from .auto import scrape as auto_scrape
+        current_portal_rows = auto_scrape(CAREERS_URL)
+        if current_portal_rows:
+            print(f"[Dell] Current official careers portal returned {len(current_portal_rows)} jobs")
+            return current_portal_rows[:PAGE_SIZE * MAX_PAGES]
+    except Exception as portal_exc:
+        print(f"[Dell] Current portal generic extraction failed; trying legacy API: {portal_exc}")
     output, seen = [], set()
     headers = {**HEADERS, "Accept": "application/json", "Content-Type": "application/json",
                "Origin": "https://dell.wd1.myworkdayjobs.com", "Referer": CAREERS_URL}
