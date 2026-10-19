@@ -1,15 +1,11 @@
-"""Company-specific scraper for Databricks.
-Official careers URL candidate: https://databricks.com/careers
-Expected company domain: databricks.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Databricks scraper using its official public Greenhouse job board API."""
+from .greenhouse import scrape as _scrape_greenhouse
 
-COMPANY_NAME = 'Databricks'
-CAREERS_URL = 'https://databricks.com/careers'
-OFFICIAL_DOMAIN = 'databricks.com'
+COMPANY_NAME = "Databricks"
+CAREERS_URL = "https://boards.greenhouse.io/databricks"
+OFFICIAL_DOMAIN = "greenhouse.io"
 CSV_RANK = 50
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "databricks"
+    return _scrape_greenhouse(board, company=COMPANY_NAME)
