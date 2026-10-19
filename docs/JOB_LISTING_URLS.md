@@ -9,7 +9,7 @@
 | # | Company | Direct job listings / open roles |
 |---:|---|---|
 | 1 | Google | https://www.google.com/about/careers/applications/jobs/results/ |
-| 2 | Microsoft | https://careers.microsoft.com/v2/global/en/search |
+| 2 | Microsoft | https://careers.microsoft.com/v2/global/en/home.html?keywords=software+engineer |
 | 3 | Amazon | https://www.amazon.jobs/en/search |
 | 4 | Apple | https://jobs.apple.com/en-us/search |
 | 5 | Meta | https://www.metacareers.com/jobs |
