@@ -2,12 +2,14 @@
 from __future__ import annotations
 
 import os
+import time
 import requests
 
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Huawei"
-CAREERS_URL = "https://career.huawei.com/reccampportal/portal5/campus-recruitment.html"
+PORTAL_ROOT = "https://career.huawei.com/reccampportal"
+CAREERS_URL = PORTAL_ROOT + "/portal5/campus-recruitment.html"
 API_BASE = "https://career.huawei.com/reccampportal/services/portal/portalpub/getJob/newHr/page"
 OFFICIAL_DOMAIN = "huawei.com"
 CSV_RANK = 16
@@ -40,6 +42,7 @@ def scrape(token: str | None = None):
     output, seen = [], set()
     with requests.Session() as session:
         session.headers.update(API_HEADERS)
+        session.get(PORTAL_ROOT + "/", timeout=TIMEOUT).raise_for_status()
         session.get(CAREERS_URL, timeout=TIMEOUT).raise_for_status()
         for page in range(1, MAX_PAGES + 1):
             params = {
@@ -51,6 +54,7 @@ def scrape(token: str | None = None):
                 "language": "zh_CN",
                 "orderBy": "ISS_STARTDATE_DESC_AND_IS_HOT_JOB",
                 "jobType": "3",
+                "reqTime": int(time.time() * 1000),
             }
             url = f"{API_BASE}/{PAGE_SIZE}/{page}"
             response = session.get(url, params=params, headers=API_HEADERS, timeout=TIMEOUT)
