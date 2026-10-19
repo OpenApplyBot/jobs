@@ -6,9 +6,9 @@ ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 BACKEND="$ROOT/backend"
 REPORT="${REPORT:-$BACKEND/company_scraper_test_report.jsonl}"
 WORKERS="${WORKERS:-8}"
-TIMEOUT="${TIMEOUT:-30}"
-RETRIES="${RETRIES:-1}"
-BATCH_SIZE="${BATCH_SIZE:-50}"
+TIMEOUT="${TIMEOUT:-12}"
+RETRIES="${RETRIES:-0}"
+BATCH_SIZE="${BATCH_SIZE:-25}"
 RESUME="${RESUME:-1}"
 
 if [[ ! -f "$BACKEND/app/scrapers/companies/test_batch.py" ]]; then
@@ -22,6 +22,7 @@ export PYTHONUNBUFFERED=1
 export JOB_HTTP_TIMEOUT="${JOB_HTTP_TIMEOUT:-10}"
 
 echo "Local scraper audit (GitHub Actions is not used)"
+echo "Tip: first pass is intentionally fast; rerun failed/empty companies with a longer timeout afterward."
 echo "Manifest: app/scrapers/manifest.json"
 echo "Report:   $REPORT"
 echo "Workers:  $WORKERS | timeout: ${TIMEOUT}s | retries: $RETRIES | batch: $BATCH_SIZE"
