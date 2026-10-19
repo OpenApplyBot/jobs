@@ -109,18 +109,18 @@
 | 99 | Dynatrace | https://careers.dynatrace.com/jobs |
 | 100 | Shopify | https://www.shopify.com/careers |
 | 101 | Mercury | https://mercury.com/jobs |
-| 102 | Snowplow | https://snowplow.io/careers |
-| 103 | Temporal | https://temporal.io/careers |
-| 104 | dbt Labs | https://www.getdbt.com/about-us/careers |
-| 105 | Astronomer | https://www.astronomer.io/careers/ |
+| 102 | Snowplow | https://jobs.ashbyhq.com/snowplow |
+| 103 | Temporal | https://job-boards.greenhouse.io/temporaltechnologies |
+| 104 | dbt Labs | https://job-boards.greenhouse.io/dbtlabs |
+| 105 | Astronomer | https://job-boards.greenhouse.io/astronomer |
 | 106 | Retool | https://retool.com/careers |
 | 107 | Kong | https://careers.konghq.com/ |
 | 108 | Render | https://render.com/careers |
 | 109 | Together AI | https://job-boards.greenhouse.io/togetherai |
 | 110 | Pinecone | https://www.pinecone.io/careers/ |
-| 111 | LangChain | https://www.langchain.com/careers |
-| 112 | Fivetran | https://www.fivetran.com/careers |
-| 113 | Airbyte | https://airbyte.com/company/careers |
+| 111 | LangChain | https://jobs.ashbyhq.com/langchain |
+| 112 | Fivetran | https://job-boards.greenhouse.io/fivetran |
+| 113 | Airbyte | https://jobs.ashbyhq.com/airbyte |
 | 114 | Toast | https://careers.toasttab.com/ |
 | 115 | Superhuman | https://superhuman.com/company/careers/jobs |
 | 116 | Stripe | https://stripe.com/jobs/search |
@@ -142,4 +142,4 @@
 - Redirects are followed and final HTTP status is recorded.
 - A destination must return a successful response and show job-listing/role content; a generic marketing page is not an acceptable target.
 - JavaScript-rendered sites that cannot be verified by the lightweight HTTP check must be reviewed manually before being marked verified.
-- These URL checks do not substitute for end-to-end scraper tests that confirm actual job records are extracted.
+- These URL checks do not substitute for end-to-end scraper tests that confirm actual job records are extracted. Some official sites block automated clients; the script only treats such cases as passing when that exact URL is listed in the browser-verified allowlist.
