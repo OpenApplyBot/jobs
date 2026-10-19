@@ -14,6 +14,7 @@ def migrate_schema():
     if engine.dialect.name != "postgresql": return
     has_jobs = inspect(engine).has_table("jobs")
     has_runs = inspect(engine).has_table("connector_runs")
+    has_sources = inspect(engine).has_table("sources")
     columns={
         "team_name":"VARCHAR(300)","seniority":"VARCHAR(80)","summary":"TEXT","apply_url":"VARCHAR(2000)","work_mode":"VARCHAR(40)","location_city":"VARCHAR(200)","location_region":"VARCHAR(200)","location_country":"VARCHAR(200)","timezone_requirements":"VARCHAR(300)",
         "eligible_countries":"JSONB DEFAULT '[]'::jsonb","remote_scope":"VARCHAR(100)","visa_sponsorship":"BOOLEAN","relocation_available":"BOOLEAN",
@@ -26,6 +27,8 @@ def migrate_schema():
                 connection.execute(text(f"ALTER TABLE jobs ADD COLUMN IF NOT EXISTS {name} {definition}"))
         if has_runs:
             connection.execute(text("ALTER TABLE connector_runs ADD COLUMN IF NOT EXISTS skipped INTEGER NOT NULL DEFAULT 0"))
+        if has_sources:
+            connection.execute(text("ALTER TABLE sources ADD COLUMN IF NOT EXISTS incremental_ready BOOLEAN NOT NULL DEFAULT FALSE"))
 
 def repair_job_links():
     """Repair unsafe application links without inventing replacement job URLs."""
