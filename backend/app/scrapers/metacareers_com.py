@@ -31,7 +31,12 @@ def _diagnose_official_page():
                 script_response = requests.get(script_url, headers=HEADERS, timeout=TIMEOUT)
                 if script_response.ok:
                     inspected += 1
-                    candidates.update(re.findall(pattern, script_response.text, re.I))
+                    bundle_text = script_response.text
+                    candidates.update(re.findall(pattern, bundle_text, re.I))
+                    for marker in ("CPJobSearchQuery", "doc_id", "/api/graphql"):
+                        marker_index = bundle_text.find(marker)
+                        if marker_index >= 0:
+                            print(f"[Meta] Bundle evidence for {marker}: {bundle_text[max(0, marker_index - 250):marker_index + 700]}")
             except requests.RequestException:
                 continue
         print(f"[Meta] Public script bundles inspected={inspected}")
