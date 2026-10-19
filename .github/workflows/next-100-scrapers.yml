@@ -100,7 +100,7 @@ jobs:
           while IFS=$'\t' read -r rank module company; do
             [ -n "$module" ] || continue
             echo "::group::Rank $rank — $company ($module)"
-            timeout 90s python backend/scripts/test_scraper.py "$module" --output "backend/test-results/$module.json"
+            (cd backend && timeout 90s python scripts/test_scraper.py "$module" --output "test-results/$module.json")
             rc=$?
             if [ "$rc" -eq 0 ]; then
               echo "RESULT PASS rank=$rank module=$module"
