@@ -123,3 +123,16 @@ def test_deduplicates_and_cleans_html(monkeypatch):
     monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":" SWE ","absolute_url":"https://x.test/1","content":"<p>A &amp; B</p>"},{"id":1,"title":"SWE","absolute_url":"https://x.test/1"}]}))
     rows=fetch_jobs("greenhouse","x")
     assert len(rows)==1 and rows[0]["description"]=="A & B"
+
+
+def test_normalizer_fingerprint_changes_when_listing_location_changes():
+    pune = normalize(
+        "job-1", "Platform Engineer", "https://jobs.example.test/1",
+        location="Pune, India", company="Acme", description="Build systems",
+    )
+    remote = normalize(
+        "job-1", "Platform Engineer", "https://jobs.example.test/1",
+        location="Remote", company="Acme", description="Build systems",
+    )
+    assert pune is not None and remote is not None
+    assert pune["content_hash"] != remote["content_hash"]
