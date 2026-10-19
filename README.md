@@ -75,3 +75,29 @@ python -m app.scrapers.companies.test_batch --offset 50 --limit 50 --workers 10 
 ```
 
 Reports append to `company_scraper_test_report.jsonl`. `success` with zero jobs is not proof that a source works; inspect the actual page and report before customizing that company's module. `--workers` runs sources in parallel and `--timeout` isolates slow or blocked sites. The generated modules are testable scraper entry points; the existing production database pipeline still uses the source registry and three parallel workers from `run.sh`.
+
+
+## Run the full 500-company audit locally (no GitHub Actions)
+
+The resumable local runner uses your machine, not GitHub-hosted runners. It tests the full manifest in bounded batches, retries transient errors, appends results to JSONL, and writes the latest failed rows to a separate JSON file. It does not write mock jobs to the database.
+
+```bash
+git pull
+chmod +x scripts/audit-scrapers-local.sh
+# Recommended for a 16 GB laptop; tune WORKERS down if sites throttle requests.
+WORKERS=8 TIMEOUT=30 RETRIES=1 BATCH_SIZE=50 bash scripts/audit-scrapers-local.sh
+```
+
+To keep it running after closing the terminal, use `tmux` (recommended) or:
+
+```bash
+nohup env WORKERS=8 TIMEOUT=30 RETRIES=1 BATCH_SIZE=50 \\
+  bash scripts/audit-scrapers-local.sh > scraper-audit.log 2>&1 &
+tail -f scraper-audit.log
+```
+
+Reports are stored under `backend/` by default:
+- `company_scraper_test_report.jsonl`: append-only history for each run.
+- `company_scraper_failures_latest.json`: latest rows classified as invalid or error.
+
+Rerunning the command skips companies that previously returned at least one valid job (`success`) and retries empty/failed sources. To retest everything from scratch, use `RESUME=0`. A zero-job result is not considered a proven working integration; it needs inspection against the company's live careers page.
