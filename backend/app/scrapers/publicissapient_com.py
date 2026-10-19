@@ -1,15 +1,18 @@
-"""Company-specific scraper for Publicis Sapient.
-Official careers URL candidate: https://publicissapient.com/careers
-Expected company domain: publicissapient.com
-Customize this module with a verified public API/parser after live testing.
+"""Publicis Sapient scraper using its current official careers portal.
+
+The old publicissapient.com/careers URL was stale. Current public listings are
+published on careers.publicissapient.com/job-search; generic discovery then
+checks the live page for a public ATS feed or structured job data.
 """
 from .auto import scrape as _auto_scrape
 
-COMPANY_NAME = 'Publicis Sapient'
-CAREERS_URL = 'https://publicissapient.com/careers'
-OFFICIAL_DOMAIN = 'publicissapient.com'
+COMPANY_NAME = "Publicis Sapient"
+CAREERS_URL = "https://careers.publicissapient.com/job-search"
+OFFICIAL_DOMAIN = "publicissapient.com"
 CSV_RANK = 156
 
+
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    """Fetch listings from the current official career-search page."""
+    url = token.strip() if token and token.strip() else CAREERS_URL
+    return _auto_scrape(url)
