@@ -1,5 +1,5 @@
 """Company-specific scraper for Cyient.
-Official careers URL candidate: https://cyient.com/careers
+Official careers URL candidate: https://www.cyient.careers/
 Expected company domain: cyient.com
 Customize this module with a verified public API/parser after live testing.
 """
