@@ -30,18 +30,35 @@ def _run_scraper(module_name, timeout):
     result_queue = multiprocessing.Queue()
     process = multiprocessing.Process(target=_scrape_in_worker, args=(module_name, result_queue))
     process.start()
-    process.join(max(1, timeout))
-    if process.is_alive():
-        process.terminate()
-        process.join(2)
-        raise TimeoutError("scraper exceeded batch timeout")
+
+    # IMPORTANT: drain the queue before joining the child. Large scrapes return
+    # hundreds/thousands of job dictionaries; multiprocessing.Queue's pipe can
+    # fill while the child is serializing the result. Joining first deadlocks
+    # the child feeder thread and falsely reports a timeout even after scrape()
+    # has finished successfully.
     try:
-        # Queue.empty() is unreliable across processes; allow time for the feeder to flush.
-        result = result_queue.get(timeout=2)
-    except Empty as exc:
-        raise RuntimeError(f"scraper worker exited with code {process.exitcode} without a result") from exc
+        try:
+            result = result_queue.get(timeout=max(1, timeout))
+        except Empty as exc:
+            process.join(timeout=0.2)
+            if process.is_alive():
+                process.terminate()
+                process.join(2)
+                raise TimeoutError("scraper exceeded batch timeout") from exc
+            raise RuntimeError(
+                f"scraper worker exited with code {process.exitcode} without a result"
+            ) from exc
+
+        # The complete result has been drained, so the child should be able to
+        # exit now. Give it a short grace period, then clean up without throwing
+        # away the already-received result.
+        process.join(timeout=2)
+        if process.is_alive():
+            process.terminate()
+            process.join(2)
     finally:
         result_queue.close()
+
     if result[0] == "error":
         raise RuntimeError(f"{result[1]}: {result[2]}")
     return result[1]
@@ -80,6 +97,7 @@ def main() -> None:
     report_path = Path(args.report)
     report_path.parent.mkdir(parents=True, exist_ok=True)
     counts = {"with_jobs": 0, "empty": 0, "invalid": 0, "errors": 0}
+
     def run_one(index_item):
         i, item = index_item
         t0 = monotonic()
