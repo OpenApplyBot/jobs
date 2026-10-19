@@ -63,10 +63,10 @@ def scrape(token: str | None = None):
         session.headers.update(API_HEADERS)
         csrf = None
         for pattern in (
-            r"name=['\\\"]_csrf['\\\"]\\s+content=['\\\"]([^'\\\"]+)",
-            r"name=['\\\"]_csrf['\\\"]\\s+value=['\\\"]([^'\\\"]+)",
-            r"['\\\"]_csrf['\\\"]\\s*:\\s*['\\\"]([^'\\\"]+)",
-            r"_csrf=([A-Za-z0-9._-]+)",
+            r"""name=['"]_csrf['"]\\s+content=['"]([^'"]+)""",
+            r"""name=['"]_csrf['"]\\s+value=['"]([^'"]+)""",
+            r"""['_"]csrf['"]\\s*:\\s*['"]([^'"]+)""",
+            r"""_csrf=([A-Za-z0-9._-]+)""",
         ):
             match = re.search(pattern, bootstrap.text, re.I)
             if match:
