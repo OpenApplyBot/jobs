@@ -1,15 +1,14 @@
-"""Company-specific scraper for Grafana Labs.
-Official careers URL candidate: https://grafana.com/careers
-Expected company domain: grafana.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Grafana Labs scraper using its verified public Greenhouse job board."""
+from .greenhouse import scrape as _scrape_greenhouse
 
-COMPANY_NAME = 'Grafana Labs'
-CAREERS_URL = 'https://grafana.com/careers'
-OFFICIAL_DOMAIN = 'grafana.com'
+COMPANY_NAME = "Grafana Labs"
+CAREERS_URL = "https://grafana.com/about/careers/"
+BOARD_TOKEN = "grafanalabs"
+OFFICIAL_DOMAIN = "grafana.com"
 CSV_RANK = 97
 
+
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    """Fetch Grafana Labs's public Greenhouse postings."""
+    board = token.strip() if token and token.strip() else BOARD_TOKEN
+    return _scrape_greenhouse(board, company=COMPANY_NAME)
