@@ -75,17 +75,6 @@ def scrape(token: str | None = None):
         parser = _WorkablePage()
         parser.feed(response.text)
         rows = []
-        # Prefer Workable's public board API when its SSR HTML has no job cards.
-        if not parser.links and not parser.scripts:
-            api_response = session.get(API_URL, headers={**headers, "Accept": "application/json"}, timeout=TIMEOUT)
-            if api_response.ok:
-                try:
-                    api_payload = api_response.json()
-                    api_rows = api_payload.get("jobs") or api_payload.get("results") or [] if isinstance(api_payload, dict) else []
-                    if isinstance(api_rows, list):
-                        rows.extend(x for x in api_rows if isinstance(x, dict))
-                except ValueError:
-                    pass
         seen = set()
         for url, title in parser.links:
             job_id = url.rstrip("/").rsplit("/", 1)[-1]
@@ -108,6 +97,16 @@ def scrape(token: str | None = None):
                 if job_id and title and url and job_id not in seen:
                     seen.add(job_id)
                     rows.append(row | {"shortcode": job_id, "title": title, "url": url})
+        if not rows:
+            api_response = session.get(API_URL, headers={**headers, "Accept": "application/json"}, timeout=TIMEOUT)
+            if api_response.ok:
+                try:
+                    api_payload = api_response.json()
+                    api_rows = api_payload.get("jobs") or api_payload.get("results") or [] if isinstance(api_payload, dict) else []
+                    if isinstance(api_rows, list):
+                        rows.extend(x for x in api_rows if isinstance(x, dict))
+                except ValueError:
+                    pass
         output = []
         for row in rows:
             job_id = clean(row.get("shortcode") or row.get("id") or row.get("jobId") or row.get("url"))
