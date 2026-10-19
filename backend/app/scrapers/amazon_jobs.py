@@ -130,12 +130,12 @@ def _normalize(item):
     title = _text(_first(item, "title", "job_title", "jobTitle", "name", "display_title"))
     if not url or not title:
         return None
-    location = _first(item, "location", "locations", "normalized_location", "location_name", "city")
+    location = _first(item, "location", "locations", "jobLocation", "normalized_location", "location_name", "city")
     if location is not None:
         location = location_text(location) or _text(location)
     department = _text(_first(item, "job_category", "category", "team", "business_category", "job_family"))
-    employment_type = _text(_first(item, "job_type", "employment_type", "schedule_type", "type"))
-    description = _first(item, "description", "job_description", "description_text", "basic_qualifications")
+    employment_type = _text(_first(item, "job_type", "employment_type", "employmentType", "schedule_type", "type"))
+    description = _first(item, "description", "job_description", "description_text", "basic_qualifications", "responsibilities")
     if isinstance(description, dict):
         description = _first(description, "text", "html", "value")
     job_id = _job_id(item, url)
@@ -147,7 +147,7 @@ def _normalize(item):
         department=department,
         employment_type=employment_type,
         description=description,
-        posted_at=_posted(_first(item, "posted_date", "postedDate", "posted_at", "date_posted", "created_at")),
+        posted_at=_posted(_first(item, "posted_date", "postedDate", "posted_at", "date_posted", "datePosted", "created_at")),
         company=COMPANY_NAME,
         raw_payload=item,
         apply_url=url,
