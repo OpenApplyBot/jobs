@@ -19,8 +19,14 @@ def scrape(token: str | None = None):
     headers = {**HEADERS, "Accept": "application/json", "Content-Type": "application/json", "Origin": "https://synopsys.wd1.myworkdayjobs.com", "Referer": CAREERS_URL}
     with requests.Session() as session:
         for page in range(MAX_PAGES):
-            body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": []}
+            body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
             response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
+            if response.status_code in (400, 404, 422):
+                print(f"[Synopsys] Workday CXS rejected site/API (HTTP {response.status_code}); trying the official careers page")
+                from .auto import scrape as auto_scrape
+                fallback = auto_scrape("https://careers.synopsys.com/")
+                if fallback:
+                    return fallback
             response.raise_for_status()
             payload = response.json()
             rows = payload.get("jobPostings") or []
