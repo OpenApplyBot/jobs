@@ -25,7 +25,7 @@ DETAIL_URL = "https://apply.careers.microsoft.com/api/pcsx/position_details"
 OFFICIAL_DOMAIN = "microsoft.com"
 CSV_RANK = 2
 
-MAX_PAGES = max(1, int(os.getenv("MICROSOFT_MAX_PAGES", "200")))
+MAX_PAGES = max(1, int(os.getenv("MICROSOFT_MAX_PAGES", "300")))
 PAGE_SIZE = max(1, min(100, int(os.getenv("MICROSOFT_PAGE_SIZE", "10"))))
 FETCH_DETAILS = os.getenv("MICROSOFT_FETCH_DETAILS", "1").lower() not in {"0", "false", "no"}
 DETAIL_WORKERS = max(1, min(6, int(os.getenv("MICROSOFT_DETAIL_WORKERS", "4"))))
