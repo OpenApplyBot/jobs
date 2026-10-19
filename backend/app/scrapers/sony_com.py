@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Sony'
-CAREERS_URL = 'https://www.sony.com/en/SonyInfo/Careers/'
+CAREERS_URL = 'https://www.sonyjobs.com/jobs.html'
 OFFICIAL_DOMAIN = 'sony.com'
 CSV_RANK = 18
 
