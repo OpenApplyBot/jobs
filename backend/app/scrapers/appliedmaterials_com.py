@@ -22,6 +22,11 @@ def scrape(token: str | None = None):
             response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
             response.raise_for_status()
             payload = response.json()
+            if not isinstance(payload, dict):
+                if output:
+                    print(f"[Applied Materials] Non-object API response on page {page + 1}; keeping {len(output)} valid jobs already collected")
+                    break
+                raise RuntimeError(f"Applied Materials Workday API returned {type(payload).__name__}, expected JSON object")
             rows = payload.get("jobPostings") or []
             total = payload.get("total")
             if not rows:
