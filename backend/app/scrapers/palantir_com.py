@@ -1,15 +1,19 @@
-"""Company-specific scraper for Palantir.
-Official careers URL candidate: https://palantir.com/careers
-Expected company domain: palantir.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Palantir Careers scraper using Palantir's public Lever board."""
+from __future__ import annotations
+from .lever import scrape as _lever_scrape
 
-COMPANY_NAME = 'Palantir'
-CAREERS_URL = 'https://palantir.com/careers'
-OFFICIAL_DOMAIN = 'palantir.com'
+COMPANY_NAME = "Palantir"
+CAREERS_URL = "https://jobs.lever.co/palantir"
+OFFICIAL_DOMAIN = "jobs.lever.co"
 CSV_RANK = 52
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "palantir"
+    rows = _lever_scrape(board)
+    for row in rows:
+        row["company_name"] = COMPANY_NAME
+        row["raw_payload"] = {**(row.get("raw_payload") or {}), "company_board": "palantir"}
+    if not rows:
+        raise RuntimeError("Palantir public Lever board returned no listings")
+    print(f"[Palantir] Complete: {len(rows)} jobs")
+    return rows
