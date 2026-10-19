@@ -1,0 +1,149 @@
+name: Next 50 company scrapers (sequential live tests)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/next-50-scrapers.yml"
+      - "backend/app/scrapers/**"
+      - "backend/scripts/test_scraper.py"
+      - "backend/requirements.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: "Rank ${{ matrix.rank }} — ${{ matrix.module }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+          - module: baidu_com
+            rank: 15
+          - module: huawei_com
+            rank: 16
+          - module: samsung_com
+            rank: 17
+          - module: sony_com
+            rank: 18
+          - module: panasonic_com
+            rank: 19
+          - module: lg_com
+            rank: 20
+          - module: ibm_com
+            rank: 21
+          - module: oracle_com
+            rank: 22
+          - module: salesforce_com
+            rank: 23
+          - module: adobe_com
+            rank: 24
+          - module: sap_com
+            rank: 25
+          - module: cisco_com
+            rank: 26
+          - module: intel_com
+            rank: 27
+          - module: amd_com
+            rank: 28
+          - module: qualcomm_com
+            rank: 29
+          - module: dell_com
+            rank: 30
+          - module: hp_com
+            rank: 31
+          - module: hpe_com
+            rank: 32
+          - module: lenovo_com
+            rank: 33
+          - module: arm_com
+            rank: 34
+          - module: broadcom_com
+            rank: 35
+          - module: micron_com
+            rank: 36
+          - module: ti_com
+            rank: 37
+          - module: appliedmaterials_com
+            rank: 38
+          - module: asml_com
+            rank: 39
+          - module: tsmc_com
+            rank: 40
+          - module: synopsys_com
+            rank: 41
+          - module: cadence_com
+            rank: 42
+          - module: ericsson_com
+            rank: 43
+          - module: nokia_com
+            rank: 44
+          - module: juniper_net
+            rank: 45
+          - module: arista_com
+            rank: 46
+          - module: motorolasolutions_com
+            rank: 47
+          - module: redhat_com
+            rank: 48
+          - module: canonical_com
+            rank: 49
+          - module: databricks_com
+            rank: 50
+          - module: snowflake_com
+            rank: 51
+          - module: palantir_com
+            rank: 52
+          - module: scale_com
+            rank: 53
+          - module: cohere_com
+            rank: 54
+          - module: mistral_ai
+            rank: 55
+          - module: huggingface_co
+            rank: 56
+          - module: perplexity_ai
+            rank: 57
+          - module: runwayml_com
+            rank: 58
+          - module: stability_ai
+            rank: 59
+          - module: elevenlabs_io
+            rank: 60
+          - module: character_ai
+            rank: 61
+          - module: waymo_com
+            rank: 62
+          - module: anduril_com
+            rank: 63
+          - module: mongodb_com
+            rank: 64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install backend requirements
+        run: python -m pip install -r backend/requirements.txt
+      - name: Prepare JSON output
+        run: mkdir -p backend/test-results
+      - name: Run live scraper and validate output
+        working-directory: backend
+        env:
+          JOB_HTTP_TIMEOUT: "10"
+        run: python scripts/test_scraper.py ${{ matrix.module }} --output test-results/${{ matrix.module }}.json
+      - name: Upload per-company JSON output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scraper-${{ matrix.rank }}-${{ matrix.module }}-json
+          path: backend/test-results/${{ matrix.module }}.json
+          if-no-files-found: warn
+          retention-days: 7
