@@ -4,6 +4,16 @@ import inspect
 from .scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,company
 SCRAPERS={"greenhouse":greenhouse.scrape,"lever":lever.scrape,"ashby":ashby.scrape,"smartrecruiters":smartrecruiters.scrape,"workable":workable.scrape,"recruitee":recruitee.scrape,"workday":workday.scrape,"remoteok":remoteok.scrape,"remotive":remotive.scrape,"arbeitnow":arbeitnow.scrape,"themuse":themuse.scrape,"jobicy":jobicy.scrape,"himalayas":himalayas.scrape,"jsonld":jsonld.scrape,"auto":auto.scrape,"company":company.scrape}
 CONNECTORS=tuple(sorted(SCRAPERS))
+
+
+class JobFetchResult(list):
+    """List-compatible normalized results with optional scraper capability metadata."""
+
+    def __init__(self, jobs=(), *, incremental_ready=None):
+        super().__init__(jobs)
+        self.incremental_ready = incremental_ready
+
+
 def fetch_jobs(connector, token, known_job_ids=None):
     """Fetch normalized jobs, forwarding known IDs to adapters that support deltas."""
     name = connector.strip().lower()
@@ -21,7 +31,8 @@ def fetch_jobs(connector, token, known_job_ids=None):
         except (TypeError, ValueError):
             pass
     rows = scraper(token.strip(), **kwargs) or []
-    result = []
+    incremental_ready = getattr(rows, "incremental_ready", None)
+    result = JobFetchResult(incremental_ready=incremental_ready)
     seen = set()
     for row in rows:
         if not isinstance(row,dict): continue
