@@ -18,7 +18,7 @@ def _diagnose_official_page():
         print(f"[TikTok] Careers page status={response.status_code} url={response.url}")
         html = response.text
         scripts = re.findall(r'<script[^>]+src="([^"]+)"', html, re.I)[:10]
-        candidates = set(re.findall(r'"(/[^"]{1,160}(?:api|search|job|posting)[^"]{0,120})"', html, re.I))
+        candidates = set(re.findall(r'"([^"]{0,80}(?:/api/|api/v[0-9]+/|/search/|/position/|job_post|job-post)[^"]{0,100})"', html, re.I))
         allowed_suffixes = ("lifeattiktok.com", "tiktok.com", "tiktokcdn.com", "ttwstatic.com")
         inspected = 0
         for script in scripts:
@@ -30,7 +30,7 @@ def _diagnose_official_page():
                 script_response = requests.get(script_url, headers=HEADERS, timeout=TIMEOUT)
                 if script_response.ok:
                     inspected += 1
-                    candidates.update(re.findall(r'"(/[^"]{1,160}(?:api|search|job|posting)[^"]{0,120})"', script_response.text, re.I))
+                    candidates.update(re.findall(r'"([^"]{0,80}(?:/api/|api/v[0-9]+/|/search/|/position/|job_post|job-post)[^"]{0,100})"', script_response.text, re.I))
             except requests.RequestException:
                 continue
         print(f"[TikTok] Public script bundles inspected={inspected}")
