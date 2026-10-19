@@ -95,4 +95,12 @@ def location_text(value):
         return clean(value.get("name"))
     return None
 
-def same_site(a, b): return urlparse(a).netloc.lower().removeprefix("www.") == urlparse(b).netloc.lower().removeprefix("www.")
+def same_site(a, b):
+    """Treat a site's own subdomains as same-site without crossing registrable hosts."""
+    host_a = (urlparse(a).hostname or "").lower().removeprefix("www.")
+    host_b = (urlparse(b).hostname or "").lower().removeprefix("www.")
+    return (
+        host_a == host_b
+        or host_a.endswith("." + host_b)
+        or host_b.endswith("." + host_a)
+    )
