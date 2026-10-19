@@ -11,9 +11,9 @@
 | Notion | notion.com | https://www.notion.com/careers | Verified: open positions and role links present |
 | Mercury | mercury.com | https://mercury.com/jobs | Verified: open roles listed |
 | Snowplow | snowplow.io | https://jobs.ashbyhq.com/snowplow | Direct Ashby board target; must pass automated link check |
-| Temporal | temporal.io | https://job-boards.greenhouse.io/temporaltechnologies | Direct Greenhouse board; job listings surfaced in search; must pass automated link check |
-| dbt Labs | getdbt.com | https://job-boards.greenhouse.io/dbtlabs | Direct Greenhouse board target; must pass automated link check |
-| Astronomer | astronomer.io | https://job-boards.greenhouse.io/astronomer | Direct Greenhouse board target; must pass automated link check |
+| Temporal | temporal.io | https://temporal.io/careers | Direct Greenhouse board; job listings surfaced in search; must pass automated link check |
+| dbt Labs | getdbt.com | https://www.getdbt.com/about-us/careers | Direct Greenhouse board target; must pass automated link check |
+| Astronomer | astronomer.io | https://www.astronomer.io/careers/ | Direct Greenhouse board target; must pass automated link check |
 | Retool | retool.com | https://retool.com/careers | Verified: open roles listed |
 | Kong | konghq.com | https://careers.konghq.com/ | Verified: official careers site with open-positions section |
 | Render | render.com | https://render.com/careers | Verified: open roles listed |
