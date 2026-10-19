@@ -31,8 +31,9 @@ def fetch_jobs(connector, token, known_job_ids=None, known_job_hashes=None):
                 kwargs["known_job_ids"] = known_job_ids
         except (TypeError, ValueError):
             pass
-    rows = scraper(token.strip(), **kwargs) or []
-    incremental_ready = getattr(rows, "incremental_ready", None)
+    scraped_rows = scraper(token.strip(), **kwargs)
+    incremental_ready = getattr(scraped_rows, "incremental_ready", None)
+    rows = scraped_rows or []
     verified_unchanged_ids = set()
     result = JobFetchResult(incremental_ready=incremental_ready)
     seen = set()
