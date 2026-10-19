@@ -136,3 +136,37 @@ def test_normalizer_fingerprint_changes_when_listing_location_changes():
     )
     assert pune is not None and remote is not None
     assert pune["content_hash"] != remote["content_hash"]
+
+
+def test_fetch_jobs_separates_hash_verified_unchanged_rows(monkeypatch):
+    from app.connectors import fetch_jobs
+    existing_row = {
+        "id": "existing-1",
+        "title": "Platform Engineer",
+        "absolute_url": "https://jobs.example.test/existing-1",
+        "location": {"name": "Pune"},
+        "content": "Build systems",
+    }
+    monkeypatch.setattr(
+        greenhouse,
+        "get",
+        lambda *a, **k: Response({"jobs": [existing_row]}),
+    )
+    stored = normalize(
+        "existing-1",
+        "Platform Engineer",
+        "https://jobs.example.test/existing-1",
+        location="Pune",
+        description="Build systems",
+        company="Acme",
+        raw_payload=existing_row,
+    )
+    assert stored is not None
+
+    result = fetch_jobs(
+        "greenhouse",
+        "acme",
+        known_job_hashes={"existing-1": stored["content_hash"]},
+    )
+    assert result == []
+    assert result.verified_unchanged_ids == {"existing-1"}
