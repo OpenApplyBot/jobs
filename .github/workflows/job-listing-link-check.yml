@@ -1,0 +1,24 @@
+name: job-listing-link-check
+
+on:
+  pull_request:
+    paths:
+      - "docs/JOB_LISTING_URLS.md"
+      - "scripts/check_job_listing_urls.py"
+      - ".github/workflows/job-listing-link-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-job-listing-links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check 100+ public job-listing URLs
+        run: python scripts/check_job_listing_urls.py
