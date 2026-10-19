@@ -16,8 +16,10 @@ MAX_PAGES = max(1, min(100, int(os.getenv("SALESFORCE_MAX_PAGES", "2"))))
 
 def scrape(token: str | None = None):
     output, seen = [], set()
-    headers = {**HEADERS, "Accept": "application/json", "Content-Type": "application/json",
-               "Origin": "https://salesforce.wd12.myworkdayjobs.com", "Referer": CAREERS_URL}
+    headers = {**HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+               "Accept": "application/json, text/plain, */*", "Accept-Language": "en-US,en;q=0.9",
+               "Content-Type": "application/json", "Origin": "https://salesforce.wd12.myworkdayjobs.com",
+               "Referer": CAREERS_URL}
     with requests.Session() as session:
         session.headers.update(headers)
         # Bootstrap the official career site for session/cookies.
