@@ -13,6 +13,15 @@ MAX_JOBS = max(1, min(1000, int(os.getenv("HUGGINGFACE_MAX_JOBS", "200"))))
 
 def scrape(token: str | None = None):
     response = requests.get(API_URL, headers={**HEADERS, "Accept": "application/json"}, timeout=TIMEOUT)
+    if response.status_code == 404:
+        # Workable's old account slug is no longer published. Use the first-party
+        # jobs page through the shared HTML/JSON-LD extractor instead.
+        from .auto import scrape as auto_scrape
+        fallback = auto_scrape(CAREERS_URL)
+        if fallback:
+            print(f"[Hugging Face] Workable widget retired; official careers page returned {len(fallback)} jobs")
+            return fallback[:MAX_JOBS]
+        raise RuntimeError("Hugging Face Workable widget returned 404 and official jobs page exposed no listings")
     response.raise_for_status()
     payload = response.json()
     rows = payload.get("jobs") or []
