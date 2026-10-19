@@ -1,110 +1,44 @@
-"""Intel Careers scraper using its public Phenom SSR job-search data."""
+"""Intel Careers scraper using its public Workday CXS endpoint."""
 from __future__ import annotations
-
-import json
 import os
-import re
 import requests
 from urllib.parse import urljoin
-
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Intel"
-CAREERS_URL = "https://jobs.intel.com/en/search-jobs"
-OFFICIAL_DOMAIN = "jobs.intel.com"
+CAREERS_URL = "https://intel.wd1.myworkdayjobs.com/en-US/External"
+API_URL = "https://intel.wd1.myworkdayjobs.com/wday/cxs/intel/External/jobs"
+OFFICIAL_DOMAIN = "intel.wd1.myworkdayjobs.com"
 CSV_RANK = 27
-MAX_PAGES = max(1, min(20, int(os.getenv("INTEL_MAX_PAGES", "1"))))
-
-def _balanced(text, start, opening="[", closing="]"):
-    quote = None
-    escaped = False
-    depth = 0
-    for i in range(start, len(text)):
-        ch = text[i]
-        if quote:
-            if escaped:
-                escaped = False
-            elif ch == "\\":
-                escaped = True
-            elif ch == quote:
-                quote = None
-            continue
-        if ch in ("'", '"'):
-            quote = ch
-        elif ch == opening:
-            depth += 1
-        elif ch == closing:
-            depth -= 1
-            if depth == 0:
-                return text[start:i + 1]
-    return None
-
-def _find_jobs(html):
-    marker = html.find("eagerLoadRefineSearch")
-    if marker >= 0:
-        jobs_key = re.search(r"""["']jobs["']\s*:\s*\[""", html[marker:])
-        if jobs_key:
-            start = marker + jobs_key.end() - 1
-            raw = _balanced(html, start, "[", "]")
-            if raw:
-                try:
-                    value = json.loads(raw)
-                    if isinstance(value, list):
-                        return [x for x in value if isinstance(x, dict)]
-                except (ValueError, TypeError):
-                    pass
-    jobs = []
-    for match in re.finditer(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html, re.I | re.S):
-        try:
-            value = json.loads(match.group(1).strip())
-        except (ValueError, TypeError):
-            continue
-        for item in value if isinstance(value, list) else [value]:
-            if isinstance(item, dict) and item.get("@type") == "JobPosting":
-                jobs.append(item)
-    return jobs
+PAGE_SIZE = max(1, min(100, int(os.getenv("INTEL_PAGE_SIZE", "20"))))
+MAX_PAGES = max(1, min(100, int(os.getenv("INTEL_MAX_PAGES", "2"))))
 
 def scrape(token: str | None = None):
-    base_url = token.strip() if token and token.strip() else CAREERS_URL
     output, seen = [], set()
+    headers = {**HEADERS, "Accept": "application/json", "Content-Type": "application/json", "Origin": "https://intel.wd1.myworkdayjobs.com", "Referer": CAREERS_URL}
     with requests.Session() as session:
-        session.headers.update({**HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Accept": "text/html,application/xhtml+xml", "Referer": "https://jobs.intel.com/en/"})
-        for page in range(1, MAX_PAGES + 1):
-            response = session.get(base_url, params={"page": page}, timeout=TIMEOUT)
+        for page in range(MAX_PAGES):
+            body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
+            response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
             response.raise_for_status()
-            rows = _find_jobs(response.text)
+            payload = response.json()
+            rows = payload.get("jobPostings") or []
+            total = payload.get("total")
             if not rows:
-                if page == 1:
-                    raise RuntimeError("Intel Phenom careers page did not expose job records in SSR data or JSON-LD")
+                if page == 0: raise RuntimeError(f"Intel Workday API returned no jobPostings; keys={list(payload)[:10]}")
                 break
             added = 0
             for row in rows:
-                job_id = clean(row.get("jobSeqNo") or row.get("jobId") or row.get("id") or row.get("identifier"))
-                title = clean(row.get("title") or row.get("jobTitle") or row.get("name"))
-                if isinstance(row.get("identifier"), dict):
-                    job_id = job_id or clean(row["identifier"].get("value"))
-                if not job_id or not title or job_id in seen:
-                    continue
-                seen.add(job_id)
-                raw_url = clean(row.get("url") or row.get("applyUrl") or row.get("jobUrl"))
-                job_url = urljoin("https://jobs.intel.com", raw_url) if raw_url else f"https://jobs.intel.com/en/job/{job_id}"
-                location = row.get("location") or row.get("jobLocation") or row.get("locations")
-                if isinstance(location, dict):
-                    location = location.get("name") or location.get("address", {}).get("addressLocality")
-                elif isinstance(location, list):
-                    location = ", ".join(clean(x.get("name") if isinstance(x, dict) else x) for x in location if x)
-                item = normalize(job_id, title, job_url, clean(location), clean(row.get("category") or row.get("team")),
-                                 clean(row.get("employmentType") or row.get("jobType")),
-                                 clean(row.get("description") or row.get("jobDescription") or row.get("summary")),
-                                 row.get("postedDate") or row.get("datePosted"), COMPANY_NAME,
-                                 raw_payload=row, apply_url=clean(row.get("applyUrl")) or job_url)
-                if item:
-                    output.append(item)
-                    added += 1
-            print(f"[Intel] Page {page}: {len(rows)} SSR jobs, {added} new, {len(output)} total")
-            if added == 0 or len(rows) < 10:
-                break
-    if not output:
-        raise RuntimeError("Intel official careers page returned no normalized job records")
+                if not isinstance(row, dict): continue
+                external_path = clean(row.get("externalPath"))
+                title = clean(row.get("title"))
+                if not external_path or not title or external_path in seen: continue
+                seen.add(external_path)
+                url = urljoin("https://intel.wd1.myworkdayjobs.com/en-US/External/", external_path.lstrip("/"))
+                item = normalize(external_path, title, url, clean(row.get("locationsText")), None, None, None, row.get("postedOn"), COMPANY_NAME, raw_payload=row, apply_url=url)
+                if item: output.append(item); added += 1
+            print(f"[Intel] Page {page + 1}: {len(rows)} source rows, {added} new, {len(output)} total of {total}")
+            if (total is not None and page * PAGE_SIZE + len(rows) >= int(total)) or len(rows) < PAGE_SIZE: break
+    if not output: raise RuntimeError("Intel Workday API returned no normalized jobs")
     print(f"[Intel] Complete: {len(output)} jobs")
     return output
