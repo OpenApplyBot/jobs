@@ -25,7 +25,7 @@ def scrape(token: str | None = None):
         for page in range(MAX_PAGES):
             body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
             response = None
-            for attempt in range(4):
+            for attempt in range(6):
                 response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
                 if response.status_code != 429:
                     break
@@ -34,10 +34,10 @@ def scrape(token: str | None = None):
                     break
                 wait = response.headers.get("Retry-After")
                 try:
-                    delay = min(8, max(1, int(wait))) if wait else min(8, 2 ** attempt)
+                    delay = min(60, max(1, int(wait))) if wait else min(60, 2 ** attempt)
                 except ValueError:
-                    delay = min(8, 2 ** attempt)
-                print(f"[Salesforce] First-page rate limit; retry {attempt + 1}/4 after {delay}s")
+                    delay = min(60, 2 ** attempt)
+                print(f"[Salesforce] First-page rate limit; retry {attempt + 1}/6 after {delay}s")
                 time.sleep(delay)
             if response is None:
                 raise RuntimeError("Salesforce Workday API did not return a response")
