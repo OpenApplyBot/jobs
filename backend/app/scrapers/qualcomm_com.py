@@ -1,72 +1,93 @@
-"""Qualcomm Careers scraper using its public Eightfold jobs API."""
+"""Qualcomm Careers scraper using its public Eightfold sitemap and job pages."""
 from __future__ import annotations
 
+import json
 import os
+import re
+import xml.etree.ElementTree as ET
 import requests
-from urllib.parse import urljoin
+from urllib.parse import urlparse, unquote
 
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Qualcomm"
 CAREERS_URL = "https://careers.qualcomm.com/careers"
-API_URL = "https://careers.qualcomm.com/api/apply/v2/jobs"
+SITEMAP_URL = "https://careers.qualcomm.com/careers/sitemap.xml"
 OFFICIAL_DOMAIN = "qualcomm.com"
 CSV_RANK = 29
 PAGE_SIZE = max(1, min(100, int(os.getenv("QUALCOMM_PAGE_SIZE", "50"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("QUALCOMM_MAX_PAGES", "2"))))
+DETAIL_LIMIT = max(0, int(os.getenv("QUALCOMM_DETAIL_LIMIT", "20")))
 
-API_HEADERS = {
-    **HEADERS,
-    "Accept": "application/json, text/plain, */*",
-    "Referer": CAREERS_URL,
-}
+def _detail(session, url):
+    try:
+        response = session.get(url, timeout=TIMEOUT)
+        if not response.ok:
+            return {}
+        html = response.text
+        for match in re.finditer(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>(.*?)</script>', html, re.I | re.S):
+            try:
+                data = json.loads(match.group(1).strip())
+            except (ValueError, TypeError):
+                continue
+            for item in data if isinstance(data, list) else [data]:
+                if isinstance(item, dict) and item.get("@type") == "JobPosting":
+                    return item
+    except requests.RequestException:
+        pass
+    return {}
 
 def scrape(token: str | None = None):
+    max_jobs = PAGE_SIZE * MAX_PAGES
     output, seen = [], set()
+    headers = {**HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Accept": "application/xml,text/xml,text/html,application/xhtml+xml"}
     with requests.Session() as session:
-        session.headers.update({**API_HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Origin": "https://careers.qualcomm.com"})
-        bootstrap = session.get(CAREERS_URL, timeout=TIMEOUT)
-        bootstrap.raise_for_status()
-        for page in range(MAX_PAGES):
-            params = {"domain": "qualcomm.com", "num": PAGE_SIZE, "start": page * PAGE_SIZE}
-            response = session.get(API_URL, params=params, headers=API_HEADERS, timeout=TIMEOUT)
-            response.raise_for_status()
-            payload = response.json()
-            rows = payload.get("positions") or payload.get("jobs") or payload.get("results") or []
-            total = payload.get("count") or payload.get("total") or 0
-            if not rows:
-                if page == 0:
-                    raise RuntimeError(f"Qualcomm Eightfold API returned no positions; keys={list(payload)[:10]}")
+        session.headers.update(headers)
+        response = session.get(f"{SITEMAP_URL}?domain=qualcomm.com", timeout=TIMEOUT)
+        response.raise_for_status()
+        try:
+            root = ET.fromstring(response.content)
+        except ET.ParseError as exc:
+            raise RuntimeError(f"Qualcomm sitemap returned invalid XML: {exc}") from exc
+        urls = []
+        for node in root.iter():
+            if node.tag.lower().endswith("loc") and node.text:
+                url = node.text.strip()
+                if "/careers/job/" in url and "domain=qualcomm.com" in url:
+                    urls.append(url)
+        if not urls:
+            raise RuntimeError("Qualcomm public Eightfold sitemap had no job-detail URLs")
+        details_done = 0
+        for url in urls:
+            if len(output) >= max_jobs:
                 break
-            added = 0
-            for row in rows:
-                if not isinstance(row, dict):
-                    continue
-                job_id = clean(row.get("id") or row.get("job_id") or row.get("requisition_id"))
-                title = clean(row.get("name") or row.get("title") or row.get("job_title"))
-                if not job_id or not title or job_id in seen:
-                    continue
-                seen.add(job_id)
-                raw_url = clean(row.get("canonicalPositionUrl") or row.get("url") or row.get("job_url"))
-                job_url = urljoin("https://careers.qualcomm.com", raw_url) if raw_url else f"https://careers.qualcomm.com/careers/job/{job_id}"
-                location = row.get("locations") or row.get("location")
-                if isinstance(location, list):
-                    location = ", ".join(clean(x.get("name") or x.get("city")) if isinstance(x, dict) else clean(x) for x in location if x)
-                elif isinstance(location, dict):
-                    location = location.get("name") or location.get("city")
-                description = clean(row.get("job_description") or row.get("description") or row.get("summary"))
-                item = normalize(job_id, title, job_url, clean(location),
-                                 clean(row.get("department") or row.get("job_family") or row.get("category")),
-                                 clean(row.get("employment_type") or row.get("job_type")), description,
-                                 row.get("t_create") or row.get("posted_date"), COMPANY_NAME,
-                                 raw_payload=row, apply_url=job_url)
-                if item:
-                    output.append(item)
-                    added += 1
-            print(f"[Qualcomm] Page {page + 1}: {len(rows)} source rows, {added} new, {len(output)} total of {total}")
-            if (total and (page + 1) * PAGE_SIZE >= int(total)) or len(rows) < PAGE_SIZE:
-                break
+            parsed = urlparse(url)
+            segment = unquote(parsed.path.rstrip("/").split("/")[-1])
+            if not segment:
+                continue
+            job_id = clean(segment.split("-", 1)[0])
+            if not job_id or job_id in seen:
+                continue
+            seen.add(job_id)
+            title = clean(segment.split("-", 1)[1].replace("-", " ")) if "-" in segment else f"Qualcomm job {job_id}"
+            detail = {}
+            if details_done < DETAIL_LIMIT:
+                detail = _detail(session, url)
+                details_done += 1
+                title = clean(detail.get("title")) or title
+            location = detail.get("jobLocation") or detail.get("location")
+            if isinstance(location, dict):
+                address = location.get("address") or {}
+                location = ", ".join(filter(None, [clean(address.get("addressLocality")), clean(address.get("addressRegion")), clean(address.get("addressCountry"))]))
+            elif isinstance(location, list):
+                location = ", ".join(clean(x.get("address", {}).get("addressLocality")) if isinstance(x, dict) else clean(x) for x in location if x)
+            description = clean(detail.get("description"))
+            item = normalize(job_id, title, url, clean(location), clean(detail.get("industry")), clean(detail.get("employmentType")),
+                             description, detail.get("datePosted"), COMPANY_NAME, raw_payload=detail or {"source": "Qualcomm official Eightfold sitemap"}, apply_url=url)
+            if item:
+                output.append(item)
+        print(f"[Qualcomm] Sitemap URLs={len(urls)}; detail pages fetched={details_done}; normalized jobs={len(output)}")
     if not output:
-        raise RuntimeError("Qualcomm official Eightfold API returned no normalized jobs")
+        raise RuntimeError("Qualcomm public sitemap returned no normalized jobs")
     print(f"[Qualcomm] Complete: {len(output)} jobs")
     return output
