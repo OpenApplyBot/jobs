@@ -87,6 +87,7 @@ class ConnectorRun(Base):
     fetched: Mapped[int]=mapped_column(default=0)
     inserted: Mapped[int]=mapped_column(default=0)
     updated: Mapped[int]=mapped_column(default=0)
+    skipped: Mapped[int]=mapped_column(Integer,default=0,nullable=False)
     status: Mapped[str]=mapped_column(String(30),default='running')
     error: Mapped[str|None]=mapped_column(Text,nullable=True)
 
