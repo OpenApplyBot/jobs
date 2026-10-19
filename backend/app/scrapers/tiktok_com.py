@@ -55,7 +55,7 @@ def scrape(token: str | None = None):
                 "limit": PAGE_SIZE,
                 "offset": offset,
                 "keyword": "",
-                "recruitment_id_list": ["202"],
+                "recruitment_id_list": [],
                 "category_id_list": [],
                 "subject_id_list": [],
                 "location_code_list": [],
