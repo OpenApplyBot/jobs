@@ -219,8 +219,14 @@ def _search_page(page):
     return rows, total
 
 
-def scrape(token: str | None = None):
-    """Fetch Apple careers jobs; optional token may be an Apple job-detail URL."""
+def scrape(token: str | None = None, known_job_ids=None):
+    """Fetch Apple careers jobs, stopping at an existing-only page on newest-first feeds.
+
+    Apple explicitly requests newest-first results. After a prior successful run,
+    a page containing only known source IDs is a safe incremental checkpoint:
+    new listings should have appeared before it. The already-seen rows from the
+    scanned pages are still returned so the worker can verify/touch them.
+    """
     token = (token or "").strip()
     if token:
         parsed = urlparse(token)
@@ -236,6 +242,7 @@ def scrape(token: str | None = None):
 
     print(f"[Apple] Starting official careers search; API page size={PAGE_SIZE}, max pages={MAX_PAGES}", flush=True)
     discovered = {}
+    known_ids = {str(job_id) for job_id in (known_job_ids or set())}
     total_reported = None
     for page in range(1, MAX_PAGES + 1):
         try:
@@ -248,17 +255,26 @@ def scrape(token: str | None = None):
             except (TypeError, ValueError):
                 pass
         new_count = 0
+        known_on_page = 0
+        new_on_page = 0
         for item in rows:
             row = _normalize(item)
             if row and row["url"] not in discovered:
                 discovered[row["url"]] = item
                 new_count += 1
+                if known_ids and row["source_job_id"] in known_ids:
+                    known_on_page += 1
+                else:
+                    new_on_page += 1
         print(
             f"[Apple] Page {page}: {len(rows)} source rows, {len(discovered)} normalized unique jobs"
             + (f" / {total_reported} reported" if total_reported is not None else ""),
             flush=True,
         )
         if not rows or new_count == 0:
+            break
+        if known_ids and known_on_page > 0 and new_on_page == 0:
+            print(f"[Apple] Incremental checkpoint reached on page {page}; stopping after {len(discovered)} verified listings", flush=True)
             break
         if total_reported is not None and page * PAGE_SIZE >= total_reported:
             break
