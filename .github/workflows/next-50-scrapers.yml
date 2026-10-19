@@ -12,7 +12,7 @@ on:
 
 concurrency:
   group: next-50-company-scrapers
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 permissions:
   contents: read
