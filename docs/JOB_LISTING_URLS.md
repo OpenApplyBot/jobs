@@ -4,7 +4,7 @@
 
 - Company destinations: **130**
 - Superhuman uses `/company/careers/jobs`, not the parent `/company/careers` landing page.
-- Run status is provided by the `job-listing-link-check` GitHub Actions workflow added with this document.
+- Run status is provided by the `job-listing-link-check` GitHub Actions workflow added with this document. A small number of official job portals may block automated HTTP clients; those require browser confirmation rather than treating 403/429 alone as proof of a dead link.
 
 | # | Company | Direct job listings / open roles |
 |---:|---|---|
@@ -13,7 +13,7 @@
 | 3 | Amazon | https://www.amazon.jobs/en/search |
 | 4 | Apple | https://jobs.apple.com/en-us/search |
 | 5 | Meta | https://www.metacareers.com/jobs/ |
-| 6 | Netflix | https://jobs.netflix.com/search |
+| 6 | Netflix | https://explore.jobs.netflix.net/careers |
 | 7 | NVIDIA | https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite |
 | 8 | OpenAI | https://openai.com/careers/ |
 | 9 | Anthropic | https://www.anthropic.com/careers |
@@ -22,7 +22,7 @@
 | 12 | TikTok | https://lifeattiktok.com/search |
 | 13 | Tencent | https://careers.tencent.com/search.html |
 | 14 | Alibaba | https://talent.alibaba.com/ |
-| 15 | Baidu | https://talent.baidu.com/external/baidu/index.html |
+| 15 | Baidu | https://talent.baidu.com/jobs/social |
 | 16 | Huawei | https://career.huawei.com/reccampportal/portal5/index.html |
 | 17 | Samsung Electronics | https://sec.wd3.myworkdayjobs.com/Samsung_Careers |
 | 18 | Sony | https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers |
@@ -38,7 +38,7 @@
 | 28 | AMD | https://careers.amd.com/careers-home/jobs |
 | 29 | Qualcomm | https://careers.qualcomm.com/careers |
 | 30 | Dell Technologies | https://jobs.dell.com/search-jobs |
-| 31 | HP | https://jobs.hp.com/us/en/search-results |
+| 31 | HP | https://apply.hp.com/careers |
 | 32 | HPE | https://careers.hpe.com/us/en/search-results |
 | 33 | Lenovo | https://jobs.lenovo.com/en_US/careers |
 | 34 | Arm | https://careers.arm.com/careers-home/jobs |
@@ -47,13 +47,13 @@
 | 37 | Texas Instruments | https://careers.ti.com/en/sites/CX |
 | 38 | Applied Materials | https://amat.wd1.myworkdayjobs.com/External |
 | 39 | ASML | https://www.asml.com/en/careers/find-your-job |
-| 40 | TSMC | https://careers.tsmc.com/en_US/careers/JobSearch |
+| 40 | TSMC | https://careers.tsmc.com/en_US/careers/SearchJobs/ |
 | 41 | Synopsys | https://careers.synopsys.com/search-jobs |
 | 42 | Cadence Design Systems | https://cadence.wd1.myworkdayjobs.com/External_Careers |
 | 43 | Ericsson | https://jobs.ericsson.com/careers |
 | 44 | Nokia | https://careers.nokia.com/jobs |
 | 45 | Juniper Networks | https://careers.juniper.net/careers |
-| 46 | Arista Networks | https://arista.wd1.myworkdayjobs.com/Arista |
+| 46 | Arista Networks | https://www.arista.com/en/careers/india/current-openings-ind |
 | 47 | Motorola Solutions | https://motorolasolutions.wd5.myworkdayjobs.com/Careers |
 | 48 | Red Hat | https://redhat.wd5.myworkdayjobs.com/jobs |
 | 49 | Canonical | https://canonical.com/careers/all |
@@ -70,10 +70,10 @@
 | 60 | ElevenLabs | https://jobs.ashbyhq.com/elevenlabs |
 | 61 | Character.AI | https://jobs.ashbyhq.com/character |
 | 62 | Waymo | https://careers.withwaymo.com/jobs |
-| 63 | Anduril | https://jobs.lever.co/andurilindustries |
-| 64 | MongoDB | https://www.mongodb.com/company/careers/jobs |
-| 65 | Elastic | https://jobs.elastic.co/jobs |
-| 66 | Confluent | https://careers.confluent.io/jobs |
+| 63 | Anduril | https://www.anduril.com/open-roles |
+| 64 | MongoDB | https://www.mongodb.com/company/careers/see-jobs |
+| 65 | Elastic | https://jobs.elastic.co |
+| 66 | Confluent | https://careers.confluent.io/open-positions/ |
 | 67 | Redis | https://jobs.ashbyhq.com/redis |
 | 68 | Cockroach Labs | https://jobs.ashbyhq.com/cockroachlabs |
 | 69 | Neo4j | https://jobs.ashbyhq.com/neo4j |
@@ -81,22 +81,22 @@
 | 71 | PlanetScale | https://jobs.ashbyhq.com/planetscale |
 | 72 | Supabase | https://jobs.ashbyhq.com/supabase |
 | 73 | Vercel | https://vercel.com/careers |
-| 74 | Netlify | https://jobs.lever.co/netlify |
+| 74 | Netlify | https://job-boards.greenhouse.io/netlify |
 | 75 | Cloudflare | https://boards.greenhouse.io/cloudflare |
 | 76 | Fastly | https://www.fastly.com/about/careers/current-openings |
-| 77 | Akamai | https://careers.akamai.com/careers |
+| 77 | Akamai | https://jobs.akamai.com |
 | 78 | GitHub | https://www.github.careers/careers-home/jobs |
 | 79 | GitLab | https://job-boards.greenhouse.io/gitlab |
 | 80 | Atlassian | https://www.atlassian.com/company/careers/all-jobs |
 | 81 | JetBrains | https://www.jetbrains.com/careers/jobs/ |
-| 82 | Docker | https://jobs.docker.com |
-| 83 | Postman | https://boards.greenhouse.io/postman |
+| 82 | Docker | https://www.docker.com/career-openings/ |
+| 83 | Postman | https://www.postman.com/company/careers/open-positions/ |
 | 84 | Figma | https://boards.greenhouse.io/figma |
-| 85 | Canva | https://www.canva.com/careers/jobs |
+| 85 | Canva | https://www.lifeatcanva.com/en/search/ |
 | 86 | Notion | https://www.notion.com/careers |
 | 87 | Linear | https://linear.app/careers |
 | 88 | Airtable | https://airtable.com/careers |
-| 89 | Miro | https://miro.com/careers/vacancies/ |
+| 89 | Miro | https://miro.com/careers/open-positions/ |
 | 90 | ClickUp | https://jobs.ashbyhq.com/clickup |
 | 91 | Asana | https://asana.com/jobs |
 | 92 | Monday.com | https://monday.com/careers |
@@ -104,8 +104,8 @@
 | 94 | 1Password | https://jobs.1password.com |
 | 95 | Snyk | https://snyk.io/careers |
 | 96 | Datadog | https://careers.datadoghq.com/all-jobs/ |
-| 97 | Grafana Labs | https://grafana.com/about/careers/open-positions/ |
-| 98 | New Relic | https://newrelic.com/about/careers/job-openings |
+| 97 | Grafana Labs | https://job-boards.greenhouse.io/grafanalabs |
+| 98 | New Relic | https://job-boards.greenhouse.io/newrelic |
 | 99 | Dynatrace | https://careers.dynatrace.com/jobs |
 | 100 | Shopify | https://www.shopify.com/careers |
 | 101 | Mercury | https://mercury.com/jobs |
