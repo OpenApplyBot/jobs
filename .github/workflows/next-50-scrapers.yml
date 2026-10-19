@@ -1,4 +1,5 @@
 name: Next 50 company scrapers (sequential live tests)
+# Each company runs in its own sequential job and saves a JSON artifact.
 
 on:
   push:
