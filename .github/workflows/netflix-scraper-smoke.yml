@@ -1,0 +1,35 @@
+name: Netflix scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/netflix_com.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/netflix-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  netflix-scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare JSON output directory
+        run: mkdir -p backend/test-results
+      - name: Test Netflix search and pagination
+        continue-on-error: true
+        run: |
+          docker compose run --build --rm \
+            -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
+            api python scripts/test_scraper.py netflix_com \
+            --env NETFLIX_MAX_PAGES=2 \
+            --output test-results/netflix_com.json
+      - name: Upload Netflix JSON test output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: netflix-scraper-test-results
+          path: backend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
