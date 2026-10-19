@@ -47,10 +47,10 @@ def scrape(token: str | None = None):
                 "pageSize": PAGE_SIZE,
                 "jobFamilyCode": "",
                 "deptCode": "",
-                "keywords": "",
-                "searchType": 1,
-                "orderBy": "P_COUNT_DESC",
-                "jobType": 1,
+                "searchText": "",
+                "language": "zh_CN",
+                "orderBy": "ISS_STARTDATE_DESC_AND_IS_HOT_JOB",
+                "jobType": "0",
             }
             url = f"{API_BASE}/{PAGE_SIZE}/{page}"
             response = session.get(url, params=params, headers=API_HEADERS, timeout=TIMEOUT)
@@ -74,9 +74,9 @@ def scrape(token: str | None = None):
                 data_source = clean(row.get("dataSource")) or "1"
                 job_url = f"https://career.huawei.com/reccampportal/portal5/social-recruitment-detail.html?jobId={detail_id}&dataSource={data_source}"
                 location = clean(row.get("jobArea") or row.get("jobAddress") or row.get("workLocation") or row.get("city"))
-                department = clean(row.get("jobFamilyName") or row.get("deptNameEn") or row.get("deptName") or row.get("department"))
-                description = clean(row.get("mainBusiness") or row.get("description") or row.get("responsibility"))
-                requirement = clean(row.get("jobRequire") or row.get("requirement") or row.get("qualification"))
+                department = clean(row.get("jobFamilyName") or row.get("jobClassName") or row.get("jobSubcategoryName") or row.get("deptNameEn") or row.get("deptName") or row.get("department"))
+                description = clean(row.get("mainBusiness") or row.get("mostlyDuty") or row.get("jobDesc") or row.get("description") or row.get("responsibility"))
+                requirement = clean(row.get("jobRequire") or row.get("demand") or row.get("requirement") or row.get("qualification"))
                 if requirement:
                     description = "\n\n".join(filter(None, [description, "Requirements: " + requirement]))
                 item = normalize(job_id, title, job_url, location, department, "Full-time", description,
