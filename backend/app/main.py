@@ -139,9 +139,17 @@ def run_one(source_id:int,db:Session=Depends(get_db)):
 @app.post("/api/connectors/run-all",status_code=202)
 def run_all(db:Session=Depends(get_db)):
     ids=list(db.scalars(select(Source.id).where(Source.active.is_(True))).all())
+    if not ids:
+        return {"status":"queued","count":0,"queue_ids":[]}
     from .worker import run_source
-    queued=[queue.enqueue(run_source,sid).id for sid in ids]
-    return {"status":"queued","count":len(queued),"queue_ids":queued}
+    # Enqueue the whole batch through one Redis pipeline instead of 500
+    # round-trips. This keeps the control-plane request quick while workers
+    # continue running each source independently.
+    jobs=queue.enqueue_many([
+        queue.prepare_data(run_source,(source_id,))
+        for source_id in ids
+    ])
+    return {"status":"queued","count":len(jobs),"queue_ids":[job.id for job in jobs]}
 @app.get("/api/queue")
 def queue_status():
     return {"queued":queue.count,"started":queue.started_job_registry.count,"failed":queue.failed_job_registry.count,"finished":queue.finished_job_registry.count}
