@@ -6,7 +6,7 @@ from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "AMD"
 CAREERS_URL = "https://careers.amd.com/careers-home/jobs"
-API_URL = "https://careers.amd.com/api/job/v1/jobs/"
+API_URL = "https://careers.amd.com/api/jobs"
 OFFICIAL_DOMAIN = "careers.amd.com"
 CSV_RANK = 28
 PAGE_SIZE = max(1, min(100, int(os.getenv("AMD_PAGE_SIZE", "20"))))
@@ -15,7 +15,7 @@ MAX_PAGES = max(1, min(100, int(os.getenv("AMD_MAX_PAGES", "2"))))
 def _extract(payload):
     if not isinstance(payload, dict): return [], None
     node = payload.get("data") if isinstance(payload.get("data"), dict) else payload
-    rows = node.get("list") or node.get("jobs") or node.get("items") or []
+    rows = node.get("jobs") or node.get("list") or node.get("items") or []
     return (rows if isinstance(rows, list) else []), node.get("total") or node.get("totalCount") or node.get("count")
 
 def scrape(token: str | None = None):
@@ -25,7 +25,7 @@ def scrape(token: str | None = None):
         session.headers.update(headers)
         session.get(CAREERS_URL, timeout=TIMEOUT)
         for page in range(1, MAX_PAGES + 1):
-            response = session.get(API_URL, params={"page": page, "size": PAGE_SIZE}, timeout=TIMEOUT)
+            response = session.get(API_URL, params={"page": page, "limit": PAGE_SIZE, "sortBy": "relevance", "descending": "false", "internal": "false"}, timeout=TIMEOUT)
             response.raise_for_status()
             payload = response.json()
             rows, total = _extract(payload)
