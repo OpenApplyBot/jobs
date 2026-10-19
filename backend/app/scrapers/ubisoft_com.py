@@ -1,7 +1,7 @@
 """Company-specific scraper for Ubisoft.
 Official careers URL candidate: https://ubisoft.com/careers
 Expected company domain: ubisoft.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 

@@ -1903,7 +1903,7 @@
     "company_name": "Urban Company",
     "slug": "urban_company",
     "module": "urbancompany_com.py",
-    "official_careers_url": "https://urbancompany.com/careers",
+    "official_careers_url": "https://careers.urbancompany.com/jobs",
     "official_domain": "urbancompany.com",
     "verification_status": "Needs live URL verification"
   },
@@ -2497,7 +2497,7 @@
     "company_name": "Ubisoft",
     "slug": "ubisoft",
     "module": "ubisoft_com.py",
-    "official_careers_url": "https://ubisoft.com/careers",
+    "official_careers_url": "https://www.ubisoft.com/en-us/company/careers/search",
     "official_domain": "ubisoft.com",
     "verification_status": "Needs live URL verification"
   },
