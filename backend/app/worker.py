@@ -19,16 +19,13 @@ Base.metadata.create_all(bind=engine)
 # before writing an existing row. raw_payload is intentionally excluded because
 # ATS payloads commonly include request-specific or volatile metadata.
 JOB_DATA_FIELDS = (
-    "title", "team_name", "seniority", "company_name", "location", "department",
-    "employment_type", "description", "summary", "url", "posted_at", "apply_url",
-    "work_mode", "location_city", "location_region", "location_country",
-    "eligible_countries", "remote_scope", "visa_sponsorship", "relocation_available",
-    "timezone_requirements", "salary_min", "salary_max", "salary_currency",
-    "salary_period", "compensation_type", "compensation_text", "benefits",
-    "required_skills", "preferred_skills", "programming_languages", "tech_stack",
-    "education_requirements", "experience_min_months", "graduation_years",
-    "visa_or_work_auth", "other_requirements", "application_method",
-    "application_email", "application_deadline", "status",
+    "title", "company_name", "location", "department", "employment_type",
+    "description", "url", "posted_at", "apply_url", "work_mode", "location_city",
+    "location_region", "location_country", "eligible_countries", "remote_scope",
+    "visa_sponsorship", "relocation_available", "required_skills",
+    "preferred_skills", "programming_languages", "tech_stack",
+    "education_requirements", "experience_min_months", "salary_currency",
+    "salary_period", "compensation_text", "status",
 )
 
 
