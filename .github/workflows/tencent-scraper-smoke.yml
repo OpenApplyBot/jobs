@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "backend/app/scrapers/tencent_com.py"
+      - "backend/scripts/test_scraper.py"
       - ".github/workflows/tencent-scraper-smoke.yml"
   workflow_dispatch:
 
