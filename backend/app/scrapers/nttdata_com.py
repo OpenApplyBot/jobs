@@ -1,12 +1,12 @@
 """Company-specific scraper for NTT DATA.
-Official careers URL candidate: https://nttdata.com/careers
+Official careers URL candidate: https://www.nttdata.com/en-us/careers
 Expected company domain: nttdata.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'NTT DATA'
-CAREERS_URL = 'https://nttdata.com/careers'
+CAREERS_URL = 'https://www.nttdata.com/en-us/careers'
 OFFICIAL_DOMAIN = 'nttdata.com'
 CSV_RANK = 161
 
