@@ -2632,7 +2632,7 @@
     "company_name": "Fortinet",
     "slug": "fortinet",
     "module": "fortinet_com.py",
-    "official_careers_url": "https://fortinet.com/careers",
+    "official_careers_url": "https://www.fortinet.com/corporate/careers",
     "official_domain": "fortinet.com",
     "verification_status": "Needs live URL verification"
   },
@@ -3514,7 +3514,7 @@
     "company_name": "Johnson & Johnson",
     "slug": "johnson_johnson",
     "module": "jnj_com.py",
-    "official_careers_url": "https://jnj.com/careers",
+    "official_careers_url": "https://www.careers.jnj.com/en/locations/asia-pacific/india/",
     "official_domain": "jnj.com",
     "verification_status": "Needs live URL verification"
   },
