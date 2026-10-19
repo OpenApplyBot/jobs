@@ -1,11 +1,41 @@
-"""Hugging Face scraper using its official public Greenhouse job board API."""
-from .greenhouse import scrape as _scrape_greenhouse
+"""Hugging Face scraper using its public Workable widget API."""
+from __future__ import annotations
+import os
+import requests
+from .common import HEADERS, TIMEOUT, clean, normalize, location_text
 
 COMPANY_NAME = "Hugging Face"
-CAREERS_URL = "https://boards.greenhouse.io/huggingface"
-OFFICIAL_DOMAIN = "greenhouse.io"
+CAREERS_URL = "https://huggingface.co/jobs"
+API_URL = "https://apply.workable.com/api/v3/widget/accounts/huggingface"
+OFFICIAL_DOMAIN = "huggingface.co"
 CSV_RANK = 56
+MAX_JOBS = max(1, min(1000, int(os.getenv("HUGGINGFACE_MAX_JOBS", "200"))))
 
 def scrape(token: str | None = None):
-    board = token.strip() if token and token.strip() else "huggingface"
-    return _scrape_greenhouse(board, company=COMPANY_NAME)
+    response = requests.get(API_URL, headers={**HEADERS, "Accept": "application/json"}, timeout=TIMEOUT)
+    response.raise_for_status()
+    payload = response.json()
+    rows = payload.get("jobs") or []
+    output, seen = [], set()
+    if not rows:
+        raise RuntimeError(f"Hugging Face Workable API returned no jobs; keys={list(payload)[:10]}")
+    for row in rows:
+        if not isinstance(row, dict): continue
+        job_id = clean(row.get("shortcode") or row.get("id") or row.get("url"))
+        title = clean(row.get("title") or row.get("name"))
+        url = clean(row.get("url") or row.get("application_url"))
+        if not url: 
+            shortcode = clean(row.get("shortcode"))
+            if shortcode: url = f"https://apply.workable.com/huggingface/j/{shortcode}/"
+        if not job_id or not title or not url or job_id in seen: continue
+        seen.add(job_id)
+        location = ", ".join(filter(None, [clean(row.get("city")), clean(row.get("region")), clean(row.get("country"))]))
+        if not location: location = clean(row.get("location")) or "Remote"
+        item = normalize(job_id, title, url, location, clean(row.get("department")), clean(row.get("employment_type")),
+                         clean(row.get("description_short") or row.get("description")), row.get("created_at"), COMPANY_NAME,
+                         raw_payload=row, apply_url=url)
+        if item: output.append(item)
+        if len(output) >= MAX_JOBS: break
+    if not output: raise RuntimeError("Hugging Face Workable API returned no normalized jobs")
+    print(f"[Hugging Face] API source rows={len(rows)}; normalized jobs={len(output)}")
+    return output
