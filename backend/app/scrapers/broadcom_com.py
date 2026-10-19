@@ -10,7 +10,7 @@ OFFICIAL_DOMAIN = "broadcom.com"
 CSV_RANK = 35
 PAGE_SIZE = max(1, min(100, int(os.getenv("BROADCOM_PAGE_SIZE", "20"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("BROADCOM_MAX_PAGES", "2"))))
-BOARDS = tuple(x.strip() for x in os.getenv("BROADCOM_WORKDAY_BOARDS", "External,BroadcomCareers,BCICareers").split(",") if x.strip())
+BOARDS = tuple(x.strip() for x in os.getenv("BROADCOM_WORKDAY_BOARDS", "External_Career,External,BroadcomCareers,BCICareers").split(",") if x.strip())
 
 def scrape(token: str | None = None):
     headers = {**HEADERS, "Accept": "application/json", "Content-Type": "application/json", "Origin": "https://broadcom.wd1.myworkdayjobs.com"}
