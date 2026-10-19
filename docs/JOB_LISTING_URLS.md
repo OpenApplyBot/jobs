@@ -12,7 +12,7 @@
 | 2 | Microsoft | https://careers.microsoft.com/v2/global/en/search |
 | 3 | Amazon | https://www.amazon.jobs/en/search |
 | 4 | Apple | https://jobs.apple.com/en-us/search |
-| 5 | Meta | https://www.metacareers.com/jobs/ |
+| 5 | Meta | https://www.metacareers.com/jobs |
 | 6 | Netflix | https://explore.jobs.netflix.net/careers |
 | 7 | NVIDIA | https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite |
 | 8 | OpenAI | https://openai.com/careers/ |
@@ -34,7 +34,7 @@
 | 24 | Adobe | https://careers.adobe.com/us/en/search-results |
 | 25 | SAP | https://jobs.sap.com/search/ |
 | 26 | Cisco | https://jobs.cisco.com/jobs/SearchJobs/ |
-| 27 | Intel | https://jobs.intel.com/en/search-jobs |
+| 27 | Intel | https://intel.wd1.myworkdayjobs.com/en-US/External |
 | 28 | AMD | https://careers.amd.com/careers-home/jobs |
 | 29 | Qualcomm | https://careers.qualcomm.com/careers |
 | 30 | Dell Technologies | https://jobs.dell.com/search-jobs |
