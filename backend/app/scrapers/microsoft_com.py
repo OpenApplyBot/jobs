@@ -267,7 +267,9 @@ def scrape(token: str | None = None):
         )
         if not rows or new_count == 0:
             break
-        if reported_total is not None and start + len(rows) >= reported_total:
+        # The classic Eightfold endpoint can report only start + page length as
+        # its count, not the full board total. Trust the total only on PCS-X.
+        if endpoint == SEARCH_URL and reported_total is not None and start + len(rows) >= reported_total:
             break
         # Classic Eightfold may return a short page before the true end; stop only
         # when the response is empty or it reports that we've reached its count.
