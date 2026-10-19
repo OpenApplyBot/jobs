@@ -74,9 +74,12 @@ def scrape(token: str | None = None):
                     elif isinstance(location, list):
                         location = ", ".join(clean(x.get("en_name") or x.get("name")) if isinstance(x, dict) else clean(x) for x in location if x)
                     job_url = clean(row.get("url") or row.get("job_url")) or f"https://joinbytedance.com/search/{job_id}"
+                    category = row.get("job_category")
+                    if isinstance(category, dict):
+                        category = category.get("en_name") or category.get("name")
                     item = normalize(
                         job_id, title, job_url, clean(location),
-                        clean((row.get("job_category") or {}).get("en_name") if isinstance(row.get("job_category"), dict) else row.get("job_category") or row.get("job_function")),
+                        clean(category or row.get("job_function")),
                         row.get("employment_type") or row.get("employmentType"),
                         row.get("description") or row.get("requirement"),
                         row.get("publish_time") or row.get("create_time") or row.get("update_time"),
