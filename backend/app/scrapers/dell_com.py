@@ -10,7 +10,7 @@ CAREERS_URL = "https://dell.wd1.myworkdayjobs.com/en-US/External"
 API_URL = "https://dell.wd1.myworkdayjobs.com/wday/cxs/dell/External/jobs"
 OFFICIAL_DOMAIN = "dell.wd1.myworkdayjobs.com"
 CSV_RANK = 30
-PAGE_SIZE = max(1, min(100, int(os.getenv("DELL_PAGE_SIZE", "100"))))
+PAGE_SIZE = max(1, min(20, int(os.getenv("DELL_PAGE_SIZE", "20"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("DELL_MAX_PAGES", "2"))))
 
 def scrape(token: str | None = None):
