@@ -12,17 +12,28 @@ on:
 jobs:
   meta-scraper:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - name: Prepare JSON output directory
         run: mkdir -p backend/test-results
-      - name: Test Meta official careers scraper
+      - name: Test Meta search and listing normalization
         run: |
           docker compose run --build --rm \
             -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
             api python scripts/test_scraper.py metacareers_com \
+            --env META_MAX_JOBS=100 \
+            --env META_FETCH_DETAILS=0 \
             --output test-results/metacareers_com.json
+      - name: Test Meta detail enrichment
+        run: |
+          docker compose run --build --rm \
+            -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
+            api python scripts/test_scraper.py metacareers_com \
+            --env META_MAX_JOBS=10 \
+            --env META_FETCH_DETAILS=1 \
+            --env META_DETAIL_LIMIT=3 \
+            --output test-results/metacareers_com_details.json
       - name: Upload Meta JSON test output
         if: always()
         uses: actions/upload-artifact@v4
