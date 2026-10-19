@@ -1,15 +1,19 @@
-"""Company-specific scraper for Anduril.
-Official careers URL candidate: https://anduril.com/careers
-Expected company domain: anduril.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Anduril scraper using Anduril Industries' public Greenhouse board."""
+from __future__ import annotations
+from .greenhouse import scrape as _greenhouse_scrape
 
-COMPANY_NAME = 'Anduril'
-CAREERS_URL = 'https://anduril.com/careers'
-OFFICIAL_DOMAIN = 'anduril.com'
+COMPANY_NAME = "Anduril"
+CAREERS_URL = "https://boards.greenhouse.io/andurilindustries"
+OFFICIAL_DOMAIN = "anduril.com"
 CSV_RANK = 63
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "andurilindustries"
+    rows = _greenhouse_scrape(board)
+    for row in rows:
+        row["company_name"] = COMPANY_NAME
+        row["raw_payload"] = {**(row.get("raw_payload") or {}), "company_board": "andurilindustries"}
+    if not rows:
+        raise RuntimeError("Anduril official Greenhouse board returned no public listings")
+    print(f"[Anduril] Complete: {len(rows)} jobs")
+    return rows
