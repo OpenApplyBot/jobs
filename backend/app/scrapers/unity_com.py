@@ -1,5 +1,5 @@
 """Company-specific scraper for Unity.
-Official careers URL candidate: https://unity.com/careers
+Official careers URL candidate: https://unity.com/careers/positions
 Expected company domain: unity.com
 Customize this module with a verified public API/parser after live testing.
 """
