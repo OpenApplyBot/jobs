@@ -1,6 +1,7 @@
 from app.connectors import fetch_jobs, CONNECTORS
 from app.scrapers.common import normalize
-from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto
+from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com
+from app.scrapers.company_registry import COMPANY_SCRAPERS
 
 class Response:
     def __init__(self,data=None,text=""): self.data=data; self.text=text
@@ -8,7 +9,11 @@ class Response:
     def raise_for_status(self): pass
 
 def test_every_connector_is_registered():
-    assert set(CONNECTORS)=={"greenhouse","lever","ashby","smartrecruiters","workable","recruitee","workday","remoteok","remotive","arbeitnow","themuse","jobicy","himalayas","jsonld","auto"}
+    assert set(CONNECTORS)=={"greenhouse","lever","ashby","smartrecruiters","workable","recruitee","workday","remoteok","remotive","arbeitnow","themuse","jobicy","himalayas","jsonld","auto","company"}
+
+def test_all_manifest_company_scrapers_are_loaded():
+    assert len(COMPANY_SCRAPERS)==500
+    assert all(callable(scrape) for scrape in COMPANY_SCRAPERS.values())
 
 def test_greenhouse(monkeypatch):
     monkeypatch.setattr(greenhouse,"get",lambda *a,**k:Response({"jobs":[{"id":1,"title":"Backend Engineer","absolute_url":"https://x.test/1","location":{"name":"Remote"},"content":"<p>Build</p>"}]}))
@@ -82,6 +87,19 @@ def test_auto_discovers_supported_ats(monkeypatch):
     monkeypatch.setattr(auto,"get",lambda *a,**k:Response(text='<a href="https://boards.greenhouse.io/acme">Jobs</a>'))
     monkeypatch.setattr(greenhouse,"scrape",lambda token:[{"source_job_id":"1","title":"SWE","url":"https://x.test/1"}])
     assert fetch_jobs("auto","https://acme.test/careers")[0]["title"]=="SWE"
+
+def test_apple_search_page_returns_jobs(monkeypatch):
+        html='''<div id="title-search-job-list-0"><div id="search-search-job-title-PIPE-123-1">
+            <h3><a href="/en-us/details/123/platform-engineer?team=SOFT">Platform Engineer</a></h3>
+            <span class="team-name">Software and Services</span>
+            <span class="job-posted-date">Oct 16, 2026</span>
+            <span class="table--advanced-search__location-sub">Cupertino</span>
+        </div></div>'''
+        monkeypatch.setattr(apple_com, "get", lambda *args, **kwargs: Response(text=html))
+        rows = fetch_jobs("company", "apple.com")
+        assert rows[0]["source_job_id"] == "123"
+        assert rows[0]["title"] == "Platform Engineer"
+        assert rows[0]["url"].endswith("/en-us/details/123/platform-engineer?team=SOFT")
 
 def test_unknown_connector_fails_loudly():
     import pytest

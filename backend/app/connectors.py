@@ -1,6 +1,6 @@
 """Registry for isolated public job scrapers."""
-from .scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto
-SCRAPERS={"greenhouse":greenhouse.scrape,"lever":lever.scrape,"ashby":ashby.scrape,"smartrecruiters":smartrecruiters.scrape,"workable":workable.scrape,"recruitee":recruitee.scrape,"workday":workday.scrape,"remoteok":remoteok.scrape,"remotive":remotive.scrape,"arbeitnow":arbeitnow.scrape,"themuse":themuse.scrape,"jobicy":jobicy.scrape,"himalayas":himalayas.scrape,"jsonld":jsonld.scrape,"auto":auto.scrape}
+from .scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,company
+SCRAPERS={"greenhouse":greenhouse.scrape,"lever":lever.scrape,"ashby":ashby.scrape,"smartrecruiters":smartrecruiters.scrape,"workable":workable.scrape,"recruitee":recruitee.scrape,"workday":workday.scrape,"remoteok":remoteok.scrape,"remotive":remotive.scrape,"arbeitnow":arbeitnow.scrape,"themuse":themuse.scrape,"jobicy":jobicy.scrape,"himalayas":himalayas.scrape,"jsonld":jsonld.scrape,"auto":auto.scrape,"company":company.scrape}
 CONNECTORS=tuple(sorted(SCRAPERS))
 def fetch_jobs(connector,token):
     name=connector.strip().lower()

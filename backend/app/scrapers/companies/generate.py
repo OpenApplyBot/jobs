@@ -62,8 +62,8 @@ def main() -> None:
         domain = (row.get("official_domain") or "").strip()
         if not name or not url.startswith(("https://", "http://")) or not domain:
             raise ValueError(f"Invalid company row {idx}: {row!r}")
-        slug = slugify(name)
-        filename = f"{idx:03d}_{slug}.py"
+        slug = slugify(domain)
+        filename = f"{slug}.py"
         if filename in seen:
             raise ValueError(f"Duplicate module filename: {filename}")
         seen.add(filename)

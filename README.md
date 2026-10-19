@@ -6,14 +6,14 @@ Local-first job index: **PostgreSQL → Redis queue → isolated scrapers → no
 
 Run these from the repository root. The scripts are intentionally separated so starting the UI/API does not automatically launch scraper jobs.
 
-| Command | Purpose |
-|---|---|
-| `bash run.sh` | Build/start the local database, Redis, API, workers, scheduler and frontend. Preserves existing data; does not queue a scrape. |
-| `bash run-scrapers.sh` | Ensure PostgreSQL, Redis, API and workers are up; seed the source registry and queue all active scrapers. |
-| `bash reset-db.sh` | Stop services and delete local PostgreSQL/Redis volumes after typing `RESET`. |
-| `bash run-from-scratch.sh` | Confirm destructive reset, recreate the system, then seed and queue scrapers. |
-| `docker compose logs -f worker` | Watch scraper progress. |
-| `docker compose ps` | Inspect service health. |
+| Command                         | Purpose                                                                                                                        |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `bash run.sh`                   | Build/start the local database, Redis, API, workers, scheduler and frontend. Preserves existing data; does not queue a scrape. |
+| `bash run-scrapers.sh`          | Ensure PostgreSQL, Redis, API and workers are up; seed the source registry and queue all active scrapers.                      |
+| `bash reset-db.sh`              | Stop services and delete local PostgreSQL/Redis volumes after typing `RESET`.                                                  |
+| `bash run-from-scratch.sh`      | Confirm destructive reset, recreate the system, then seed and queue scrapers.                                                  |
+| `docker compose logs -f worker` | Watch scraper progress.                                                                                                        |
+| `docker compose ps`             | Inspect service health.                                                                                                        |
 
 The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. To avoid accidental deletion, `--yes` is supported for automation, but should only be used deliberately. Scripts can be run with `bash <script>` without executable permissions.
 
@@ -32,9 +32,9 @@ Data persists in Docker volumes. `docker compose down` stops the stack without d
 
 ## Pipeline
 
-1. The seed registry adds the 47 user-specified employer careers URLs and registers each as an `auto` source. It does not guess ATS board IDs.
+1. The seed registry reads all 500 manifest entries and registers each as a `company` source keyed by its official domain. Each company scraper delegates to public ATS discovery and same-site JSON-LD parsing; it does not guess ATS board IDs.
 2. Auto-discovery checks public careers-page markup for supported ATS links (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Workday) and tries the provider's public endpoint. Otherwise it extracts Schema.org `JobPosting` JSON-LD from the public page and same-site career/job links.
-3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). Employer-specific API adapters (including Workday CXS) live in separate files too.
+3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). The 500 manifest-backed company modules use `<official_domain>.py` names such as `google_com.py`; employer-specific API adapters (including Workday CXS) live in separate files too.
 4. Every result is normalized to a common schema, deduplicated within a fetch, then upserted by `(source_id, source_job_id)`. Failed fetches are recorded and do not deactivate existing jobs. Only a successful non-empty fetch deactivates listings no longer returned by that source, preventing an empty/blocked page from hiding all stored jobs.
 5. PostgreSQL stores canonical jobs and source/run state. B-tree indexes support common filters and optional `pg_trgm` GIN indexes accelerate substring search. Redis/RQ buffers scraper tasks so API requests do not wait on slow websites.
 6. FastAPI exposes searchable/filterable jobs, source management, sync controls, queue health, and run history. The React page reads from this API.
@@ -55,7 +55,6 @@ For a complete local verification, run `FOLLOW_LOGS=0 ./run.sh`, then check `htt
 
 To run one source, use `curl -X POST http://127.0.0.1:8000/api/sources/{source_id}/run`; to run all active sources, use `curl -X POST http://127.0.0.1:8000/api/connectors/run-all`. Source failures are recorded and do not close existing jobs automatically. Public pages that require authentication, CAPTCHA bypass, or blocked access remain unsupported by design.
 
-
 ## Generate and test the 500 company-specific scrapers
 
 The CSV contains candidate URLs, not verified live integrations. Generate one editable Python module per CSV row (500 modules plus a manifest):
@@ -65,14 +64,14 @@ cd backend
 python -m app.scrapers.companies.generate --csv ../top_500_official_company_careers.csv
 ```
 
-This creates `backend/app/scrapers/companies/001_<company>.py` through `500_<company>.py`. Each module has its own company name, careers URL, and domain constants and calls the real public careers/ATS discovery implementation. No fake jobs are inserted. The initial modules intentionally share the robust auto-discovery engine; customize individual files with verified public APIs or site-specific parsing as live test results identify the need.
+This creates one domain-named module per company under `backend/app/scrapers/`, such as `google_com.py` and `amazon_jobs.py`. Each module has its own company name, careers URL, and domain constants and calls the real public careers/ATS discovery implementation. No fake jobs are inserted. The initial modules intentionally share the robust auto-discovery engine; customize individual files with verified public APIs or site-specific parsing as live test results identify the need.
 
 Test in bounded batches and inspect the JSONL report:
 
 ```bash
-python -m app.scrapers.companies.test_batch --offset 0 --limit 50
-python -m app.scrapers.companies.test_batch --offset 50 --limit 50
+python -m app.scrapers.companies.test_batch --offset 0 --limit 50 --workers 10 --timeout 10
+python -m app.scrapers.companies.test_batch --offset 50 --limit 50 --workers 10 --timeout 10
 # Continue offsets 100, 150, 200, 250, 300, 350, 400, 450.
 ```
 
-Reports append to `company_scraper_test_report.jsonl`. `success` with zero jobs is not proof that a source works; inspect the actual page and report before customizing that company's module. The generated modules are testable scraper entry points; the existing production database pipeline still uses the source registry and worker.
+Reports append to `company_scraper_test_report.jsonl`. `success` with zero jobs is not proof that a source works; inspect the actual page and report before customizing that company's module. `--workers` runs sources in parallel and `--timeout` isolates slow or blocked sites. The generated modules are testable scraper entry points; the existing production database pipeline still uses the source registry and three parallel workers from `run.sh`.
