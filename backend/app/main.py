@@ -148,7 +148,7 @@ def queue_status():
 @app.get("/api/runs")
 def runs(limit:int=Query(50,ge=1,le=200),db:Session=Depends(get_db)):
     rows=db.scalars(select(ConnectorRun).order_by(ConnectorRun.started_at.desc()).limit(limit)).all()
-    return [{"id":r.id,"source_id":r.source_id,"connector":r.connector,"started_at":r.started_at,"finished_at":r.finished_at,"fetched":r.fetched,"inserted":r.inserted,"updated":r.updated,"status":r.status,"error":r.error} for r in rows]
+    return [{"id":r.id,"source_id":r.source_id,"connector":r.connector,"started_at":r.started_at,"finished_at":r.finished_at,"fetched":r.fetched,"inserted":r.inserted,"updated":r.updated,"skipped":r.skipped,"status":r.status,"error":r.error} for r in rows]
 @app.get("/api/companies/seed-status")
 def seed_status(db:Session=Depends(get_db)):
     return {"companies":db.scalar(select(func.count(Company.id))) or 0,"sources":db.scalar(select(func.count(Source.id))) or 0,"hint":"POST /api/connectors/run-all to start registered sources."}
