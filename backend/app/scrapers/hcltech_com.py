@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'HCLTech'
-CAREERS_URL = 'https://www.hcltech.com/careers'
+CAREERS_URL = 'https://careers.hcltech.com/'
 OFFICIAL_DOMAIN = 'hcltech.com'
 CSV_RANK = 140
 
