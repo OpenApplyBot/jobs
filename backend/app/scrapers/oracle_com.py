@@ -1,71 +1,69 @@
-"""Oracle Careers scraper for its public Oracle Recruiting Cloud job search."""
+"""Oracle Careers scraper using the public Oracle Recruiting Cloud API."""
 from __future__ import annotations
 
 import os
-import re
-from html.parser import HTMLParser
-from urllib.parse import urljoin, urlparse
 import requests
+from urllib.parse import quote
 
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Oracle"
-CAREERS_URL = "https://careers.oracle.com/en/sites/jobsearch/jobs?hl=en-IN"
-OFFICIAL_DOMAIN = "careers.oracle.com"
+CAREERS_URL = "https://careers.oracle.com/en/sites/jobsearch/"
+API_URL = "https://eeho.fa.us2.oraclecloud.com/hcmRestApi/resources/latest/recruitingCEJobRequisitions"
+SITE_NUMBER = os.getenv("ORACLE_SITE_NUMBER", "CX_45001")
+OFFICIAL_DOMAIN = "oracle.com"
 CSV_RANK = 22
-PAGE_SIZE = max(1, min(100, int(os.getenv("ORACLE_PAGE_SIZE", "20"))))
-MAX_PAGES = max(1, min(100, int(os.getenv("ORACLE_MAX_PAGES", "10"))))
+PAGE_SIZE = max(1, min(200, int(os.getenv("ORACLE_PAGE_SIZE", "50"))))
+MAX_PAGES = max(1, min(100, int(os.getenv("ORACLE_MAX_PAGES", "2"))))
 
-class _OracleJobLinks(HTMLParser):
-    def __init__(self):
-        super().__init__(convert_charrefs=True)
-        self.href = None
-        self.text = []
-        self.links = []
-    def handle_starttag(self, tag, attrs):
-        if tag != "a":
-            return
-        href = dict(attrs).get("href", "")
-        path = urlparse(urljoin("https://careers.oracle.com", href)).path
-        if re.search(r"/(?:sites/jobsearch/job|job)/[^/?#]+", path, re.I):
-            self.href = urljoin("https://careers.oracle.com", href)
-            self.text = []
-    def handle_data(self, data):
-        if self.href:
-            self.text.append(data)
-    def handle_endtag(self, tag):
-        if tag == "a" and self.href:
-            self.links.append((self.href, clean(" ".join(self.text))))
-            self.href = None
-            self.text = []
+def _finder(offset):
+    return f"findReqs;siteNumber={SITE_NUMBER},limit={PAGE_SIZE},offset={offset},sortBy=POSTING_DATES_DESC"
 
 def scrape(token: str | None = None):
-    base_url = token.strip() if token and token.strip() else CAREERS_URL
     output, seen = [], set()
     with requests.Session() as session:
-        session.headers.update({**HEADERS, "Accept": "text/html,application/xhtml+xml", "Referer": "https://careers.oracle.com/en/sites/jobsearch/"})
-        for page in range(1, MAX_PAGES + 1):
-            response = session.get(base_url, params={"page": page, "limit": PAGE_SIZE}, timeout=TIMEOUT)
+        session.headers.update({**HEADERS, "Accept": "application/json", "Referer": CAREERS_URL})
+        for page in range(MAX_PAGES):
+            offset = page * PAGE_SIZE
+            params = {"onlyData": "true", "expand": "requisitionList", "finder": _finder(offset)}
+            response = session.get(API_URL, params=params, timeout=TIMEOUT)
             response.raise_for_status()
-            parser = _OracleJobLinks()
-            parser.feed(response.text)
+            payload = response.json()
+            items = payload.get("items") or []
+            if not items:
+                if page == 0:
+                    raise RuntimeError(f"Oracle public recruiting API returned no items; keys={list(payload)[:10]}")
+                break
+            container = items[0]
+            rows = container.get("requisitionList") or []
+            total = container.get("TotalJobsCount") or 0
+            if not rows:
+                if page == 0:
+                    raise RuntimeError("Oracle public recruiting API returned no requisitions")
+                break
             added = 0
-            for url, title in parser.links:
-                path = urlparse(url).path
-                match = re.search(r"/(?:sites/jobsearch/job|job)/([^/?#]+)", path, re.I)
-                job_id = clean(match.group(1)) if match else None
-                if not job_id or not title or title.lower() in {"view job", "apply now", "learn more"} or job_id in seen:
+            for row in rows:
+                if not isinstance(row, dict):
+                    continue
+                job_id = clean(row.get("Id") or row.get("RequisitionNumber") or row.get("JobId"))
+                title = clean(row.get("Title") or row.get("JobTitle"))
+                if not job_id or not title or job_id in seen:
                     continue
                 seen.add(job_id)
-                item = normalize(job_id, title, url, company=COMPANY_NAME,
-                                 raw_payload={"source": "Oracle public careers HTML"}, apply_url=url)
+                job_url = f"https://careers.oracle.com/jobs/#en/sites/jobsearch/job/{job_id}"
+                location = clean(row.get("PrimaryLocation") or row.get("Location") or row.get("WorkLocation"))
+                department = clean(row.get("JobFamily") or row.get("Organization") or row.get("Category"))
+                description = clean(row.get("ExternalDescriptionStr") or row.get("ExternalResponsibilitiesStr"))
+                item = normalize(job_id, title, job_url, location, department, clean(row.get("JobType")),
+                                 description, row.get("PostedDate"), COMPANY_NAME,
+                                 raw_payload=row, apply_url=job_url)
                 if item:
                     output.append(item)
                     added += 1
-            print(f"[Oracle] Page {page}: {added} job links, {len(output)} unique")
-            if added == 0 or added < PAGE_SIZE:
+            print(f"[Oracle] Page {page + 1}: {len(rows)} source rows, {added} new, {len(output)} total of {total}")
+            if (total and offset + len(rows) >= int(total)) or len(rows) < PAGE_SIZE:
                 break
     if not output:
-        raise RuntimeError("Oracle official careers page yielded no parseable job links")
+        raise RuntimeError("Oracle public recruiting API returned no normalized jobs")
     print(f"[Oracle] Complete: {len(output)} jobs")
     return output
