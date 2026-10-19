@@ -72,6 +72,9 @@ def run_source(source_id):
         if not source:
             return {"source_id": source_id, "status": "skipped"}
         connector, token = source.connector, source.board_token
+        known_job_ids = set(
+            db.scalars(select(Job.source_job_id).where(Job.source_id == source_id)).all()
+        )
         run = ConnectorRun(source_id=source.id, connector=connector, status="running", started_at=now())
         db.add(run)
         db.commit()
@@ -83,7 +86,7 @@ def run_source(source_id):
         # Every fetched listing is checked against durable source_job_id records.
         # This feed fetch may still enumerate old listings when the provider has
         # no incremental API, but unchanged rows will not be rewritten/snapshotted.
-        items = fetch_jobs(connector, token)
+        items = fetch_jobs(connector, token, known_job_ids=known_job_ids)
 
         with SessionLocal() as db:
             source = db.get(Source, source_id)
