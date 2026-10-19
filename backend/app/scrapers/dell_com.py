@@ -9,7 +9,7 @@ from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Dell Technologies"
 CAREERS_URL = "https://jobs.dell.com/en/search-jobs/india%20general/375/1/1"
-API_URL = "https://jobs.dell.com/en/search-jobs/india%20general/375/1/1search-jobs/results"
+API_URL = "https://jobs.dell.com/search-jobs/results"
 OFFICIAL_DOMAIN = "jobs.dell.com"
 CSV_RANK = 30
 MAX_PAGES = max(1, min(10, int(os.getenv("DELL_MAX_PAGES", "2"))))
