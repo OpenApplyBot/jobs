@@ -20,14 +20,14 @@ import requests
 from .common import normalize, location_text
 
 COMPANY_NAME = "Google"
-CAREERS_URL = "https://www.google.com/about/careers/applications/jobs/results/"
+CAREERS_URL = "https://www.google.com/about/careers/applications/jobs/results/1/"
 OFFICIAL_DOMAIN = "google.com"
 CSV_RANK = 1
 
 TIMEOUT = (5, max(8, int(os.getenv("GOOGLE_HTTP_TIMEOUT", "20"))))
 MAX_PAGES = max(1, int(os.getenv("GOOGLE_MAX_PAGES", "250")))
 DETAIL_WORKERS = max(1, min(8, int(os.getenv("GOOGLE_DETAIL_WORKERS", "5"))))
-FETCH_DETAILS = os.getenv("GOOGLE_FETCH_DETAILS", "1").lower() not in {"0", "false", "no"}
+FETCH_DETAILS = os.getenv("GOOGLE_FETCH_DETAILS", "0").lower() not in {"0", "false", "no"}
 USER_AGENT = (
     "OpenApplyBot-Jobs/1.0 (+https://github.com/OpenApplyBot/jobs; "
     "public job indexer)"
@@ -337,7 +337,7 @@ def scrape(token: str | None = None):
     Environment:
       GOOGLE_MAX_PAGES=250       maximum listing pages (20 jobs/page; default covers 5,000)
       GOOGLE_DETAIL_WORKERS=5    concurrent detail requests (1-8)
-      GOOGLE_FETCH_DETAILS=0     optional listing-only mode
+      GOOGLE_FETCH_DETAILS=1     optional detail-enrichment mode (slower)
     """
     start = (token or "").strip() or CAREERS_URL
     if not _google_url(start):
