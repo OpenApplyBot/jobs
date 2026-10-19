@@ -24,13 +24,30 @@ def scrape(token: str | None = None):
             body = {"limit": PAGE_SIZE, "offset": page * PAGE_SIZE, "searchText": "", "appliedFacets": {}}
             response = session.post(API_URL, json=body, headers=headers, timeout=TIMEOUT)
             if response.status_code == 422:
-                # A few Workday tenants publish an array-shaped facet contract.
-                alt_body = {**body, "appliedFacets": []}
-                alternate = session.post(API_URL, json=alt_body, headers=headers, timeout=TIMEOUT)
-                if alternate.ok:
-                    response = alternate
+                # Retry broad public queries; some Workday tenants reject empty search.
+                retry_bodies = [
+                    {**body, "searchText": "software", "appliedFacets": {}},
+                    {**body, "searchText": "engineer", "appliedFacets": []},
+                    {**body, "searchText": "intern", "appliedFacets": {}},
+                ]
+                last_error = response.text[:250]
+                for retry_body in retry_bodies:
+                    alternate = session.post(API_URL, json=retry_body, headers=headers, timeout=TIMEOUT)
+                    if alternate.ok:
+                        response = alternate
+                        print(f"[Dell] Workday accepted searchText={retry_body['searchText']!r}")
+                        break
+                    last_error = alternate.text[:250]
                 else:
-                    raise RuntimeError(f"Dell Workday API rejected both public payload shapes; object={response.text[:300]!r}; array={alternate.text[:300]!r}")
+                    try:
+                        from .auto import scrape as auto_scrape
+                        fallback = auto_scrape(CAREERS_URL)
+                        if fallback:
+                            print(f"[Dell] Workday API unavailable; official careers HTML fallback returned {len(fallback)} jobs")
+                            return fallback
+                    except Exception as fallback_exc:
+                        print(f"[Dell] Official HTML fallback failed: {fallback_exc}")
+                    raise RuntimeError(f"Dell Workday API rejected public search payloads; last response={last_error!r}")
             response.raise_for_status()
             payload = response.json()
             rows = payload.get("jobPostings") or []
