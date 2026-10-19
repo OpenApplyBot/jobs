@@ -6,7 +6,13 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/next-50-scrapers.yml"
+      - "backend/app/scrapers/*.py"
+      - "backend/scripts/test_scraper.py"
   workflow_dispatch:
+
+concurrency:
+  group: next-50-company-scrapers
+  cancel-in-progress: true
 
 permissions:
   contents: read
