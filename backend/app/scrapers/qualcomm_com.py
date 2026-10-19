@@ -24,6 +24,9 @@ API_HEADERS = {
 def scrape(token: str | None = None):
     output, seen = [], set()
     with requests.Session() as session:
+        session.headers.update({**API_HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Origin": "https://careers.qualcomm.com"})
+        bootstrap = session.get(CAREERS_URL, timeout=TIMEOUT)
+        bootstrap.raise_for_status()
         for page in range(MAX_PAGES):
             params = {"domain": "qualcomm.com", "num": PAGE_SIZE, "start": page * PAGE_SIZE}
             response = session.get(API_URL, params=params, headers=API_HEADERS, timeout=TIMEOUT)
