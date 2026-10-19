@@ -9,7 +9,7 @@ from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Qualcomm"
 CAREERS_URL = "https://careers.qualcomm.com/careers"
-API_URL = "https://app.eightfold.ai/api/apply/v2/jobs"
+API_URL = "https://careers.qualcomm.com/api/apply/v2/jobs"
 OFFICIAL_DOMAIN = "qualcomm.com"
 CSV_RANK = 29
 PAGE_SIZE = max(1, min(100, int(os.getenv("QUALCOMM_PAGE_SIZE", "50"))))
