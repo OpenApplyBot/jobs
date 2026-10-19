@@ -6,8 +6,8 @@ from urllib.parse import urljoin
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Synopsys"
-CAREERS_URL = "https://synopsys.wd1.myworkdayjobs.com/en-US/careers"
-API_URL = "https://synopsys.wd1.myworkdayjobs.com/wday/cxs/synopsys/careers/jobs"
+CAREERS_URL = "https://synopsys.wd1.myworkdayjobs.com/en-US/Synopsys_Careers"
+API_URL = "https://synopsys.wd1.myworkdayjobs.com/wday/cxs/synopsys/Synopsys_Careers/jobs"
 OFFICIAL_DOMAIN = "synopsys.wd1.myworkdayjobs.com"
 CSV_RANK = 41
 ENV_PREFIX = "SYNOPSYS"
@@ -35,7 +35,7 @@ def scrape(token: str | None = None):
                 title = clean(row.get("title"))
                 if not external_path or not title or external_path in seen: continue
                 seen.add(external_path)
-                url = urljoin("https://synopsys.wd1.myworkdayjobs.com/en-US/careers/", external_path.lstrip("/"))
+                url = urljoin("https://synopsys.wd1.myworkdayjobs.com/en-US/Synopsys_Careers/", external_path.lstrip("/"))
                 item = normalize(external_path, title, url, clean(row.get("locationsText")), None, None, None, row.get("postedOn"), COMPANY_NAME, raw_payload=row, apply_url=url)
                 if item: output.append(item); added += 1
             print(f"[Synopsys] Page {page + 1}: {len(rows)} source rows, {added} new, {len(output)} total of {total}")
