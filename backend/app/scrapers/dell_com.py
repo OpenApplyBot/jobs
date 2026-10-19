@@ -13,7 +13,7 @@ API_URL = "https://jobs.dell.com/search-jobs/results"
 OFFICIAL_DOMAIN = "jobs.dell.com"
 CSV_RANK = 30
 MAX_PAGES = max(1, min(10, int(os.getenv("DELL_MAX_PAGES", "2"))))
-PAGE_SIZE = 100
+PAGE_SIZE = max(1, min(20, int(os.getenv("DELL_PAGE_SIZE", "20"))))
 KEYWORDS = tuple(x.strip() for x in os.getenv("DELL_KEYWORDS", "software engineer,intern,new grad,development program").split(",") if x.strip())
 
 ANCHOR_RE = re.compile(r'<a\b(?=[^>]*\bhref=["\']([^"\']*/job/[^"\']+)["\'])(?=[^>]*\bdata-job-id=["\'](\d+)["\'])[^>]*>(.*?)</a>', re.I | re.S)
@@ -34,6 +34,8 @@ def scrape(token: str | None = None):
     jobs = {}
     with requests.Session() as session:
         session.headers.update(headers)
+        bootstrap = session.get(page_url, headers={**headers, "Accept": "text/html,application/xhtml+xml"}, timeout=TIMEOUT)
+        bootstrap.raise_for_status()
         for keyword in KEYWORDS:
             for page in range(1, MAX_PAGES + 1):
                 params = {
@@ -54,9 +56,17 @@ def scrape(token: str | None = None):
                     "ResultsType": 0,
                 }
                 response = session.get(api_url, params=params, headers=headers, timeout=TIMEOUT)
-                response.raise_for_status()
-                payload = response.json()
-                fragment = payload.get("results", "") if isinstance(payload, dict) else ""
+                if not response.ok:
+                    print(f"[Dell Technologies] Results endpoint returned HTTP {response.status_code}; parsing official search HTML")
+                    fragment = bootstrap.text
+                else:
+                    try:
+                        payload = response.json()
+                        fragment = payload.get("results", "") if isinstance(payload, dict) else ""
+                    except ValueError:
+                        fragment = response.text
+                if not fragment:
+                    fragment = bootstrap.text
                 matches = list(ANCHOR_RE.finditer(fragment or ""))
                 added = 0
                 for match in matches:
