@@ -1,6 +1,6 @@
 from app.connectors import fetch_jobs, CONNECTORS
 from app.scrapers.common import normalize
-from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com,company as company_dispatch,canva_com,airtable_com
+from app.scrapers import greenhouse,lever,ashby,smartrecruiters,workable,recruitee,workday,remoteok,remotive,arbeitnow,themuse,jobicy,himalayas,jsonld,auto,apple_com,company as company_dispatch,canva_com,airtable_com,google_com
 from app.scrapers.company_registry import COMPANY_SCRAPERS
 
 class Response:
@@ -88,6 +88,18 @@ def test_jsonld(monkeypatch):
     monkeypatch.setattr(jsonld,"get",lambda *a,**k:Response(text=html))
     jobs=fetch_jobs("jsonld","https://x.test/careers")
     assert jobs[0]["source_job_id"]=="abc" and jobs[0]["location"]=="Pune, India"
+
+def test_google_recovers_serialized_job_links():
+    html = r'<div data-href="\/about\/careers\/applications\/jobs\/results\/12345-platform-engineer"></div>'
+    rows = google_com._listing_urls_from_markup(
+        "https://www.google.com/about/careers/applications/jobs/results/1/",
+        html,
+    )
+    assert len(rows) == 1
+    row = next(iter(rows.values()))
+    assert row["source_job_id"] == "12345"
+    assert row["title"] == "Platform Engineer"
+
 
 def test_jsonld_fallback_extracts_query_keyed_job_card(monkeypatch):
     html = '<a href="/careers/positions?gh_jid=7900846">Senior Software Engineer</a>'
