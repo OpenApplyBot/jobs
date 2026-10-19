@@ -1,15 +1,19 @@
-"""Company-specific scraper for Canonical.
-Official careers URL candidate: https://canonical.com/careers
-Expected company domain: canonical.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Canonical Careers scraper using Canonical's official Greenhouse board."""
+from __future__ import annotations
+from .greenhouse import scrape as _greenhouse_scrape
 
-COMPANY_NAME = 'Canonical'
-CAREERS_URL = 'https://canonical.com/careers'
-OFFICIAL_DOMAIN = 'canonical.com'
+COMPANY_NAME = "Canonical"
+CAREERS_URL = "https://job-boards.greenhouse.io/canonical"
+OFFICIAL_DOMAIN = "canonical.com"
 CSV_RANK = 49
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "canonical"
+    rows = _greenhouse_scrape(board)
+    for row in rows:
+        row["company_name"] = COMPANY_NAME
+        row["raw_payload"] = {**(row.get("raw_payload") or {}), "company_board": "canonical"}
+    if not rows:
+        raise RuntimeError("Canonical official Greenhouse board returned no public listings")
+    print(f"[Canonical] Complete: {len(rows)} jobs")
+    return rows
