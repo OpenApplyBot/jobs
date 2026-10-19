@@ -8,7 +8,7 @@ from .auto import scrape as _auto_scrape
 from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "Netflix"
-CAREERS_URL = "https://jobs.netflix.com/search"
+CAREERS_URL = "https://about.netflix.com/en/jobs"
 SEARCH_URL = "https://jobs.netflix.com/api/search"
 OFFICIAL_DOMAIN = "netflix.com"
 CSV_RANK = 6
