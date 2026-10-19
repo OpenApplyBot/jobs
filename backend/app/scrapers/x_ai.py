@@ -1,15 +1,17 @@
-"""Company-specific scraper for xAI.
-Official careers URL candidate: https://x.ai/careers
-Expected company domain: x.ai
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""xAI Careers scraper using the public Greenhouse job-board API.
 
-COMPANY_NAME = 'xAI'
-CAREERS_URL = 'https://x.ai/careers'
-OFFICIAL_DOMAIN = 'x.ai'
+The xAI careers page exposes public job pages under job-boards.greenhouse.io/xai.
+"""
+from .greenhouse import scrape as _scrape_greenhouse
+
+COMPANY_NAME = "xAI"
+CAREERS_URL = "https://x.ai/careers"
+BOARD_TOKEN = "xai"
+OFFICIAL_DOMAIN = "x.ai"
 CSV_RANK = 10
 
+
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    """Fetch xAI's public Greenhouse postings; token can override the board slug."""
+    board = token.strip() if token and token.strip() else BOARD_TOKEN
+    return _scrape_greenhouse(board)
