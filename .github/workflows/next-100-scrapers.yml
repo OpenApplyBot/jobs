@@ -121,6 +121,11 @@ jobs:
           pathlib.Path(f"backend/test-results/shard-{shard}-summary.json").write_text(json.dumps({"shard": shard, "failed": failed}, indent=2))
           print(f"SHARD SUMMARY shard={shard} failed={failed}")
           PY
+          # Make GitHub Actions reflect actual scraper failures; do not report green when all individual tests failed.
+          if [ "$failed" -gt 0 ]; then
+            echo "::error::$failed scraper(s) failed in shard $SHARD"
+            exit 1
+          fi
           exit 0
       - name: Upload shard results
         if: always()
