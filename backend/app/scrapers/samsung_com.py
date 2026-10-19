@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Samsung Electronics'
-CAREERS_URL = 'https://samsung.com/careers'
+CAREERS_URL = 'https://www.samsungcareers.com/?lang=en'
 OFFICIAL_DOMAIN = 'samsung.com'
 CSV_RANK = 17
 
