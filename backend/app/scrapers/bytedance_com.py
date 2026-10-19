@@ -1,4 +1,4 @@
-"""ByteDance Global Careers scraper using the public supplier search API."""
+"""ByteDance Global Careers scraper using its public supplier search API."""
 from __future__ import annotations
 import os
 import requests
@@ -7,18 +7,19 @@ from .common import HEADERS, TIMEOUT, clean, normalize
 
 COMPANY_NAME = "ByteDance"
 CAREERS_URL = "https://joinbytedance.com/search"
-SEARCH_URL = "https://jobs.bytedance.com/api/v1/public/supplier/search/job/posts"
+API_BASE_URL = "https://jobs.bytedance.com/api/v1/public/supplier"
+SEARCH_URL = f"{API_BASE_URL}/search/job/posts"
 OFFICIAL_DOMAIN = "bytedance.com"
 CSV_RANK = 11
-PAGE_SIZE = max(1, min(100, int(os.getenv("BYTEDANCE_PAGE_SIZE", "20"))))
+PAGE_SIZE = max(1, min(100, int(os.getenv("BYTEDANCE_PAGE_SIZE", "100"))))
 MAX_PAGES = max(1, min(100, int(os.getenv("BYTEDANCE_MAX_PAGES", "30"))))
 
 def _extract(payload):
     data = payload.get("data") or {}
     if not isinstance(data, dict):
         return [], None
-    rows = data.get("job_post_list") or data.get("jobPostList") or data.get("jobs") or []
-    return (rows if isinstance(rows, list) else []), data.get("count") or data.get("total")
+    rows = data.get("job_post_list") or []
+    return (rows if isinstance(rows, list) else []), data.get("count")
 
 def scrape(token: str | None = None):
     if token and token.strip():
@@ -28,35 +29,19 @@ def scrape(token: str | None = None):
         **HEADERS,
         "Accept": "application/json, text/plain, */*",
         "Content-Type": "application/json",
+        "accept-language": "en",
         "Origin": "https://joinbytedance.com",
         "Referer": CAREERS_URL,
-        "portal-channel": "global",
-        "portal-platform": "pc",
-        "website-path": "global",
+        "website-path": "en",
     }
     try:
         with requests.Session() as session:
             for page in range(MAX_PAGES):
-                body = {
-                    "keyword": "",
-                    "limit": PAGE_SIZE,
-                    "offset": page * PAGE_SIZE,
-                    "portal_type": 3,
-                    "portal_entrance": 1,
-                    "language": "en",
-                    "recruitment_id_list": [],
-                    "job_category_id_list": [],
-                    "location_code_list": [],
-                    "subject_id_list": [],
-                    "tag_id_list": [],
-                    "storefront_id_list": [],
-                    "job_function_id_list": [],
-                }
+                body = {"keyword": "", "limit": PAGE_SIZE, "offset": page * PAGE_SIZE}
                 response = session.post(SEARCH_URL, json=body, headers=headers, timeout=TIMEOUT)
                 response.raise_for_status()
                 payload = response.json()
-                if payload.get("code") not in (None, 0, "0"):
-                    raise ValueError(f"ByteDance API returned code {payload.get('code')}: {payload.get('message')}")
+                data = payload.get("data") or {}
                 rows, total = _extract(payload)
                 if not rows:
                     break
@@ -73,10 +58,10 @@ def scrape(token: str | None = None):
                         location = location.get("en_name") or location.get("name") or location.get("city_name")
                     elif isinstance(location, list):
                         location = ", ".join(clean(x.get("en_name") or x.get("name")) if isinstance(x, dict) else clean(x) for x in location if x)
-                    job_url = clean(row.get("url") or row.get("job_url")) or f"https://joinbytedance.com/search/{job_id}"
                     category = row.get("job_category")
                     if isinstance(category, dict):
                         category = category.get("en_name") or category.get("name")
+                    job_url = clean(row.get("url") or row.get("job_url")) or f"https://joinbytedance.com/search/{job_id}"
                     item = normalize(
                         job_id, title, job_url, clean(location),
                         clean(category or row.get("job_function")),
