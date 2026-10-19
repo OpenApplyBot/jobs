@@ -10,6 +10,7 @@ on:
       - "backend/app/scrapers/scale_com.py"
       - "backend/app/scrapers/huggingface_co.py"
       - "backend/app/scrapers/stability_ai.py"
+      - "backend/app/scrapers/mongodb_com.py"
       - "backend/scripts/test_scraper.py"
       - ".github/workflows/greenhouse-company-smoke.yml"
   workflow_dispatch:
@@ -32,6 +33,7 @@ jobs:
           - module: scale_com
           - module: huggingface_co
           - module: stability_ai
+          - module: mongodb_com
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
