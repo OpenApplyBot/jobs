@@ -14,6 +14,13 @@ import re
 import sys
 from pathlib import Path
 
+# When invoked as `python scripts/test_scraper.py`, Python puts the scripts
+# directory on sys.path rather than the backend root. Add the backend root so
+# imports such as `app.scrapers.google_com` work both in Docker and locally.
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
+if str(BACKEND_ROOT) not in sys.path:
+    sys.path.insert(0, str(BACKEND_ROOT))
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Run one scraper and save its results as JSON.")
