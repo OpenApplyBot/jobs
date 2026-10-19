@@ -1,15 +1,19 @@
-"""Company-specific scraper for Arista Networks.
-Official careers URL candidate: https://arista.com/careers
-Expected company domain: arista.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Arista Networks scraper using its public Arista-branded SmartRecruiters board."""
+from __future__ import annotations
+from .smartrecruiters import scrape as _smartrecruiters_scrape
 
-COMPANY_NAME = 'Arista Networks'
-CAREERS_URL = 'https://arista.com/careers'
-OFFICIAL_DOMAIN = 'arista.com'
+COMPANY_NAME = "Arista Networks"
+CAREERS_URL = "https://careers.smartrecruiters.com/AristaNetworks"
+OFFICIAL_DOMAIN = "careers.smartrecruiters.com"
 CSV_RANK = 46
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    board = token.strip() if token and token.strip() else "AristaNetworks"
+    rows = _smartrecruiters_scrape(board)
+    for row in rows:
+        row["company_name"] = COMPANY_NAME
+        row["raw_payload"] = {**(row.get("raw_payload") or {}), "company_board": "AristaNetworks"}
+    if not rows:
+        raise RuntimeError("Arista Networks public SmartRecruiters board returned no listings")
+    print(f"[Arista Networks] Complete: {len(rows)} jobs")
+    return rows
