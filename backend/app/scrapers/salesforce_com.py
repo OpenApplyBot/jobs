@@ -4,7 +4,7 @@ from __future__ import annotations
 import os
 import re
 from html.parser import HTMLParser
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 import requests
 
 from .common import HEADERS, TIMEOUT, clean, normalize
@@ -26,8 +26,10 @@ class _JobLinkParser(HTMLParser):
         if tag == "a":
             attrs = dict(attrs)
             href = attrs.get("href", "")
-            if re.match(r"^/en/jobs/[^/?#]+/[^?#]+", href):
-                self.active_href = href
+            absolute = urljoin("https://careers.salesforce.com", href)
+            parsed_path = urlparse(absolute).path
+            if re.match(r"^/en/jobs/[^/?#]+/[^?#]+", parsed_path):
+                self.active_href = absolute
                 self.active_text = []
     def handle_data(self, data):
         if self.active_href:
@@ -52,7 +54,7 @@ def scrape(token: str | None = None):
             added = 0
             for href, title in parser.links:
                 job_url = urljoin(response.url, href)
-                match = re.search(r"/en/jobs/([^/]+)/", href)
+                match = re.search(r"/en/jobs/([^/]+)/", urlparse(href).path)
                 job_id = clean(match.group(1)) if match else None
                 if not job_id or not title or title.lower() in {"view job", "learn more"} or job_id in seen:
                     continue
