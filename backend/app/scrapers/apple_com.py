@@ -14,22 +14,27 @@ from .common import clean, get, normalize, location_text
 COMPANY_NAME = "Apple"
 CAREERS_URL = "https://jobs.apple.com/en-us/search"
 SEARCH_URL = "https://jobs.apple.com/api/v1/search"
-DETAIL_URL = "https://jobs.apple.com/api/v1/details"
 OFFICIAL_DOMAIN = "apple.com"
 CSV_RANK = 4
 
 MAX_PAGES = max(1, int(os.getenv("APPLE_MAX_PAGES", "30")))
-PAGE_SIZE = max(1, min(20, int(os.getenv("APPLE_PAGE_SIZE", "20"))))
+# Apple's API returns 20 rows per page regardless of a requested page-size setting.
+PAGE_SIZE = 20
 FETCH_DETAILS = os.getenv("APPLE_FETCH_DETAILS", "0").lower() not in {"0", "false", "no"}
 LOCALE = os.getenv("APPLE_LOCALE", "en-us").strip().lower() or "en-us"
 TIMEOUT = max(5, int(os.getenv("APPLE_HTTP_TIMEOUT", "20")))
 HEADERS = {
     "User-Agent": "OpenApplyBot-Jobs/1.0 (+https://github.com/OpenApplyBot/jobs; public job indexer)",
-    "Accept": "application/json, text/plain, */*",
+    "Accept": "application/json, text/html;q=0.9, */*;q=0.8",
     "Accept-Language": "en-US,en;q=0.9",
     "Content-Type": "application/json",
     "Origin": "https://jobs.apple.com",
     "Referer": CAREERS_URL,
+}
+DETAIL_HEADERS = {
+    "User-Agent": HEADERS["User-Agent"],
+    "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.9",
 }
 
 
@@ -43,7 +48,6 @@ def _post(url: str, payload: dict):
 
 
 def _unwrap(payload):
-    """Return the nested response object while tolerating API envelope changes."""
     if not isinstance(payload, dict):
         return {}
     value = payload.get("res")
@@ -79,7 +83,6 @@ def _rows(payload):
         rows = data.get(key)
         if isinstance(rows, list):
             return rows, _first(data, "totalRecords", "total_records", "total", "count")
-    # Some responses wrap the search result array one level deeper.
     for value in data.values():
         if isinstance(value, dict):
             for key in ("searchResults", "results", "jobs", "postings", "positions", "items"):
@@ -102,8 +105,9 @@ def _job_url(item, job_id, title):
         parsed = urlparse(str(value))
         if parsed.scheme == "https" and parsed.hostname == "jobs.apple.com":
             return str(value)
-    slug = _first(item, "transformedPostingTitle", "transformed_posting_title", "slug")
-    return f"https://jobs.apple.com/{LOCALE}/details/{slug or _slug(title)}/{job_id}"
+    slug = _first(item, "transformedPostingTitle", "transformed_posting_title", "slug") or _slug(title)
+    # Apple URLs use /details/{numeric position id}/{slug}, not /details/{slug}/{id}.
+    return f"https://jobs.apple.com/{LOCALE}/details/{job_id}/{slug}"
 
 
 def _normalize(item):
@@ -113,16 +117,19 @@ def _normalize(item):
     title = _text(_first(item, "postingTitle", "posting_title", "title", "jobTitle", "job_title", "name"))
     if not job_id or not title:
         return None
-    url = _job_url(item, str(job_id), title)
-    location = _text(_first(item, "locations", "location", "locationName", "location_name"))
-    if not location:
-        location = location_text(_first(item, "locations", "location"))
-    department = _text(_first(item, "team", "teamName", "team_name", "department", "jobFunction"))
+    job_id = str(job_id)
+    url = _job_url(item, job_id, title)
+    location_value = _first(item, "locations", "location", "locationName", "location_name")
+    location = _text(location_value) or location_text(location_value)
+    team = _first(item, "team", "teamName", "team_name", "department", "jobFunction")
+    department = _text(team)
+    if isinstance(team, dict):
+        department = _text(_first(team, "teamName", "name", "label"))
     employment_type = _text(_first(item, "employmentType", "employment_type", "scheduleType"))
-    description = _text(_first(item, "jobSummary", "job_summary", "summary", "description", "descriptionHtml"))
+    description = _text(_first(item, "jobSummary", "job_summary", "summary", "description", "descriptionHtml", "jobDescription"))
     posted = _first(item, "postingDate", "posting_date", "datePosted", "date_posted", "postedAt")
     return normalize(
-        str(job_id), title, url,
+        job_id, title, url,
         location=location,
         department=department,
         employment_type=employment_type,
@@ -134,25 +141,65 @@ def _normalize(item):
     )
 
 
+def _hydration(html):
+    """Decode Apple's server-rendered JSON.parse string used by job detail pages."""
+    marker = "window.__staticRouterHydrationData"
+    start = html.find(marker)
+    if start < 0:
+        return None
+    segment = html[start:]
+    needle = 'JSON.parse("'
+    start_literal = segment.find(needle)
+    if start_literal < 0:
+        return None
+    cursor = start_literal + len(needle)
+    end = cursor
+    while True:
+        end = segment.find('")', end)
+        if end < 0:
+            return None
+        if segment[end - 1] != "\\":
+            break
+        end += 1
+    raw = segment[cursor:end]
+    try:
+        return json.loads(json.loads(f'"{raw}"'))
+    except (json.JSONDecodeError, ValueError):
+        return None
+
+
 def _fetch_detail(item):
-    job_id = _first(item, "positionId", "position_id", "jobId", "job_id", "id", "postingId")
+    job_id = str(_first(item, "positionId", "position_id", "jobId", "job_id", "id", "postingId") or "")
+    title = _text(_first(item, "postingTitle", "posting_title", "title", "jobTitle", "job_title", "name")) or "job"
+    slug = _first(item, "transformedPostingTitle", "transformed_posting_title", "slug") or _slug(title)
     if not job_id:
         return item
-    # This is the same public detail route used by the Apple Careers frontend.
+    detail_url = f"https://jobs.apple.com/{LOCALE}/details/{job_id}/{slug}"
     try:
-        payload = _post(f"{DETAIL_URL}/{job_id}/{LOCALE}", {})
-        detail = _unwrap(payload)
-        for key in ("job", "posting", "details", "jobDetails"):
-            if isinstance(detail.get(key), dict):
-                detail = detail[key]
-                break
-        if isinstance(detail, dict):
-            merged = dict(item)
-            merged.update({k: v for k, v in detail.items() if v not in (None, "", [], {})})
-            return merged
+        response = get(detail_url)
+        final = urlparse(response.url)
+        if final.scheme != "https" or final.hostname != "jobs.apple.com":
+            raise ValueError(f"Unexpected redirect for Apple detail request: {response.url}")
+        data = _hydration(response.text)
+        if not isinstance(data, dict):
+            print(f"[Apple] Detail page had no parseable hydration data for {job_id}", flush=True)
+            return item
+        details = (data.get("loaderData") or {}).get("jobDetails")
+        if not isinstance(details, dict):
+            return item
+        jobs_data = details.get("jobsData")
+        if isinstance(jobs_data, list):
+            detail = jobs_data[0] if jobs_data and isinstance(jobs_data[0], dict) else {}
+        elif isinstance(jobs_data, dict):
+            detail = jobs_data
+        else:
+            detail = {}
+        merged = dict(item)
+        merged.update({k: v for k, v in detail.items() if v not in (None, "", [], {})})
+        return merged
     except (requests.RequestException, ValueError, json.JSONDecodeError) as exc:
         print(f"[Apple] Detail lookup unavailable for {job_id}: {exc}", flush=True)
-    return item
+        return item
 
 
 def _search_page(page):
@@ -161,7 +208,7 @@ def _search_page(page):
         "filters": {},
         "page": page,
         "locale": LOCALE,
-        "sort": "",
+        "sort": "newest",
         "format": {
             "longDate": "MMMM D, YYYY",
             "mediumDate": "MMM D, YYYY",
@@ -179,14 +226,15 @@ def scrape(token: str | None = None):
         parsed = urlparse(token)
         if parsed.scheme not in {"http", "https"} or parsed.hostname != "jobs.apple.com":
             raise ValueError(f"Refusing non-Apple Careers URL: {token}")
-        match = re.search(r"/details/([^/?#]+)/(\d+)", parsed.path)
+        # Actual Apple format is /{locale}/details/{numeric-id}/{slug}.
+        match = re.search(r"/details/(\d+)(?:/([^/?#]+))?", parsed.path)
         if not match:
-            raise ValueError("Apple token URL must be an official /details/<slug>/<job-id> URL")
-        job_id = match.group(2)
-        item = {"positionId": job_id, "postingTitle": match.group(1), "url": token}
+            raise ValueError("Apple token URL must be an official /details/<job-id>/<slug> URL")
+        job_id, slug = match.group(1), match.group(2) or "job"
+        item = {"positionId": job_id, "postingTitle": slug.replace("-", " "), "transformedPostingTitle": slug, "url": token}
         return [row] if (row := _normalize(_fetch_detail(item) if FETCH_DETAILS else item)) else []
 
-    print(f"[Apple] Starting official careers search; page size={PAGE_SIZE}, max pages={MAX_PAGES}", flush=True)
+    print(f"[Apple] Starting official careers search; API page size={PAGE_SIZE}, max pages={MAX_PAGES}", flush=True)
     discovered = {}
     total_reported = None
     for page in range(1, MAX_PAGES + 1):
@@ -220,14 +268,12 @@ def scrape(token: str | None = None):
         print(f"[Apple] Enriching {len(items)} records with detail pages", flush=True)
         enriched = []
         for index, item in enumerate(items, 1):
-            detail = _fetch_detail(item)
-            row = _normalize(detail)
+            row = _normalize(_fetch_detail(item))
             if row:
                 enriched.append(row)
             if index % 20 == 0 or index == len(items):
                 print(f"[Apple] Details processed: {index}/{len(items)}", flush=True)
-        output = {row["url"]: row for row in enriched}
-        result = list(output.values())
+        result = list({row["url"]: row for row in enriched}.values())
     else:
         result = [row for item in items if (row := _normalize(item))]
     print(f"[Apple] Complete: {len(result)} jobs; reported total={total_reported if total_reported is not None else 'unknown'}", flush=True)
