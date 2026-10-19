@@ -48,7 +48,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=50)
     parser.add_argument("--report", default="company_scraper_test_report.jsonl")
     parser.add_argument("--timeout", type=int, default=30, help="Maximum seconds per scraper")
-    parser.add_argument("--workers", type=int, default=10, help="Concurrent scraper processes")
+    parser.add_argument("--workers", type=int, default=1, help="Concurrent scraper processes (1 runs strictly one-by-one)")
     args = parser.parse_args()
     start = max(0, args.offset)
     selected = [item for item in MANIFEST[start:start + max(0, args.limit)]]
@@ -97,22 +97,32 @@ def main() -> None:
         result["elapsed_seconds"] = round(monotonic() - t0, 2)
         return i, result
 
+    workers = max(1, args.workers)
+
+    def consume_result(report, i, result):
+        if result["status"] == "success":
+            counts["with_jobs"] += 1
+        elif result["status"] == "empty":
+            counts["empty"] += 1
+        elif result["status"] == "invalid":
+            counts["invalid"] += 1
+        else:
+            counts["errors"] += 1
+        report.write(json.dumps(result, ensure_ascii=False, default=str) + "\n")
+        report.flush()
+        print(f'[{i}/{len(selected)}] {result["company"]}: {result["status"]} jobs={result["jobs"]}')
+
     with report_path.open("a", encoding="utf-8") as report:
-        with ThreadPoolExecutor(max_workers=max(1, args.workers)) as executor:
-            pending = [executor.submit(run_one, pair) for pair in enumerate(selected, start=1)]
-            for future in as_completed(pending):
-                i, result = future.result()
-                if result["status"] == "success":
-                    counts["with_jobs"] += 1
-                elif result["status"] == "empty":
-                    counts["empty"] += 1
-                elif result["status"] == "invalid":
-                    counts["invalid"] += 1
-                else:
-                    counts["errors"] += 1
-                report.write(json.dumps(result, ensure_ascii=False, default=str) + "\n")
-                report.flush()
-                print(f'[{i}/{len(selected)}] {result["company"]}: {result["status"]} jobs={result["jobs"]}')
+        if workers == 1:
+            for index_item in enumerate(selected, start=1):
+                i, result = run_one(index_item)
+                consume_result(report, i, result)
+        else:
+            with ThreadPoolExecutor(max_workers=workers) as executor:
+                pending = [executor.submit(run_one, pair) for pair in enumerate(selected, start=1)]
+                for future in as_completed(pending):
+                    i, result = future.result()
+                    consume_result(report, i, result)
     print(json.dumps({
         "offset": start,
         "limit": len(selected),
