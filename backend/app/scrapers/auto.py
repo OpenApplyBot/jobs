@@ -140,8 +140,13 @@ def _run_targets(targets):
     return []
 
 
-def scrape(url):
-    """Discover an employer's public ATS feed, then use JSON-LD as a fallback."""
+def scrape(url, known_job_ids=None):
+    """Discover an employer's public ATS feed, then use JSON-LD as a fallback.
+
+    known_job_ids is passed through by company dispatch for incremental-capable
+    provider adapters. The generic HTML/ATS discovery path never assumes an
+    unverified result ordering, so it does not truncate ordinary feeds early.
+    """
     try:
         parsed = urlparse(url)
         host = (parsed.hostname or "").lower()
