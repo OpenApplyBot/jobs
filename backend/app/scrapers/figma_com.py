@@ -1,15 +1,17 @@
-"""Company-specific scraper for Figma.
-Official careers URL candidate: https://figma.com/careers
-Expected company domain: figma.com
-Customize this module with a verified public API/parser after live testing.
-"""
-from .auto import scrape as _auto_scrape
+"""Figma scraper using its verified public Greenhouse job board.
 
-COMPANY_NAME = 'Figma'
-CAREERS_URL = 'https://figma.com/careers'
-OFFICIAL_DOMAIN = 'figma.com'
-CSV_RANK = 84
+Figma's official careers page links open roles to job-boards.greenhouse.io/figma.
+"""
+from .greenhouse import scrape as _scrape_greenhouse
+
+COMPANY_NAME = "Figma"
+CAREERS_URL = "https://www.figma.com/careers/"
+BOARD_TOKEN = "figma"
+OFFICIAL_DOMAIN = "figma.com"
+CSV_RANK = 0
+
 
 def scrape(token: str | None = None):
-    """Fetch current public listings. An explicit URL token overrides the CSV URL."""
-    return _auto_scrape(token.strip() if token and token.strip() else CAREERS_URL)
+    """Fetch Figma's public Greenhouse listings."""
+    board = token.strip() if token and token.strip() else BOARD_TOKEN
+    return _scrape_greenhouse(board, company=COMPANY_NAME)
