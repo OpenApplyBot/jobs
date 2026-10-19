@@ -13,6 +13,7 @@ import {
   ChevronDown,
   Clock3,
   Filter,
+  Github,
   MapPin,
   RefreshCw,
   Search,
@@ -106,6 +107,11 @@ function queryState() {
     mode: q.get("mode") || "",
     country: q.get("country") || "",
     skill: q.get("skill") || "",
+    source: q.get("source") || "",
+    location: q.get("location") || "",
+    currency: q.get("currency") || "",
+    minSalary: q.get("min_salary") || "",
+    postedAfter: q.get("posted_after") || "",
     sort: q.get("sort") || "newest",
     page: Number(q.get("page") || 1) || 1,
   };
@@ -160,15 +166,18 @@ function Directory() {
     [mode, setMode] = useState(initial.mode),
     [country, setCountry] = useState(initial.country),
     [skill, setSkill] = useState(initial.skill),
+    [source, setSource] = useState(initial.source),
+    [location, setLocation] = useState(initial.location),
+    [currency, setCurrency] = useState(initial.currency),
+    [minSalary, setMinSalary] = useState(initial.minSalary),
+    [postedAfter, setPostedAfter] = useState(initial.postedAfter),
     [sort, setSort] = useState(initial.sort),
     [page, setPage] = useState(initial.page);
   const [loading, setLoading] = useState(true),
     [error, setError] = useState(""),
     [mobileFilters, setMobileFilters] = useState(false),
     [syncing, setSyncing] = useState(false);
-  const activeCount = [company, type, mode, country, skill].filter(
-    Boolean,
-  ).length;
+  const activeCount = [company, type, mode, country, skill, source, location, currency, minSalary, postedAfter].filter(Boolean).length;
   function reset() {
     setSearch("");
     setCompany("");
@@ -176,6 +185,11 @@ function Directory() {
     setMode("");
     setCountry("");
     setSkill("");
+    setSource("");
+    setLocation("");
+    setCurrency("");
+    setMinSalary("");
+    setPostedAfter("");
     setSort("newest");
     setPage(1);
   }
@@ -187,10 +201,15 @@ function Directory() {
     if (mode) q.set("mode", mode);
     if (country) q.set("country", country);
     if (skill) q.set("skill", skill);
+    if (source) q.set("source", source);
+    if (location) q.set("location", location);
+    if (currency) q.set("salary_currency", currency);
+    if (minSalary) q.set("min_salary", minSalary);
+    if (postedAfter) q.set("posted_after", postedAfter);
     if (sort !== "newest") q.set("sort", sort);
     if (page > 1) q.set("page", String(page));
     window.history.replaceState(null, "", q.toString() ? `/?${q}` : "/");
-  }, [search, company, type, mode, country, skill, sort, page]);
+  }, [search, company, type, mode, country, skill, source, location, currency, minSalary, postedAfter, sort, page]);
   useEffect(() => {
     const controller = new AbortController();
     const timer = window.setTimeout(async () => {
@@ -208,6 +227,11 @@ function Directory() {
         if (mode) q.set("work_mode", mode);
         if (country) q.set("country", country);
         if (skill) q.set("skill", skill);
+        if (source) q.set("source", source);
+        if (location) q.set("location", location);
+        if (currency) q.set("salary_currency", currency);
+        if (minSalary) q.set("min_salary", minSalary);
+        if (postedAfter) q.set("posted_after", postedAfter);
         const responses = await Promise.all([
           fetch(`${API}/api/jobs?${q}`, { signal: controller.signal }),
           fetch(`${API}/api/stats`, { signal: controller.signal }),
@@ -237,7 +261,7 @@ function Directory() {
       window.clearTimeout(timer);
       controller.abort();
     };
-  }, [search, company, type, mode, country, skill, sort, page]);
+  }, [search, company, type, mode, country, skill, source, location, currency, minSalary, postedAfter, sort, page]);
   async function sync() {
     setSyncing(true);
     try {
@@ -277,6 +301,12 @@ function Directory() {
             in the local index
           </span>
         </div>
+      </section>
+      <section className="metric-grid" aria-label="Job index statistics">
+        <article className="metric-card metric-primary"><span className="metric-icon"><BriefcaseBusiness size={18} /></span><span className="metric-label">Indexed job listings</span><strong>{stats.jobs.toLocaleString()}</strong><small>Active roles in your index</small></article>
+        <article className="metric-card"><span className="metric-icon"><Database size={18} /></span><span className="metric-label">Companies tracked</span><strong>{stats.companies.toLocaleString()}</strong><small>Employer records in the registry</small></article>
+        <article className="metric-card"><span className="metric-icon"><Activity size={18} /></span><span className="metric-label">Scraper runs</span><strong>{stats.runs.toLocaleString()}</strong><small>Recorded ingestion attempts</small></article>
+        <article className="metric-card"><span className="metric-icon"><RefreshCw size={18} /></span><span className="metric-label">Active sources</span><strong>{stats.sources.toLocaleString()}</strong><small>{stats.queued.toLocaleString()} tasks queued</small></article>
       </section>
       <section className="search-panel">
         <div className="search-wrap">
@@ -355,6 +385,11 @@ function Directory() {
               setPage(1);
             }}
           />
+          <FilterSelect label="Data source" value={source} options={filters.sources} onChange={(v) => { setSource(v); setPage(1); }} />
+          <FilterSelect label="Location" value={location} options={filters.locations} onChange={(v) => { setLocation(v); setPage(1); }} />
+          <FilterSelect label="Salary currency" value={currency} options={filters.currencies} onChange={(v) => { setCurrency(v); setPage(1); }} />
+          <label className="filter-field"><span>Minimum salary</span><input className="filter-input" type="number" min="0" value={minSalary} onChange={(e) => { setMinSalary(e.target.value); setPage(1); }} placeholder="e.g. 80000" /></label>
+          <label className="filter-field"><span>Posted after</span><input className="filter-input" type="date" value={postedAfter} onChange={(e) => { setPostedAfter(e.target.value); setPage(1); }} /></label>
           <button
             className="close-filters"
             onClick={() => setMobileFilters(false)}
@@ -452,6 +487,7 @@ function Header({ onSync, syncing }: { onSync: () => void; syncing: boolean }) {
         <a href="/">Explore</a>
         <a href="/sources">Sources</a>
         <a href="/runs">Run history</a>
+        <a href="https://github.com/OpenApplyBot/jobs" target="_blank" rel="noreferrer" className="github-nav"><Github size={14} /> OpenApplyBot/jobs <ExternalLink size={12} /></a>
         <button
           className="button primary-button"
           onClick={onSync}
@@ -572,25 +608,24 @@ function Pagination({
   onChange: (page: number) => void;
 }) {
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  const [jump, setJump] = useState(String(page));
+  useEffect(() => setJump(String(page)), [page]);
+  const start = total ? (page - 1) * PAGE_SIZE + 1 : 0;
+  const end = Math.min(page * PAGE_SIZE, total);
   return (
-    <div className="pagination">
-      <button
-        className="button outline-button"
-        disabled={page <= 1}
-        onClick={() => onChange(page - 1)}
-      >
-        Previous
-      </button>
-      <span>
-        Page {page} of {pages}
-      </span>
-      <button
-        className="button outline-button"
-        disabled={page >= pages}
-        onClick={() => onChange(page + 1)}
-      >
-        Next
-      </button>
+    <div className="pagination-wrap">
+      <div className="pagination-summary">Showing <strong>{start.toLocaleString()}–{end.toLocaleString()}</strong> of <strong>{total.toLocaleString()}</strong> listings</div>
+      <div className="pagination">
+        <button className="button outline-button" disabled={page <= 1} onClick={() => onChange(page - 1)}>← Previous</button>
+        <span className="page-indicator">Page <strong>{page}</strong> of {pages.toLocaleString()}</span>
+        <button className="button outline-button" disabled={page >= pages} onClick={() => onChange(page + 1)}>Next →</button>
+      </div>
+      <form className="page-jump" onSubmit={(e) => { e.preventDefault(); const n = Number(jump); if (Number.isInteger(n) && n >= 1 && n <= pages) onChange(n); }}>
+        <label htmlFor="jump-page">Jump to page</label>
+        <input id="jump-page" type="number" min="1" max={pages} value={jump} onChange={(e) => setJump(e.target.value)} aria-label="Page number" />
+        <button className="button outline-button" type="submit">Go</button>
+        <span>of {pages.toLocaleString()}</span>
+      </form>
     </div>
   );
 }
