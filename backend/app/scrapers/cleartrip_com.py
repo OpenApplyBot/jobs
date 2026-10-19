@@ -1,12 +1,12 @@
 """Company-specific scraper for Cleartrip.
-Official careers URL candidate: https://cleartrip.com/careers
+Official careers URL candidate: https://careers.cleartrip.com/
 Expected company domain: cleartrip.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Cleartrip'
-CAREERS_URL = 'https://cleartrip.com/careers'
+CAREERS_URL = 'https://careers.cleartrip.com/'
 OFFICIAL_DOMAIN = 'cleartrip.com'
 CSV_RANK = 225
 
