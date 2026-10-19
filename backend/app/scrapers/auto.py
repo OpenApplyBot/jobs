@@ -176,7 +176,7 @@ def scrape(url):
         if len(successful_pages) >= 3:
             break
 
-    for page_url, html in successful_pages:
+    for page_url, html in successful_pages[:1]:
         try:
             rows = jsonld.scrape(page_url)
             if rows:
