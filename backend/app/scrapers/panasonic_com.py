@@ -66,9 +66,10 @@ def scrape(token: str | None = None):
                     raise RuntimeError(f"Panasonic official jobs API returned no rows; keys={list(payload)[:10]}")
                 break
             added = 0
-            for row in rows:
-                if not isinstance(row, dict):
+            for raw_row in rows:
+                if not isinstance(raw_row, dict):
                     continue
+                row = raw_row.get("data") if isinstance(raw_row.get("data"), dict) else raw_row
                 job_id = clean(row.get("req_id") or row.get("slug") or row.get("id") or row.get("jobId"))
                 title = clean(row.get("title") or row.get("name"))
                 if not job_id or not title or job_id in seen:
@@ -91,7 +92,7 @@ def scrape(token: str | None = None):
                                  clean(row.get("employment_type") or row.get("tags1")),
                                  clean(row.get("description") or row.get("responsibilities")),
                                  row.get("posted_date") or row.get("created_at"), COMPANY_NAME,
-                                 raw_payload=row, apply_url=clean(row.get("apply_url")) or url)
+                                 raw_payload=raw_row, apply_url=clean(row.get("apply_url")) or url)
                 if item:
                     output.append(item)
                     added += 1
