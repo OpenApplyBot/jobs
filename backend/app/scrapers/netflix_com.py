@@ -18,7 +18,8 @@ SEARCH_URL = "https://jobs.netflix.com/api/search"
 OFFICIAL_DOMAIN = "netflix.com"
 CSV_RANK = 6
 MAX_PAGES = max(1, min(100, int(os.getenv("NETFLIX_MAX_PAGES", "30"))))
-PAGE_SIZE = max(1, min(100, int(os.getenv("NETFLIX_PAGE_SIZE", "50"))))
+# The public API currently returns ten postings per page unless it changes its contract.
+PAGE_SIZE = max(1, min(100, int(os.getenv("NETFLIX_PAGE_SIZE", "10"))))
 
 
 def _postings(payload):
