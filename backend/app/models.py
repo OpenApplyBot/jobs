@@ -17,6 +17,7 @@ class Source(Base):
     connector: Mapped[str]=mapped_column(String(30))
     board_token: Mapped[str]=mapped_column(String(300))
     active: Mapped[bool]=mapped_column(Boolean,default=True)
+    incremental_ready: Mapped[bool]=mapped_column(Boolean,default=False,nullable=False)
     last_run_at: Mapped[datetime|None]=mapped_column(DateTime(timezone=True),nullable=True)
     last_error: Mapped[str|None]=mapped_column(Text,nullable=True)
     company: Mapped[Company]=relationship(back_populates='sources')
