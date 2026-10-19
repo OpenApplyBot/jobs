@@ -1,5 +1,5 @@
 """Company-specific scraper for JetBrains.
-Official careers URL candidate: https://jetbrains.com/careers
+Official careers URL candidate: https://www.jetbrains.com/careers/jobs/
 Expected company domain: jetbrains.com
 Customize this module with a verified public API/parser after live testing.
 """
