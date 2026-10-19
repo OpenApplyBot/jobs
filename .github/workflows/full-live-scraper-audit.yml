@@ -1,0 +1,54 @@
+name: Full live scraper audit (self-hosted)
+
+on:
+  workflow_dispatch:
+    inputs:
+      workers:
+        description: Concurrent scraper requests (keep modest on a laptop)
+        required: true
+        default: "8"
+        type: choice
+        options:
+          - "4"
+          - "8"
+          - "10"
+          - "12"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-live-scraper-audit
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    # Manual-only: never execute untrusted pull-request code on a personal machine.
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 360
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install scraper dependencies
+        run: python -m pip install -r backend/requirements.txt
+
+      - name: Compile scraper modules
+        run: python -m compileall -q backend/app/scrapers backend/scripts/test_scrapers.py
+
+      - name: Live-test all manifest scrapers
+        run: python backend/scripts/test_scrapers.py --workers "${{ inputs.workers }}" --report-dir reports
+
+      - name: Upload full JSON and Markdown audit reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapplybot-live-scraper-audit
+          path: reports/scraper-live-test-*
+          if-no-files-found: warn
+          retention-days: 14
