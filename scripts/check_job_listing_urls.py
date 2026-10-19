@@ -13,6 +13,8 @@ MANUAL_BROWSER_VERIFIED = {
     "https://openai.com/careers/",
     "https://careers.tsmc.com/en_US/careers/SearchJobs/",
     "https://careers.confluent.io/open-positions/",
+    "https://www.metacareers.com/jobs",
+    "https://jobs.akamai.com",
 }
 with open(DOC, encoding="utf-8") as f:
     text = f.read()
