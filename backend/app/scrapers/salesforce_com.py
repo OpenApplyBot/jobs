@@ -51,7 +51,8 @@ def scrape(token: str | None = None):
             response.raise_for_status()
             parser = _JobLinkParser()
             parser.feed(response.text)
-            print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, candidate job paths={len(re.findall(r'/en/jobs/[^\\\"\\\'<> ]+', response.text, re.I))}")
+            candidate_paths = re.findall(r"/en/jobs/[A-Za-z0-9_./-]+", response.text, re.I)
+            print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, candidate job paths={len(candidate_paths)}")
             added = 0
             for href, title in parser.links:
                 job_url = urljoin(response.url, href)
