@@ -23,7 +23,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRAPERS = ROOT / "app" / "scrapers"
+BACKEND = ROOT / "backend"\nSCRAPERS = BACKEND / "app" / "scrapers"
 MANIFEST = SCRAPERS / "manifest.json"
 REPORT_DIR = ROOT / "reports"
 
@@ -43,7 +43,7 @@ def run_one(row):
     module_name = Path(row["module"]).stem
     name = row.get("company_name", module_name)
     try:
-        module = importlib.import_module(f"backend.app.scrapers.{module_name}")
+        module = importlib.import_module(f"app.scrapers.{module_name}")
         scrape = getattr(module, "scrape", None)
         if not callable(scrape):
             raise TypeError("module has no callable scrape()")
