@@ -1,12 +1,12 @@
 """Company-specific scraper for Hostinger.
-Official careers URL candidate: https://hostinger.com/careers
+Official careers URL candidate: https://www.hostinger.com/career
 Expected company domain: hostinger.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Hostinger'
-CAREERS_URL = 'https://hostinger.com/careers'
+CAREERS_URL = 'https://www.hostinger.com/career'
 OFFICIAL_DOMAIN = 'hostinger.com'
 CSV_RANK = 498
 
