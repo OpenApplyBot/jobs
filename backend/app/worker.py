@@ -2,7 +2,7 @@
 import logging
 from datetime import datetime, timezone
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from .db import Base, engine, SessionLocal, migrate_schema
 from .models import Source, Job, ConnectorRun, JobSource, JobSnapshot
@@ -66,6 +66,66 @@ def _touch_source_link(db, existing_links, job, source_id, item, seen_at):
             link.raw_payload = {}
 
 
+def _chunks(values, size=5000):
+    values = list(values)
+    for start in range(0, len(values), size):
+        yield values[start:start + size]
+
+
+def _touch_verified_unchanged(db, source_id, source_job_ids, seen_at):
+    """Bulk-refresh verification timestamps without loading/updating full Job rows."""
+    for chunk in _chunks(source_job_ids):
+        db.execute(
+            update(Job)
+            .where(
+                Job.source_id == source_id,
+                Job.source_job_id.in_(chunk),
+                Job.active.is_(True),
+            )
+            .values(last_seen_at=seen_at)
+            .execution_options(synchronize_session=False)
+        )
+        db.execute(
+            update(JobSource)
+            .where(
+                JobSource.source_id == source_id,
+                JobSource.source_job_id.in_(chunk),
+            )
+            .values(last_seen_at=seen_at, last_verified_at=seen_at)
+            .execution_options(synchronize_session=False)
+        )
+
+        linked_ids = set(
+            db.scalars(
+                select(JobSource.source_job_id).where(
+                    JobSource.source_id == source_id,
+                    JobSource.source_job_id.in_(chunk),
+                )
+            ).all()
+        )
+        missing_links = set(chunk) - linked_ids
+        if missing_links:
+            missing_jobs = db.scalars(
+                select(Job).where(
+                    Job.source_id == source_id,
+                    Job.source_job_id.in_(missing_links),
+                )
+            ).all()
+            for job in missing_jobs:
+                db.add(
+                    JobSource(
+                        job_id=job.id,
+                        source_id=source_id,
+                        source_job_id=job.source_job_id,
+                        source_url=job.url,
+                        apply_url=job.apply_url,
+                        last_verified_at=seen_at,
+                        last_seen_at=seen_at,
+                        raw_payload=job.raw_payload or {},
+                    )
+                )
+
+
 def run_source(source_id):
     with SessionLocal() as db:
         source = db.scalar(select(Source).where(Source.id == source_id, Source.active.is_(True)))
@@ -73,9 +133,18 @@ def run_source(source_id):
             return {"source_id": source_id, "status": "skipped"}
         connector, token = source.connector, source.board_token
         previous_incremental_ready = bool(source.incremental_ready)
-        known_job_ids = set(
-            db.scalars(select(Job.source_job_id).where(Job.source_id == source_id)).all()
-        )
+        # Only active stored records may be verified-and-skipped. Inactive records
+        # must return through the full upsert path so a live listing can reactivate.
+        known_job_hashes = {
+            job_id: fingerprint
+            for job_id, fingerprint in db.execute(
+                select(Job.source_job_id, Job.content_hash).where(
+                    Job.source_id == source_id,
+                    Job.active.is_(True),
+                )
+            ).all()
+        }
+        known_job_ids = set(known_job_hashes)
         run = ConnectorRun(source_id=source.id, connector=connector, status="running", started_at=now())
         db.add(run)
         db.commit()
@@ -84,17 +153,24 @@ def run_source(source_id):
 
     logger.info("scraper=%s source_id=%s status=started", connector, source_id)
     try:
-        # Every fetched listing is checked against durable source_job_id records.
-        # This feed fetch may still enumerate old listings when the provider has
-        # no incremental API, but unchanged rows will not be rewritten/snapshotted.
-        # Only enable an adapter's early-stop strategy after it has completed
-        # one full scan and explicitly marked its ordering/checkpoint safe.
+        # The adapters always verify listing records from the live feed. Rows with
+        # matching fingerprints are separated before ORM upsert; only new/changed
+        # listings continue into the detailed persistence loop. Early pagination
+        # stops are passed only to sources that completed a confirmed full scan.
         items = fetch_jobs(
             connector,
             token,
             known_job_ids=known_job_ids if previous_incremental_ready else None,
+            known_job_hashes=known_job_hashes,
         )
         incremental_ready_result = getattr(items, "incremental_ready", None)
+        verified_unchanged_ids = set(getattr(items, "verified_unchanged_ids", set()))
+
+        items = [
+            item for item in items
+            if item.get("source_job_id") and item.get("title") and item.get("url") and item.get("apply_url")
+        ]
+        item_ids = {item["source_job_id"] for item in items}
 
         with SessionLocal() as db:
             source = db.get(Source, source_id)
@@ -102,35 +178,48 @@ def run_source(source_id):
             if source is None:
                 return {"source_id": source_id, "status": "deleted"}
 
-            existing = {
-                job.source_job_id: job
-                for job in db.scalars(select(Job).where(Job.source_id == source_id)).all()
-            }
-            existing_links = {
-                link.source_job_id: link
-                for link in db.scalars(select(JobSource).where(JobSource.source_id == source_id)).all()
-            }
-            existing_snapshot_keys = set(
-                db.execute(
-                    select(JobSnapshot.job_id, JobSnapshot.content_hash)
-                    .join(Job, Job.id == JobSnapshot.job_id)
-                    .where(Job.source_id == source_id)
-                ).all()
-            )
+            existing = {}
+            existing_links = {}
+            existing_snapshot_keys = set()
+            if item_ids:
+                existing = {
+                    job.source_job_id: job
+                    for job in db.scalars(
+                        select(Job).where(
+                            Job.source_id == source_id,
+                            Job.source_job_id.in_(item_ids),
+                        )
+                    ).all()
+                }
+                existing_links = {
+                    link.source_job_id: link
+                    for link in db.scalars(
+                        select(JobSource).where(
+                            JobSource.source_id == source_id,
+                            JobSource.source_job_id.in_(item_ids),
+                        )
+                    ).all()
+                }
+                existing_snapshot_keys = set(
+                    db.execute(
+                        select(JobSnapshot.job_id, JobSnapshot.content_hash)
+                        .join(Job, Job.id == JobSnapshot.job_id)
+                        .where(
+                            Job.source_id == source_id,
+                            Job.source_job_id.in_(item_ids),
+                        )
+                    ).all()
+                )
 
-            seen = set()
-            inserted = updated = skipped = 0
-            items = [
-                item for item in items
-                if item.get("source_job_id") and item.get("title") and item.get("url") and item.get("apply_url")
-            ]
+            timestamp = now()
+            skipped = len(verified_unchanged_ids)
+            if verified_unchanged_ids:
+                _touch_verified_unchanged(db, source_id, verified_unchanged_ids, timestamp)
 
+            inserted = updated = 0
             for item in items:
                 sid = item["source_job_id"]
-                seen.add(sid)
                 job = existing.get(sid)
-                verified_at = now()
-
                 if job is None:
                     job = Job(
                         source_id=source_id,
@@ -149,8 +238,8 @@ def run_source(source_id):
                         updated += 1
                     else:
                         skipped += 1
-                        # Migrate the stored fingerprint format without treating
-                        # an identical listing as changed or adding a duplicate snapshot.
+                        # Migrate old fingerprint formats without creating a snapshot
+                        # or counting an unchanged listing as updated.
                         if job.content_hash != item.get("content_hash"):
                             job.content_hash = item.get("content_hash")
                             job.parser_version = item.get("parser_version")
@@ -161,11 +250,10 @@ def run_source(source_id):
                     job.content_hash = item.get("content_hash")
                     job.parser_version = item.get("parser_version")
                     job.raw_payload = item.get("raw_payload") or {}
-                # The current live feed exposed this record. Refresh its seen
-                # timestamps, and reactivate it if it had previously been closed.
+
                 job.active = True
-                job.last_seen_at = verified_at
-                _touch_source_link(db, existing_links, job, source_id, item, verified_at)
+                job.last_seen_at = timestamp
+                _touch_source_link(db, existing_links, job, source_id, item, timestamp)
 
                 if changed:
                     snapshot_key = (job.id, item.get("content_hash") or "")
@@ -181,17 +269,13 @@ def run_source(source_id):
                         existing_snapshot_keys.add(snapshot_key)
 
             # Do not deactivate records simply because a scrape omitted them.
-            # Many company scrapers deliberately cap results (e.g. 500 or 3,000)
-            # or may return partial results after an API change. A missing row is
-            # not proof that the role closed. Deactivation needs explicit closure
-            # verification, not absence from one result batch.
-
+            # Capped or partially failing providers are not proof that a role closed.
             source.last_run_at = now()
             source.last_error = None
             if incremental_ready_result is not None:
                 source.incremental_ready = bool(incremental_ready_result)
             run.finished_at = now()
-            run.fetched = len(items)
+            run.fetched = len(items) + len(verified_unchanged_ids)
             run.inserted = inserted
             run.updated = updated
             run.skipped = skipped
@@ -200,12 +284,12 @@ def run_source(source_id):
 
             logger.info(
                 "scraper=%s source_id=%s status=success fetched=%s inserted=%s updated=%s skipped_unchanged=%s",
-                connector, source_id, len(items), inserted, updated, skipped,
+                connector, source_id, run.fetched, inserted, updated, skipped,
             )
             return {
                 "source_id": source_id,
                 "status": "success",
-                "fetched": len(items),
+                "fetched": run.fetched,
                 "inserted": inserted,
                 "updated": updated,
                 "skipped": skipped,
