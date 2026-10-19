@@ -106,38 +106,36 @@
 | 96 | Datadog | https://careers.datadoghq.com/all-jobs/ |
 | 97 | Grafana Labs | https://grafana.com/about/careers/open-positions/ |
 | 98 | New Relic | https://newrelic.com/about/careers/job-openings |
-| 99 | Splunk | https://jobs.cisco.com/jobs/SearchJobs/ |
-| 100 | Dynatrace | https://careers.dynatrace.com/jobs |
-| 101 | Shopify | https://www.shopify.com/careers |
-| 102 | Mercury | https://mercury.com/jobs |
-| 103 | Snowplow | https://snowplow.io/careers |
-| 104 | Temporal | https://temporal.io/careers |
-| 105 | dbt Labs | https://www.getdbt.com/about-us/careers |
-| 106 | Astronomer | https://www.astronomer.io/careers/ |
-| 107 | Retool | https://retool.com/careers |
-| 108 | Kong | https://careers.konghq.com/ |
-| 109 | Render | https://render.com/careers |
-| 110 | Together AI | https://job-boards.greenhouse.io/togetherai |
-| 111 | Pinecone | https://www.pinecone.io/careers/ |
-| 112 | LangChain | https://www.langchain.com/careers |
-| 113 | Fivetran | https://www.fivetran.com/careers |
-| 114 | Airbyte | https://airbyte.com/company/careers |
-| 115 | Toast | https://careers.toasttab.com/ |
-| 116 | Superhuman | https://superhuman.com/company/careers/jobs |
-| 117 | Stripe | https://stripe.com/jobs/search |
-| 118 | Ramp | https://jobs.ashbyhq.com/ramp |
-| 119 | Brex | https://www.brex.com/careers |
-| 120 | Plaid | https://plaid.com/careers/openings/ |
-| 121 | Gusto | https://jobs.ashbyhq.com/gusto |
-| 122 | Rippling | https://www.rippling.com/careers/open-roles |
-| 123 | Vanta | https://jobs.ashbyhq.com/vanta |
-| 124 | Webflow | https://webflow.com/careers |
-| 125 | Grammarly | https://superhuman.com/company/careers/jobs |
-| 126 | Samsara | https://www.samsara.com/company/careers |
-| 127 | Verkada | https://www.verkada.com/careers/ |
-| 128 | Checkr | https://checkr.com/careers |
-| 129 | Benchling | https://www.benchling.com/careers |
-| 130 | Glean | https://jobs.ashbyhq.com/glean |
+| 99 | Dynatrace | https://careers.dynatrace.com/jobs |
+| 100 | Shopify | https://www.shopify.com/careers |
+| 101 | Mercury | https://mercury.com/jobs |
+| 102 | Snowplow | https://snowplow.io/careers |
+| 103 | Temporal | https://temporal.io/careers |
+| 104 | dbt Labs | https://www.getdbt.com/about-us/careers |
+| 105 | Astronomer | https://www.astronomer.io/careers/ |
+| 106 | Retool | https://retool.com/careers |
+| 107 | Kong | https://careers.konghq.com/ |
+| 108 | Render | https://render.com/careers |
+| 109 | Together AI | https://job-boards.greenhouse.io/togetherai |
+| 110 | Pinecone | https://www.pinecone.io/careers/ |
+| 111 | LangChain | https://www.langchain.com/careers |
+| 112 | Fivetran | https://www.fivetran.com/careers |
+| 113 | Airbyte | https://airbyte.com/company/careers |
+| 114 | Toast | https://careers.toasttab.com/ |
+| 115 | Superhuman | https://superhuman.com/company/careers/jobs |
+| 116 | Stripe | https://stripe.com/jobs/search |
+| 117 | Ramp | https://jobs.ashbyhq.com/ramp |
+| 118 | Brex | https://www.brex.com/careers |
+| 119 | Plaid | https://plaid.com/careers/openings/ |
+| 120 | Gusto | https://jobs.ashbyhq.com/gusto |
+| 121 | Rippling | https://www.rippling.com/careers/open-roles |
+| 122 | Vanta | https://jobs.ashbyhq.com/vanta |
+| 123 | Webflow | https://webflow.com/careers |
+| 124 | Samsara | https://www.samsara.com/company/careers |
+| 125 | Verkada | https://www.verkada.com/careers/ |
+| 126 | Checkr | https://checkr.com/careers |
+| 127 | Benchling | https://www.benchling.com/careers |
+| 128 | Glean | https://jobs.ashbyhq.com/glean |
 
 ## Validation policy
 
