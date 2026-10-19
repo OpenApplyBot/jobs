@@ -12,7 +12,8 @@ class Base(DeclarativeBase): pass
 def migrate_schema():
     """Add new ingestion fields to an existing local PostgreSQL database."""
     if engine.dialect.name != "postgresql": return
-    if not inspect(engine).has_table("jobs"): return
+    has_jobs = inspect(engine).has_table("jobs")
+    has_runs = inspect(engine).has_table("connector_runs")
     columns={
         "team_name":"VARCHAR(300)","seniority":"VARCHAR(80)","summary":"TEXT","apply_url":"VARCHAR(2000)","work_mode":"VARCHAR(40)","location_city":"VARCHAR(200)","location_region":"VARCHAR(200)","location_country":"VARCHAR(200)","timezone_requirements":"VARCHAR(300)",
         "eligible_countries":"JSONB DEFAULT '[]'::jsonb","remote_scope":"VARCHAR(100)","visa_sponsorship":"BOOLEAN","relocation_available":"BOOLEAN",
@@ -20,7 +21,11 @@ def migrate_schema():
         "required_skills":"JSONB DEFAULT '[]'::jsonb","preferred_skills":"JSONB DEFAULT '[]'::jsonb","programming_languages":"JSONB DEFAULT '[]'::jsonb","tech_stack":"JSONB DEFAULT '[]'::jsonb","education_requirements":"TEXT","experience_min_months":"INTEGER","graduation_years":"JSONB DEFAULT '[]'::jsonb","visa_or_work_auth":"TEXT","other_requirements":"JSONB DEFAULT '[]'::jsonb","application_method":"VARCHAR(50)","application_email":"VARCHAR(320)","application_deadline":"TIMESTAMPTZ","raw_payload":"JSONB DEFAULT '{}'::jsonb","content_hash":"VARCHAR(64)","parser_version":"VARCHAR(40)","data_quality_score":"NUMERIC","status":"VARCHAR(30) DEFAULT 'unverified'",
     }
     with engine.begin() as connection:
-        for name,definition in columns.items(): connection.execute(text(f"ALTER TABLE jobs ADD COLUMN IF NOT EXISTS {name} {definition}"))
+        if has_jobs:
+            for name,definition in columns.items():
+                connection.execute(text(f"ALTER TABLE jobs ADD COLUMN IF NOT EXISTS {name} {definition}"))
+        if has_runs:
+            connection.execute(text("ALTER TABLE connector_runs ADD COLUMN IF NOT EXISTS skipped INTEGER NOT NULL DEFAULT 0"))
 
 def repair_job_links():
     """Repair unsafe application links without inventing replacement job URLs."""
