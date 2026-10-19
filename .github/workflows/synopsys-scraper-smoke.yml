@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - "backend/app/scrapers/synopsys_com.py"
+      - "backend/app/scrapers/auto.py"
+      - "backend/app/scrapers/common.py"
       - "backend/scripts/test_scraper.py"
       - ".github/workflows/synopsys-scraper-smoke.yml"
   workflow_dispatch:
