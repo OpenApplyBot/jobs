@@ -1,0 +1,28 @@
+name: Alibaba scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/alibaba_com.py"
+      - ".github/workflows/alibaba-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p backend/test-results
+      - name: Test Alibaba public listings
+        run: |
+          docker compose run --build --rm -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" api python scripts/test_scraper.py alibaba_com --output test-results/alibaba_com.json
+      - name: Upload JSON output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: alibaba-scraper-test-results
+          path: backend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
