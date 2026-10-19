@@ -1,6 +1,6 @@
 """Discover public ATS feeds from employer career pages without inventing board IDs."""
 from html import unescape
-from urllib.parse import urljoin, urlparse, urlunparse
+from urllib.parse import urljoin, urlparse, urlunparse, parse_qs
 import re
 
 from .common import get
@@ -108,7 +108,16 @@ def _provider_targets(page_url, html):
 
         provider = _PROVIDER_HOSTS.get(host)
         token = None
-        if provider == "smartrecruiters" and len(path) >= 3 and path[0] == "v1" and path[1] == "companies":
+        # Greenhouse application embeds use ?for=<board-token> instead of a
+        # /<board-token>/ path. Extract that explicit token, not the "embed" path.
+        if (
+            provider == "greenhouse"
+            and len(path) >= 2
+            and path[0] == "embed"
+            and path[1] in {"job_app", "job_board"}
+        ):
+            token = (parse_qs(parsed.query).get("for") or [None])[0]
+        elif provider == "smartrecruiters" and len(path) >= 3 and path[0] == "v1" and path[1] == "companies":
             token = path[2]
         elif provider and path:
             token = path[0]
@@ -153,6 +162,11 @@ def scrape(url, known_job_ids=None):
     except (TypeError, ValueError) as exc:
         raise ValueError(f"Invalid careers URL: {url!r}") from exc
 
+    if host == "jobs.ashbyhq.com":
+        parts = [part for part in urlparse(url).path.split("/") if part]
+        if parts:
+            return ashby.scrape(parts[0])
+        raise ValueError("Ashby URL must include a public board token")
     if host.endswith(".myworkdayjobs.com"):
         return workday.scrape(url)
     if host.endswith(".recruitee.com"):
