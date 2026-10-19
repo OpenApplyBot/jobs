@@ -67,6 +67,9 @@ def main() -> None:
                     continue
         selected = [item for item in selected if item.get("company_name") not in previous_successes]
     if not selected:
+        if args.resume:
+            print(json.dumps({"offset": start, "limit": 0, "skipped": "all selected companies already passed", "report": str(Path(args.report).resolve())}, indent=2))
+            return
         raise SystemExit("No companies selected; generate modules from the 500-row CSV first.")
 
     report_path = Path(args.report)
