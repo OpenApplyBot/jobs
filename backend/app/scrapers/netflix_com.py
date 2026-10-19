@@ -1,6 +1,8 @@
 """Netflix Careers scraper with API-first and official-page fallback."""
 from __future__ import annotations
 import os
+import re
+from urllib.parse import urljoin, urlparse
 import requests
 from .auto import scrape as _auto_scrape
 from .common import HEADERS, TIMEOUT, clean, normalize
@@ -18,6 +20,29 @@ def _postings(payload):
     postings = records.get("postings") if isinstance(records, dict) else []
     total = records.get("total") if isinstance(records, dict) else None
     return (postings if isinstance(postings, list) else []), total
+
+def _diagnose_official_page():
+    """Log only public script URLs and API-like paths to help detect site changes."""
+    try:
+        response = requests.get(CAREERS_URL, headers=HEADERS, timeout=TIMEOUT)
+        print(f"[Netflix] Careers page status={response.status_code} url={response.url}")
+        html = response.text
+        scripts = re.findall(r'<script[^>]+src=["\\']([^"\\']+)["\\']', html, re.I)[:8]
+        candidates = set(re.findall(r'["\\'](/[^"\\']{1,160}(?:api|search|job|posting)[^"\\']{0,120})["\\']', html, re.I))
+        for script in scripts:
+            script_url = urljoin(response.url, script)
+            if urlparse(script_url).hostname not in {"jobs.netflix.com", "www.jobs.netflix.com"}:
+                continue
+            try:
+                script_response = requests.get(script_url, headers=HEADERS, timeout=TIMEOUT)
+                if script_response.ok:
+                    candidates.update(re.findall(r'["\\'](/[^"\\']{1,160}(?:api|search|job|posting)[^"\\']{0,120})["\\']', script_response.text, re.I))
+            except requests.RequestException:
+                continue
+        print(f"[Netflix] Public page script count inspected={len(scripts)}")
+        print(f"[Netflix] API-like path candidates={sorted(candidates)[:20]}")
+    except requests.RequestException as exc:
+        print(f"[Netflix] Could not inspect official search page: {type(exc).__name__}: {exc}")
 
 def scrape(token: str | None = None):
     if token and token.strip():
@@ -66,4 +91,5 @@ def scrape(token: str | None = None):
     if out:
         print(f"[Netflix] Complete: {len(out)} jobs")
         return out
+    _diagnose_official_page()
     return _auto_scrape(CAREERS_URL)
