@@ -7,3 +7,4 @@ frontend/node_modules/
 frontend/dist/
 test.db
 *.log
+backend/test-results/
