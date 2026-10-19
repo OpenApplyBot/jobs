@@ -24,9 +24,14 @@ def test_lever(monkeypatch):
     monkeypatch.setattr(lever,"get",lambda *a,**k:Response([{"id":"a","text":"SWE","hostedUrl":"https://x.test/a","categories":{"location":"Remote","department":"Eng"}}]))
     assert fetch_jobs("lever","x")[0]["location"]=="Remote"
 
-def test_ashby(monkeypatch):
-    monkeypatch.setattr(ashby,"get",lambda *a,**k:Response({"jobs":[{"id":"a","title":"SWE","jobUrl":"https://x.test/a","location":"Remote"}]}))
-    assert fetch_jobs("ashby","x")[0]["source_job_id"]=="a"
+def test_ashby_reads_public_server_rendered_board(monkeypatch):
+    html = '<script>window.__appData = {"jobPostings":[{"id":"a","title":"SWE","locationName":"Remote","departmentName":"Engineering","publishedDate":"2026-10-18"}]};</script>'
+    monkeypatch.setattr(ashby,"get",lambda *a,**k:Response(text=html))
+    rows = fetch_jobs("ashby","x")
+    assert rows[0]["source_job_id"]=="a"
+    assert rows[0]["location"]=="Remote"
+    assert rows[0]["url"]=="https://jobs.ashbyhq.com/x/a"
+    assert rows.incremental_ready is True
 
 def test_smartrecruiters(monkeypatch):
     monkeypatch.setattr(smartrecruiters,"get",lambda *a,**k:Response({"content":[{"id":"a","name":"SWE","ref":"https://x.test/a","location":{"city":"Pune","country":"India"}}]}))
