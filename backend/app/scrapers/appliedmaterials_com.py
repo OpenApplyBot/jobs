@@ -30,7 +30,7 @@ def scrape(token: str | None = None):
             added = 0
             for row in rows:
                 if not isinstance(row, dict): continue
-                job_id = clean(row.get("externalPath") or row.get("bulletFields", [{}])[0].get("field"))
+                job_id = clean(row.get("externalPath") or row.get("jobReqId") or row.get("id"))
                 title = clean(row.get("title"))
                 if not job_id or not title or job_id in seen: continue
                 seen.add(job_id)
