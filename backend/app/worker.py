@@ -72,6 +72,7 @@ def run_source(source_id):
         if not source:
             return {"source_id": source_id, "status": "skipped"}
         connector, token = source.connector, source.board_token
+        previous_incremental_ready = bool(source.incremental_ready)
         known_job_ids = set(
             db.scalars(select(Job.source_job_id).where(Job.source_id == source_id)).all()
         )
@@ -86,7 +87,14 @@ def run_source(source_id):
         # Every fetched listing is checked against durable source_job_id records.
         # This feed fetch may still enumerate old listings when the provider has
         # no incremental API, but unchanged rows will not be rewritten/snapshotted.
-        items = fetch_jobs(connector, token, known_job_ids=known_job_ids)
+        # Only enable an adapter's early-stop strategy after it has completed
+        # one full scan and explicitly marked its ordering/checkpoint safe.
+        items = fetch_jobs(
+            connector,
+            token,
+            known_job_ids=known_job_ids if previous_incremental_ready else None,
+        )
+        incremental_ready_result = getattr(items, "incremental_ready", None)
 
         with SessionLocal() as db:
             source = db.get(Source, source_id)
@@ -180,6 +188,8 @@ def run_source(source_id):
 
             source.last_run_at = now()
             source.last_error = None
+            if incremental_ready_result is not None:
+                source.incremental_ready = bool(incremental_ready_result)
             run.finished_at = now()
             run.fetched = len(items)
             run.inserted = inserted
