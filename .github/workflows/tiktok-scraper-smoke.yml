@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - "backend/app/scrapers/tiktok_com.py"
+      - "backend/scripts/test_scraper.py"
       - ".github/workflows/tiktok-scraper-smoke.yml"
   workflow_dispatch:
 
