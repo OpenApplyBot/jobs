@@ -1,7 +1,7 @@
 """Company-specific scraper for Tata 1mg.
 Official careers URL candidate: https://1mg.com/careers
 Expected company domain: 1mg.com
-Customize this module with a verified public API/parser after live testing.
+Uses the official careers portal; ATS discovery is performed by the shared adapter.
 """
 from .auto import scrape as _auto_scrape
 
