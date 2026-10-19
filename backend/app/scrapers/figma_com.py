@@ -8,7 +8,7 @@ COMPANY_NAME = "Figma"
 CAREERS_URL = "https://www.figma.com/careers/"
 BOARD_TOKEN = "figma"
 OFFICIAL_DOMAIN = "figma.com"
-CSV_RANK = 0
+CSV_RANK = 84
 
 
 def scrape(token: str | None = None):
