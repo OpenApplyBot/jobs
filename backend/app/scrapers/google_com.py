@@ -197,9 +197,9 @@ def _listing_urls_from_markup(page_url, html):
     if not html:
         return {}
     source = (
-        html.replace(r"\\/", "/")
-        .replace(r"\\u002F", "/")
-        .replace(r"\\u002f", "/")
+        html.replace(r"\/", "/")
+        .replace(r"\u002F", "/")
+        .replace(r"\u002f", "/")
         .replace("&amp;", "&")
     )
     pattern = re.compile(
