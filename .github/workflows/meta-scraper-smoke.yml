@@ -18,7 +18,6 @@ jobs:
       - name: Prepare JSON output directory
         run: mkdir -p backend/test-results
       - name: Test Meta official careers scraper
-        continue-on-error: true
         run: |
           docker compose run --build --rm \
             -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" \
