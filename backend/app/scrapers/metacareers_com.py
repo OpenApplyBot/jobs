@@ -21,21 +21,21 @@ FETCH_DETAILS = os.getenv("META_FETCH_DETAILS", "0").strip().lower() in {"1", "t
 DETAIL_LIMIT = max(0, int(os.getenv("META_DETAIL_LIMIT", "20")))
 LSD_RE = re.compile(r'"LSD",\[\],\{"token":"([^"]+)"')
 
-def _new_session():
+def _new_session(bootstrap_url=BOOTSTRAP_URL):
     session = requests.Session()
     session.headers.update({
         **HEADERS,
         "Accept-Language": "en-US,en;q=0.9",
         "Upgrade-Insecure-Requests": "1",
     })
-    response = session.get(BOOTSTRAP_URL, timeout=TIMEOUT)
+    response = session.get(bootstrap_url, timeout=TIMEOUT)
     response.raise_for_status()
     match = LSD_RE.search(response.text)
     if not match:
         raise RuntimeError("Meta careers bootstrap page did not expose the public LSD token")
     return session, match.group(1)
 
-def _fetch_all_jobs(session, lsd):
+def _fetch_all_jobs(session, lsd, bootstrap_url=BOOTSTRAP_URL):
     form = {
         "lsd": lsd,
         "doc_id": LIST_DOC_ID,
@@ -45,7 +45,7 @@ def _fetch_all_jobs(session, lsd):
         "Accept": "*/*",
         "Content-Type": "application/x-www-form-urlencoded",
         "Origin": "https://www.metacareers.com",
-        "Referer": BOOTSTRAP_URL,
+        "Referer": bootstrap_url,
         "X-FB-LSD": lsd,
         "X-FB-Friendly-Name": "CareersJobSearchResultsDataQuery",
     }
@@ -80,56 +80,46 @@ def _extract_detail(session, job_id):
 
 def scrape(token: str | None = None):
     """Fetch public Meta jobs, with optional bounded detail-page enrichment."""
-    if token and token.strip():
-        # Explicit token is accepted as an alternate public page URL for compatibility.
-        page = token.strip()
-    else:
-        page = BOOTSTRAP_URL
-    global BOOTSTRAP_URL
-    original_bootstrap = BOOTSTRAP_URL
-    try:
-        BOOTSTRAP_URL = page
-        session, lsd = _new_session()
-        source_jobs = _fetch_all_jobs(session, lsd)
-        out, seen = [], set()
-        details_done = 0
-        for row in source_jobs:
-            if not isinstance(row, dict):
-                continue
-            job_id = clean(row.get("id") or row.get("job_id"))
-            title = clean(row.get("title"))
-            if not job_id or not title or job_id in seen:
-                continue
-            seen.add(job_id)
-            locations = row.get("locations") or []
-            if isinstance(locations, str):
-                locations = [locations]
-            location = ", ".join(clean(item) for item in locations if item)
-            teams = row.get("teams") or []
-            sub_teams = row.get("sub_teams") or []
-            if isinstance(teams, str):
-                teams = [teams]
-            if isinstance(sub_teams, str):
-                sub_teams = [sub_teams]
-            department = ", ".join(clean(item) for item in [*teams, *sub_teams] if item)
-            job_url = DETAIL_URL.format(job_id=job_id)
-            description = None
-            posted_at = row.get("date_posted") or row.get("datePosted")
-            if FETCH_DETAILS and details_done < DETAIL_LIMIT:
-                description, detail_posted = _extract_detail(session, job_id)
-                posted_at = detail_posted or posted_at
-                details_done += 1
-            item = normalize(
-                job_id, title, job_url, location, department,
-                row.get("employment_type") or row.get("employmentType"),
-                description, posted_at, COMPANY_NAME,
-                raw_payload=row, apply_url=job_url,
-            )
-            if item:
-                out.append(item)
-            if MAX_JOBS and len(out) >= MAX_JOBS:
-                break
-        print(f"[Meta] Source jobs={len(source_jobs)}; normalized jobs={len(out)}; detail pages fetched={details_done}")
-        return out
-    finally:
-        BOOTSTRAP_URL = original_bootstrap
+    page = token.strip() if token and token.strip() else BOOTSTRAP_URL
+    session, lsd = _new_session(page)
+    source_jobs = _fetch_all_jobs(session, lsd, page)
+    out, seen = [], set()
+    details_done = 0
+    for row in source_jobs:
+        if not isinstance(row, dict):
+            continue
+        job_id = clean(row.get("id") or row.get("job_id"))
+        title = clean(row.get("title"))
+        if not job_id or not title or job_id in seen:
+            continue
+        seen.add(job_id)
+        locations = row.get("locations") or []
+        if isinstance(locations, str):
+            locations = [locations]
+        location = ", ".join(clean(item) for item in locations if item)
+        teams = row.get("teams") or []
+        sub_teams = row.get("sub_teams") or []
+        if isinstance(teams, str):
+            teams = [teams]
+        if isinstance(sub_teams, str):
+            sub_teams = [sub_teams]
+        department = ", ".join(clean(item) for item in [*teams, *sub_teams] if item)
+        job_url = DETAIL_URL.format(job_id=job_id)
+        description = None
+        posted_at = row.get("date_posted") or row.get("datePosted")
+        if FETCH_DETAILS and details_done < DETAIL_LIMIT:
+            description, detail_posted = _extract_detail(session, job_id)
+            posted_at = detail_posted or posted_at
+            details_done += 1
+        item = normalize(
+            job_id, title, job_url, location, department,
+            row.get("employment_type") or row.get("employmentType"),
+            description, posted_at, COMPANY_NAME,
+            raw_payload=row, apply_url=job_url,
+        )
+        if item:
+            out.append(item)
+        if MAX_JOBS and len(out) >= MAX_JOBS:
+            break
+    print(f"[Meta] Source jobs={len(source_jobs)}; normalized jobs={len(out)}; detail pages fetched={details_done}")
+    return out
