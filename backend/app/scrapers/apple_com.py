@@ -23,6 +23,16 @@ PAGE_SIZE = 20
 FETCH_DETAILS = os.getenv("APPLE_FETCH_DETAILS", "0").lower() not in {"0", "false", "no"}
 LOCALE = os.getenv("APPLE_LOCALE", "en-us").strip().lower() or "en-us"
 TIMEOUT = max(5, int(os.getenv("APPLE_HTTP_TIMEOUT", "20")))
+
+
+class ScrapeBatch(list):
+    """List-compatible Apple scrape result with full-scan readiness metadata."""
+
+    def __init__(self, rows=(), *, incremental_ready=False):
+        super().__init__(rows)
+        self.incremental_ready = incremental_ready
+
+
 HEADERS = {
     "User-Agent": "OpenApplyBot-Jobs/1.0 (+https://github.com/OpenApplyBot/jobs; public job indexer)",
     "Accept": "application/json, text/html;q=0.9, */*;q=0.8",
@@ -242,8 +252,11 @@ def scrape(token: str | None = None, known_job_ids=None):
 
     print(f"[Apple] Starting official careers search; API page size={PAGE_SIZE}, max pages={MAX_PAGES}", flush=True)
     discovered = {}
+    incremental_mode = known_job_ids is not None and bool(known_job_ids)
     known_ids = {str(job_id) for job_id in (known_job_ids or set())}
     total_reported = None
+    source_complete = False
+    checkpoint_reached = False
     for page in range(1, MAX_PAGES + 1):
         try:
             rows, total = _search_page(page)
@@ -272,11 +285,17 @@ def scrape(token: str | None = None, known_job_ids=None):
             flush=True,
         )
         if not rows or new_count == 0:
+            source_complete = total_reported is None or len(discovered) >= total_reported
             break
-        if known_ids and known_on_page > 0 and new_on_page == 0:
+        if incremental_mode and known_on_page > 0 and new_on_page == 0:
+            checkpoint_reached = True
             print(f"[Apple] Incremental checkpoint reached on page {page}; stopping after {len(discovered)} verified listings", flush=True)
             break
         if total_reported is not None and page * PAGE_SIZE >= total_reported:
+            source_complete = True
+            break
+        if total_reported is None and len(rows) < PAGE_SIZE:
+            source_complete = True
             break
 
     items = list(discovered.values())
@@ -292,5 +311,8 @@ def scrape(token: str | None = None, known_job_ids=None):
         result = list({row["url"]: row for row in enriched}.values())
     else:
         result = [row for item in items if (row := _normalize(item))]
+    incremental_ready = checkpoint_reached or source_complete
+    if not incremental_ready:
+        print("[Apple] Full scan did not reach a confirmed end; incremental early-stop remains disabled", flush=True)
     print(f"[Apple] Complete: {len(result)} jobs; reported total={total_reported if total_reported is not None else 'unknown'}", flush=True)
-    return result
+    return ScrapeBatch(result, incremental_ready=incremental_ready)
