@@ -6,7 +6,7 @@ Customize this module with a verified public API/parser after live testing.
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'GitHub'
-CAREERS_URL = 'https://github.careers/'
+CAREERS_URL = 'https://www.github.careers/careers-home/jobs'
 OFFICIAL_DOMAIN = 'github.com'
 CSV_RANK = 78
 
