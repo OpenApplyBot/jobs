@@ -28,7 +28,7 @@ class _JobLinkParser(HTMLParser):
             href = attrs.get("href", "")
             absolute = urljoin("https://careers.salesforce.com", href)
             parsed_path = urlparse(absolute).path
-            if re.match(r"^/en/jobs/[^/?#]+/[^?#]+", parsed_path):
+            if re.match(r"^/en/jobs/[^/?#]+(?:/[^?#]*)?", parsed_path):
                 self.active_href = absolute
                 self.active_text = []
     def handle_data(self, data):
@@ -45,16 +45,17 @@ def scrape(token: str | None = None):
     base_url = token.strip() if token and token.strip() else CAREERS_URL
     output, seen = [], set()
     with requests.Session() as session:
-        session.headers.update({**HEADERS, "Accept": "text/html,application/xhtml+xml", "Referer": "https://careers.salesforce.com/"})
+        session.headers.update({**HEADERS, "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36", "Accept": "text/html,application/xhtml+xml", "Referer": "https://careers.salesforce.com/"})
         for page in range(1, MAX_PAGES + 1):
             response = session.get(base_url, params={"page": page, "pagesize": PAGE_SIZE}, timeout=TIMEOUT)
             response.raise_for_status()
             parser = _JobLinkParser()
             parser.feed(response.text)
+            print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, candidate job paths={len(re.findall(r'/en/jobs/[^\\\"\\\'<> ]+', response.text, re.I))}")
             added = 0
             for href, title in parser.links:
                 job_url = urljoin(response.url, href)
-                match = re.search(r"/en/jobs/([^/]+)/", urlparse(href).path)
+                match = re.search(r"/en/jobs/([^/?#]+)", urlparse(href).path)
                 job_id = clean(match.group(1)) if match else None
                 if not job_id or not title or title.lower() in {"view job", "learn more"} or job_id in seen:
                     continue
