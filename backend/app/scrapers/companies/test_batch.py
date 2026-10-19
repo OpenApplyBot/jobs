@@ -48,10 +48,24 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=50)
     parser.add_argument("--report", default="company_scraper_test_report.jsonl")
     parser.add_argument("--timeout", type=int, default=30, help="Maximum seconds per scraper")
-    parser.add_argument("--workers", type=int, default=10, help="Concurrent scraper processes")
+    parser.add_argument("--workers", type=int, default=8, help="Concurrent scraper processes")
+    parser.add_argument("--resume", action="store_true", help="Skip companies already passing with at least one valid job in the report")
+    parser.add_argument("--retries", type=int, default=1, help="Retries for errors/timeouts (0 disables retries)")
     args = parser.parse_args()
     start = max(0, args.offset)
     selected = [item for item in MANIFEST[start:start + max(0, args.limit)]]
+    if args.resume:
+        previous_successes = set()
+        previous_report = Path(args.report)
+        if previous_report.exists():
+            for line in previous_report.read_text(encoding="utf-8").splitlines():
+                try:
+                    previous = json.loads(line)
+                    if previous.get("status") == "success" and int(previous.get("jobs", 0)) > 0:
+                        previous_successes.add(previous.get("company"))
+                except (ValueError, TypeError):
+                    continue
+        selected = [item for item in selected if item.get("company_name") not in previous_successes]
     if not selected:
         raise SystemExit("No companies selected; generate modules from the 500-row CSV first.")
 
@@ -69,7 +83,19 @@ def main() -> None:
             "jobs": 0,
         }
         try:
-            jobs = _run_scraper(Path(item["module"]).stem, args.timeout)
+            last_error = None
+            jobs = None
+            for attempt in range(max(0, args.retries) + 1):
+                try:
+                    jobs = _run_scraper(Path(item["module"]).stem, args.timeout)
+                    last_error = None
+                    break
+                except Exception as exc:
+                    last_error = exc
+                    if attempt < max(0, args.retries):
+                        continue
+            if last_error is not None:
+                raise last_error
             result["jobs"] = len(jobs or [])
             seen = set()
             invalid = []
@@ -116,6 +142,8 @@ def main() -> None:
     print(json.dumps({
         "offset": start,
         "limit": len(selected),
+        "resume": args.resume,
+        "retries": max(0, args.retries),
         **counts,
         "report": str(report_path.resolve()),
         "note": "Success with zero jobs means the request/parser completed but returned no listings; inspect before classifying the source as working."
