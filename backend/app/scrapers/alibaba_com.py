@@ -1,18 +1,19 @@
-"""Alibaba Group careers scraper using the official recruitment portal.
+"""Alibaba Group careers scraper using the official public position-list page.
 
-The official group portal is talent.alibaba.com, not alibaba.com/careers.
-It is a portal for multiple Alibaba business groups, so results depend on the
-public job links exposed by the current portal and its linked career systems.
+The group portal's homepage is a business-unit directory, not the job list.
+Use the official off-campus position-list route with the shared parser; if the
+page requires client-side session state, the scraper returns no records rather
+than inventing jobs or bypassing access controls.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = "Alibaba"
-CAREERS_URL = "https://talent.alibaba.com/en/home?page_id=27"
+CAREERS_URL = "https://talent.alibaba.com/off-campus/position-list?lang=zh"
 OFFICIAL_DOMAIN = "alibaba.com"
 CSV_RANK = 14
 
 
 def scrape(token: str | None = None):
-    """Fetch listings from Alibaba's official recruitment portal."""
+    """Fetch public listings from Alibaba's official position-list page."""
     url = token.strip() if token and token.strip() else CAREERS_URL
     return _auto_scrape(url)
