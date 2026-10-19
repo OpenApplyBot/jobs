@@ -1,0 +1,40 @@
+name: Hugging Face scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/huggingface_co.py"
+      - "backend/app/scrapers/greenhouse.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/huggingface-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  huggingface-scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install backend requirements
+        run: python -m pip install -r backend/requirements.txt
+      - name: Prepare JSON output
+        run: mkdir -p backend/test-results
+      - name: Test Hugging Face public listings
+        working-directory: backend
+        env:
+          JOB_HTTP_TIMEOUT: "10"
+        run: python scripts/test_scraper.py huggingface_co --output test-results/huggingface_co.json
+      - name: Upload Hugging Face JSON output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: huggingface-scraper-test-results
+          path: backend/test-results/huggingface_co.json
+          if-no-files-found: warn
+          retention-days: 7
