@@ -25,10 +25,11 @@ def test_lever(monkeypatch):
     assert fetch_jobs("lever","x")[0]["location"]=="Remote"
 
 def test_ashby_reads_public_server_rendered_board(monkeypatch):
-    html = '<script>window.__appData = {"jobPostings":[{"id":"a","title":"SWE","locationName":"Remote","departmentName":"Engineering","publishedDate":"2026-10-18"}]};</script>'
+    html = r'<script>window.__appData = {"jobPostings":[{"id":"a","title":"SWE \"AI\" Engineer","locationName":"Remote","departmentName":"Engineering","publishedDate":"2026-10-18"}]};</script>'
     monkeypatch.setattr(ashby,"get",lambda *a,**k:Response(text=html))
     rows = fetch_jobs("ashby","x")
     assert rows[0]["source_job_id"]=="a"
+    assert rows[0]["title"]=='SWE "AI" Engineer'
     assert rows[0]["location"]=="Remote"
     assert rows[0]["url"]=="https://jobs.ashbyhq.com/x/a"
     assert rows.incremental_ready is True
@@ -95,6 +96,24 @@ def test_jsonld_fallback_extracts_job_card(monkeypatch):
     assert len(rows) == 1
     assert rows[0]["title"] == "Platform Engineer"
     assert rows[0]["source_job_id"] == "platform-engineer-123"
+
+
+def test_auto_discovers_ashby_board_from_job_link(monkeypatch):
+    html = '<a href="https://jobs.ashbyhq.com/redis/123">Field Engineer</a>'
+    monkeypatch.setattr(auto, "get", lambda *a, **k: Response(text=html))
+    monkeypatch.setattr(ashby, "scrape", lambda token: [
+        {"source_job_id": "123", "title": "SWE", "url": "https://jobs.ashbyhq.com/redis/123"}
+    ])
+    assert fetch_jobs("auto", "https://acme.test/careers")[0]["title"] == "SWE"
+
+
+def test_auto_reads_greenhouse_embed_board_token(monkeypatch):
+    html = '<a href="https://boards.greenhouse.io/embed/job_app?for=fastly&token=123">Apply</a>'
+    monkeypatch.setattr(auto, "get", lambda *a, **k: Response(text=html))
+    monkeypatch.setattr(greenhouse, "scrape", lambda token: [
+        {"source_job_id": "123", "title": "SRE", "url": "https://boards.greenhouse.io/fastly/jobs/123"}
+    ])
+    assert fetch_jobs("auto", "https://acme.test/careers")[0]["title"] == "SRE"
 
 
 def test_company_direct_ats_overrides(monkeypatch):
