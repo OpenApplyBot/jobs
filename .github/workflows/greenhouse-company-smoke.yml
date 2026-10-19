@@ -1,0 +1,58 @@
+name: Greenhouse company scraper live tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/greenhouse.py"
+      - "backend/app/scrapers/databricks_com.py"
+      - "backend/app/scrapers/snowflake_com.py"
+      - "backend/app/scrapers/scale_com.py"
+      - "backend/app/scrapers/huggingface_co.py"
+      - "backend/app/scrapers/stability_ai.py"
+      - "backend/scripts/test_scraper.py"
+      - ".github/workflows/greenhouse-company-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: "Greenhouse — ${{ matrix.module }}"
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        include:
+          - module: databricks_com
+          - module: snowflake_com
+          - module: scale_com
+          - module: huggingface_co
+          - module: stability_ai
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+      - name: Install backend requirements
+        run: python -m pip install -r backend/requirements.txt
+      - name: Prepare JSON output
+        run: mkdir -p backend/test-results
+      - name: Run live scraper and validate output
+        working-directory: backend
+        env:
+          JOB_HTTP_TIMEOUT: "10"
+        run: python scripts/test_scraper.py ${{ matrix.module }} --output test-results/${{ matrix.module }}.json
+      - name: Upload JSON output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: greenhouse-${{ matrix.module }}-json
+          path: backend/test-results/${{ matrix.module }}.json
+          if-no-files-found: warn
+          retention-days: 7
