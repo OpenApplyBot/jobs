@@ -1,0 +1,28 @@
+name: ByteDance scraper live test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/app/scrapers/bytedance_com.py"
+      - ".github/workflows/bytedance-scraper-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  scraper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir -p backend/test-results
+      - name: Test ByteDance public listings
+        run: |
+          docker compose run --build --rm -v "$GITHUB_WORKSPACE/backend/test-results:/app/test-results" api python scripts/test_scraper.py bytedance_com --env BYTEDANCE_MAX_PAGES=2 --output test-results/bytedance_com.json
+      - name: Upload JSON output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bytedance-scraper-test-results
+          path: backend/test-results/
+          if-no-files-found: warn
+          retention-days: 7
