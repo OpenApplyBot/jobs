@@ -53,6 +53,19 @@ def scrape(token: str | None = None):
             parser.feed(response.text)
             candidate_paths = re.findall(r"""(?:href|url)["'=:\\s]+([^"'< >]*jobs[^"'< >]*)""", response.text, re.I)
             print(f"[Salesforce] HTTP {response.status_code}, final URL={response.url}, HTML bytes={len(response.text)}, job-like links={candidate_paths[:12]}")
+            scripts = re.findall(r'<script[^>]+src="([^"]+)"', response.text, re.I)[:12]
+            api_candidates = set()
+            for script in scripts:
+                script_url = urljoin(response.url, script)
+                if not script_url.startswith(("https://www.salesforce.com/", "https://careers.salesforce.com/")):
+                    continue
+                try:
+                    bundle = session.get(script_url, timeout=TIMEOUT)
+                    if bundle.ok:
+                        api_candidates.update(re.findall(r"""["']([^"']{0,100}(?:/api/|graphql|job-search|jobs/search|jobSearch|job-list)[^"']{0,100})["']""", bundle.text, re.I))
+                except requests.RequestException:
+                    continue
+            print(f"[Salesforce] Public scripts inspected={len(scripts)}; API-like candidates={sorted(api_candidates)[:25]}")
             for marker in ("jr304196", "jobRequisitionId", "jobTitle", "jobPosting", "__NEXT_DATA__", "eagerLoadRefineSearch"):
                 if marker in response.text:
                     print(f"[Salesforce] Embedded marker present: {marker}")
