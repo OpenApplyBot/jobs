@@ -2,7 +2,7 @@
 import json
 import re
 from html.parser import HTMLParser
-from urllib.parse import urljoin, urlparse
+from urllib.parse import urljoin, urlparse, parse_qs
 from .common import get, normalize, location_text, same_site, clean
 
 
@@ -91,13 +91,20 @@ def _anchor_job_rows(root, page, anchors):
             continue
         parsed = urlparse(target)
         path = parsed.path.rstrip("/")
-        if not marker.search(path):
+        query = parse_qs(parsed.query)
+        # Some ATS-backed corporate portals identify an individual posting only
+        # by a query parameter (for example Unity's official gh_jid URLs).
+        query_job_id = next(
+            (values[0] for key in ("gh_jid", "jobId", "job_id", "postingId") if (values := query.get(key))),
+            None,
+        )
+        if not query_job_id and not marker.search(path):
             continue
         segments = [part for part in path.split("/") if part]
         if not segments:
             continue
         tail = segments[-1].lower()
-        if tail in {"jobs", "job", "careers", "career", "positions", "position", "openings", "opening", "search"}:
+        if not query_job_id and tail in {"jobs", "job", "careers", "career", "positions", "position", "openings", "opening", "search"}:
             continue
         title = clean(anchor.get("text") or anchor.get("title"))
         if not title or len(title) < 8 or len(title) > 220 or title.lower() in generic_labels:
@@ -107,7 +114,7 @@ def _anchor_job_rows(root, page, anchors):
         # Some sites append a separate /apply or /application route to each job.
         if tail in {"apply", "application"} and len(segments) > 1:
             tail = segments[-2]
-        job_id = tail or target
+        job_id = str(query_job_id or tail or target)
         row = normalize(
             job_id, title, target, company=company,
             raw_payload={"source": "official_careers_html_anchor", "anchor_text": title},
