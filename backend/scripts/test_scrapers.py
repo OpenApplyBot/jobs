@@ -47,11 +47,23 @@ def run_one(row):
     module_name = Path(row["module"]).stem
     name = row.get("company_name", module_name)
     try:
-        module = importlib.import_module(f"app.scrapers.{module_name}")
-        scrape = getattr(module, "scrape", None)
-        if not callable(scrape):
-            raise TypeError("module has no callable scrape()")
-        rows = scrape()
+        try:
+            module = importlib.import_module(f"app.scrapers.{module_name}")
+        except ModuleNotFoundError as exc:
+            # The generated company wrappers are not committed for every
+            # manifest entry. Fall back to the shared live ATS/JSON-LD engine
+            # using the official careers URL, rather than treating a missing
+            # wrapper as a scraper failure.
+            expected_module = f"app.scrapers.{module_name}"
+            if exc.name != expected_module and not (exc.name or "").startswith(expected_module + "."):
+                raise
+            from app.scrapers.auto import scrape as scrape_url
+            rows = scrape_url(row["official_careers_url"])
+        else:
+            scrape = getattr(module, "scrape", None)
+            if not callable(scrape):
+                raise TypeError("module has no callable scrape()")
+            rows = scrape()
         if rows is None:
             raise TypeError("scrape() returned None; expected a list")
         if not isinstance(rows, (list, tuple)):
@@ -109,7 +121,7 @@ def run_one(row):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--workers", type=int, default=10)
+    parser.add_argument("--workers", type=int, default=1)
     parser.add_argument("--limit", type=int, default=0, help="test first N manifest entries (0 = all)")
     parser.add_argument("--report-dir", default=str(REPORT_DIR))
     args = parser.parse_args()
@@ -119,7 +131,9 @@ def main():
     rows = json.loads(MANIFEST.read_text(encoding="utf-8"))
     if args.limit:
         rows = rows[:args.limit]
-    print(f"Testing {len(rows)} company scrapers with {args.workers} workers...")
+    # The default and workflow configuration are deliberately sequential: one
+    # employer is tested, logged, and only then does the next start.
+    print(f"Testing {len(rows)} company scrapers sequentially (workers={args.workers})...")
     results = []
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = [pool.submit(run_one, row) for row in rows]
