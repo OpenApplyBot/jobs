@@ -1,12 +1,12 @@
 """Company-specific scraper for Eli Lilly.
-Official careers URL candidate: https://lilly.com/careers
+Official job-listing URL: https://careers.lilly.com/us/en/search-results
 Expected company domain: lilly.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Eli Lilly'
-CAREERS_URL = 'https://lilly.com/careers'
+CAREERS_URL = 'https://careers.lilly.com/us/en/search-results'
 OFFICIAL_DOMAIN = 'lilly.com'
 CSV_RANK = 392
 
