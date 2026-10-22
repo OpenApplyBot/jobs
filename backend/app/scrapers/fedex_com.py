@@ -1,12 +1,12 @@
 """Company-specific scraper for FedEx.
-Official careers URL candidate: https://fedex.com/careers
+Official job-listing URL: https://careers.fedex.com/jobs
 Expected company domain: fedex.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'FedEx'
-CAREERS_URL = 'https://fedex.com/careers'
+CAREERS_URL = 'https://careers.fedex.com/jobs'
 OFFICIAL_DOMAIN = 'fedex.com'
 CSV_RANK = 415
 
