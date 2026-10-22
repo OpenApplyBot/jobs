@@ -4498,5 +4498,14 @@
     "official_careers_url": "https://browserbase.com/careers",
     "official_domain": "browserbase.com",
     "verification_status": "Needs live URL verification"
+  },
+  {
+    "rank": 501,
+    "company_name": "Coca-Cola Consolidated",
+    "slug": "coca_cola_consolidated",
+    "module": "seeacareerwithus_com.py",
+    "official_careers_url": "https://www.seeacareerwithus.com/search-jobs#search-results",
+    "official_domain": "seeacareerwithus.com",
+    "verification_status": "Direct listing URL configured; live scraper verification pending"
   }
 ]
