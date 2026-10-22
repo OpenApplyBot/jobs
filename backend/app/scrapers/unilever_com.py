@@ -1,12 +1,12 @@
 """Company-specific scraper for Unilever.
-Official careers URL candidate: https://unilever.com/careers
+Official job-listing URL: https://careers.unilever.com/en/search-jobs
 Expected company domain: unilever.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Unilever'
-CAREERS_URL = 'https://unilever.com/careers'
+CAREERS_URL = 'https://careers.unilever.com/en/search-jobs'
 OFFICIAL_DOMAIN = 'unilever.com'
 CSV_RANK = 409
 
