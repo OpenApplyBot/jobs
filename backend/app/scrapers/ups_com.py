@@ -1,12 +1,12 @@
 """Company-specific scraper for UPS.
-Official careers URL candidate: https://ups.com/careers
+Official job-listing URL: https://www.jobs-ups.com/imea/en/search-results
 Expected company domain: ups.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'UPS'
-CAREERS_URL = 'https://ups.com/careers'
+CAREERS_URL = 'https://www.jobs-ups.com/imea/en/search-results'
 OFFICIAL_DOMAIN = 'ups.com'
 CSV_RANK = 416
 
