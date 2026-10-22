@@ -1,12 +1,12 @@
 """Company-specific scraper for Naver.
-Official careers URL candidate: https://navercorp.com/careers
+Official job-listing URL: https://recruit.navercorp.com/rcrt/list.do?sw=
 Expected company domain: navercorp.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Naver'
-CAREERS_URL = 'https://navercorp.com/careers'
+CAREERS_URL = 'https://recruit.navercorp.com/rcrt/list.do?sw='
 OFFICIAL_DOMAIN = 'navercorp.com'
 CSV_RANK = 440
 
