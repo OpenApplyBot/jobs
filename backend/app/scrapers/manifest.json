@@ -3469,7 +3469,7 @@
     "company_name": "Roche",
     "slug": "roche",
     "module": "roche_com.py",
-    "official_careers_url": "https://www.roche.com/careers.htm",
+    "official_careers_url": "https://careers.roche.com/global/en/search-results",
     "official_domain": "roche.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3487,7 +3487,7 @@
     "company_name": "AstraZeneca",
     "slug": "astrazeneca",
     "module": "astrazeneca_com.py",
-    "official_careers_url": "https://careers.astrazeneca.com/",
+    "official_careers_url": "https://careers.astrazeneca.com/search-jobs",
     "official_domain": "astrazeneca.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3514,7 +3514,7 @@
     "company_name": "Johnson & Johnson",
     "slug": "johnson_johnson",
     "module": "jnj_com.py",
-    "official_careers_url": "https://www.careers.jnj.com/",
+    "official_careers_url": "https://www.careers.jnj.com/en/jobs/?search",
     "official_domain": "jnj.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3523,7 +3523,7 @@
     "company_name": "Eli Lilly",
     "slug": "eli_lilly",
     "module": "lilly_com.py",
-    "official_careers_url": "https://careers.lilly.com/",
+    "official_careers_url": "https://careers.lilly.com/us/en/search-results",
     "official_domain": "lilly.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3541,9 +3541,9 @@
     "company_name": "Bayer",
     "slug": "bayer",
     "module": "bayer_com.py",
-    "official_careers_url": "https://bayer.com/careers",
+    "official_careers_url": "https://bayer.eightfold.ai/careers?query=&location=&hl=en",
     "official_domain": "bayer.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
   {
     "rank": 395,
@@ -3568,7 +3568,7 @@
     "company_name": "CVS Health",
     "slug": "cvs_health",
     "module": "cvshealth_com.py",
-    "official_careers_url": "https://jobs.cvshealth.com/",
+    "official_careers_url": "https://jobs.cvshealth.com/us/en/search-results",
     "official_domain": "cvshealth.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3604,7 +3604,7 @@
     "company_name": "Tempus AI",
     "slug": "tempus_ai",
     "module": "tempus_com.py",
-    "official_careers_url": "https://www.tempus.com/careers/",
+    "official_careers_url": "https://tempus.wd5.myworkdayjobs.com/Tempus_Careers",
     "official_domain": "tempus.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3631,7 +3631,7 @@
     "company_name": "Zalando",
     "slug": "zalando",
     "module": "zalando_com.py",
-    "official_careers_url": "https://jobs.zalando.com/",
+    "official_careers_url": "https://jobs.zalando.com/en/jobs",
     "official_domain": "zalando.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3649,7 +3649,7 @@
     "company_name": "Inditex",
     "slug": "inditex",
     "module": "inditex_com.py",
-    "official_careers_url": "https://www.inditexcareers.com/portal/",
+    "official_careers_url": "https://www.inditexpeople.com/us/en/joinus/offers",
     "official_domain": "inditex.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3667,7 +3667,7 @@
     "company_name": "Procter & Gamble",
     "slug": "procter_gamble",
     "module": "pg_com.py",
-    "official_careers_url": "https://www.pgcareers.com/",
+    "official_careers_url": "https://www.pgcareers.com/in/en/engineering-new#search-results",
     "official_domain": "pg.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3676,7 +3676,7 @@
     "company_name": "Unilever",
     "slug": "unilever",
     "module": "unilever_com.py",
-    "official_careers_url": "https://careers.unilever.com/",
+    "official_careers_url": "https://careers.unilever.com/en/search-jobs",
     "official_domain": "unilever.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3694,7 +3694,7 @@
     "company_name": "Coca-Cola",
     "slug": "coca_cola",
     "module": "coca_colacompany_com.py",
-    "official_careers_url": "https://www.coca-colacompany.com/careers",
+    "official_careers_url": "https://coke.wd1.myworkdayjobs.com/coca-cola-careers",
     "official_domain": "coca-colacompany.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3703,7 +3703,7 @@
     "company_name": "PepsiCo",
     "slug": "pepsico",
     "module": "pepsico_com.py",
-    "official_careers_url": "https://www.pepsicojobs.com/",
+    "official_careers_url": "https://www.pepsicojobs.com/main/jobs",
     "official_domain": "pepsico.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3730,7 +3730,7 @@
     "company_name": "FedEx",
     "slug": "fedex",
     "module": "fedex_com.py",
-    "official_careers_url": "https://careers.fedex.com/",
+    "official_careers_url": "https://careers.fedex.com/jobs",
     "official_domain": "fedex.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3739,7 +3739,7 @@
     "company_name": "UPS",
     "slug": "ups",
     "module": "ups_com.py",
-    "official_careers_url": "https://www.jobs-ups.com/",
+    "official_careers_url": "https://www.jobs-ups.com/imea/en/search-results",
     "official_domain": "ups.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3793,7 +3793,7 @@
     "company_name": "Autodesk",
     "slug": "autodesk",
     "module": "autodesk_com.py",
-    "official_careers_url": "https://www.autodesk.com/careers",
+    "official_careers_url": "https://jobs.autodesk.com/careers",
     "official_domain": "autodesk.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3838,7 +3838,7 @@
     "company_name": "MathWorks",
     "slug": "mathworks",
     "module": "mathworks_com.py",
-    "official_careers_url": "https://www.mathworks.com/company/jobs.html",
+    "official_careers_url": "https://in.mathworks.com/company/jobs/opportunities/search/",
     "official_domain": "mathworks.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3901,7 +3901,7 @@
     "company_name": "Shopee",
     "slug": "shopee",
     "module": "shopee_sg.py",
-    "official_careers_url": "https://careers.shopee.sg/",
+    "official_careers_url": "https://careers.shopee.sg/jobs?limit=50&offset=0",
     "official_domain": "shopee.sg",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3919,7 +3919,7 @@
     "company_name": "Traveloka",
     "slug": "traveloka",
     "module": "traveloka_com.py",
-    "official_careers_url": "https://careers.traveloka.com/",
+    "official_careers_url": "https://careers.traveloka.com/jobs",
     "official_domain": "traveloka.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3928,7 +3928,7 @@
     "company_name": "Carousell",
     "slug": "carousell",
     "module": "carousell_com.py",
-    "official_careers_url": "https://careers.carousell.com/",
+    "official_careers_url": "https://careers.carousell.com/openings/",
     "official_domain": "carousell.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3955,7 +3955,7 @@
     "company_name": "Naver",
     "slug": "naver",
     "module": "navercorp_com.py",
-    "official_careers_url": "https://recruit.navercorp.com/",
+    "official_careers_url": "https://recruit.navercorp.com/rcrt/list.do?sw=",
     "official_domain": "navercorp.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3982,7 +3982,7 @@
     "company_name": "Xero",
     "slug": "xero",
     "module": "xero_com.py",
-    "official_careers_url": "https://www.xero.com/careers/",
+    "official_careers_url": "https://careers.xero.com/jobs/?search=&origin=global",
     "official_domain": "xero.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -3991,7 +3991,7 @@
     "company_name": "MYOB",
     "slug": "myob",
     "module": "myob_com.py",
-    "official_careers_url": "https://careers.myob.com/",
+    "official_careers_url": "https://careers.myob.com/explore-roles",
     "official_domain": "myob.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -4009,7 +4009,7 @@
     "company_name": "Vodafone",
     "slug": "vodafone",
     "module": "vodafone_com.py",
-    "official_careers_url": "https://careers.vodafone.com/",
+    "official_careers_url": "https://jobs.vodafone.com/careers?start=0&pid=563018698278962&sort_by=timestamp",
     "official_domain": "vodafone.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -4018,7 +4018,7 @@
     "company_name": "Orange",
     "slug": "orange",
     "module": "orange_com.py",
-    "official_careers_url": "https://orange.jobs/UNINETTUNI/1/T2/Careers.aspx",
+    "official_careers_url": "https://orange.jobs/gb/en/search-results",
     "official_domain": "orange.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
@@ -4027,7 +4027,7 @@
     "company_name": "BT Group",
     "slug": "bt_group",
     "module": "bt_com.py",
-    "official_careers_url": "https://jobs.bt.com/",
+    "official_careers_url": "https://jobs.bt.com/search/?q=&locationsearch=&",
     "official_domain": "bt.com",
     "verification_status": "Direct listing URL configured; live scraper verification pending"
   },
