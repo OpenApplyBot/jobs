@@ -1,10 +1,48 @@
-"""Regression tests for direct listing routing and query-safe URL traversal."""
+"""Regression tests for per-company listing URLs and query-safe routing."""
+import importlib
 import unittest
 
 from app.scrapers.auto import _candidate_urls, _preferred_listing_url
 
 
+COMPANY_LISTING_URLS = {
+    "roche_com": "https://careers.roche.com/global/en/search-results",
+    "astrazeneca_com": "https://careers.astrazeneca.com/search-jobs",
+    "jnj_com": "https://www.careers.jnj.com/en/jobs/?search",
+    "lilly_com": "https://careers.lilly.com/us/en/search-results",
+    "bayer_com": "https://bayer.eightfold.ai/careers?query=&location=&hl=en",
+    "cvshealth_com": "https://jobs.cvshealth.com/us/en/search-results",
+    "tempus_com": "https://tempus.wd5.myworkdayjobs.com/Tempus_Careers",
+    "zalando_com": "https://jobs.zalando.com/en/jobs",
+    "inditex_com": "https://www.inditexpeople.com/us/en/joinus/offers",
+    "bt_com": "https://jobs.bt.com/search/?q=&locationsearch=&",
+    "orange_com": "https://orange.jobs/gb/en/search-results",
+    "vodafone_com": "https://jobs.vodafone.com/careers?start=0&pid=563018698278962&sort_by=timestamp",
+    "myob_com": "https://careers.myob.com/explore-roles",
+    "xero_com": "https://careers.xero.com/jobs/?search=&origin=global",
+    "navercorp_com": "https://recruit.navercorp.com/rcrt/list.do?sw=",
+    "traveloka_com": "https://careers.traveloka.com/jobs",
+    "shopee_sg": "https://careers.shopee.sg/jobs?limit=50&offset=0",
+    "carousell_com": "https://careers.carousell.com/openings/",
+    "mathworks_com": "https://in.mathworks.com/company/jobs/opportunities/search/",
+    "autodesk_com": "https://jobs.autodesk.com/careers",
+    "coca_colacompany_com": "https://coke.wd1.myworkdayjobs.com/coca-cola-careers",
+    "seeacareerwithus_com": "https://www.seeacareerwithus.com/search-jobs#search-results",
+    "fedex_com": "https://careers.fedex.com/jobs",
+    "pepsico_com": "https://www.pepsicojobs.com/main/jobs",
+    "pg_com": "https://www.pgcareers.com/in/en/engineering-new#search-results",
+    "ups_com": "https://www.jobs-ups.com/imea/en/search-results",
+    "unilever_com": "https://careers.unilever.com/en/search-jobs",
+}
+
+
 class DirectListingRoutingTests(unittest.TestCase):
+    def test_each_company_module_uses_its_explicit_listing_url(self):
+        for module_name, expected_url in COMPANY_LISTING_URLS.items():
+            with self.subTest(module=module_name):
+                module = importlib.import_module(f"app.scrapers.{module_name}")
+                self.assertEqual(module.CAREERS_URL, expected_url)
+
     def test_space_x_routes_to_job_listing(self):
         self.assertEqual(
             _preferred_listing_url("https://www.spacex.com/careers"),
@@ -16,40 +54,6 @@ class DirectListingRoutingTests(unittest.TestCase):
             _preferred_listing_url("https://www.medtronic.com/us-en/about/careers.html"),
             "https://medtronic.wd1.myworkdayjobs.com/MedtronicCareers",
         )
-
-    def test_new_user_supplied_endpoints_route_to_listing_pages(self):
-        cases = [
-            ("https://jobs.cvshealth.com/", "https://jobs.cvshealth.com/us/en/search-results"),
-            ("https://careers.roche.com/", "https://careers.roche.com/global/en/search-results"),
-            ("https://careers.astrazeneca.com/", "https://careers.astrazeneca.com/search-jobs"),
-            ("https://www.careers.jnj.com/", "https://www.careers.jnj.com/en/jobs/?search"),
-            ("https://careers.lilly.com/", "https://careers.lilly.com/us/en/search-results"),
-            ("https://bayer.com/careers", "https://bayer.eightfold.ai/careers?query=&location=&hl=en"),
-            ("https://jobs.zalando.com/", "https://jobs.zalando.com/en/jobs"),
-            ("https://tempus.com/careers", "https://tempus.wd5.myworkdayjobs.com/Tempus_Careers"),
-            ("https://inditex.com/careers", "https://www.inditexpeople.com/us/en/joinus/offers"),
-            ("https://bt.com/careers", "https://jobs.bt.com/search/?q=&locationsearch=&"),
-            ("https://orange.com/careers", "https://orange.jobs/gb/en/search-results"),
-            ("https://vodafone.com/careers", "https://jobs.vodafone.com/careers?start=0&pid=563018698278962&sort_by=timestamp"),
-            ("https://myob.com/careers", "https://careers.myob.com/explore-roles"),
-            ("https://xero.com/careers", "https://careers.xero.com/jobs/?search=&origin=global"),
-            ("https://navercorp.com/careers", "https://recruit.navercorp.com/rcrt/list.do?sw="),
-            ("https://traveloka.com/careers", "https://careers.traveloka.com/jobs"),
-            ("https://shopee.sg/careers", "https://careers.shopee.sg/jobs?limit=50&offset=0"),
-            ("https://carousell.com/careers", "https://careers.carousell.com/openings/"),
-            ("https://mathworks.com/careers", "https://in.mathworks.com/company/jobs/opportunities/search/"),
-            ("https://autodesk.com/careers", "https://jobs.autodesk.com/careers"),
-            ("https://coca-colacompany.com/careers", "https://coke.wd1.myworkdayjobs.com/coca-cola-careers"),
-            ("https://seeacareerwithus.com/", "https://www.seeacareerwithus.com/search-jobs#search-results"),
-            ("https://fedex.com/careers", "https://careers.fedex.com/jobs"),
-            ("https://pepsico.com/careers", "https://www.pepsicojobs.com/main/jobs"),
-            ("https://pg.com/careers", "https://www.pgcareers.com/in/en/engineering-new#search-results"),
-            ("https://ups.com/careers", "https://www.jobs-ups.com/imea/en/search-results"),
-            ("https://unilever.com/careers", "https://careers.unilever.com/en/search-jobs"),
-        ]
-        for source, expected in cases:
-            with self.subTest(source=source):
-                self.assertEqual(_preferred_listing_url(source), expected)
 
     def test_search_query_is_preserved_on_first_candidate(self):
         candidates = list(_candidate_urls(
