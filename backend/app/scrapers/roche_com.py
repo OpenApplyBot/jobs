@@ -1,12 +1,12 @@
 """Company-specific scraper for Roche.
-Official careers URL candidate: https://roche.com/careers
+Official job-listing URL: https://careers.roche.com/global/en/search-results
 Expected company domain: roche.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Roche'
-CAREERS_URL = 'https://roche.com/careers'
+CAREERS_URL = 'https://careers.roche.com/global/en/search-results'
 OFFICIAL_DOMAIN = 'roche.com'
 CSV_RANK = 386
 
