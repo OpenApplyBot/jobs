@@ -211,7 +211,12 @@ def scrape(url):
             elif listing_path:
                 detail_or_listing_links.append(nxt)
 
-        for nxt in pagination + detail_or_listing_links:
+        # Push pagination targets to the front so page 2 -> page 3 is
+        # followed before older queued job-detail links consume the page budget.
+        for nxt in reversed(pagination):
+            if nxt not in visited and nxt not in queue:
+                queue.insert(0, nxt)
+        for nxt in detail_or_listing_links:
             if nxt not in visited and nxt not in queue:
                 queue.append(nxt)
 
