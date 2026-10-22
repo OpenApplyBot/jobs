@@ -1,12 +1,12 @@
 """Company-specific scraper for Tempus AI.
-Official careers URL candidate: https://tempus.com/careers
+Official job-listing URL: https://tempus.wd5.myworkdayjobs.com/Tempus_Careers
 Expected company domain: tempus.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Tempus AI'
-CAREERS_URL = 'https://tempus.com/careers'
+CAREERS_URL = 'https://tempus.wd5.myworkdayjobs.com/Tempus_Careers'
 OFFICIAL_DOMAIN = 'tempus.com'
 CSV_RANK = 401
 
