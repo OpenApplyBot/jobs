@@ -1,6 +1,6 @@
 # Direct career listing routing and pagination
 
-This change adds a shared direct-listing override layer so the 500 generated company modules do not need to be rewritten individually when a better public jobs URL is known.
+This change adds a shared direct-listing override layer and updates the individual company scraper modules for the supplied endpoints. Each affected module declares its own direct listing URL; the shared map remains a routing fallback. Coca-Cola Consolidated was not present in the existing manifest, so a dedicated module and manifest entry were added for its separate careers portal.
 
 ## How routing works
 
@@ -10,7 +10,7 @@ This change adds a shared direct-listing override layer so the 500 generated com
 4. If no ATS feed is discovered, the JSON-LD/HTML fallback follows same-site job and pagination links within a bounded page budget.
 5. Exact query parameters on the supplied URL are preserved. This matters for search pages where parameters are part of the listing route.
 
-The config is deliberately separate from generated wrappers so URL fixes survive normal scraper-module regeneration.
+The config is deliberately separate from generated wrappers so URL fixes survive normal scraper-module regeneration. The per-company modules were also updated directly, and a regression test checks each module's `CAREERS_URL` constant without making network requests.
 
 ## URL overrides
 
@@ -18,7 +18,7 @@ The override file contains host mappings sourced from the job-listing URLs suppl
 
 `https://example.com/careers?search=engineering` is a placeholder example and is intentionally not configured as a real employer.
 
-**Verification caveat:** configuring a URL does not prove that it is live, that it exposes all jobs to unauthenticated clients, or that a scraper returns complete results. Site-specific endpoints must still be live-tested. In particular, a few supplied URLs are careers portals rather than confirmed paginated job-search endpoints; the shared ATS/JSON-LD discovery fallback remains active for those sites.
+**Verification caveat:** configuring a URL does not prove that it is live, that it exposes all jobs to unauthenticated clients, or that a scraper returns complete results. The individual-module URL regression tests were added but have not yet been run in a local checkout. Site-specific endpoints must still be live-tested. In particular, a few supplied URLs are careers portals rather than confirmed paginated job-search endpoints; the shared ATS/JSON-LD discovery fallback remains active for those sites.
 
 ## Pagination and collection safeguards
 
