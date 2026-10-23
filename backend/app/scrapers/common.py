@@ -81,7 +81,7 @@ def normalize(job_id, title, url, location=None, department=None, employment_typ
     payload=raw_payload if isinstance(raw_payload,dict) else {}
     details=_details(title,description,location,employment_type,payload)
     raw=json.loads(json.dumps(payload,default=str))
-    resolved_apply=valid_url(apply_url or payload.get("applyUrl") or payload.get("application_url")) or url
+    resolved_apply=(valid_url(apply_url or payload.get("applyUrl") or payload.get("application_url")) or url)[:2000]
     fingerprint = {
         "title": title[:500],
         "url": url,
