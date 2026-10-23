@@ -26,6 +26,8 @@ init_docker() {
   if ! docker info >/dev/null 2>&1; then
     if command -v systemctl >/dev/null 2>&1 && command -v sudo >/dev/null 2>&1; then
       echo "Docker is not accessible; checking whether the daemon needs starting..." >&2
+      # Refresh systemd's unit cache when Docker's unit files changed on disk.
+      sudo systemctl daemon-reload || true
       sudo systemctl start docker || true
       sleep 2
     fi
