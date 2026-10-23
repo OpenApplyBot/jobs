@@ -25,6 +25,8 @@ def migrate_schema():
         if has_jobs:
             for name,definition in columns.items():
                 connection.execute(text(f"ALTER TABLE jobs ADD COLUMN IF NOT EXISTS {name} {definition}"))
+            # Departments may contain long concatenated team lists from ATS feeds.
+            connection.execute(text("ALTER TABLE jobs ALTER COLUMN department TYPE TEXT"))
         if has_runs:
             connection.execute(text("ALTER TABLE connector_runs ADD COLUMN IF NOT EXISTS skipped INTEGER NOT NULL DEFAULT 0"))
         if has_sources:
