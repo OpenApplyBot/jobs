@@ -1,103 +1,71 @@
 # OpenApplyBot Jobs
 
-Local-first job index: **PostgreSQL → Redis queue → isolated scrapers → normalization/deduplication → indexed API → searchable dashboard**. Docker Compose runs the complete stack locally; no cloud database or hosted queue is required.
+A local-first job discovery index that collects public listings from official company career sites, normalizes and deduplicates them, and serves them through a searchable API and dashboard.
 
-## Local commands
+> **Active scraper policy:** only sources that returned at least one valid job in the latest recorded local validation run are registered in the scraper manifest. A passing test means the source returned valid listings at test time; it is not a guarantee of future availability.
 
-Run these from the repository root. The scripts are intentionally separated so starting the UI/API does not automatically launch scraper jobs.
+## Features
 
-| Command                         | Purpose                                                                                                                        |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| `bash run.sh`                   | Build/start the local database, Redis, API, workers, scheduler and frontend. Preserves existing data; does not queue a scrape. |
-| `bash run-scrapers.sh`          | Ensure PostgreSQL, Redis, API and workers are up; seed the source registry and queue all active scrapers.                      |
-| `bash reset-db.sh`              | Stop services and delete local PostgreSQL/Redis volumes after typing `RESET`.                                                  |
-| `bash run-from-scratch.sh`      | Confirm destructive reset, recreate the system, then seed and queue scrapers.                                                  |
-| `docker compose logs -f worker` | Watch scraper progress.                                                                                                        |
-| `docker compose ps`             | Inspect service health.                                                                                                        |
+- Company-specific scraper modules with a central manifest.
+- Public listing discovery and pagination for supported career sites and ATS platforms.
+- Normalized job records with title and source URL validation.
+- PostgreSQL, Redis-backed workers, API, scheduler, and frontend in Docker Compose.
+- Local testing and operation; GitHub Actions is not required.
 
-The fresh-start and reset scripts delete local database/queue data permanently. Back up first if needed. To avoid accidental deletion, `--yes` is supported for automation, but should only be used deliberately. Scripts can be run with `bash <script>` without executable permissions.
+## Quick start
 
-- Dashboard: http://localhost:5173
-- Source registry: http://localhost:5173/sources
-- Scraper run history: http://localhost:5173/runs
-- API / OpenAPI docs: http://localhost:8000/docs
-- Health (checks Postgres and Redis): http://localhost:8000/api/health
-- Connector registry: http://localhost:8000/api/connectors
-- Queue state: http://localhost:8000/api/queue
-- PostgreSQL: localhost:5432, local development credentials `jobs/jobs`
+Requirements: Docker Engine with the Docker Compose plugin, Git, and a Linux/macOS shell.
 
-The UI includes the searchable job directory, source registration and per-source run controls, plus recent scraper run history and error reporting. The directory supports server-side query parameters such as `search`, `company`, `employment_type`, `work_mode`, `country`, `skill`, `sort=newest|relevance|deadline`, `limit`, and `offset`. Job details are available at `/jobs/{id}` in the dashboard and `/api/jobs/{id}` in the API. Scraped HTML is normalized and rendered as text; raw source payloads remain in the local database and are not exposed publicly.
+    git clone https://github.com/OpenApplyBot/jobs.git
+    cd jobs
+    bash run.sh
 
-Data persists in Docker volumes. `docker compose down` stops the stack without deleting data. `docker compose down -v` deletes the local database and queue volumes.
+The launcher checks prerequisites and starts the local stack. See its output for local service URLs and diagnostics. To stop services, use docker compose down from the repository root. Persistent volumes are not removed automatically.
 
-## Pipeline
+## Repository layout
 
-1. The seed registry reads all 500 manifest entries and registers each as a `company` source keyed by its official domain. Each company scraper delegates to public ATS discovery and same-site JSON-LD parsing; it does not guess ATS board IDs.
-2. Auto-discovery checks public careers-page markup for supported ATS links (Greenhouse, Lever, Ashby, SmartRecruiters, Workable, Workday) and tries the provider's public endpoint. Otherwise it extracts Schema.org `JobPosting` JSON-LD from the public page and same-site career/job links.
-3. Public multi-employer API connectors are isolated under `backend/app/scrapers/` (RemoteOK, Remotive, Arbeitnow, The Muse, Jobicy, Himalayas). The 500 manifest-backed company modules use `<official_domain>.py` names such as `google_com.py`; employer-specific API adapters (including Workday CXS) live in separate files too.
-4. Every result is normalized to a common schema, deduplicated within a fetch, then upserted by `(source_id, source_job_id)`. Failed fetches are recorded and do not deactivate existing jobs. Only a successful non-empty fetch deactivates listings no longer returned by that source, preventing an empty/blocked page from hiding all stored jobs.
-5. PostgreSQL stores canonical jobs and source/run state. B-tree indexes support common filters and optional `pg_trgm` GIN indexes accelerate substring search. Redis/RQ buffers scraper tasks so API requests do not wait on slow websites.
-6. FastAPI exposes searchable/filterable jobs, source management, sync controls, queue health, and run history. The React page reads from this API.
+    backend/
+      app/scrapers/
+        manifest.json       # Registered and validated scraper sources
+        companies/          # Company-specific scraper modules
+        ...                 # Shared adapters and HTTP helpers
+    frontend/                 # Search/dashboard UI
+    scripts/                  # Local audit and maintenance utilities
+    docs/                     # Project and scraper documentation
+    docker-compose.yml        # Local service orchestration
+    run.sh                    # Local setup and launcher
 
-## Scraper policy and limitations
+## Scraper validation
 
-Scrapers use public APIs and public careers pages, with bounded request timeouts. They do not log in, bypass CAPTCHAs, evade access controls, or scrape private job portals. Each company's careers page is seeded as an auto-discovery source, but **not every site necessarily exposes a supported public ATS link or JSON-LD**; JS-only portals and blocked pages need a verified, site-specific public integration. A registered source is not proof that it has returned jobs. Inspect `/api/runs`, `/api/sources`, and `docker compose logs -f worker` to validate each source's result/error before relying on its coverage.
+The manifest at backend/app/scrapers/manifest.json is the source of truth for active scrapers. A source is retained only if the recorded local test returned at least one job with valid title and URL fields.
 
-## Add a source
+Run the local audit from the repository root:
 
-Use `POST /api/sources` with company name and official careers URL. The default `auto` connector discovers known public ATS links and falls back to JSON-LD. Use an explicit provider only when its public board identifier has been verified from that employer's official careers page. Use public APIs with `board_token: "all"` or a provider-supported search keyword.
+    bash scripts/audit-scrapers-local.sh
 
-## Development and tests
+The audit writes generated reports under backend/. Do not commit generated logs, reports, virtual environments, secrets, database files, or build outputs.
 
-Backend tests run with SQLite in CI as an isolated test database; the local application itself uses PostgreSQL. Run backend tests from `backend/` with Redis available locally: `docker compose up -d redis`, then `DATABASE_URL=sqlite:///./test.db REDIS_URL=redis://localhost:6379/0 pytest -q`. Build the frontend from `frontend/` with `npm install && npm run build`.
+**Important:** career sites change frequently, rate-limit requests, and may block automated traffic. A timeout is not proof that a site has no jobs; the active list is intentionally conservative and excludes sources that did not pass the recorded validation. Re-test excluded sources individually before re-registering them.
 
-For a complete local verification, run `FOLLOW_LOGS=0 ./run.sh`, then check `http://127.0.0.1:8000/api/health`, `http://127.0.0.1:8000/api/jobs?limit=10`, and `http://localhost:5173`. PostgreSQL schema changes are applied automatically at API startup without dropping existing records. Back up the local database with `docker compose exec -T postgres pg_dump -U jobs jobs > jobs-backup.sql`; restore with `cat jobs-backup.sql | docker compose exec -T postgres psql -U jobs jobs`.
+## Configuration and data
 
-To run one source, use `curl -X POST http://127.0.0.1:8000/api/sources/{source_id}/run`; to run all active sources, use `curl -X POST http://127.0.0.1:8000/api/connectors/run-all`. Source failures are recorded and do not close existing jobs automatically. Public pages that require authentication, CAPTCHA bypass, or blocked access remain unsupported by design.
+- Never commit real API keys, cookies, credentials, or .env files.
+- Local database state is disposable only when you intentionally remove the relevant Docker volume.
+- Job listings link to their original employer or applicant-tracking-system page. OpenApplyBot does not guarantee that a listing remains open.
 
-## Generate and test the 500 company-specific scrapers
+## Development
 
-The CSV contains candidate URLs, not verified live integrations. Generate one editable Python module per CSV row (500 modules plus a manifest):
+1. Read CONTRIBUTING.md.
+2. Make changes in the relevant company module and shared adapter only when necessary.
+3. Test the affected scraper locally before registering it in the manifest.
+4. Keep source URLs official, preserve pagination, and validate that each returned record has a non-empty title and a valid URL.
+5. Update documentation when commands, architecture, or manifest behavior changes.
 
-```bash
-cd backend
-python -m app.scrapers.companies.generate --csv ../top_500_official_company_careers.csv
-```
+## Documentation
 
-This creates one domain-named module per company under `backend/app/scrapers/`, such as `google_com.py` and `amazon_jobs.py`. Each module has its own company name, careers URL, and domain constants and calls the real public careers/ATS discovery implementation. No fake jobs are inserted. The initial modules intentionally share the robust auto-discovery engine; customize individual files with verified public APIs or site-specific parsing as live test results identify the need.
+- Active sources: docs/DOMAINS_COVERED.md
+- Contribution guide: CONTRIBUTING.md
 
-Test in bounded batches and inspect the JSONL report:
+## License
 
-```bash
-python -m app.scrapers.companies.test_batch --offset 0 --limit 50 --workers 10 --timeout 10
-python -m app.scrapers.companies.test_batch --offset 50 --limit 50 --workers 10 --timeout 10
-# Continue offsets 100, 150, 200, 250, 300, 350, 400, 450.
-```
-
-Reports append to `company_scraper_test_report.jsonl`. `success` with zero jobs is not proof that a source works; inspect the actual page and report before customizing that company's module. `--workers` runs sources in parallel and `--timeout` isolates slow or blocked sites. The generated modules are testable scraper entry points; the existing production database pipeline still uses the source registry and three parallel workers from `run.sh`.
-
-
-## Run the full 500-company audit locally (no GitHub Actions)
-
-The resumable local runner uses your machine, not GitHub-hosted runners. It tests the full manifest in bounded batches, retries transient errors, appends results to JSONL, and writes the latest failed rows to a separate JSON file. It does not write mock jobs to the database.
-
-```bash
-git pull
-chmod +x scripts/audit-scrapers-local.sh
-# Recommended for a 16 GB laptop; tune WORKERS down if sites throttle requests.
-WORKERS=8 TIMEOUT=30 RETRIES=1 BATCH_SIZE=50 bash scripts/audit-scrapers-local.sh
-```
-
-To keep it running after closing the terminal, use `tmux` (recommended) or:
-
-```bash
-nohup env WORKERS=8 TIMEOUT=30 RETRIES=1 BATCH_SIZE=50 \\
-  bash scripts/audit-scrapers-local.sh > scraper-audit.log 2>&1 &
-tail -f scraper-audit.log
-```
-
-Reports are stored under `backend/` by default:
-- `company_scraper_test_report.jsonl`: append-only history for each run.
-- `company_scraper_failures_latest.json`: latest rows classified as invalid or error.
-
-Rerunning the command skips companies that previously returned at least one valid job (`success`) and retries empty/failed sources. To retest everything from scratch, use `RESUME=0`. A zero-job result is not considered a proven working integration; it needs inspection against the company's live careers page.
+No license file is currently defined in this repository. Unless and until a license is added by the maintainers, all rights remain with the copyright holder.
