@@ -1,15 +1,23 @@
 #!/usr/bin/env bash
-# Fully reset local data, rebuild/start the stack, seed sources and queue scrapers.
+# Destructively reset local data, rebuild the stack, and queue active scrapers.
 set -Eeuo pipefail
-cd "$(dirname "$0")"
-echo "This permanently deletes all local jobs, sources, run history and queued tasks."
+
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT"
+
+echo "WARNING: this permanently deletes local jobs, sources, run history and queued tasks."
 if [[ "${1:-}" != "--yes" ]]; then
   read -r -p 'Type RESET to continue from scratch: ' answer
-  [[ "$answer" == "RESET" ]] || { echo "Cancelled."; exit 1; }
+  [[ "$answer" == "RESET" ]] || { echo "Cancelled; no data was deleted."; exit 1; }
 fi
-bash ./reset-db.sh --yes
-FOLLOW_LOGS=0 bash ./run.sh
-bash ./run-scrapers.sh
+
+# reset-db.sh owns the Docker permission fallback and removes only app volumes.
+bash "$ROOT/reset-db.sh" --yes
+
+# run-scrapers.sh builds/starts the app, waits for API health, seeds sources,
+# and queues scrapers. Do not duplicate those steps here.
+bash "$ROOT/run-scrapers.sh"
+
 echo "Fresh system started and scrapers queued."
 echo "Dashboard: http://localhost:5173"
 echo "API docs:  http://localhost:8000/docs"
