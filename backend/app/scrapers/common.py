@@ -55,8 +55,16 @@ def _details(title,description,location,employment_type,raw):
     experience=re.search(r"(\d+)\s*(?:-|to)\s*(\d+)?\s*years?",text)
     education=next((phrase for phrase in ("bachelor's degree","bachelors degree","master's degree","masters degree","computer science degree","degree in computer science") if phrase in text),None)
     countries=[country for country in ("India","United States","United Kingdom","Canada","Germany","Australia") if country.lower() in text]
-    parts=[part.strip() for part in (location or "").split(",") if part.strip()]
-    return {"work_mode":work_mode,"location_city":parts[0] if parts else None,"location_region":parts[1] if len(parts)>2 else None,"location_country":parts[-1] if len(parts)>1 else None,"remote_scope":"Worldwide" if "worldwide" in text else None,"required_skills":skills,"preferred_skills":skills,"programming_languages":[x for x in skills if x in {"python","java","javascript","typescript","c++","go","rust","kotlin","swift"}],"tech_stack":skills,"education_requirements":education,"experience_min_months":int(experience.group(1))*12 if experience else None,"eligible_countries":countries,"visa_sponsorship":True if "visa sponsorship" in text or "sponsorship available" in text else None,"relocation_available":True if "relocation" in text else None,"salary_currency":currency,"salary_period":period,"compensation_text":salary_text,"status":"open" if any(x in text for x in ("apply","job","position")) else "unverified"}
+    raw_location = clean(location)
+    # A semicolon usually means a multi-location list, not one city name.
+    if raw_location and ";" not in raw_location:
+        parts=[part.strip() for part in raw_location.split(",") if part.strip()]
+        city=parts[0][:200] if parts else None
+        region=parts[1][:200] if len(parts)>2 else None
+        country=parts[-1][:200] if len(parts)>1 else None
+    else:
+        city=region=country=None
+    return {"work_mode":work_mode,"location_city":city,"location_region":region,"location_country":country,"remote_scope":"Worldwide" if "worldwide" in text else None,"required_skills":skills,"preferred_skills":skills,"programming_languages":[x for x in skills if x in {"python","java","javascript","typescript","c++","go","rust","kotlin","swift"}],"tech_stack":skills,"education_requirements":education,"experience_min_months":int(experience.group(1))*12 if experience else None,"eligible_countries":countries,"visa_sponsorship":True if "visa sponsorship" in text or "sponsorship available" in text else None,"relocation_available":True if "relocation" in text else None,"salary_currency":currency,"salary_period":period,"compensation_text":salary_text,"status":"open" if any(x in text for x in ("apply","job","position")) else "unverified"}
 
 def normalize(job_id, title, url, location=None, department=None, employment_type=None, description=None, posted_at=None, company=None, raw_payload=None, apply_url=None):
     title, url = clean(title), valid_url(url)
@@ -80,10 +88,10 @@ def normalize(job_id, title, url, location=None, department=None, employment_typ
     content_hash = sha256(
         json.dumps(fingerprint, ensure_ascii=False, sort_keys=True, separators=(",", ":"), default=str).encode("utf-8")
     ).hexdigest()
-    return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url, "apply_url":resolved_apply,
-            "location": clean(location), "department": clean(department), "employment_type": clean(employment_type),
+    return {"source_job_id": str(job_id)[:300], "title": title[:500], "url": url[:2000], "apply_url":resolved_apply[:2000],
+            "location": clean(location)[:500] if clean(location) else None, "department": clean(department), "employment_type": clean(employment_type)[:100] if clean(employment_type) else None,
             "description": clean(description), "posted_at": str(posted_at)[:100] if posted_at else None,
-            "company_name": clean(company), "raw_payload":raw, "content_hash":content_hash, "parser_version":"1.0", **details}
+            "company_name": clean(company)[:300] if clean(company) else None, "raw_payload":raw, "content_hash":content_hash, "parser_version":"1.0", **details}
 
 def location_text(value):
     if isinstance(value, str): return value
