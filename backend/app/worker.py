@@ -4,15 +4,13 @@ from datetime import datetime, timezone
 
 from sqlalchemy import select, update
 
-from .db import Base, engine, SessionLocal, migrate_schema
+from .db import SessionLocal
 from .models import Source, Job, ConnectorRun, JobSource, JobSnapshot
 from .connectors import fetch_jobs
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
 
-migrate_schema()
-Base.metadata.create_all(bind=engine)
 
 
 # Fields returned by the shared normalizer / scraper adapters. Compare these
