@@ -1,32 +1,28 @@
 #!/usr/bin/env bash
-# Start local dependencies, seed the company registry, then queue all active scrapers.
+# Start the local stack, seed the source registry, then queue active scrapers.
 set -Eeuo pipefail
-cd "$(dirname "$0")"
-command -v docker >/dev/null 2>&1 || { echo "Docker is required." >&2; exit 1; }
 
-DOCKER=(docker)
-if ! docker info >/dev/null 2>&1; then
-  if command -v sudo >/dev/null 2>&1 && sudo docker info >/dev/null 2>&1; then
-    DOCKER=(sudo docker)
-  else
-    echo "Cannot access Docker. Check the daemon and Docker permissions." >&2
-    exit 1
-  fi
-fi
-dc() { "${DOCKER[@]}" compose "$@"; }
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+cd "$ROOT"
+source "$ROOT/scripts/docker.sh"
 
-dc up -d postgres redis api worker
-echo "Waiting for API health..."
-for i in $(seq 1 90); do
-  if curl --connect-timeout 2 --max-time 3 -fsS http://127.0.0.1:8000/api/health >/dev/null 2>&1; then break; fi
-  if [[ "$i" -eq 90 ]]; then dc logs --tail=80 api; exit 1; fi
-  sleep 2
-done
+command -v curl >/dev/null 2>&1 || {
+  echo "ERROR: curl is required. Install curl and rerun this script." >&2
+  exit 1
+}
+
+# Ensures images are built, Docker permissions are handled, and API health is
+# checked before any seed or queue operation is attempted.
+bash "$ROOT/run.sh"
+init_docker
 
 echo "Seeding official company sources..."
 dc exec -T api python scripts/seed_companies.py
-echo "Queueing all active scraper connectors..."
-curl --connect-timeout 5 --max-time 30 -fsS -X POST http://127.0.0.1:8000/api/connectors/run-all
-echo
-echo "Scrapers queued. Follow progress with: sudo docker compose logs -f worker"
-echo "Check queue: curl -s http://127.0.0.1:8000/api/queue"
+
+echo "Queueing active scraper connectors..."
+curl --connect-timeout 5 --max-time 30 -fsS \
+  -X POST http://127.0.0.1:8000/api/connectors/run-all
+printf '\n\nScrapers queued. Follow progress with:\n'
+echo "  sudo docker compose logs -f worker"
+echo "Check queue with:"
+echo "  curl -fsS http://127.0.0.1:8000/api/queue"
