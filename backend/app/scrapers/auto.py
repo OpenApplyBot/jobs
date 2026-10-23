@@ -1,6 +1,8 @@
 """Discover public ATS feeds from employer career pages without inventing board IDs."""
 from html import unescape
 from urllib.parse import urljoin, urlparse, urlunparse, parse_qs
+from pathlib import Path
+import json
 import re
 
 from .common import get
@@ -37,6 +39,39 @@ def _safe_host(url):
         return ""
 
 
+
+# Direct all-jobs/listing destinations, maintained separately from generated
+# company wrappers so corrections do not require regenerating 500 modules.
+_CONFIG_PATH = Path(__file__).with_name("direct_listing_urls.json")
+try:
+    _DIRECT_LISTING_CONFIG = json.loads(_CONFIG_PATH.read_text(encoding="utf-8"))
+    DIRECT_LISTING_URLS = {
+        str(host).lower().removeprefix("www."): str(target)
+        for host, target in (_DIRECT_LISTING_CONFIG.get("urls") or {}).items()
+        if isinstance(host, str) and isinstance(target, str) and target.startswith(("https://", "http://"))
+    }
+except (OSError, ValueError, TypeError):
+    DIRECT_LISTING_URLS = {}
+
+
+def _preferred_listing_url(url):
+    """Use a configured direct listing destination for the source's known host."""
+    host = _safe_host(url).removeprefix("www.")
+    direct = DIRECT_LISTING_URLS.get(host)
+    if direct:
+        return direct
+    # Permit a mapping keyed by a parent domain, but prefer the most specific
+    # configured suffix to avoid cross-company matches.
+    matches = [
+        (key, target) for key, target in DIRECT_LISTING_URLS.items()
+        if host.endswith("." + key) or key.endswith("." + host)
+    ]
+    if matches:
+        matches.sort(key=lambda item: len(item[0]), reverse=True)
+        return matches[0][1]
+    return url
+
+
 def _candidate_urls(url):
     """Yield a small, deterministic set of official careers URL fallbacks."""
     try:
@@ -50,13 +85,15 @@ def _candidate_urls(url):
         elif not host.startswith("careers."):
             alternate_host = "www." + parsed.netloc
         paths = [parsed.path or "/", "/", "/jobs", "/careers"]
-        candidates = [(parsed.netloc, paths[0])]
+        # Preserve query parameters on the exact supplied URL: some career
+        # portals require them to render the job search results.
+        candidates = [(parsed.netloc, paths[0], parsed.query)]
         if alternate_host:
-            candidates.append((alternate_host, paths[0]))
-        candidates.extend((parsed.netloc, path) for path in paths[1:])
+            candidates.append((alternate_host, paths[0], parsed.query))
+        candidates.extend((parsed.netloc, path, "") for path in paths[1:])
         seen = set()
-        for candidate_host, path in candidates:
-            candidate = urlunparse((parsed.scheme, candidate_host, path, "", "", ""))
+        for candidate_host, path, query in candidates:
+            candidate = urlunparse((parsed.scheme, candidate_host, path, "", query, ""))
             if candidate not in seen:
                 seen.add(candidate)
                 yield candidate
@@ -161,6 +198,15 @@ def scrape(url, known_job_ids=None):
         host = (parsed.hostname or "").lower()
     except (TypeError, ValueError) as exc:
         raise ValueError(f"Invalid careers URL: {url!r}") from exc
+
+    # Generated modules may still carry an old generic careers landing page.
+    # Resolve it to the curated direct listing destination before any requests.
+    preferred_url = _preferred_listing_url(url)
+    if preferred_url != url:
+        print(f"[Careers URL] Using direct listing URL: {preferred_url}", flush=True)
+        url = preferred_url
+        parsed = urlparse(url)
+        host = (parsed.hostname or "").lower()
 
     if host == "jobs.ashbyhq.com":
         parts = [part for part in urlparse(url).path.split("/") if part]

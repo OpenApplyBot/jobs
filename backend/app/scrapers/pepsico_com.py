@@ -1,12 +1,12 @@
 """Company-specific scraper for PepsiCo.
-Official careers URL candidate: https://pepsico.com/careers
+Official job-listing URL: https://www.pepsicojobs.com/main/jobs
 Expected company domain: pepsico.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'PepsiCo'
-CAREERS_URL = 'https://pepsico.com/careers'
+CAREERS_URL = 'https://www.pepsicojobs.com/main/jobs'
 OFFICIAL_DOMAIN = 'pepsico.com'
 CSV_RANK = 412
 

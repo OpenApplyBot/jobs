@@ -1,12 +1,12 @@
 """Company-specific scraper for Bayer.
-Official careers URL candidate: https://bayer.com/careers
+Official job-listing URL: https://bayer.eightfold.ai/careers?query=&location=&hl=en
 Expected company domain: bayer.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Bayer'
-CAREERS_URL = 'https://bayer.com/careers'
+CAREERS_URL = 'https://bayer.eightfold.ai/careers?query=&location=&hl=en'
 OFFICIAL_DOMAIN = 'bayer.com'
 CSV_RANK = 394
 

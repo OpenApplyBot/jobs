@@ -1,12 +1,12 @@
 """Company-specific scraper for Carousell.
-Official careers URL candidate: https://carousell.com/careers
+Official job-listing URL: https://careers.carousell.com/openings/
 Expected company domain: carousell.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Carousell'
-CAREERS_URL = 'https://carousell.com/careers'
+CAREERS_URL = 'https://careers.carousell.com/openings/'
 OFFICIAL_DOMAIN = 'carousell.com'
 CSV_RANK = 437
 

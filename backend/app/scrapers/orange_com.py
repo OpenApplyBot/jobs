@@ -1,12 +1,12 @@
 """Company-specific scraper for Orange.
-Official careers URL candidate: https://orange.com/careers
+Official job-listing URL: https://orange.jobs/gb/en/search-results
 Expected company domain: orange.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Orange'
-CAREERS_URL = 'https://orange.com/careers'
+CAREERS_URL = 'https://orange.jobs/gb/en/search-results'
 OFFICIAL_DOMAIN = 'orange.com'
 CSV_RANK = 447
 

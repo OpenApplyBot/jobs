@@ -1,12 +1,12 @@
 """Company-specific scraper for MYOB.
-Official careers URL candidate: https://myob.com/careers
+Official job-listing URL: https://careers.myob.com/explore-roles
 Expected company domain: myob.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'MYOB'
-CAREERS_URL = 'https://myob.com/careers'
+CAREERS_URL = 'https://careers.myob.com/explore-roles'
 OFFICIAL_DOMAIN = 'myob.com'
 CSV_RANK = 444
 

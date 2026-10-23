@@ -1,12 +1,12 @@
 """Company-specific scraper for Shopee.
-Official careers URL candidate: https://shopee.sg/careers
+Official job-listing URL: https://careers.shopee.sg/jobs?limit=50&offset=0
 Expected company domain: shopee.sg
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Shopee'
-CAREERS_URL = 'https://shopee.sg/careers'
+CAREERS_URL = 'https://careers.shopee.sg/jobs?limit=50&offset=0'
 OFFICIAL_DOMAIN = 'shopee.sg'
 CSV_RANK = 434
 

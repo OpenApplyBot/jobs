@@ -1,5 +1,6 @@
 """Scrape Schema.org JobPosting data and conservative job-card links from career pages."""
 import json
+import os
 import re
 from html.parser import HTMLParser
 from urllib.parse import urljoin, urlparse, parse_qs
@@ -27,6 +28,9 @@ class _Parser(HTMLParser):
             self._anchor = {
                 "href": href,
                 "title": a.get("title") or a.get("aria-label") or "",
+                "aria_label": a.get("aria-label") or "",
+                "rel": a.get("rel") or "",
+                "class": a.get("class") or "",
                 "text": [],
             }
 
@@ -131,7 +135,10 @@ def scrape(url):
     visited = set()
     out = []
     fallback = []
-    while queue and len(visited) < 30:
+    # Bound generic HTML traversal, while giving pagination links priority over
+    # individual job-detail links. Configure higher for unusually large portals.
+    max_pages = max(1, min(200, int(os.getenv("JSONLD_MAX_PAGES", "50"))))
+    while queue and len(visited) < max_pages:
         page = queue.pop(0)
         if page in visited:
             continue
@@ -166,12 +173,51 @@ def scrape(url):
                     out.append(row)
 
         fallback.extend(_anchor_job_rows(root, page, parser.anchors))
-        for href in parser.links:
+
+        # Detect explicit next-page controls and common pagination query keys.
+        # Process these before detail links so the page budget is spent on listing
+        # pages rather than getting trapped crawling individual job descriptions.
+        pagination = []
+        detail_or_listing_links = []
+        for anchor in parser.anchors:
+            href = anchor.get("href")
+            if not href:
+                continue
             nxt = urljoin(page, href)
-            path = urlparse(nxt).path.lower()
-            if same_site(root, nxt) and any(
-                keyword in path for keyword in ("job", "career", "position", "opening")
-            ) and nxt not in visited and nxt not in queue:
+            if not same_site(root, nxt) or nxt in visited or nxt in queue:
+                continue
+            parsed_next = urlparse(nxt)
+            path = parsed_next.path.lower()
+            query = parse_qs(parsed_next.query)
+            label = " ".join((
+                anchor.get("text") or "", anchor.get("title") or "",
+                anchor.get("aria_label") or "", anchor.get("rel") or "",
+                anchor.get("class") or "",
+            )).lower()
+            has_page_param = any(
+                key.lower() in {"page", "p", "offset", "start", "from", "skip", "pageindex", "pagenumber"}
+                for key in query
+            )
+            explicit_next = (
+                "next" in label or "pagination" in label or "load more" in label
+                or anchor.get("rel", "").lower() == "next"
+            )
+            listing_path = any(
+                keyword in path for keyword in
+                ("job", "career", "position", "opening", "search", "vacanc", "opportunit", "role")
+            )
+            if has_page_param or explicit_next:
+                pagination.append(nxt)
+            elif listing_path:
+                detail_or_listing_links.append(nxt)
+
+        # Push pagination targets to the front so page 2 -> page 3 is
+        # followed before older queued job-detail links consume the page budget.
+        for nxt in reversed(pagination):
+            if nxt not in visited and nxt not in queue:
+                queue.insert(0, nxt)
+        for nxt in detail_or_listing_links:
+            if nxt not in visited and nxt not in queue:
                 queue.append(nxt)
 
     # Structured JobPosting data always wins over the less detailed card fallback.

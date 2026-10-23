@@ -1,12 +1,12 @@
 """Company-specific scraper for BT Group.
-Official careers URL candidate: https://bt.com/careers
+Official job-listing URL: https://jobs.bt.com/search/?q=&locationsearch=&
 Expected company domain: bt.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'BT Group'
-CAREERS_URL = 'https://bt.com/careers'
+CAREERS_URL = 'https://jobs.bt.com/search/?q=&locationsearch=&'
 OFFICIAL_DOMAIN = 'bt.com'
 CSV_RANK = 448
 

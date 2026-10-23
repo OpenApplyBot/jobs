@@ -1,12 +1,12 @@
 """Company-specific scraper for Procter & Gamble.
-Official careers URL candidate: https://pg.com/careers
+Official job-listing URL: https://www.pgcareers.com/in/en/engineering-new#search-results
 Expected company domain: pg.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Procter & Gamble'
-CAREERS_URL = 'https://pg.com/careers'
+CAREERS_URL = 'https://www.pgcareers.com/in/en/engineering-new#search-results'
 OFFICIAL_DOMAIN = 'pg.com'
 CSV_RANK = 408
 

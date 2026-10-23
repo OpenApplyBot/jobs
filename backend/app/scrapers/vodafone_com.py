@@ -1,12 +1,12 @@
 """Company-specific scraper for Vodafone.
-Official careers URL candidate: https://vodafone.com/careers
+Official job-listing URL: https://jobs.vodafone.com/careers?start=0&pid=563018698278962&sort_by=timestamp
 Expected company domain: vodafone.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Vodafone'
-CAREERS_URL = 'https://vodafone.com/careers'
+CAREERS_URL = 'https://jobs.vodafone.com/careers?start=0&pid=563018698278962&sort_by=timestamp'
 OFFICIAL_DOMAIN = 'vodafone.com'
 CSV_RANK = 446
 

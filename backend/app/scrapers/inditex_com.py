@@ -1,12 +1,12 @@
 """Company-specific scraper for Inditex.
-Official careers URL candidate: https://inditex.com/careers
+Official job-listing URL: https://www.inditexpeople.com/us/en/joinus/offers
 Expected company domain: inditex.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Inditex'
-CAREERS_URL = 'https://inditex.com/careers'
+CAREERS_URL = 'https://www.inditexpeople.com/us/en/joinus/offers'
 OFFICIAL_DOMAIN = 'inditex.com'
 CSV_RANK = 406
 

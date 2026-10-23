@@ -14,7 +14,7 @@ import requests
 from .common import normalize, HEADERS, TIMEOUT
 
 PAGE_SIZE = max(1, min(20, int(os.getenv("WORKDAY_PAGE_SIZE", "20"))))
-MAX_PAGES = max(1, min(100, int(os.getenv("WORKDAY_MAX_PAGES", "25"))))
+MAX_PAGES = max(1, min(200, int(os.getenv("WORKDAY_MAX_PAGES", "100"))))
 FETCH_DETAILS = os.getenv("WORKDAY_FETCH_DETAILS", "0").strip().lower() in {"1", "true", "yes"}
 DETAIL_WORKERS = max(1, min(8, int(os.getenv("WORKDAY_DETAIL_WORKERS", "6"))))
 

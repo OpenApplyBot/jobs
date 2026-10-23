@@ -1,12 +1,12 @@
 """Company-specific scraper for Johnson & Johnson.
-Official careers URL candidate: https://jnj.com/careers
+Official job-listing URL: https://www.careers.jnj.com/en/jobs/?search
 Expected company domain: jnj.com
-Uses the official careers portal; ATS discovery is performed by the shared adapter.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Johnson & Johnson'
-CAREERS_URL = 'https://jnj.com/careers'
+CAREERS_URL = 'https://www.careers.jnj.com/en/jobs/?search'
 OFFICIAL_DOMAIN = 'jnj.com'
 CSV_RANK = 391
 

@@ -1,12 +1,12 @@
 """Company-specific scraper for MathWorks.
-Official careers URL candidate: https://mathworks.com/careers
+Official job-listing URL: https://in.mathworks.com/company/jobs/opportunities/search/
 Expected company domain: mathworks.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'MathWorks'
-CAREERS_URL = 'https://mathworks.com/careers'
+CAREERS_URL = 'https://in.mathworks.com/company/jobs/opportunities/search/'
 OFFICIAL_DOMAIN = 'mathworks.com'
 CSV_RANK = 427
 

@@ -1,12 +1,12 @@
 """Company-specific scraper for Traveloka.
-Official careers URL candidate: https://traveloka.com/careers
+Official job-listing URL: https://careers.traveloka.com/jobs
 Expected company domain: traveloka.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Traveloka'
-CAREERS_URL = 'https://traveloka.com/careers'
+CAREERS_URL = 'https://careers.traveloka.com/jobs'
 OFFICIAL_DOMAIN = 'traveloka.com'
 CSV_RANK = 436
 

@@ -1,12 +1,12 @@
 """Company-specific scraper for AstraZeneca.
-Official careers URL candidate: https://astrazeneca.com/careers
+Official job-listing URL: https://careers.astrazeneca.com/search-jobs
 Expected company domain: astrazeneca.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'AstraZeneca'
-CAREERS_URL = 'https://astrazeneca.com/careers'
+CAREERS_URL = 'https://careers.astrazeneca.com/search-jobs'
 OFFICIAL_DOMAIN = 'astrazeneca.com'
 CSV_RANK = 388
 

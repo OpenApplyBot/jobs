@@ -1,12 +1,12 @@
 """Company-specific scraper for Xero.
-Official careers URL candidate: https://xero.com/careers
+Official job-listing URL: https://careers.xero.com/jobs/?search=&origin=global
 Expected company domain: xero.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Xero'
-CAREERS_URL = 'https://xero.com/careers'
+CAREERS_URL = 'https://careers.xero.com/jobs/?search=&origin=global'
 OFFICIAL_DOMAIN = 'xero.com'
 CSV_RANK = 443
 

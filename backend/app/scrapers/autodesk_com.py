@@ -1,12 +1,12 @@
 """Company-specific scraper for Autodesk.
-Official careers URL candidate: https://autodesk.com/careers
+Official job-listing URL: https://jobs.autodesk.com/careers
 Expected company domain: autodesk.com
-Customize this module with a verified public API/parser after live testing.
+The shared adapter discovers supported ATS feeds and paginates public listing pages.
 """
 from .auto import scrape as _auto_scrape
 
 COMPANY_NAME = 'Autodesk'
-CAREERS_URL = 'https://autodesk.com/careers'
+CAREERS_URL = 'https://jobs.autodesk.com/careers'
 OFFICIAL_DOMAIN = 'autodesk.com'
 CSV_RANK = 422
 
