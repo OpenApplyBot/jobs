@@ -142,14 +142,19 @@ def run_all(db:Session=Depends(get_db)):
     if not ids:
         return {"status":"queued","count":0,"queue_ids":[]}
     from .worker import run_source
-    # Enqueue the whole batch through one Redis pipeline instead of 500
-    # round-trips. This keeps the control-plane request quick while workers
-    # continue running each source independently.
-    jobs=queue.enqueue_many([
-        queue.prepare_data(run_source,(source_id,))
-        for source_id in ids
-    ])
-    return {"status":"queued","count":len(jobs),"queue_ids":[job.id for job in jobs]}
+    # Keep each Redis pipeline bounded. A single very large request can stall
+    # the control-plane endpoint on modest local machines, leaving curl waiting
+    # with no response even though the API health check succeeds.
+    queued=[]
+    batch_size=20
+    for offset in range(0,len(ids),batch_size):
+        batch_ids=ids[offset:offset+batch_size]
+        batch=queue.enqueue_many([
+            queue.prepare_data(run_source,(source_id,))
+            for source_id in batch_ids
+        ])
+        queued.extend(batch)
+    return {"status":"queued","count":len(queued),"queue_ids":[job.id for job in queued]}
 @app.get("/api/queue")
 def queue_status():
     return {"queued":queue.count,"started":queue.started_job_registry.count,"failed":queue.failed_job_registry.count,"finished":queue.finished_job_registry.count}
