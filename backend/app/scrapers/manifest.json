@@ -1,4511 +1,1370 @@
 [
   {
     "rank": 1,
-    "company_name": "Google",
-    "slug": "google",
-    "module": "google_com.py",
-    "official_careers_url": "https://www.google.com/about/careers/applications/",
-    "official_domain": "google.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 2,
-    "company_name": "Microsoft",
-    "slug": "microsoft",
-    "module": "microsoft_com.py",
-    "official_careers_url": "https://careers.microsoft.com/",
-    "official_domain": "microsoft.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 3,
-    "company_name": "Amazon",
-    "slug": "amazon",
-    "module": "amazon_jobs.py",
-    "official_careers_url": "https://www.amazon.jobs/",
-    "official_domain": "amazon.jobs",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 4,
-    "company_name": "Apple",
-    "slug": "apple",
-    "module": "apple_com.py",
-    "official_careers_url": "https://jobs.apple.com/",
-    "official_domain": "apple.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 5,
     "company_name": "Meta",
     "slug": "meta",
     "module": "metacareers_com.py",
     "official_careers_url": "https://www.metacareers.com/",
     "official_domain": "metacareers.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 6,
+    "rank": 2,
     "company_name": "Netflix",
     "slug": "netflix",
     "module": "netflix_com.py",
     "official_careers_url": "https://jobs.netflix.com/",
     "official_domain": "netflix.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 7,
-    "company_name": "NVIDIA",
-    "slug": "nvidia",
-    "module": "nvidia_com.py",
-    "official_careers_url": "https://www.nvidia.com/en-us/about-nvidia/careers/",
-    "official_domain": "nvidia.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 8,
+    "rank": 3,
     "company_name": "OpenAI",
     "slug": "openai",
     "module": "openai_com.py",
     "official_careers_url": "https://openai.com/careers/",
     "official_domain": "openai.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 9,
+    "rank": 4,
     "company_name": "Anthropic",
     "slug": "anthropic",
     "module": "anthropic_com.py",
     "official_careers_url": "https://www.anthropic.com/careers",
     "official_domain": "anthropic.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 10,
+    "rank": 5,
     "company_name": "xAI",
     "slug": "xai",
     "module": "x_ai.py",
     "official_careers_url": "https://x.ai/careers",
     "official_domain": "x.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 11,
+    "rank": 6,
     "company_name": "ByteDance",
     "slug": "bytedance",
     "module": "bytedance_com.py",
     "official_careers_url": "https://bytedance.com/careers",
     "official_domain": "bytedance.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 12,
+    "rank": 7,
     "company_name": "TikTok",
     "slug": "tiktok",
     "module": "tiktok_com.py",
     "official_careers_url": "https://tiktok.com/careers",
     "official_domain": "tiktok.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 13,
+    "rank": 8,
     "company_name": "Tencent",
     "slug": "tencent",
     "module": "tencent_com.py",
     "official_careers_url": "https://tencent.com/careers",
     "official_domain": "tencent.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 14,
+    "rank": 9,
     "company_name": "Alibaba",
     "slug": "alibaba",
     "module": "alibaba_com.py",
     "official_careers_url": "https://alibaba.com/careers",
     "official_domain": "alibaba.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 15,
-    "company_name": "Baidu",
-    "slug": "baidu",
-    "module": "baidu_com.py",
-    "official_careers_url": "https://baidu.com/careers",
-    "official_domain": "baidu.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 16,
+    "rank": 10,
     "company_name": "Huawei",
     "slug": "huawei",
     "module": "huawei_com.py",
     "official_careers_url": "https://huawei.com/careers",
     "official_domain": "huawei.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 17,
+    "rank": 11,
     "company_name": "Samsung Electronics",
     "slug": "samsung_electronics",
     "module": "samsung_com.py",
     "official_careers_url": "https://samsung.com/careers",
     "official_domain": "samsung.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 18,
+    "rank": 12,
     "company_name": "Sony",
     "slug": "sony",
     "module": "sony_com.py",
     "official_careers_url": "https://sony.com/careers",
     "official_domain": "sony.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 19,
+    "rank": 13,
     "company_name": "Panasonic",
     "slug": "panasonic",
     "module": "panasonic_com.py",
     "official_careers_url": "https://panasonic.com/careers",
     "official_domain": "panasonic.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 20,
+    "rank": 14,
     "company_name": "LG Electronics",
     "slug": "lg_electronics",
     "module": "lg_com.py",
     "official_careers_url": "https://lg.com/careers",
     "official_domain": "lg.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 21,
+    "rank": 15,
     "company_name": "IBM",
     "slug": "ibm",
     "module": "ibm_com.py",
     "official_careers_url": "https://ibm.com/careers",
     "official_domain": "ibm.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 22,
+    "rank": 16,
     "company_name": "Oracle",
     "slug": "oracle",
     "module": "oracle_com.py",
     "official_careers_url": "https://careers.oracle.com/",
     "official_domain": "oracle.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 23,
+    "rank": 17,
     "company_name": "Salesforce",
     "slug": "salesforce",
     "module": "salesforce_com.py",
     "official_careers_url": "https://careers.salesforce.com/",
     "official_domain": "salesforce.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 24,
+    "rank": 18,
     "company_name": "Adobe",
     "slug": "adobe",
     "module": "adobe_com.py",
     "official_careers_url": "https://careers.adobe.com/",
     "official_domain": "adobe.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 25,
-    "company_name": "SAP",
-    "slug": "sap",
-    "module": "sap_com.py",
-    "official_careers_url": "https://jobs.sap.com/",
-    "official_domain": "sap.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 26,
+    "rank": 19,
     "company_name": "Cisco",
     "slug": "cisco",
     "module": "cisco_com.py",
     "official_careers_url": "https://jobs.cisco.com/",
     "official_domain": "cisco.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 27,
+    "rank": 20,
     "company_name": "Intel",
     "slug": "intel",
     "module": "intel_com.py",
     "official_careers_url": "https://intel.com/careers",
     "official_domain": "intel.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 28,
+    "rank": 21,
     "company_name": "AMD",
     "slug": "amd",
     "module": "amd_com.py",
     "official_careers_url": "https://amd.com/careers",
     "official_domain": "amd.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 29,
+    "rank": 22,
     "company_name": "Qualcomm",
     "slug": "qualcomm",
     "module": "qualcomm_com.py",
     "official_careers_url": "https://qualcomm.com/careers",
     "official_domain": "qualcomm.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 30,
+    "rank": 23,
     "company_name": "Dell Technologies",
     "slug": "dell_technologies",
     "module": "dell_com.py",
     "official_careers_url": "https://dell.com/careers",
     "official_domain": "dell.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 31,
+    "rank": 24,
     "company_name": "HP",
     "slug": "hp",
     "module": "hp_com.py",
     "official_careers_url": "https://hp.com/careers",
     "official_domain": "hp.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 32,
+    "rank": 25,
     "company_name": "HPE",
     "slug": "hpe",
     "module": "hpe_com.py",
     "official_careers_url": "https://hpe.com/careers",
     "official_domain": "hpe.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 33,
+    "rank": 26,
     "company_name": "Lenovo",
     "slug": "lenovo",
     "module": "lenovo_com.py",
     "official_careers_url": "https://lenovo.com/careers",
     "official_domain": "lenovo.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 34,
-    "company_name": "Arm",
-    "slug": "arm",
-    "module": "arm_com.py",
-    "official_careers_url": "https://arm.com/careers",
-    "official_domain": "arm.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 35,
+    "rank": 27,
     "company_name": "Broadcom",
     "slug": "broadcom",
     "module": "broadcom_com.py",
     "official_careers_url": "https://broadcom.com/careers",
     "official_domain": "broadcom.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 36,
+    "rank": 28,
     "company_name": "Micron",
     "slug": "micron",
     "module": "micron_com.py",
     "official_careers_url": "https://micron.com/careers",
     "official_domain": "micron.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 37,
+    "rank": 29,
     "company_name": "Texas Instruments",
     "slug": "texas_instruments",
     "module": "ti_com.py",
     "official_careers_url": "https://ti.com/careers",
     "official_domain": "ti.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 38,
+    "rank": 30,
     "company_name": "Applied Materials",
     "slug": "applied_materials",
     "module": "appliedmaterials_com.py",
     "official_careers_url": "https://appliedmaterials.com/careers",
     "official_domain": "appliedmaterials.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 39,
+    "rank": 31,
     "company_name": "ASML",
     "slug": "asml",
     "module": "asml_com.py",
     "official_careers_url": "https://asml.com/careers",
     "official_domain": "asml.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 40,
+    "rank": 32,
     "company_name": "TSMC",
     "slug": "tsmc",
     "module": "tsmc_com.py",
     "official_careers_url": "https://tsmc.com/careers",
     "official_domain": "tsmc.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 41,
+    "rank": 33,
     "company_name": "Synopsys",
     "slug": "synopsys",
     "module": "synopsys_com.py",
     "official_careers_url": "https://synopsys.com/careers",
     "official_domain": "synopsys.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 42,
+    "rank": 34,
     "company_name": "Cadence Design Systems",
     "slug": "cadence_design_systems",
     "module": "cadence_com.py",
     "official_careers_url": "https://cadence.com/careers",
     "official_domain": "cadence.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 43,
+    "rank": 35,
     "company_name": "Ericsson",
     "slug": "ericsson",
     "module": "ericsson_com.py",
     "official_careers_url": "https://ericsson.com/careers",
     "official_domain": "ericsson.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 44,
+    "rank": 36,
     "company_name": "Nokia",
     "slug": "nokia",
     "module": "nokia_com.py",
     "official_careers_url": "https://nokia.com/careers",
     "official_domain": "nokia.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 45,
-    "company_name": "Juniper Networks",
-    "slug": "juniper_networks",
-    "module": "juniper_net.py",
-    "official_careers_url": "https://juniper.net/careers",
-    "official_domain": "juniper.net",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 46,
+    "rank": 37,
     "company_name": "Arista Networks",
     "slug": "arista_networks",
     "module": "arista_com.py",
     "official_careers_url": "https://arista.com/careers",
     "official_domain": "arista.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 47,
-    "company_name": "Motorola Solutions",
-    "slug": "motorola_solutions",
-    "module": "motorolasolutions_com.py",
-    "official_careers_url": "https://motorolasolutions.com/careers",
-    "official_domain": "motorolasolutions.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 48,
+    "rank": 38,
     "company_name": "Red Hat",
     "slug": "red_hat",
     "module": "redhat_com.py",
     "official_careers_url": "https://redhat.com/careers",
     "official_domain": "redhat.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 49,
+    "rank": 39,
     "company_name": "Canonical",
     "slug": "canonical",
     "module": "canonical_com.py",
     "official_careers_url": "https://canonical.com/careers",
     "official_domain": "canonical.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 50,
+    "rank": 40,
     "company_name": "Databricks",
     "slug": "databricks",
     "module": "databricks_com.py",
     "official_careers_url": "https://databricks.com/careers",
     "official_domain": "databricks.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 51,
+    "rank": 41,
     "company_name": "Snowflake",
     "slug": "snowflake",
     "module": "snowflake_com.py",
     "official_careers_url": "https://snowflake.com/careers",
     "official_domain": "snowflake.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 52,
-    "company_name": "Palantir",
-    "slug": "palantir",
-    "module": "palantir_com.py",
-    "official_careers_url": "https://palantir.com/careers",
-    "official_domain": "palantir.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 53,
+    "rank": 42,
     "company_name": "Scale AI",
     "slug": "scale_ai",
     "module": "scale_com.py",
     "official_careers_url": "https://scale.com/careers",
     "official_domain": "scale.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 54,
+    "rank": 43,
     "company_name": "Cohere",
     "slug": "cohere",
     "module": "cohere_com.py",
     "official_careers_url": "https://cohere.com/careers",
     "official_domain": "cohere.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 55,
+    "rank": 44,
     "company_name": "Mistral AI",
     "slug": "mistral_ai",
     "module": "mistral_ai.py",
     "official_careers_url": "https://mistral.ai/careers",
     "official_domain": "mistral.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 56,
+    "rank": 45,
     "company_name": "Hugging Face",
     "slug": "hugging_face",
     "module": "huggingface_co.py",
     "official_careers_url": "https://huggingface.co/careers",
     "official_domain": "huggingface.co",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 57,
+    "rank": 46,
     "company_name": "Perplexity",
     "slug": "perplexity",
     "module": "perplexity_ai.py",
     "official_careers_url": "https://perplexity.ai/careers",
     "official_domain": "perplexity.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 58,
+    "rank": 47,
     "company_name": "Runway",
     "slug": "runway",
     "module": "runwayml_com.py",
     "official_careers_url": "https://runwayml.com/careers",
     "official_domain": "runwayml.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 59,
+    "rank": 48,
     "company_name": "Stability AI",
     "slug": "stability_ai",
     "module": "stability_ai.py",
     "official_careers_url": "https://stability.ai/careers",
     "official_domain": "stability.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 60,
+    "rank": 49,
     "company_name": "ElevenLabs",
     "slug": "elevenlabs",
     "module": "elevenlabs_io.py",
     "official_careers_url": "https://elevenlabs.io/careers",
     "official_domain": "elevenlabs.io",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 61,
+    "rank": 50,
     "company_name": "Character.AI",
     "slug": "character_ai",
     "module": "character_ai.py",
     "official_careers_url": "https://character.ai/careers",
     "official_domain": "character.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 62,
+    "rank": 51,
     "company_name": "Waymo",
     "slug": "waymo",
     "module": "waymo_com.py",
     "official_careers_url": "https://waymo.com/careers",
     "official_domain": "waymo.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 63,
+    "rank": 52,
     "company_name": "Anduril",
     "slug": "anduril",
     "module": "anduril_com.py",
     "official_careers_url": "https://anduril.com/careers",
     "official_domain": "anduril.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 64,
+    "rank": 53,
     "company_name": "MongoDB",
     "slug": "mongodb",
     "module": "mongodb_com.py",
     "official_careers_url": "https://mongodb.com/careers",
     "official_domain": "mongodb.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 65,
-    "company_name": "Elastic",
-    "slug": "elastic",
-    "module": "elastic_co.py",
-    "official_careers_url": "https://elastic.co/careers",
-    "official_domain": "elastic.co",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 66,
-    "company_name": "Confluent",
-    "slug": "confluent",
-    "module": "confluent_io.py",
-    "official_careers_url": "https://confluent.io/careers",
-    "official_domain": "confluent.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 67,
+    "rank": 54,
     "company_name": "Redis",
     "slug": "redis",
     "module": "redis_io.py",
     "official_careers_url": "https://redis.io/careers",
     "official_domain": "redis.io",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 68,
+    "rank": 55,
     "company_name": "Cockroach Labs",
     "slug": "cockroach_labs",
     "module": "cockroachlabs_com.py",
     "official_careers_url": "https://cockroachlabs.com/careers",
     "official_domain": "cockroachlabs.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 69,
+    "rank": 56,
     "company_name": "Neo4j",
     "slug": "neo4j",
     "module": "neo4j_com.py",
     "official_careers_url": "https://neo4j.com/careers",
     "official_domain": "neo4j.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 70,
-    "company_name": "ClickHouse",
-    "slug": "clickhouse",
-    "module": "clickhouse_com.py",
-    "official_careers_url": "https://clickhouse.com/careers",
-    "official_domain": "clickhouse.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 71,
+    "rank": 57,
     "company_name": "PlanetScale",
     "slug": "planetscale",
     "module": "planetscale_com.py",
     "official_careers_url": "https://planetscale.com/careers",
     "official_domain": "planetscale.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 72,
+    "rank": 58,
     "company_name": "Supabase",
     "slug": "supabase",
     "module": "supabase_com.py",
     "official_careers_url": "https://supabase.com/careers",
     "official_domain": "supabase.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 73,
+    "rank": 59,
     "company_name": "Vercel",
     "slug": "vercel",
     "module": "vercel_com.py",
     "official_careers_url": "https://vercel.com/careers",
     "official_domain": "vercel.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 74,
+    "rank": 60,
     "company_name": "Netlify",
     "slug": "netlify",
     "module": "netlify_com.py",
     "official_careers_url": "https://netlify.com/careers",
     "official_domain": "netlify.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 75,
-    "company_name": "Cloudflare",
-    "slug": "cloudflare",
-    "module": "cloudflare_com.py",
-    "official_careers_url": "https://www.cloudflare.com/careers/",
-    "official_domain": "cloudflare.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 76,
+    "rank": 61,
     "company_name": "Fastly",
     "slug": "fastly",
     "module": "fastly_com.py",
     "official_careers_url": "https://fastly.com/careers",
     "official_domain": "fastly.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 77,
-    "company_name": "Akamai",
-    "slug": "akamai",
-    "module": "akamai_com.py",
-    "official_careers_url": "https://akamai.com/careers",
-    "official_domain": "akamai.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 78,
+    "rank": 62,
     "company_name": "GitHub",
     "slug": "github",
     "module": "github_com.py",
     "official_careers_url": "https://github.careers/",
     "official_domain": "github.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 79,
+    "rank": 63,
     "company_name": "GitLab",
     "slug": "gitlab",
     "module": "gitlab_com.py",
     "official_careers_url": "https://about.gitlab.com/jobs/",
     "official_domain": "gitlab.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 80,
-    "company_name": "Atlassian",
-    "slug": "atlassian",
-    "module": "atlassian_com.py",
-    "official_careers_url": "https://www.atlassian.com/company/careers",
-    "official_domain": "atlassian.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 81,
-    "company_name": "JetBrains",
-    "slug": "jetbrains",
-    "module": "jetbrains_com.py",
-    "official_careers_url": "https://jetbrains.com/careers",
-    "official_domain": "jetbrains.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 82,
-    "company_name": "Docker",
-    "slug": "docker",
-    "module": "docker_com.py",
-    "official_careers_url": "https://docker.com/careers",
-    "official_domain": "docker.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 83,
+    "rank": 64,
     "company_name": "Postman",
     "slug": "postman",
     "module": "postman_com.py",
     "official_careers_url": "https://postman.com/careers",
     "official_domain": "postman.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 84,
+    "rank": 65,
     "company_name": "Figma",
     "slug": "figma",
     "module": "figma_com.py",
     "official_careers_url": "https://figma.com/careers",
     "official_domain": "figma.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 85,
+    "rank": 66,
     "company_name": "Canva",
     "slug": "canva",
     "module": "canva_com.py",
     "official_careers_url": "https://canva.com/careers",
     "official_domain": "canva.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 86,
+    "rank": 67,
     "company_name": "Notion",
     "slug": "notion",
     "module": "notion_com.py",
     "official_careers_url": "https://notion.com/careers",
     "official_domain": "notion.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 87,
+    "rank": 68,
     "company_name": "Linear",
     "slug": "linear",
     "module": "linear_app.py",
     "official_careers_url": "https://linear.app/careers",
     "official_domain": "linear.app",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 88,
+    "rank": 69,
     "company_name": "Airtable",
     "slug": "airtable",
     "module": "airtable_com.py",
     "official_careers_url": "https://airtable.com/careers",
     "official_domain": "airtable.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 89,
-    "company_name": "Miro",
-    "slug": "miro",
-    "module": "miro_com.py",
-    "official_careers_url": "https://miro.com/careers",
-    "official_domain": "miro.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 90,
-    "company_name": "ClickUp",
-    "slug": "clickup",
-    "module": "clickup_com.py",
-    "official_careers_url": "https://clickup.com/careers",
-    "official_domain": "clickup.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 91,
+    "rank": 70,
     "company_name": "Asana",
     "slug": "asana",
     "module": "asana_com.py",
     "official_careers_url": "https://asana.com/careers",
     "official_domain": "asana.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 92,
-    "company_name": "Monday.com",
-    "slug": "monday_com",
-    "module": "monday_com.py",
-    "official_careers_url": "https://monday.com/careers",
-    "official_domain": "monday.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 93,
+    "rank": 71,
     "company_name": "Zapier",
     "slug": "zapier",
     "module": "zapier_com.py",
     "official_careers_url": "https://zapier.com/careers",
     "official_domain": "zapier.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 94,
+    "rank": 72,
     "company_name": "1Password",
     "slug": "1password",
     "module": "1password_com.py",
     "official_careers_url": "https://1password.com/careers",
     "official_domain": "1password.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 95,
-    "company_name": "Snyk",
-    "slug": "snyk",
-    "module": "snyk_io.py",
-    "official_careers_url": "https://snyk.io/careers",
-    "official_domain": "snyk.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 96,
-    "company_name": "Datadog",
-    "slug": "datadog",
-    "module": "datadoghq_com.py",
-    "official_careers_url": "https://datadoghq.com/careers",
-    "official_domain": "datadoghq.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 97,
+    "rank": 73,
     "company_name": "Grafana Labs",
     "slug": "grafana_labs",
     "module": "grafana_com.py",
     "official_careers_url": "https://grafana.com/careers",
     "official_domain": "grafana.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 98,
+    "rank": 74,
     "company_name": "New Relic",
     "slug": "new_relic",
     "module": "newrelic_com.py",
     "official_careers_url": "https://newrelic.com/careers",
     "official_domain": "newrelic.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 99,
-    "company_name": "Splunk",
-    "slug": "splunk",
-    "module": "splunk_com.py",
-    "official_careers_url": "https://splunk.com/careers",
-    "official_domain": "splunk.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 100,
-    "company_name": "Dynatrace",
-    "slug": "dynatrace",
-    "module": "dynatrace_com.py",
-    "official_careers_url": "https://dynatrace.com/careers",
-    "official_domain": "dynatrace.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 101,
-    "company_name": "HashiCorp",
-    "slug": "hashicorp",
-    "module": "hashicorp_com.py",
-    "official_careers_url": "https://hashicorp.com/careers",
-    "official_domain": "hashicorp.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 102,
+    "rank": 75,
     "company_name": "JFrog",
     "slug": "jfrog",
     "module": "jfrog_com.py",
     "official_careers_url": "https://jfrog.com/careers",
     "official_domain": "jfrog.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 103,
-    "company_name": "Sonar",
-    "slug": "sonar",
-    "module": "sonarsource_com.py",
-    "official_careers_url": "https://sonarsource.com/careers",
-    "official_domain": "sonarsource.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 104,
+    "rank": 76,
     "company_name": "CircleCI",
     "slug": "circleci",
     "module": "circleci_com.py",
     "official_careers_url": "https://circleci.com/careers",
     "official_domain": "circleci.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 105,
+    "rank": 77,
     "company_name": "LaunchDarkly",
     "slug": "launchdarkly",
     "module": "launchdarkly_com.py",
     "official_careers_url": "https://launchdarkly.com/careers",
     "official_domain": "launchdarkly.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 106,
+    "rank": 78,
     "company_name": "Amplitude",
     "slug": "amplitude",
     "module": "amplitude_com.py",
     "official_careers_url": "https://amplitude.com/careers",
     "official_domain": "amplitude.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 107,
+    "rank": 79,
     "company_name": "Mixpanel",
     "slug": "mixpanel",
     "module": "mixpanel_com.py",
     "official_careers_url": "https://mixpanel.com/careers",
     "official_domain": "mixpanel.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 108,
+    "rank": 80,
     "company_name": "Algolia",
     "slug": "algolia",
     "module": "algolia_com.py",
     "official_careers_url": "https://algolia.com/careers",
     "official_domain": "algolia.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 109,
-    "company_name": "Contentful",
-    "slug": "contentful",
-    "module": "contentful_com.py",
-    "official_careers_url": "https://contentful.com/careers",
-    "official_domain": "contentful.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 110,
+    "rank": 81,
     "company_name": "Stripe",
     "slug": "stripe",
     "module": "stripe_com.py",
     "official_careers_url": "https://stripe.com/jobs",
     "official_domain": "stripe.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 111,
-    "company_name": "Block",
-    "slug": "block",
-    "module": "block_xyz.py",
-    "official_careers_url": "https://block.xyz/careers",
-    "official_domain": "block.xyz",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 112,
-    "company_name": "Wise",
-    "slug": "wise",
-    "module": "wise_jobs.py",
-    "official_careers_url": "https://wise.jobs/",
-    "official_domain": "wise.jobs",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 113,
-    "company_name": "PayPal",
-    "slug": "paypal",
-    "module": "paypal_com.py",
-    "official_careers_url": "https://paypal.com/careers",
-    "official_domain": "paypal.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 114,
-    "company_name": "Adyen",
-    "slug": "adyen",
-    "module": "adyen_com.py",
-    "official_careers_url": "https://adyen.com/careers",
-    "official_domain": "adyen.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 115,
-    "company_name": "Klarna",
-    "slug": "klarna",
-    "module": "klarna_com.py",
-    "official_careers_url": "https://klarna.com/careers",
-    "official_domain": "klarna.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 116,
+    "rank": 82,
     "company_name": "Checkout.com",
     "slug": "checkout_com",
     "module": "checkout_com.py",
     "official_careers_url": "https://checkout.com/careers",
     "official_domain": "checkout.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 117,
-    "company_name": "Plaid",
-    "slug": "plaid",
-    "module": "plaid_com.py",
-    "official_careers_url": "https://plaid.com/careers",
-    "official_domain": "plaid.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 118,
-    "company_name": "Brex",
-    "slug": "brex",
-    "module": "brex_com.py",
-    "official_careers_url": "https://brex.com/careers",
-    "official_domain": "brex.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 119,
+    "rank": 83,
     "company_name": "Ramp",
     "slug": "ramp",
     "module": "ramp_com.py",
     "official_careers_url": "https://ramp.com/careers",
     "official_domain": "ramp.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 120,
-    "company_name": "Chime",
-    "slug": "chime",
-    "module": "chime_com.py",
-    "official_careers_url": "https://chime.com/careers",
-    "official_domain": "chime.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 121,
-    "company_name": "Robinhood",
-    "slug": "robinhood",
-    "module": "robinhood_com.py",
-    "official_careers_url": "https://robinhood.com/careers",
-    "official_domain": "robinhood.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 122,
-    "company_name": "Coinbase",
-    "slug": "coinbase",
-    "module": "coinbase_com.py",
-    "official_careers_url": "https://coinbase.com/careers",
-    "official_domain": "coinbase.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 123,
-    "company_name": "Kraken",
-    "slug": "kraken",
-    "module": "kraken_com.py",
-    "official_careers_url": "https://kraken.com/careers",
-    "official_domain": "kraken.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 124,
-    "company_name": "Revolut",
-    "slug": "revolut",
-    "module": "revolut_com.py",
-    "official_careers_url": "https://revolut.com/careers",
-    "official_domain": "revolut.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 125,
+    "rank": 84,
     "company_name": "Monzo",
     "slug": "monzo",
     "module": "monzo_com.py",
     "official_careers_url": "https://monzo.com/careers",
     "official_domain": "monzo.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 126,
-    "company_name": "Nubank",
-    "slug": "nubank",
-    "module": "nubank_com_br.py",
-    "official_careers_url": "https://nubank.com.br/careers",
-    "official_domain": "nubank.com.br",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 127,
-    "company_name": "SoFi",
-    "slug": "sofi",
-    "module": "sofi_com.py",
-    "official_careers_url": "https://sofi.com/careers",
-    "official_domain": "sofi.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 128,
-    "company_name": "JPMorgan Chase",
-    "slug": "jpmorgan_chase",
-    "module": "jpmorganchase_com.py",
-    "official_careers_url": "https://careers.jpmorgan.com/",
-    "official_domain": "jpmorganchase.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 129,
-    "company_name": "Goldman Sachs",
-    "slug": "goldman_sachs",
-    "module": "goldmansachs_com.py",
-    "official_careers_url": "https://goldmansachs.com/careers",
-    "official_domain": "goldmansachs.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 130,
-    "company_name": "Morgan Stanley",
-    "slug": "morgan_stanley",
-    "module": "morganstanley_com.py",
-    "official_careers_url": "https://morganstanley.com/careers",
-    "official_domain": "morganstanley.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 131,
-    "company_name": "Citadel",
-    "slug": "citadel",
-    "module": "citadel_com.py",
-    "official_careers_url": "https://citadel.com/careers",
-    "official_domain": "citadel.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 132,
-    "company_name": "Jane Street",
-    "slug": "jane_street",
-    "module": "janestreet_com.py",
-    "official_careers_url": "https://janestreet.com/careers",
-    "official_domain": "janestreet.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 133,
-    "company_name": "Two Sigma",
-    "slug": "two_sigma",
-    "module": "twosigma_com.py",
-    "official_careers_url": "https://twosigma.com/careers",
-    "official_domain": "twosigma.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 134,
-    "company_name": "Bloomberg",
-    "slug": "bloomberg",
-    "module": "bloomberg_com.py",
-    "official_careers_url": "https://bloomberg.com/careers",
-    "official_domain": "bloomberg.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 135,
-    "company_name": "FactSet",
-    "slug": "factset",
-    "module": "factset_com.py",
-    "official_careers_url": "https://factset.com/careers",
-    "official_domain": "factset.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 136,
-    "company_name": "Morningstar",
-    "slug": "morningstar",
-    "module": "morningstar_com.py",
-    "official_careers_url": "https://morningstar.com/careers",
-    "official_domain": "morningstar.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 137,
-    "company_name": "Tata Consultancy Services",
-    "slug": "tata_consultancy_services",
-    "module": "tcs_com.py",
-    "official_careers_url": "https://www.tcs.com/careers",
-    "official_domain": "tcs.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 138,
-    "company_name": "Infosys",
-    "slug": "infosys",
-    "module": "infosys_com.py",
-    "official_careers_url": "https://www.infosys.com/careers",
-    "official_domain": "infosys.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 139,
-    "company_name": "Wipro",
-    "slug": "wipro",
-    "module": "wipro_com.py",
-    "official_careers_url": "https://careers.wipro.com/",
-    "official_domain": "wipro.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 140,
-    "company_name": "HCLTech",
-    "slug": "hcltech",
-    "module": "hcltech_com.py",
-    "official_careers_url": "https://www.hcltech.com/careers",
-    "official_domain": "hcltech.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 141,
-    "company_name": "Tech Mahindra",
-    "slug": "tech_mahindra",
-    "module": "techmahindra_com.py",
-    "official_careers_url": "https://careers.techmahindra.com/",
-    "official_domain": "techmahindra.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 142,
+    "rank": 85,
     "company_name": "LTIMindtree",
     "slug": "ltimindtree",
     "module": "ltimindtree_com.py",
     "official_careers_url": "https://ltimindtree.com/careers",
     "official_domain": "ltimindtree.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 143,
-    "company_name": "Persistent Systems",
-    "slug": "persistent_systems",
-    "module": "persistent_com.py",
-    "official_careers_url": "https://persistent.com/careers",
-    "official_domain": "persistent.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 144,
-    "company_name": "Mphasis",
-    "slug": "mphasis",
-    "module": "mphasis_com.py",
-    "official_careers_url": "https://mphasis.com/careers",
-    "official_domain": "mphasis.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 145,
-    "company_name": "Coforge",
-    "slug": "coforge",
-    "module": "coforge_com.py",
-    "official_careers_url": "https://coforge.com/careers",
-    "official_domain": "coforge.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 146,
-    "company_name": "Hexaware",
-    "slug": "hexaware",
-    "module": "hexaware_com.py",
-    "official_careers_url": "https://hexaware.com/careers",
-    "official_domain": "hexaware.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 147,
-    "company_name": "Birlasoft",
-    "slug": "birlasoft",
-    "module": "birlasoft_com.py",
-    "official_careers_url": "https://birlasoft.com/careers",
-    "official_domain": "birlasoft.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 148,
-    "company_name": "Zensar Technologies",
-    "slug": "zensar_technologies",
-    "module": "zensar_com.py",
-    "official_careers_url": "https://zensar.com/careers",
-    "official_domain": "zensar.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 149,
-    "company_name": "KPIT Technologies",
-    "slug": "kpit_technologies",
-    "module": "kpit_com.py",
-    "official_careers_url": "https://kpit.com/careers",
-    "official_domain": "kpit.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 150,
-    "company_name": "Tata Elxsi",
-    "slug": "tata_elxsi",
-    "module": "tataelxsi_com.py",
-    "official_careers_url": "https://tataelxsi.com/careers",
-    "official_domain": "tataelxsi.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 151,
-    "company_name": "Cyient",
-    "slug": "cyient",
-    "module": "cyient_com.py",
-    "official_careers_url": "https://cyient.com/careers",
-    "official_domain": "cyient.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 152,
-    "company_name": "Happiest Minds",
-    "slug": "happiest_minds",
-    "module": "happiestminds_com.py",
-    "official_careers_url": "https://happiestminds.com/careers",
-    "official_domain": "happiestminds.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 153,
-    "company_name": "GlobalLogic",
-    "slug": "globallogic",
-    "module": "globallogic_com.py",
-    "official_careers_url": "https://globallogic.com/careers",
-    "official_domain": "globallogic.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 154,
+    "rank": 86,
     "company_name": "Thoughtworks",
     "slug": "thoughtworks",
     "module": "thoughtworks_com.py",
     "official_careers_url": "https://thoughtworks.com/careers",
     "official_domain": "thoughtworks.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 155,
-    "company_name": "EPAM Systems",
-    "slug": "epam_systems",
-    "module": "epam_com.py",
-    "official_careers_url": "https://epam.com/careers",
-    "official_domain": "epam.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 156,
-    "company_name": "Publicis Sapient",
-    "slug": "publicis_sapient",
-    "module": "publicissapient_com.py",
-    "official_careers_url": "https://publicissapient.com/careers",
-    "official_domain": "publicissapient.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 157,
-    "company_name": "Accenture",
-    "slug": "accenture",
-    "module": "accenture_com.py",
-    "official_careers_url": "https://www.accenture.com/in-en/careers",
-    "official_domain": "accenture.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 158,
-    "company_name": "Capgemini",
-    "slug": "capgemini",
-    "module": "capgemini_com.py",
-    "official_careers_url": "https://capgemini.com/careers",
-    "official_domain": "capgemini.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 159,
-    "company_name": "Cognizant",
-    "slug": "cognizant",
-    "module": "cognizant_com.py",
-    "official_careers_url": "https://cognizant.com/careers",
-    "official_domain": "cognizant.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 160,
-    "company_name": "DXC Technology",
-    "slug": "dxc_technology",
-    "module": "dxc_com.py",
-    "official_careers_url": "https://careers.dxc.com/",
-    "official_domain": "dxc.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 161,
-    "company_name": "NTT DATA",
-    "slug": "ntt_data",
-    "module": "nttdata_com.py",
-    "official_careers_url": "https://www.nttdata.com/en-us/careers",
-    "official_domain": "nttdata.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 162,
+    "rank": 87,
     "company_name": "Kyndryl",
     "slug": "kyndryl",
     "module": "kyndryl_com.py",
     "official_careers_url": "https://kyndryl.com/careers",
     "official_domain": "kyndryl.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 163,
+    "rank": 88,
     "company_name": "Deloitte",
     "slug": "deloitte",
     "module": "deloitte_com.py",
     "official_careers_url": "https://deloitte.com/careers",
     "official_domain": "deloitte.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 164,
-    "company_name": "PwC",
-    "slug": "pwc",
-    "module": "pwc_com.py",
-    "official_careers_url": "https://pwc.com/careers",
-    "official_domain": "pwc.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 165,
-    "company_name": "EY",
-    "slug": "ey",
-    "module": "ey_com.py",
-    "official_careers_url": "https://ey.com/careers",
-    "official_domain": "ey.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 166,
-    "company_name": "KPMG",
-    "slug": "kpmg",
-    "module": "kpmg_com.py",
-    "official_careers_url": "https://kpmg.com/careers",
-    "official_domain": "kpmg.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 167,
-    "company_name": "Zoho",
-    "slug": "zoho",
-    "module": "zoho_com.py",
-    "official_careers_url": "https://www.zoho.com/careers/",
-    "official_domain": "zoho.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 168,
+    "rank": 89,
     "company_name": "Freshworks",
     "slug": "freshworks",
     "module": "freshworks_com.py",
     "official_careers_url": "https://www.freshworks.com/company/careers/",
     "official_domain": "freshworks.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 169,
+    "rank": 90,
     "company_name": "BrowserStack",
     "slug": "browserstack",
     "module": "browserstack_com.py",
     "official_careers_url": "https://www.browserstack.com/careers",
     "official_domain": "browserstack.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 170,
+    "rank": 91,
     "company_name": "Chargebee",
     "slug": "chargebee",
     "module": "chargebee_com.py",
     "official_careers_url": "https://chargebee.com/careers",
     "official_domain": "chargebee.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 171,
-    "company_name": "Kissflow",
-    "slug": "kissflow",
-    "module": "kissflow_com.py",
-    "official_careers_url": "https://kissflow.com/careers",
-    "official_domain": "kissflow.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 172,
+    "rank": 92,
     "company_name": "Druva",
     "slug": "druva",
     "module": "druva_com.py",
     "official_careers_url": "https://druva.com/careers",
     "official_domain": "druva.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 173,
-    "company_name": "Hasura",
-    "slug": "hasura",
-    "module": "hasura_io.py",
-    "official_careers_url": "https://hasura.io/careers",
-    "official_domain": "hasura.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 174,
-    "company_name": "Amagi",
-    "slug": "amagi",
-    "module": "amagi_com.py",
-    "official_careers_url": "https://amagi.com/careers",
-    "official_domain": "amagi.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 175,
-    "company_name": "InMobi",
-    "slug": "inmobi",
-    "module": "inmobi_com.py",
-    "official_careers_url": "https://inmobi.com/careers",
-    "official_domain": "inmobi.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 176,
+    "rank": 93,
     "company_name": "Glance",
     "slug": "glance",
     "module": "glance_com.py",
     "official_careers_url": "https://glance.com/careers",
     "official_domain": "glance.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 177,
-    "company_name": "ShareChat",
-    "slug": "sharechat",
-    "module": "sharechat_com.py",
-    "official_careers_url": "https://sharechat.com/careers",
-    "official_domain": "sharechat.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 178,
-    "company_name": "Meesho",
-    "slug": "meesho",
-    "module": "meesho_io.py",
-    "official_careers_url": "https://www.meesho.io/jobs",
-    "official_domain": "meesho.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 179,
-    "company_name": "Flipkart",
-    "slug": "flipkart",
-    "module": "flipkartcareers_com.py",
-    "official_careers_url": "https://www.flipkartcareers.com/",
-    "official_domain": "flipkartcareers.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 180,
-    "company_name": "Myntra",
-    "slug": "myntra",
-    "module": "myntra_com.py",
-    "official_careers_url": "https://myntra.com/careers",
-    "official_domain": "myntra.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 181,
-    "company_name": "Swiggy",
-    "slug": "swiggy",
-    "module": "swiggy_com.py",
-    "official_careers_url": "https://careers.swiggy.com/",
-    "official_domain": "swiggy.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 182,
-    "company_name": "Zomato",
-    "slug": "zomato",
-    "module": "zomato_com.py",
-    "official_careers_url": "https://www.zomato.com/careers",
-    "official_domain": "zomato.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 183,
-    "company_name": "Zepto",
-    "slug": "zepto",
-    "module": "zeptonow_com.py",
-    "official_careers_url": "https://zeptonow.com/careers",
-    "official_domain": "zeptonow.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 184,
-    "company_name": "BigBasket",
-    "slug": "bigbasket",
-    "module": "bigbasket_com.py",
-    "official_careers_url": "https://bigbasket.com/careers",
-    "official_domain": "bigbasket.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 185,
-    "company_name": "Juspay",
-    "slug": "juspay",
-    "module": "juspay_io.py",
-    "official_careers_url": "https://juspay.io/careers",
-    "official_domain": "juspay.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 186,
+    "rank": 94,
     "company_name": "Razorpay",
     "slug": "razorpay",
     "module": "razorpay_com.py",
     "official_careers_url": "https://razorpay.com/jobs/",
     "official_domain": "razorpay.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 187,
-    "company_name": "Cashfree Payments",
-    "slug": "cashfree_payments",
-    "module": "cashfree_com.py",
-    "official_careers_url": "https://cashfree.com/careers",
-    "official_domain": "cashfree.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 188,
-    "company_name": "Pine Labs",
-    "slug": "pine_labs",
-    "module": "pinelabs_com.py",
-    "official_careers_url": "https://pinelabs.com/careers",
-    "official_domain": "pinelabs.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 189,
+    "rank": 95,
     "company_name": "Paytm",
     "slug": "paytm",
     "module": "paytm_com.py",
     "official_careers_url": "https://paytm.com/careers",
     "official_domain": "paytm.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 190,
-    "company_name": "PhonePe",
-    "slug": "phonepe",
-    "module": "phonepe_com.py",
-    "official_careers_url": "https://www.phonepe.com/careers/",
-    "official_domain": "phonepe.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 191,
+    "rank": 96,
     "company_name": "CRED",
     "slug": "cred",
     "module": "cred_club.py",
     "official_careers_url": "https://careers.cred.club/",
     "official_domain": "cred.club",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 192,
-    "company_name": "Groww",
-    "slug": "groww",
-    "module": "groww_in.py",
-    "official_careers_url": "https://groww.in/careers",
-    "official_domain": "groww.in",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 193,
-    "company_name": "Zerodha",
-    "slug": "zerodha",
-    "module": "zerodha_com.py",
-    "official_careers_url": "https://zerodha.com/careers",
-    "official_domain": "zerodha.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 194,
-    "company_name": "Upstox",
-    "slug": "upstox",
-    "module": "upstox_com.py",
-    "official_careers_url": "https://upstox.com/careers",
-    "official_domain": "upstox.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 195,
-    "company_name": "Angel One",
-    "slug": "angel_one",
-    "module": "angelone_in.py",
-    "official_careers_url": "https://angelone.in/careers",
-    "official_domain": "angelone.in",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 196,
-    "company_name": "Policybazaar",
-    "slug": "policybazaar",
-    "module": "policybazaar_com.py",
-    "official_careers_url": "https://policybazaar.com/careers",
-    "official_domain": "policybazaar.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 197,
-    "company_name": "Acko",
-    "slug": "acko",
-    "module": "acko_com.py",
-    "official_careers_url": "https://acko.com/careers",
-    "official_domain": "acko.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 198,
-    "company_name": "Digit Insurance",
-    "slug": "digit_insurance",
-    "module": "godigit_com.py",
-    "official_careers_url": "https://godigit.com/careers",
-    "official_domain": "godigit.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 199,
-    "company_name": "Dream11",
-    "slug": "dream11",
-    "module": "dreamsports_group.py",
-    "official_careers_url": "https://dreamsports.group/careers",
-    "official_domain": "dreamsports.group",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 200,
-    "company_name": "Games24x7",
-    "slug": "games24x7",
-    "module": "games24x7_com.py",
-    "official_careers_url": "https://games24x7.com/careers",
-    "official_domain": "games24x7.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 201,
-    "company_name": "Nazara Technologies",
-    "slug": "nazara_technologies",
-    "module": "nazara_com.py",
-    "official_careers_url": "https://nazara.com/careers",
-    "official_domain": "nazara.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 202,
-    "company_name": "Practo",
-    "slug": "practo",
-    "module": "practo_com.py",
-    "official_careers_url": "https://practo.com/careers",
-    "official_domain": "practo.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 203,
-    "company_name": "PharmEasy",
-    "slug": "pharmeasy",
-    "module": "pharmeasy_in.py",
-    "official_careers_url": "https://pharmeasy.in/careers",
-    "official_domain": "pharmeasy.in",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 204,
-    "company_name": "Tata 1mg",
-    "slug": "tata_1mg",
-    "module": "1mg_com.py",
-    "official_careers_url": "https://www.1mg.com/jobs",
-    "official_domain": "1mg.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 205,
-    "company_name": "Innovaccer",
-    "slug": "innovaccer",
-    "module": "innovaccer_com.py",
-    "official_careers_url": "https://innovaccer.com/careers",
-    "official_domain": "innovaccer.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 206,
-    "company_name": "Lenskart",
-    "slug": "lenskart",
-    "module": "lenskart_com.py",
-    "official_careers_url": "https://lenskart.com/careers",
-    "official_domain": "lenskart.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 207,
-    "company_name": "Ola",
-    "slug": "ola",
-    "module": "olacabs_com.py",
-    "official_careers_url": "https://olacabs.com/careers",
-    "official_domain": "olacabs.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 208,
-    "company_name": "Ola Electric",
-    "slug": "ola_electric",
-    "module": "olaelectric_com.py",
-    "official_careers_url": "https://olaelectric.com/careers",
-    "official_domain": "olaelectric.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 209,
-    "company_name": "Ather Energy",
-    "slug": "ather_energy",
-    "module": "atherenergy_com.py",
-    "official_careers_url": "https://atherenergy.com/careers",
-    "official_domain": "atherenergy.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 210,
-    "company_name": "Cars24",
-    "slug": "cars24",
-    "module": "cars24_com.py",
-    "official_careers_url": "https://cars24.com/careers",
-    "official_domain": "cars24.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 211,
-    "company_name": "NoBroker",
-    "slug": "nobroker",
-    "module": "nobroker_in.py",
-    "official_careers_url": "https://nobroker.in/careers",
-    "official_domain": "nobroker.in",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 212,
-    "company_name": "Urban Company",
-    "slug": "urban_company",
-    "module": "urbancompany_com.py",
-    "official_careers_url": "https://careers.urbancompany.com/jobs",
-    "official_domain": "urbancompany.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 213,
-    "company_name": "OfBusiness",
-    "slug": "ofbusiness",
-    "module": "ofbusiness_com.py",
-    "official_careers_url": "https://ofbusiness.com/careers",
-    "official_domain": "ofbusiness.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 214,
-    "company_name": "Udaan",
-    "slug": "udaan",
-    "module": "udaan_com.py",
-    "official_careers_url": "https://udaan.com/careers",
-    "official_domain": "udaan.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 215,
-    "company_name": "Delhivery",
-    "slug": "delhivery",
-    "module": "delhivery_com.py",
-    "official_careers_url": "https://delhivery.com/careers",
-    "official_domain": "delhivery.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 216,
-    "company_name": "BlackBuck",
-    "slug": "blackbuck",
-    "module": "blackbuck_com.py",
-    "official_careers_url": "https://blackbuck.com/careers",
-    "official_domain": "blackbuck.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 217,
-    "company_name": "Xpressbees",
-    "slug": "xpressbees",
-    "module": "xpressbees_com.py",
-    "official_careers_url": "https://xpressbees.com/careers",
-    "official_domain": "xpressbees.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 218,
-    "company_name": "Jio Platforms",
-    "slug": "jio_platforms",
-    "module": "jio_com.py",
-    "official_careers_url": "https://jio.com/careers",
-    "official_domain": "jio.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 219,
-    "company_name": "Reliance Retail",
-    "slug": "reliance_retail",
-    "module": "ril_com.py",
-    "official_careers_url": "https://ril.com/careers",
-    "official_domain": "ril.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 220,
-    "company_name": "Airtel",
-    "slug": "airtel",
-    "module": "airtel_in.py",
-    "official_careers_url": "https://airtel.in/careers",
-    "official_domain": "airtel.in",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 221,
-    "company_name": "Tata Communications",
-    "slug": "tata_communications",
-    "module": "tatacommunications_com.py",
-    "official_careers_url": "https://tatacommunications.com/careers",
-    "official_domain": "tatacommunications.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 222,
-    "company_name": "VerSe Innovation",
-    "slug": "verse_innovation",
-    "module": "verse_in.py",
-    "official_careers_url": "https://verse.in/careers",
-    "official_domain": "verse.in",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 223,
-    "company_name": "OYO",
-    "slug": "oyo",
-    "module": "oyorooms_com.py",
-    "official_careers_url": "https://oyorooms.com/careers",
-    "official_domain": "oyorooms.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 224,
-    "company_name": "MakeMyTrip",
-    "slug": "makemytrip",
-    "module": "makemytrip_com.py",
-    "official_careers_url": "https://makemytrip.com/careers",
-    "official_domain": "makemytrip.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 225,
-    "company_name": "Cleartrip",
-    "slug": "cleartrip",
-    "module": "cleartrip_com.py",
-    "official_careers_url": "https://careers.cleartrip.com/",
-    "official_domain": "cleartrip.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 226,
-    "company_name": "ixigo",
-    "slug": "ixigo",
-    "module": "ixigo_com.py",
-    "official_careers_url": "https://ixigo.com/careers",
-    "official_domain": "ixigo.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 227,
-    "company_name": "Navi",
-    "slug": "navi",
-    "module": "navi_com.py",
-    "official_careers_url": "https://navi.com/careers",
-    "official_domain": "navi.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 228,
+    "rank": 97,
     "company_name": "Slice",
     "slug": "slice",
     "module": "sliceit_com.py",
     "official_careers_url": "https://sliceit.com/careers",
     "official_domain": "sliceit.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 229,
-    "company_name": "Jupiter",
-    "slug": "jupiter",
-    "module": "jupiter_money.py",
-    "official_careers_url": "https://jupiter.money/careers",
-    "official_domain": "jupiter.money",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 230,
-    "company_name": "INDmoney",
-    "slug": "indmoney",
-    "module": "indmoney_com.py",
-    "official_careers_url": "https://indmoney.com/careers",
-    "official_domain": "indmoney.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 231,
-    "company_name": "Smallcase",
-    "slug": "smallcase",
-    "module": "smallcase_com.py",
-    "official_careers_url": "https://smallcase.com/careers",
-    "official_domain": "smallcase.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 232,
-    "company_name": "Setu",
-    "slug": "setu",
-    "module": "setu_co.py",
-    "official_careers_url": "https://setu.co/careers",
-    "official_domain": "setu.co",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 233,
-    "company_name": "Perfios",
-    "slug": "perfios",
-    "module": "perfios_com.py",
-    "official_careers_url": "https://perfios.com/careers",
-    "official_domain": "perfios.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 234,
-    "company_name": "Signzy",
-    "slug": "signzy",
-    "module": "signzy_com.py",
-    "official_careers_url": "https://signzy.com/careers",
-    "official_domain": "signzy.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 235,
-    "company_name": "Yellow.ai",
-    "slug": "yellow_ai",
-    "module": "yellow_ai.py",
-    "official_careers_url": "https://yellow.ai/careers",
-    "official_domain": "yellow.ai",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 236,
+    "rank": 98,
     "company_name": "Observe.AI",
     "slug": "observe_ai",
     "module": "observe_ai.py",
     "official_careers_url": "https://observe.ai/careers",
     "official_domain": "observe.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 237,
+    "rank": 99,
     "company_name": "Sarvam AI",
     "slug": "sarvam_ai",
     "module": "sarvam_ai.py",
     "official_careers_url": "https://www.sarvam.ai/careers",
     "official_domain": "sarvam.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 238,
-    "company_name": "Krutrim",
-    "slug": "krutrim",
-    "module": "krutrim_com.py",
-    "official_careers_url": "https://www.krutrim.com/careers",
-    "official_domain": "krutrim.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 239,
+    "rank": 100,
     "company_name": "Fractal",
     "slug": "fractal",
     "module": "fractal_ai.py",
     "official_careers_url": "https://fractal.ai/careers",
     "official_domain": "fractal.ai",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 240,
-    "company_name": "Tiger Analytics",
-    "slug": "tiger_analytics",
-    "module": "tigeranalytics_com.py",
-    "official_careers_url": "https://tigeranalytics.com/careers",
-    "official_domain": "tigeranalytics.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 241,
-    "company_name": "Tredence",
-    "slug": "tredence",
-    "module": "tredence_com.py",
-    "official_careers_url": "https://tredence.com/careers",
-    "official_domain": "tredence.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 242,
-    "company_name": "Mu Sigma",
-    "slug": "mu_sigma",
-    "module": "mu_sigma_com.py",
-    "official_careers_url": "https://mu-sigma.com/careers",
-    "official_domain": "mu-sigma.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 243,
-    "company_name": "LatentView Analytics",
-    "slug": "latentview_analytics",
-    "module": "latentview_com.py",
-    "official_careers_url": "https://latentview.com/careers",
-    "official_domain": "latentview.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 244,
-    "company_name": "Nagarro",
-    "slug": "nagarro",
-    "module": "nagarro_com.py",
-    "official_careers_url": "https://nagarro.com/careers",
-    "official_domain": "nagarro.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 245,
+    "rank": 101,
     "company_name": "Mindtickle",
     "slug": "mindtickle",
     "module": "mindtickle_com.py",
     "official_careers_url": "https://mindtickle.com/careers",
     "official_domain": "mindtickle.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 246,
-    "company_name": "Whatfix",
-    "slug": "whatfix",
-    "module": "whatfix_com.py",
-    "official_careers_url": "https://whatfix.com/careers",
-    "official_domain": "whatfix.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 247,
-    "company_name": "Wingify",
-    "slug": "wingify",
-    "module": "wingify_com.py",
-    "official_careers_url": "https://wingify.com/careers",
-    "official_domain": "wingify.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 248,
-    "company_name": "VWO",
-    "slug": "vwo",
-    "module": "vwo_com.py",
-    "official_careers_url": "https://vwo.com/careers",
-    "official_domain": "vwo.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 249,
-    "company_name": "WebEngage",
-    "slug": "webengage",
-    "module": "webengage_com.py",
-    "official_careers_url": "https://webengage.com/careers",
-    "official_domain": "webengage.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 250,
+    "rank": 102,
     "company_name": "MoEngage",
     "slug": "moengage",
     "module": "moengage_com.py",
     "official_careers_url": "https://moengage.com/careers",
     "official_domain": "moengage.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 251,
-    "company_name": "CleverTap",
-    "slug": "clevertap",
-    "module": "clevertap_com.py",
-    "official_careers_url": "https://clevertap.com/careers",
-    "official_domain": "clevertap.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 252,
-    "company_name": "Netcore Cloud",
-    "slug": "netcore_cloud",
-    "module": "netcorecloud_com.py",
-    "official_careers_url": "https://netcorecloud.com/careers",
-    "official_domain": "netcorecloud.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 253,
-    "company_name": "Gupshup",
-    "slug": "gupshup",
-    "module": "gupshup_io.py",
-    "official_careers_url": "https://gupshup.io/careers",
-    "official_domain": "gupshup.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 254,
-    "company_name": "Exotel",
-    "slug": "exotel",
-    "module": "exotel_com.py",
-    "official_careers_url": "https://exotel.com/careers",
-    "official_domain": "exotel.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 255,
+    "rank": 103,
     "company_name": "Uniphore",
     "slug": "uniphore",
     "module": "uniphore_com.py",
     "official_careers_url": "https://uniphore.com/careers",
     "official_domain": "uniphore.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 256,
-    "company_name": "Uber",
-    "slug": "uber",
-    "module": "uber_com.py",
-    "official_careers_url": "https://www.uber.com/careers/",
-    "official_domain": "uber.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 257,
+    "rank": 104,
     "company_name": "Airbnb",
     "slug": "airbnb",
     "module": "airbnb_com.py",
     "official_careers_url": "https://careers.airbnb.com/",
     "official_domain": "airbnb.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 258,
+    "rank": 105,
     "company_name": "Lyft",
     "slug": "lyft",
     "module": "lyft_com.py",
     "official_careers_url": "https://lyft.com/careers",
     "official_domain": "lyft.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 259,
-    "company_name": "DoorDash",
-    "slug": "doordash",
-    "module": "doordash_com.py",
-    "official_careers_url": "https://doordash.com/careers",
-    "official_domain": "doordash.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 260,
-    "company_name": "Instacart",
-    "slug": "instacart",
-    "module": "instacart_com.py",
-    "official_careers_url": "https://instacart.com/careers",
-    "official_domain": "instacart.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 261,
-    "company_name": "eBay",
-    "slug": "ebay",
-    "module": "ebayinc_com.py",
-    "official_careers_url": "https://ebayinc.com/careers",
-    "official_domain": "ebayinc.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 262,
+    "rank": 106,
     "company_name": "Etsy",
     "slug": "etsy",
     "module": "etsy_com.py",
     "official_careers_url": "https://etsy.com/careers",
     "official_domain": "etsy.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 263,
-    "company_name": "Walmart Global Tech",
-    "slug": "walmart_global_tech",
-    "module": "walmart_com.py",
-    "official_careers_url": "https://careers.walmart.com/technology",
-    "official_domain": "walmart.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 264,
-    "company_name": "Target",
-    "slug": "target",
-    "module": "target_com.py",
-    "official_careers_url": "https://target.com/careers",
-    "official_domain": "target.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 265,
-    "company_name": "The Home Depot",
-    "slug": "the_home_depot",
-    "module": "homedepot_com.py",
-    "official_careers_url": "https://homedepot.com/careers",
-    "official_domain": "homedepot.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 266,
-    "company_name": "Booking.com",
-    "slug": "booking_com",
-    "module": "booking_com.py",
-    "official_careers_url": "https://booking.com/careers",
-    "official_domain": "booking.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 267,
+    "rank": 107,
     "company_name": "Expedia Group",
     "slug": "expedia_group",
     "module": "expediagroup_com.py",
     "official_careers_url": "https://expediagroup.com/careers",
     "official_domain": "expediagroup.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 268,
-    "company_name": "Tripadvisor",
-    "slug": "tripadvisor",
-    "module": "tripadvisor_com.py",
-    "official_careers_url": "https://tripadvisor.com/careers",
-    "official_domain": "tripadvisor.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 269,
-    "company_name": "Skyscanner",
-    "slug": "skyscanner",
-    "module": "skyscanner_net.py",
-    "official_careers_url": "https://skyscanner.net/careers",
-    "official_domain": "skyscanner.net",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 270,
-    "company_name": "Spotify",
-    "slug": "spotify",
-    "module": "lifeatspotify_com.py",
-    "official_careers_url": "https://www.lifeatspotify.com/jobs",
-    "official_domain": "lifeatspotify.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 271,
-    "company_name": "SoundCloud",
-    "slug": "soundcloud",
-    "module": "soundcloud_com.py",
-    "official_careers_url": "https://soundcloud.com/careers",
-    "official_domain": "soundcloud.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 272,
-    "company_name": "Twitch",
-    "slug": "twitch",
-    "module": "twitch_tv.py",
-    "official_careers_url": "https://twitch.tv/careers",
-    "official_domain": "twitch.tv",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 273,
-    "company_name": "Roblox",
-    "slug": "roblox",
-    "module": "roblox_com.py",
-    "official_careers_url": "https://roblox.com/careers",
-    "official_domain": "roblox.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 274,
-    "company_name": "Epic Games",
-    "slug": "epic_games",
-    "module": "epicgames_com.py",
-    "official_careers_url": "https://epicgames.com/careers",
-    "official_domain": "epicgames.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 275,
-    "company_name": "Unity",
-    "slug": "unity",
-    "module": "unity_com.py",
-    "official_careers_url": "https://unity.com/careers",
-    "official_domain": "unity.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 276,
-    "company_name": "Riot Games",
-    "slug": "riot_games",
-    "module": "riotgames_com.py",
-    "official_careers_url": "https://riotgames.com/careers",
-    "official_domain": "riotgames.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 277,
-    "company_name": "Electronic Arts",
-    "slug": "electronic_arts",
-    "module": "ea_com.py",
-    "official_careers_url": "https://ea.com/careers",
-    "official_domain": "ea.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 278,
-    "company_name": "Ubisoft",
-    "slug": "ubisoft",
-    "module": "ubisoft_com.py",
-    "official_careers_url": "https://www.ubisoft.com/en-us/company/careers/search",
-    "official_domain": "ubisoft.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 279,
-    "company_name": "Nintendo",
-    "slug": "nintendo",
-    "module": "nintendo_com.py",
-    "official_careers_url": "https://nintendo.com/careers",
-    "official_domain": "nintendo.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 280,
+    "rank": 108,
     "company_name": "Valve",
     "slug": "valve",
     "module": "valvesoftware_com.py",
     "official_careers_url": "https://valvesoftware.com/careers",
     "official_domain": "valvesoftware.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 281,
-    "company_name": "Workday",
-    "slug": "workday",
-    "module": "workday_com.py",
-    "official_careers_url": "https://workday.com/careers",
-    "official_domain": "workday.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 282,
-    "company_name": "ServiceNow",
-    "slug": "servicenow",
-    "module": "servicenow_com.py",
-    "official_careers_url": "https://servicenow.com/careers",
-    "official_domain": "servicenow.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 283,
-    "company_name": "DocuSign",
-    "slug": "docusign",
-    "module": "docusign_com.py",
-    "official_careers_url": "https://docusign.com/careers",
-    "official_domain": "docusign.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 284,
-    "company_name": "Dropbox",
-    "slug": "dropbox",
-    "module": "dropbox_com.py",
-    "official_careers_url": "https://www.dropbox.jobs/",
-    "official_domain": "dropbox.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 285,
-    "company_name": "Box",
-    "slug": "box",
-    "module": "box_com.py",
-    "official_careers_url": "https://box.com/careers",
-    "official_domain": "box.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 286,
-    "company_name": "HubSpot",
-    "slug": "hubspot",
-    "module": "hubspot_com.py",
-    "official_careers_url": "https://hubspot.com/careers",
-    "official_domain": "hubspot.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 287,
+    "rank": 109,
     "company_name": "Intercom",
     "slug": "intercom",
     "module": "intercom_com.py",
     "official_careers_url": "https://intercom.com/careers",
     "official_domain": "intercom.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 288,
+    "rank": 110,
     "company_name": "Zendesk",
     "slug": "zendesk",
     "module": "zendesk_com.py",
     "official_careers_url": "https://zendesk.com/careers",
     "official_domain": "zendesk.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 289,
-    "company_name": "Twilio",
-    "slug": "twilio",
-    "module": "twilio_com.py",
-    "official_careers_url": "https://twilio.com/careers",
-    "official_domain": "twilio.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 290,
-    "company_name": "Okta",
-    "slug": "okta",
-    "module": "okta_com.py",
-    "official_careers_url": "https://okta.com/careers",
-    "official_domain": "okta.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 291,
+    "rank": 111,
     "company_name": "CrowdStrike",
     "slug": "crowdstrike",
     "module": "crowdstrike_com.py",
     "official_careers_url": "https://crowdstrike.com/careers",
     "official_domain": "crowdstrike.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 292,
-    "company_name": "Palo Alto Networks",
-    "slug": "palo_alto_networks",
-    "module": "paloaltonetworks_com.py",
-    "official_careers_url": "https://paloaltonetworks.com/careers",
-    "official_domain": "paloaltonetworks.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 293,
-    "company_name": "Fortinet",
-    "slug": "fortinet",
-    "module": "fortinet_com.py",
-    "official_careers_url": "https://www.fortinet.com/corporate/careers",
-    "official_domain": "fortinet.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 294,
-    "company_name": "Zscaler",
-    "slug": "zscaler",
-    "module": "zscaler_com.py",
-    "official_careers_url": "https://zscaler.com/careers",
-    "official_domain": "zscaler.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 295,
-    "company_name": "SentinelOne",
-    "slug": "sentinelone",
-    "module": "sentinelone_com.py",
-    "official_careers_url": "https://sentinelone.com/careers",
-    "official_domain": "sentinelone.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 296,
-    "company_name": "Wiz",
-    "slug": "wiz",
-    "module": "wiz_io.py",
-    "official_careers_url": "https://wiz.io/careers",
-    "official_domain": "wiz.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 297,
-    "company_name": "DigitalOcean",
-    "slug": "digitalocean",
-    "module": "digitalocean_com.py",
-    "official_careers_url": "https://digitalocean.com/careers",
-    "official_domain": "digitalocean.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 298,
+    "rank": 112,
     "company_name": "OVHcloud",
     "slug": "ovhcloud",
     "module": "ovhcloud_com.py",
     "official_careers_url": "https://careers.ovhcloud.com/en-in/",
     "official_domain": "ovhcloud.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 299,
-    "company_name": "Hetzner",
-    "slug": "hetzner",
-    "module": "hetzner_com.py",
-    "official_careers_url": "https://hetzner.com/careers",
-    "official_domain": "hetzner.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 300,
+    "rank": 113,
     "company_name": "Scaleway",
     "slug": "scaleway",
     "module": "scaleway_com.py",
     "official_careers_url": "https://scaleway.com/careers",
     "official_domain": "scaleway.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 301,
-    "company_name": "Equinix",
-    "slug": "equinix",
-    "module": "equinix_com.py",
-    "official_careers_url": "https://equinix.com/careers",
-    "official_domain": "equinix.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 302,
-    "company_name": "Aiven",
-    "slug": "aiven",
-    "module": "aiven_io.py",
-    "official_careers_url": "https://aiven.io/careers",
-    "official_domain": "aiven.io",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 303,
+    "rank": 114,
     "company_name": "Sentry",
     "slug": "sentry",
     "module": "sentry_io.py",
     "official_careers_url": "https://sentry.io/careers",
     "official_domain": "sentry.io",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 304,
+    "rank": 115,
     "company_name": "Sourcegraph",
     "slug": "sourcegraph",
     "module": "sourcegraph_com.py",
     "official_careers_url": "https://sourcegraph.com/careers",
     "official_domain": "sourcegraph.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 305,
+    "rank": 116,
     "company_name": "Replit",
     "slug": "replit",
     "module": "replit_com.py",
     "official_careers_url": "https://replit.com/careers",
     "official_domain": "replit.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 306,
-    "company_name": "CodeSignal",
-    "slug": "codesignal",
-    "module": "codesignal_com.py",
-    "official_careers_url": "https://codesignal.com/careers",
-    "official_domain": "codesignal.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 307,
+    "rank": 117,
     "company_name": "Coursera",
     "slug": "coursera",
     "module": "coursera_org.py",
     "official_careers_url": "https://coursera.org/careers",
     "official_domain": "coursera.org",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 308,
-    "company_name": "Duolingo",
-    "slug": "duolingo",
-    "module": "duolingo_com.py",
-    "official_careers_url": "https://duolingo.com/careers",
-    "official_domain": "duolingo.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 309,
-    "company_name": "Khan Academy",
-    "slug": "khan_academy",
-    "module": "khanacademy_org.py",
-    "official_careers_url": "https://khanacademy.org/careers",
-    "official_domain": "khanacademy.org",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 310,
-    "company_name": "Udemy",
-    "slug": "udemy",
-    "module": "udemy_com.py",
-    "official_careers_url": "https://udemy.com/careers",
-    "official_domain": "udemy.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 311,
-    "company_name": "Chegg",
-    "slug": "chegg",
-    "module": "chegg_com.py",
-    "official_careers_url": "https://chegg.com/careers",
-    "official_domain": "chegg.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 312,
-    "company_name": "Quizlet",
-    "slug": "quizlet",
-    "module": "quizlet_com.py",
-    "official_careers_url": "https://quizlet.com/careers",
-    "official_domain": "quizlet.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 313,
-    "company_name": "Deel",
-    "slug": "deel",
-    "module": "deel_com.py",
-    "official_careers_url": "https://deel.com/careers",
-    "official_domain": "deel.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 314,
+    "rank": 118,
     "company_name": "Remote",
     "slug": "remote",
     "module": "remote_com.py",
     "official_careers_url": "https://remote.com/careers",
     "official_domain": "remote.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 315,
-    "company_name": "Rippling",
-    "slug": "rippling",
-    "module": "rippling_com.py",
-    "official_careers_url": "https://rippling.com/careers",
-    "official_domain": "rippling.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 316,
-    "company_name": "Gusto",
-    "slug": "gusto",
-    "module": "gusto_com.py",
-    "official_careers_url": "https://gusto.com/careers",
-    "official_domain": "gusto.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 317,
-    "company_name": "Personio",
-    "slug": "personio",
-    "module": "personio_com.py",
-    "official_careers_url": "https://personio.com/careers",
-    "official_domain": "personio.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 318,
-    "company_name": "Indeed",
-    "slug": "indeed",
-    "module": "indeed_com.py",
-    "official_careers_url": "https://indeed.com/careers",
-    "official_domain": "indeed.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 319,
-    "company_name": "LinkedIn",
-    "slug": "linkedin",
-    "module": "linkedin_com.py",
-    "official_careers_url": "https://linkedin.com/careers",
-    "official_domain": "linkedin.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 320,
-    "company_name": "Visa",
-    "slug": "visa",
-    "module": "visa_com.py",
-    "official_careers_url": "https://visa.com/careers",
-    "official_domain": "visa.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 321,
-    "company_name": "Mastercard",
-    "slug": "mastercard",
-    "module": "mastercard_com.py",
-    "official_careers_url": "https://mastercard.com/careers",
-    "official_domain": "mastercard.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 322,
-    "company_name": "American Express",
-    "slug": "american_express",
-    "module": "americanexpress_com.py",
-    "official_careers_url": "https://americanexpress.com/careers",
-    "official_domain": "americanexpress.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 323,
-    "company_name": "Capital One",
-    "slug": "capital_one",
-    "module": "capitalone_com.py",
-    "official_careers_url": "https://www.capitalonecareers.com/",
-    "official_domain": "capitalone.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 324,
-    "company_name": "Bank of America",
-    "slug": "bank_of_america",
-    "module": "bankofamerica_com.py",
-    "official_careers_url": "https://bankofamerica.com/careers",
-    "official_domain": "bankofamerica.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 325,
+    "rank": 119,
     "company_name": "Wells Fargo",
     "slug": "wells_fargo",
     "module": "wellsfargo_com.py",
     "official_careers_url": "https://wellsfargo.com/careers",
     "official_domain": "wellsfargo.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 326,
-    "company_name": "Barclays",
-    "slug": "barclays",
-    "module": "barclays_com.py",
-    "official_careers_url": "https://barclays.com/careers",
-    "official_domain": "barclays.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 327,
+    "rank": 120,
     "company_name": "HSBC",
     "slug": "hsbc",
     "module": "hsbc_com.py",
     "official_careers_url": "https://hsbc.com/careers",
     "official_domain": "hsbc.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 328,
-    "company_name": "Deutsche Bank",
-    "slug": "deutsche_bank",
-    "module": "db_com.py",
-    "official_careers_url": "https://db.com/careers",
-    "official_domain": "db.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 329,
-    "company_name": "UBS",
-    "slug": "ubs",
-    "module": "ubs_com.py",
-    "official_careers_url": "https://ubs.com/careers",
-    "official_domain": "ubs.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 330,
-    "company_name": "BNP Paribas",
-    "slug": "bnp_paribas",
-    "module": "bnpparibas_com.py",
-    "official_careers_url": "https://bnpparibas.com/careers",
-    "official_domain": "bnpparibas.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 331,
-    "company_name": "Standard Chartered",
-    "slug": "standard_chartered",
-    "module": "sc_com.py",
-    "official_careers_url": "https://sc.com/careers",
-    "official_domain": "sc.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 332,
-    "company_name": "Allianz",
-    "slug": "allianz",
-    "module": "allianz_com.py",
-    "official_careers_url": "https://allianz.com/careers",
-    "official_domain": "allianz.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 333,
-    "company_name": "Zurich Insurance",
-    "slug": "zurich_insurance",
-    "module": "zurich_com.py",
-    "official_careers_url": "https://zurich.com/careers",
-    "official_domain": "zurich.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 334,
-    "company_name": "AXA",
-    "slug": "axa",
-    "module": "axa_com.py",
-    "official_careers_url": "https://axa.com/careers",
-    "official_domain": "axa.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 335,
-    "company_name": "Intuit",
-    "slug": "intuit",
-    "module": "intuit_com.py",
-    "official_careers_url": "https://intuit.com/careers",
-    "official_domain": "intuit.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 336,
-    "company_name": "Fiserv",
-    "slug": "fiserv",
-    "module": "fiserv_com.py",
-    "official_careers_url": "https://fiserv.com/careers",
-    "official_domain": "fiserv.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 337,
-    "company_name": "FIS",
-    "slug": "fis",
-    "module": "fisglobal_com.py",
-    "official_careers_url": "https://fisglobal.com/careers",
-    "official_domain": "fisglobal.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 338,
-    "company_name": "S&P Global",
-    "slug": "s_p_global",
-    "module": "spglobal_com.py",
-    "official_careers_url": "https://spglobal.com/careers",
-    "official_domain": "spglobal.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 339,
-    "company_name": "Moody's",
-    "slug": "moody_s",
-    "module": "moodys_com.py",
-    "official_careers_url": "https://moodys.com/careers",
-    "official_domain": "moodys.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 340,
-    "company_name": "Nasdaq",
-    "slug": "nasdaq",
-    "module": "nasdaq_com.py",
-    "official_careers_url": "https://nasdaq.com/careers",
-    "official_domain": "nasdaq.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 341,
-    "company_name": "BlackRock",
-    "slug": "blackrock",
-    "module": "blackrock_com.py",
-    "official_careers_url": "https://blackrock.com/careers",
-    "official_domain": "blackrock.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 342,
-    "company_name": "Vanguard",
-    "slug": "vanguard",
-    "module": "vanguard_com.py",
-    "official_careers_url": "https://vanguard.com/careers",
-    "official_domain": "vanguard.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 343,
-    "company_name": "Charles Schwab",
-    "slug": "charles_schwab",
-    "module": "schwab_com.py",
-    "official_careers_url": "https://schwab.com/careers",
-    "official_domain": "schwab.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 344,
-    "company_name": "State Street",
-    "slug": "state_street",
-    "module": "statestreet_com.py",
-    "official_careers_url": "https://statestreet.com/careers",
-    "official_domain": "statestreet.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 345,
-    "company_name": "BNY",
-    "slug": "bny",
-    "module": "bny_com.py",
-    "official_careers_url": "https://eofe.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/BNY-Careers/jobs",
-    "official_domain": "bny.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 346,
-    "company_name": "Citi",
-    "slug": "citi",
-    "module": "citi_com.py",
-    "official_careers_url": "https://citi.com/careers",
-    "official_domain": "citi.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 347,
-    "company_name": "RBC",
-    "slug": "rbc",
-    "module": "rbc_com.py",
-    "official_careers_url": "https://jobs.rbc.com",
-    "official_domain": "rbc.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 348,
-    "company_name": "TD Bank",
-    "slug": "td_bank",
-    "module": "td_com.py",
-    "official_careers_url": "https://td.wd3.myworkdayjobs.com/tdbeta",
-    "official_domain": "td.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 349,
-    "company_name": "Scotiabank",
-    "slug": "scotiabank",
-    "module": "scotiabank_com.py",
-    "official_careers_url": "https://jobs.scotiabank.com",
-    "official_domain": "scotiabank.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 350,
-    "company_name": "Siemens",
-    "slug": "siemens",
-    "module": "siemens_com.py",
-    "official_careers_url": "https://siemens.com/careers",
-    "official_domain": "siemens.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 351,
-    "company_name": "Schneider Electric",
-    "slug": "schneider_electric",
-    "module": "se_com.py",
-    "official_careers_url": "https://se.com/careers",
-    "official_domain": "se.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 352,
-    "company_name": "ABB",
-    "slug": "abb",
-    "module": "abb_com.py",
-    "official_careers_url": "https://abb.com/careers",
-    "official_domain": "abb.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 353,
-    "company_name": "Honeywell",
-    "slug": "honeywell",
-    "module": "honeywell_com.py",
-    "official_careers_url": "https://ibqbjb.fa.ocs.oraclecloud.com/",
-    "official_domain": "honeywell.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 354,
-    "company_name": "GE Vernova",
-    "slug": "ge_vernova",
-    "module": "gevernova_com.py",
-    "official_careers_url": "https://gevernova.com/careers",
-    "official_domain": "gevernova.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 355,
-    "company_name": "GE Aerospace",
-    "slug": "ge_aerospace",
-    "module": "geaerospace_com.py",
-    "official_careers_url": "https://careers.geaerospace.com",
-    "official_domain": "geaerospace.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 356,
+    "rank": 121,
     "company_name": "Bosch",
     "slug": "bosch",
     "module": "bosch_com.py",
     "official_careers_url": "https://jobs.bosch.com",
     "official_domain": "bosch.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 357,
-    "company_name": "Continental",
-    "slug": "continental",
-    "module": "continental_com.py",
-    "official_careers_url": "https://jobs.continental.com",
-    "official_domain": "continental.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 358,
-    "company_name": "BMW Group",
-    "slug": "bmw_group",
-    "module": "bmwgroup_com.py",
-    "official_careers_url": "https://www.bmwgroup.jobs/",
-    "official_domain": "bmwgroup.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 359,
-    "company_name": "Mercedes-Benz",
-    "slug": "mercedes_benz",
-    "module": "mercedes_benz_com.py",
-    "official_careers_url": "https://mercedes-benz.com/careers",
-    "official_domain": "mercedes-benz.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 360,
-    "company_name": "Volkswagen",
-    "slug": "volkswagen",
-    "module": "volkswagen_group_com.py",
-    "official_careers_url": "https://jobs.volkswagen-group.com/Volkswagen/",
-    "official_domain": "volkswagen-group.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 361,
+    "rank": 122,
     "company_name": "Toyota",
     "slug": "toyota",
     "module": "toyota_com.py",
     "official_careers_url": "https://toyota.com/careers",
     "official_domain": "toyota.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 362,
-    "company_name": "Ford",
-    "slug": "ford",
-    "module": "ford_com.py",
-    "official_careers_url": "https://ford.com/careers",
-    "official_domain": "ford.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 363,
-    "company_name": "General Motors",
-    "slug": "general_motors",
-    "module": "gm_com.py",
-    "official_careers_url": "https://search-careers.gm.com",
-    "official_domain": "gm.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 364,
-    "company_name": "Rivian",
-    "slug": "rivian",
-    "module": "rivian_com.py",
-    "official_careers_url": "https://rivian.com/careers",
-    "official_domain": "rivian.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 365,
-    "company_name": "Lucid Motors",
-    "slug": "lucid_motors",
-    "module": "lucidmotors_com.py",
-    "official_careers_url": "https://lucidmotors.com/careers/search",
-    "official_domain": "lucidmotors.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 366,
-    "company_name": "SpaceX",
-    "slug": "spacex",
-    "module": "spacex_com.py",
-    "official_careers_url": "https://www.spacex.com/careers/jobs",
-    "official_domain": "spacex.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 367,
-    "company_name": "Blue Origin",
-    "slug": "blue_origin",
-    "module": "blueorigin_com.py",
-    "official_careers_url": "https://www.blueorigin.com/careers/search",
-    "official_domain": "blueorigin.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 368,
-    "company_name": "Airbus",
-    "slug": "airbus",
-    "module": "airbus_com.py",
-    "official_careers_url": "https://airbus.com/careers",
-    "official_domain": "airbus.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 369,
-    "company_name": "Boeing",
-    "slug": "boeing",
-    "module": "boeing_com.py",
-    "official_careers_url": "https://boeing.com/careers",
-    "official_domain": "boeing.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 370,
-    "company_name": "Lockheed Martin",
-    "slug": "lockheed_martin",
-    "module": "lockheedmartin_com.py",
-    "official_careers_url": "https://lockheedmartin.eightfold.ai/careers",
-    "official_domain": "lockheedmartin.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 371,
+    "rank": 123,
     "company_name": "Northrop Grumman",
     "slug": "northrop_grumman",
     "module": "northropgrumman_com.py",
     "official_careers_url": "https://jobs.northropgrumman.com/careers?start=0&pid=1340074844495&sort_by=timestamp",
     "official_domain": "northropgrumman.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 372,
-    "company_name": "RTX",
-    "slug": "rtx",
-    "module": "rtx_com.py",
-    "official_careers_url": "https://careers.rtx.com/global/en/search-results",
-    "official_domain": "rtx.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 373,
-    "company_name": "Thales",
-    "slug": "thales",
-    "module": "thalesgroup_com.py",
-    "official_careers_url": "https://careers.thalesgroup.com/global/en/search-results",
-    "official_domain": "thalesgroup.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 374,
-    "company_name": "Rolls-Royce",
-    "slug": "rolls_royce",
-    "module": "rolls_royce_com.py",
-    "official_careers_url": "https://rolls-royce.com/careers",
-    "official_domain": "rolls-royce.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 375,
-    "company_name": "Caterpillar",
-    "slug": "caterpillar",
-    "module": "caterpillar_com.py",
-    "official_careers_url": "https://caterpillar.com/careers",
-    "official_domain": "caterpillar.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 376,
-    "company_name": "John Deere",
-    "slug": "john_deere",
-    "module": "deere_com.py",
-    "official_careers_url": "https://careers.deere.com/careers",
-    "official_domain": "deere.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 377,
-    "company_name": "3M",
-    "slug": "3m",
-    "module": "3m_com.py",
-    "official_careers_url": "https://3m.wd1.myworkdayjobs.com/en-US/Search",
-    "official_domain": "3m.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 378,
-    "company_name": "Thermo Fisher Scientific",
-    "slug": "thermo_fisher_scientific",
-    "module": "thermofisher_com.py",
-    "official_careers_url": "https://jobs.thermofisher.com/global/en/search-results",
-    "official_domain": "thermofisher.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 379,
+    "rank": 124,
     "company_name": "Siemens Healthineers",
     "slug": "siemens_healthineers",
     "module": "siemens_healthineers_com.py",
     "official_careers_url": "https://siemens-healthineers.com/careers",
     "official_domain": "siemens-healthineers.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 380,
-    "company_name": "Philips",
-    "slug": "philips",
-    "module": "philips_com.py",
-    "official_careers_url": "https://www.careers.philips.com/global/en/search-results",
-    "official_domain": "philips.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 381,
-    "company_name": "Medtronic",
-    "slug": "medtronic",
-    "module": "medtronic_com.py",
-    "official_careers_url": "https://medtronic.wd1.myworkdayjobs.com/MedtronicCareers",
-    "official_domain": "medtronic.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 382,
-    "company_name": "GE HealthCare",
-    "slug": "ge_healthcare",
-    "module": "gehealthcare_com.py",
-    "official_careers_url": "https://jobs.gehealthcare.com/",
-    "official_domain": "gehealthcare.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 383,
+    "rank": 125,
     "company_name": "Illumina",
     "slug": "illumina",
     "module": "illumina_com.py",
     "official_careers_url": "https://illumina.com/careers",
     "official_domain": "illumina.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 384,
+    "rank": 126,
     "company_name": "Moderna",
     "slug": "moderna",
     "module": "modernatx_com.py",
     "official_careers_url": "https://modernatx.com/careers",
     "official_domain": "modernatx.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 385,
-    "company_name": "Pfizer",
-    "slug": "pfizer",
-    "module": "pfizer_com.py",
-    "official_careers_url": "https://www.pfizer.com/about/careers/search-results?langcode=en&count=10&sort=latest",
-    "official_domain": "pfizer.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 386,
-    "company_name": "Roche",
-    "slug": "roche",
-    "module": "roche_com.py",
-    "official_careers_url": "https://careers.roche.com/global/en/search-results",
-    "official_domain": "roche.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 387,
-    "company_name": "Novartis",
-    "slug": "novartis",
-    "module": "novartis_com.py",
-    "official_careers_url": "https://novartis.com/careers",
-    "official_domain": "novartis.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 388,
-    "company_name": "AstraZeneca",
-    "slug": "astrazeneca",
-    "module": "astrazeneca_com.py",
-    "official_careers_url": "https://careers.astrazeneca.com/search-jobs",
-    "official_domain": "astrazeneca.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 389,
-    "company_name": "GSK",
-    "slug": "gsk",
-    "module": "gsk_com.py",
-    "official_careers_url": "https://gsk.com/careers",
-    "official_domain": "gsk.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 390,
+    "rank": 127,
     "company_name": "Sanofi",
     "slug": "sanofi",
     "module": "sanofi_com.py",
     "official_careers_url": "https://sanofi.com/careers",
     "official_domain": "sanofi.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 391,
-    "company_name": "Johnson & Johnson",
-    "slug": "johnson_johnson",
-    "module": "jnj_com.py",
-    "official_careers_url": "https://www.careers.jnj.com/en/jobs/?search",
-    "official_domain": "jnj.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 392,
+    "rank": 128,
     "company_name": "Eli Lilly",
     "slug": "eli_lilly",
     "module": "lilly_com.py",
     "official_careers_url": "https://careers.lilly.com/us/en/search-results",
     "official_domain": "lilly.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 393,
-    "company_name": "Merck",
-    "slug": "merck",
-    "module": "merck_com.py",
-    "official_careers_url": "https://jobs.merck.com/",
-    "official_domain": "merck.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 394,
-    "company_name": "Bayer",
-    "slug": "bayer",
-    "module": "bayer_com.py",
-    "official_careers_url": "https://bayer.eightfold.ai/careers?query=&location=&hl=en",
-    "official_domain": "bayer.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 395,
-    "company_name": "UnitedHealth Group",
-    "slug": "unitedhealth_group",
-    "module": "unitedhealthgroup_com.py",
-    "official_careers_url": "https://unitedhealthgroup.com/careers",
-    "official_domain": "unitedhealthgroup.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 396,
-    "company_name": "Optum",
-    "slug": "optum",
-    "module": "optum_com.py",
-    "official_careers_url": "https://optum.wd1.myworkdayjobs.com/",
-    "official_domain": "optum.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 397,
-    "company_name": "CVS Health",
-    "slug": "cvs_health",
-    "module": "cvshealth_com.py",
-    "official_careers_url": "https://jobs.cvshealth.com/us/en/search-results",
-    "official_domain": "cvshealth.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 398,
-    "company_name": "Cigna",
-    "slug": "cigna",
-    "module": "thecignagroup_com.py",
-    "official_careers_url": "https://cigna.wd5.myworkdayjobs.com/",
-    "official_domain": "thecignagroup.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 399,
-    "company_name": "Epic Systems",
-    "slug": "epic_systems",
-    "module": "epic_com.py",
-    "official_careers_url": "https://epic.com/careers",
-    "official_domain": "epic.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 400,
-    "company_name": "Veeva Systems",
-    "slug": "veeva_systems",
-    "module": "veeva_com.py",
-    "official_careers_url": "https://veeva.com/careers",
-    "official_domain": "veeva.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 401,
+    "rank": 129,
     "company_name": "Tempus AI",
     "slug": "tempus_ai",
     "module": "tempus_com.py",
     "official_careers_url": "https://tempus.wd5.myworkdayjobs.com/Tempus_Careers",
     "official_domain": "tempus.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 402,
-    "company_name": "IKEA",
-    "slug": "ikea",
-    "module": "ikea_com.py",
-    "official_careers_url": "https://www.ikea.com/us/en/this-is-ikea/work-with-us/",
-    "official_domain": "ikea.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 403,
-    "company_name": "H&M",
-    "slug": "h_m",
-    "module": "hm_com.py",
-    "official_careers_url": "https://career.hm.com/",
-    "official_domain": "hm.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 404,
-    "company_name": "Zalando",
-    "slug": "zalando",
-    "module": "zalando_com.py",
-    "official_careers_url": "https://jobs.zalando.com/en/jobs",
-    "official_domain": "zalando.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 405,
-    "company_name": "ASOS",
-    "slug": "asos",
-    "module": "asos_com.py",
-    "official_careers_url": "https://asos.com/careers",
-    "official_domain": "asos.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 406,
-    "company_name": "Inditex",
-    "slug": "inditex",
-    "module": "inditex_com.py",
-    "official_careers_url": "https://www.inditexpeople.com/us/en/joinus/offers",
-    "official_domain": "inditex.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 407,
+    "rank": 130,
     "company_name": "L'Oréal",
     "slug": "l_or_al",
     "module": "loreal_com.py",
     "official_careers_url": "https://loreal.com/careers",
     "official_domain": "loreal.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 408,
-    "company_name": "Procter & Gamble",
-    "slug": "procter_gamble",
-    "module": "pg_com.py",
-    "official_careers_url": "https://www.pgcareers.com/in/en/engineering-new#search-results",
-    "official_domain": "pg.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 409,
+    "rank": 131,
     "company_name": "Unilever",
     "slug": "unilever",
     "module": "unilever_com.py",
     "official_careers_url": "https://careers.unilever.com/en/search-jobs",
     "official_domain": "unilever.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 410,
-    "company_name": "Nestlé",
-    "slug": "nestl",
-    "module": "nestle_com.py",
-    "official_careers_url": "https://www.nestle.com/jobs",
-    "official_domain": "nestle.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 411,
+    "rank": 132,
     "company_name": "Coca-Cola",
     "slug": "coca_cola",
     "module": "coca_colacompany_com.py",
     "official_careers_url": "https://coke.wd1.myworkdayjobs.com/coca-cola-careers",
     "official_domain": "coca-colacompany.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 412,
-    "company_name": "PepsiCo",
-    "slug": "pepsico",
-    "module": "pepsico_com.py",
-    "official_careers_url": "https://www.pepsicojobs.com/main/jobs",
-    "official_domain": "pepsico.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 413,
+    "rank": 133,
     "company_name": "Nike",
     "slug": "nike",
     "module": "nike_com.py",
     "official_careers_url": "https://nike.com/careers",
     "official_domain": "nike.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 414,
-    "company_name": "Adidas",
-    "slug": "adidas",
-    "module": "adidas_group_com.py",
-    "official_careers_url": "https://careers.adidas-group.com/",
-    "official_domain": "adidas-group.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 415,
-    "company_name": "FedEx",
-    "slug": "fedex",
-    "module": "fedex_com.py",
-    "official_careers_url": "https://careers.fedex.com/jobs",
-    "official_domain": "fedex.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 416,
-    "company_name": "UPS",
-    "slug": "ups",
-    "module": "ups_com.py",
-    "official_careers_url": "https://www.jobs-ups.com/imea/en/search-results",
-    "official_domain": "ups.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 417,
-    "company_name": "DHL",
-    "slug": "dhl",
-    "module": "dhl_com.py",
-    "official_careers_url": "https://dhl.com/careers",
-    "official_domain": "dhl.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 418,
-    "company_name": "Maersk",
-    "slug": "maersk",
-    "module": "maersk_com.py",
-    "official_careers_url": "https://maersk.com/careers",
-    "official_domain": "maersk.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 419,
+    "rank": 134,
     "company_name": "Flexport",
     "slug": "flexport",
     "module": "flexport_com.py",
     "official_careers_url": "https://flexport.com/careers",
     "official_domain": "flexport.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 420,
+    "rank": 135,
     "company_name": "Samsara",
     "slug": "samsara",
     "module": "samsara_com.py",
     "official_careers_url": "https://samsara.com/careers",
     "official_domain": "samsara.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 421,
-    "company_name": "Trimble",
-    "slug": "trimble",
-    "module": "trimble_com.py",
-    "official_careers_url": "https://trimble.com/careers",
-    "official_domain": "trimble.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 422,
-    "company_name": "Autodesk",
-    "slug": "autodesk",
-    "module": "autodesk_com.py",
-    "official_careers_url": "https://jobs.autodesk.com/careers",
-    "official_domain": "autodesk.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 423,
+    "rank": 136,
     "company_name": "Dassault Systèmes",
     "slug": "dassault_syst_mes",
     "module": "3ds_com.py",
     "official_careers_url": "https://3ds.com/careers",
     "official_domain": "3ds.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 424,
+    "rank": 137,
     "company_name": "PTC",
     "slug": "ptc",
     "module": "ptc_com.py",
     "official_careers_url": "https://ptc.com/careers",
     "official_domain": "ptc.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 425,
+    "rank": 138,
     "company_name": "Bentley Systems",
     "slug": "bentley_systems",
     "module": "bentley_com.py",
     "official_careers_url": "https://bentley.com/careers",
     "official_domain": "bentley.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 426,
-    "company_name": "Ansys",
-    "slug": "ansys",
-    "module": "ansys_com.py",
-    "official_careers_url": "https://ansys.com/careers",
-    "official_domain": "ansys.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 427,
-    "company_name": "MathWorks",
-    "slug": "mathworks",
-    "module": "mathworks_com.py",
-    "official_careers_url": "https://in.mathworks.com/company/jobs/opportunities/search/",
-    "official_domain": "mathworks.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 428,
-    "company_name": "Esri",
-    "slug": "esri",
-    "module": "esri_com.py",
-    "official_careers_url": "https://esri.wd1.myworkdayjobs.com/",
-    "official_domain": "esri.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 429,
-    "company_name": "HERE Technologies",
-    "slug": "here_technologies",
-    "module": "here_com.py",
-    "official_careers_url": "https://here.wd5.myworkdayjobs.com/",
-    "official_domain": "here.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 430,
-    "company_name": "TomTom",
-    "slug": "tomtom",
-    "module": "tomtom_com.py",
-    "official_careers_url": "https://careers.tomtom.com/",
-    "official_domain": "tomtom.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 431,
-    "company_name": "Grab",
-    "slug": "grab",
-    "module": "grab_com.py",
-    "official_careers_url": "https://grab.com/careers",
-    "official_domain": "grab.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 432,
-    "company_name": "Gojek",
-    "slug": "gojek",
-    "module": "gojek_io.py",
-    "official_careers_url": "https://www.gojek.io/careers",
-    "official_domain": "gojek.io",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 433,
-    "company_name": "Sea Group",
-    "slug": "sea_group",
-    "module": "sea_com.py",
-    "official_careers_url": "https://careers.seagroup.com/",
-    "official_domain": "sea.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 434,
-    "company_name": "Shopee",
-    "slug": "shopee",
-    "module": "shopee_sg.py",
-    "official_careers_url": "https://careers.shopee.sg/jobs?limit=50&offset=0",
-    "official_domain": "shopee.sg",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 435,
-    "company_name": "Lazada",
-    "slug": "lazada",
-    "module": "lazada_com.py",
-    "official_careers_url": "https://lazada.com/careers",
-    "official_domain": "lazada.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 436,
-    "company_name": "Traveloka",
-    "slug": "traveloka",
-    "module": "traveloka_com.py",
-    "official_careers_url": "https://careers.traveloka.com/jobs",
-    "official_domain": "traveloka.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 437,
-    "company_name": "Carousell",
-    "slug": "carousell",
-    "module": "carousell_com.py",
-    "official_careers_url": "https://careers.carousell.com/openings/",
-    "official_domain": "carousell.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 438,
-    "company_name": "Mercado Libre",
-    "slug": "mercado_libre",
-    "module": "mercadolibre_com.py",
-    "official_careers_url": "https://careers.mercadolibre.com/",
-    "official_domain": "mercadolibre.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 439,
-    "company_name": "Kakao",
-    "slug": "kakao",
-    "module": "kakao_com.py",
-    "official_careers_url": "https://careers.kakao.com/",
-    "official_domain": "kakao.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 440,
-    "company_name": "Naver",
-    "slug": "naver",
-    "module": "navercorp_com.py",
-    "official_careers_url": "https://recruit.navercorp.com/rcrt/list.do?sw=",
-    "official_domain": "navercorp.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 441,
+    "rank": 139,
     "company_name": "Rakuten",
     "slug": "rakuten",
     "module": "rakuten_com.py",
     "official_careers_url": "https://rakuten.com/careers",
     "official_domain": "rakuten.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 442,
+    "rank": 140,
     "company_name": "Mercari",
     "slug": "mercari",
     "module": "mercari_com.py",
     "official_careers_url": "https://careers.mercari.com/",
     "official_domain": "mercari.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 443,
-    "company_name": "Xero",
-    "slug": "xero",
-    "module": "xero_com.py",
-    "official_careers_url": "https://careers.xero.com/jobs/?search=&origin=global",
-    "official_domain": "xero.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 444,
-    "company_name": "MYOB",
-    "slug": "myob",
-    "module": "myob_com.py",
-    "official_careers_url": "https://careers.myob.com/explore-roles",
-    "official_domain": "myob.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 445,
+    "rank": 141,
     "company_name": "Telstra",
     "slug": "telstra",
     "module": "telstra_com_au.py",
     "official_careers_url": "https://telstra.com.au/careers",
     "official_domain": "telstra.com.au",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 446,
-    "company_name": "Vodafone",
-    "slug": "vodafone",
-    "module": "vodafone_com.py",
-    "official_careers_url": "https://jobs.vodafone.com/careers?start=0&pid=563018698278962&sort_by=timestamp",
-    "official_domain": "vodafone.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 447,
-    "company_name": "Orange",
-    "slug": "orange",
-    "module": "orange_com.py",
-    "official_careers_url": "https://orange.jobs/gb/en/search-results",
-    "official_domain": "orange.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 448,
-    "company_name": "BT Group",
-    "slug": "bt_group",
-    "module": "bt_com.py",
-    "official_careers_url": "https://jobs.bt.com/search/?q=&locationsearch=&",
-    "official_domain": "bt.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 449,
-    "company_name": "Deutsche Telekom",
-    "slug": "deutsche_telekom",
-    "module": "telekom_com.py",
-    "official_careers_url": "https://portal.globalcareers.telekom.com/",
-    "official_domain": "telekom.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 450,
-    "company_name": "MTN Group",
-    "slug": "mtn_group",
-    "module": "mtn_com.py",
-    "official_careers_url": "https://mtn.com/careers",
-    "official_domain": "mtn.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 451,
-    "company_name": "Safaricom",
-    "slug": "safaricom",
-    "module": "safaricom_co_ke.py",
-    "official_careers_url": "https://safaricom.co.ke/careers",
-    "official_domain": "safaricom.co.ke",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 452,
-    "company_name": "Yandex",
-    "slug": "yandex",
-    "module": "yandex_com.py",
-    "official_careers_url": "https://yandex.com/careers",
-    "official_domain": "yandex.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 453,
-    "company_name": "Kaspersky",
-    "slug": "kaspersky",
-    "module": "kaspersky_com.py",
-    "official_careers_url": "https://careers.kaspersky.com/vacancies",
-    "official_domain": "kaspersky.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 454,
-    "company_name": "Bitdefender",
-    "slug": "bitdefender",
-    "module": "bitdefender_com.py",
-    "official_careers_url": "https://bitdefender.com/careers",
-    "official_domain": "bitdefender.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 455,
-    "company_name": "ESET",
-    "slug": "eset",
-    "module": "eset_com.py",
-    "official_careers_url": "https://eset.com/careers",
-    "official_domain": "eset.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 456,
+    "rank": 142,
     "company_name": "Trend Micro",
     "slug": "trend_micro",
     "module": "trendmicro_com.py",
     "official_careers_url": "https://trendmicro.com/careers",
     "official_domain": "trendmicro.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 457,
-    "company_name": "Check Point",
-    "slug": "check_point",
-    "module": "checkpoint_com.py",
-    "official_careers_url": "https://checkpoint.com/careers",
-    "official_domain": "checkpoint.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 458,
+    "rank": 143,
     "company_name": "Darktrace",
     "slug": "darktrace",
     "module": "darktrace_com.py",
     "official_careers_url": "https://darktrace.com/careers",
     "official_domain": "darktrace.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 459,
+    "rank": 144,
     "company_name": "Proofpoint",
     "slug": "proofpoint",
     "module": "proofpoint_com.py",
     "official_careers_url": "https://proofpoint.com/careers",
     "official_domain": "proofpoint.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 460,
+    "rank": 145,
     "company_name": "Tenable",
     "slug": "tenable",
     "module": "tenable_com.py",
     "official_careers_url": "https://tenable.com/careers",
     "official_domain": "tenable.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 461,
+    "rank": 146,
     "company_name": "Rapid7",
     "slug": "rapid7",
     "module": "rapid7_com.py",
     "official_careers_url": "https://rapid7.com/careers",
     "official_domain": "rapid7.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 462,
+    "rank": 147,
     "company_name": "Qualys",
     "slug": "qualys",
     "module": "qualys_com.py",
     "official_careers_url": "https://qualys.com/careers",
     "official_domain": "qualys.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 463,
+    "rank": 148,
     "company_name": "Acronis",
     "slug": "acronis",
     "module": "acronis_com.py",
     "official_careers_url": "https://acronis.com/careers",
     "official_domain": "acronis.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 464,
-    "company_name": "Veeam",
-    "slug": "veeam",
-    "module": "veeam_com.py",
-    "official_careers_url": "https://careers.veeam.com/",
-    "official_domain": "veeam.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 465,
-    "company_name": "Commvault",
-    "slug": "commvault",
-    "module": "commvault_com.py",
-    "official_careers_url": "https://commvault.com/careers",
-    "official_domain": "commvault.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 466,
-    "company_name": "Rubrik",
-    "slug": "rubrik",
-    "module": "rubrik_com.py",
-    "official_careers_url": "https://rubrik.com/careers",
-    "official_domain": "rubrik.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 467,
-    "company_name": "Nutanix",
-    "slug": "nutanix",
-    "module": "nutanix_com.py",
-    "official_careers_url": "https://nutanix.com/careers",
-    "official_domain": "nutanix.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 468,
-    "company_name": "Pure Storage",
-    "slug": "pure_storage",
-    "module": "purestorage_com.py",
-    "official_careers_url": "https://purestorage.com/careers",
-    "official_domain": "purestorage.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 469,
-    "company_name": "NetApp",
-    "slug": "netapp",
-    "module": "netapp_com.py",
-    "official_careers_url": "https://netapp.com/careers",
-    "official_domain": "netapp.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 470,
+    "rank": 149,
     "company_name": "F5",
     "slug": "f5",
     "module": "f5_com.py",
     "official_careers_url": "https://f5.com/careers",
     "official_domain": "f5.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 471,
-    "company_name": "Ciena",
-    "slug": "ciena",
-    "module": "ciena_com.py",
-    "official_careers_url": "https://ciena.com/careers",
-    "official_domain": "ciena.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 472,
-    "company_name": "Verizon",
-    "slug": "verizon",
-    "module": "verizon_com.py",
-    "official_careers_url": "https://verizon.com/careers",
-    "official_domain": "verizon.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 473,
-    "company_name": "T-Mobile",
-    "slug": "t_mobile",
-    "module": "t_mobile_com.py",
-    "official_careers_url": "https://t-mobile.com/careers",
-    "official_domain": "t-mobile.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 474,
+    "rank": 150,
     "company_name": "Comcast",
     "slug": "comcast",
     "module": "comcast_com.py",
     "official_careers_url": "https://comcast.com/careers",
     "official_domain": "comcast.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 475,
-    "company_name": "Warner Bros. Discovery",
-    "slug": "warner_bros_discovery",
-    "module": "wbd_com.py",
-    "official_careers_url": "https://wbd.com/careers",
-    "official_domain": "wbd.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 476,
-    "company_name": "The Walt Disney Company",
-    "slug": "the_walt_disney_company",
-    "module": "thewaltdisneycompany_com.py",
-    "official_careers_url": "https://thewaltdisneycompany.com/careers",
-    "official_domain": "thewaltdisneycompany.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 477,
-    "company_name": "NBCUniversal",
-    "slug": "nbcuniversal",
-    "module": "nbcuniversal_com.py",
-    "official_careers_url": "https://nbcuniversal.com/careers",
-    "official_domain": "nbcuniversal.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 478,
-    "company_name": "Paramount",
-    "slug": "paramount",
-    "module": "paramount_com.py",
-    "official_careers_url": "https://paramount.com/careers",
-    "official_domain": "paramount.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 479,
-    "company_name": "Sony Pictures",
-    "slug": "sony_pictures",
-    "module": "sonypictures_com.py",
-    "official_careers_url": "https://sonypictures.com/careers",
-    "official_domain": "sonypictures.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 480,
-    "company_name": "Fox Corporation",
-    "slug": "fox_corporation",
-    "module": "foxcorporation_com.py",
-    "official_careers_url": "https://foxcorporation.com/careers",
-    "official_domain": "foxcorporation.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 481,
-    "company_name": "The New York Times",
-    "slug": "the_new_york_times",
-    "module": "nytimes_com.py",
-    "official_careers_url": "https://www.nytco.com/careers/job-listings/",
-    "official_domain": "nytimes.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 482,
-    "company_name": "Reuters",
-    "slug": "reuters",
-    "module": "reuters_com.py",
-    "official_careers_url": "https://reuters.com/careers",
-    "official_domain": "reuters.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 483,
-    "company_name": "The Guardian",
-    "slug": "the_guardian",
-    "module": "theguardian_com.py",
-    "official_careers_url": "https://theguardian.com/careers",
-    "official_domain": "theguardian.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 484,
-    "company_name": "Financial Times",
-    "slug": "financial_times",
-    "module": "ft_com.py",
-    "official_careers_url": "https://ft.com/careers",
-    "official_domain": "ft.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 485,
-    "company_name": "The Economist Group",
-    "slug": "the_economist_group",
-    "module": "economistgroup_com.py",
-    "official_careers_url": "https://economistgroup.com/careers",
-    "official_domain": "economistgroup.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 486,
+    "rank": 151,
     "company_name": "Reddit",
     "slug": "reddit",
     "module": "redditinc_com.py",
     "official_careers_url": "https://redditinc.com/careers",
     "official_domain": "redditinc.com",
-    "verification_status": "Needs live URL verification"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   },
   {
-    "rank": 487,
-    "company_name": "Pinterest",
-    "slug": "pinterest",
-    "module": "pinterestcareers_com.py",
-    "official_careers_url": "https://pinterestcareers.com/careers",
-    "official_domain": "pinterestcareers.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 488,
-    "company_name": "Snap Inc.",
-    "slug": "snap_inc",
-    "module": "snap_com.py",
-    "official_careers_url": "https://careers.snap.com/jobs",
-    "official_domain": "snap.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 489,
-    "company_name": "Discord",
-    "slug": "discord",
-    "module": "discord_com.py",
-    "official_careers_url": "https://discord.com/careers",
-    "official_domain": "discord.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 490,
-    "company_name": "Signal",
-    "slug": "signal",
-    "module": "signal_org.py",
-    "official_careers_url": "https://signal.org/careers",
-    "official_domain": "signal.org",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 491,
+    "rank": 152,
     "company_name": "Mozilla",
     "slug": "mozilla",
     "module": "mozilla_org.py",
     "official_careers_url": "https://mozilla.org/careers",
     "official_domain": "mozilla.org",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 492,
-    "company_name": "Wikimedia Foundation",
-    "slug": "wikimedia_foundation",
-    "module": "wikimediafoundation_org.py",
-    "official_careers_url": "https://wikimediafoundation.org/careers",
-    "official_domain": "wikimediafoundation.org",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 493,
-    "company_name": "Automattic",
-    "slug": "automattic",
-    "module": "automattic_com.py",
-    "official_careers_url": "https://automattic.com/work-with-us/jobs/",
-    "official_domain": "automattic.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 494,
-    "company_name": "Squarespace",
-    "slug": "squarespace",
-    "module": "squarespace_com.py",
-    "official_careers_url": "https://www.squarespace.com/about/careers",
-    "official_domain": "squarespace.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 495,
-    "company_name": "Wix",
-    "slug": "wix",
-    "module": "wix_com.py",
-    "official_careers_url": "https://careers.wix.com/positions",
-    "official_domain": "wix.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 496,
-    "company_name": "GoDaddy",
-    "slug": "godaddy",
-    "module": "godaddy_com.py",
-    "official_careers_url": "https://careers.godaddy/jobs/search",
-    "official_domain": "godaddy.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 497,
-    "company_name": "Namecheap",
-    "slug": "namecheap",
-    "module": "namecheap_com.py",
-    "official_careers_url": "https://www.namecheap.com/careers/openings/",
-    "official_domain": "namecheap.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
-  },
-  {
-    "rank": 498,
-    "company_name": "Hostinger",
-    "slug": "hostinger",
-    "module": "hostinger_com.py",
-    "official_careers_url": "https://www.hostinger.com/career",
-    "official_domain": "hostinger.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 499,
-    "company_name": "IONOS",
-    "slug": "ionos",
-    "module": "ionos_group_com.py",
-    "official_careers_url": "https://ionos-group.com/careers",
-    "official_domain": "ionos-group.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 500,
-    "company_name": "Browserbase",
-    "slug": "browserbase",
-    "module": "browserbase_com.py",
-    "official_careers_url": "https://browserbase.com/careers",
-    "official_domain": "browserbase.com",
-    "verification_status": "Needs live URL verification"
-  },
-  {
-    "rank": 501,
-    "company_name": "Coca-Cola Consolidated",
-    "slug": "coca_cola_consolidated",
-    "module": "seeacareerwithus_com.py",
-    "official_careers_url": "https://www.seeacareerwithus.com/search-jobs#search-results",
-    "official_domain": "seeacareerwithus.com",
-    "verification_status": "Direct listing URL configured; live scraper verification pending"
+    "verification_status": "Passed local live scrape test (2026-10-23)"
   }
 ]
