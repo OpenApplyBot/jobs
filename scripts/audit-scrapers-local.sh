@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-# Run from the repository root or from any subdirectory.
-ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+# Resolve paths from this script, so it works from any current directory.
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 BACKEND="$ROOT/backend"
 REPORT="${REPORT:-$BACKEND/company_scraper_test_report.jsonl}"
+if [[ "$REPORT" != /* ]]; then REPORT="$ROOT/$REPORT"; fi
 WORKERS="${WORKERS:-8}"
 TIMEOUT="${TIMEOUT:-12}"
 RETRIES="${RETRIES:-0}"
