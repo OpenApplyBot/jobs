@@ -280,7 +280,7 @@ def test_greenhouse_multilocation_does_not_overflow_location_fields(monkeypatch)
         ),
     )
 
-    row = fetch_jobs("greenhouse", "databricks", company="Databricks")[0]
+    row = fetch_jobs("greenhouse", "databricks")[0]
     assert len(row["location"]) > 200
     assert len(row["location"]) <= 500
     assert row["location_city"] is None
