@@ -33,7 +33,7 @@ class Job(Base):
     seniority: Mapped[str|None]=mapped_column(String(80),nullable=True)
     company_name: Mapped[str|None]=mapped_column(String(300),nullable=True,index=True)
     location: Mapped[str|None]=mapped_column(String(500),nullable=True,index=True)
-    department: Mapped[str|None]=mapped_column(String(300),nullable=True)
+    department: Mapped[str|None]=mapped_column(Text,nullable=True)
     employment_type: Mapped[str|None]=mapped_column(String(100),nullable=True)
     description: Mapped[str|None]=mapped_column(Text,nullable=True)
     summary: Mapped[str|None]=mapped_column(Text,nullable=True)
