@@ -71,6 +71,13 @@ def _details(title,description,location,employment_type,raw):
 def normalize(job_id, title, url, location=None, department=None, employment_type=None, description=None, posted_at=None, company=None, raw_payload=None, apply_url=None):
     title, url = clean(title), valid_url(url)
     if not job_id or not title or not url: return None
+    # Keep normalized values within the corresponding SQL VARCHAR limits.
+    title = title[:500]
+    url = url[:2000]
+    apply_url = valid_url(apply_url)[:2000] if valid_url(apply_url) else None
+    location = (clean(location) or "")[:500] or None
+    employment_type = (clean(employment_type) or "")[:100] or None
+    company = (clean(company) or "")[:300] or None
     payload=raw_payload if isinstance(raw_payload,dict) else {}
     details=_details(title,description,location,employment_type,payload)
     raw=json.loads(json.dumps(payload,default=str))
