@@ -20,7 +20,7 @@ MANIFEST = json.loads(
 )
 
 
-def _scrape_in_worker(module_name, result_queue):
+def _scrape_in_worker(module_name, careers_url, result_queue):
     """Run a scraper and send only a small status message through the IPC queue.
 
     Job lists can be large enough to fill multiprocessing.Queue's pipe and block
@@ -29,8 +29,19 @@ def _scrape_in_worker(module_name, result_queue):
     """
     result_path = None
     try:
-        module = importlib.import_module(".." + module_name, package=__package__)
-        jobs = module.scrape()
+        try:
+            module = importlib.import_module(".." + module_name, package=__package__)
+            jobs = module.scrape()
+        except ModuleNotFoundError as exc:
+            # Generated company modules are intentionally not committed. When a
+            # module is absent, test the manifest URL through the shared live
+            # ATS/JSON-LD discovery engine instead of reporting a false import
+            # failure for every company.
+            expected_prefix = __package__ + "."
+            if exc.name and not exc.name.startswith(expected_prefix):
+                raise
+            from ..auto import scrape as auto_scrape
+            jobs = auto_scrape(careers_url)
         fd, result_path = tempfile.mkstemp(prefix="openapplybot-scrape-", suffix=".json")
         with os.fdopen(fd, "w", encoding="utf-8") as stream:
             json.dump(jobs, stream, ensure_ascii=False, default=str)
@@ -44,9 +55,12 @@ def _scrape_in_worker(module_name, result_queue):
         result_queue.put(("error", type(exc).__name__, str(exc)))
 
 
-def _run_scraper(module_name, timeout):
+def _run_scraper(module_name, careers_url, timeout):
     result_queue = multiprocessing.Queue()
-    process = multiprocessing.Process(target=_scrape_in_worker, args=(module_name, result_queue))
+    process = multiprocessing.Process(
+        target=_scrape_in_worker,
+        args=(module_name, careers_url, result_queue),
+    )
     process.start()
     result_path = None
 
@@ -91,7 +105,7 @@ def main() -> None:
     parser.add_argument("--limit", type=int, default=50)
     parser.add_argument("--report", default="company_scraper_test_report.jsonl")
     parser.add_argument("--timeout", type=int, default=30, help="Maximum seconds per scraper")
-    parser.add_argument("--workers", type=int, default=8, help="Concurrent scraper processes")
+    parser.add_argument("--workers", type=int, default=1, help="Keep at 1 for one-by-one scraper verification")
     parser.add_argument("--resume", action="store_true", help="Skip companies already passing with at least one valid job in the report")
     parser.add_argument("--retries", type=int, default=1, help="Retries for errors/timeouts (0 disables retries)")
     args = parser.parse_args()
@@ -134,7 +148,11 @@ def main() -> None:
             jobs = None
             for attempt in range(max(0, args.retries) + 1):
                 try:
-                    jobs = _run_scraper(Path(item["module"]).stem, args.timeout)
+                    jobs = _run_scraper(
+                        Path(item["module"]).stem,
+                        item["official_careers_url"],
+                        args.timeout,
+                    )
                     last_error = None
                     break
                 except Exception as exc:
@@ -170,22 +188,22 @@ def main() -> None:
         result["elapsed_seconds"] = round(monotonic() - t0, 2)
         return i, result
 
+    # Deliberately test one company at a time so failures are attributable and
+    # rate limits are less likely. --workers is retained for CLI compatibility.
     with report_path.open("a", encoding="utf-8") as report:
-        with ThreadPoolExecutor(max_workers=max(1, args.workers)) as executor:
-            pending = [executor.submit(run_one, pair) for pair in enumerate(selected, start=1)]
-            for future in as_completed(pending):
-                i, result = future.result()
-                if result["status"] == "success":
-                    counts["with_jobs"] += 1
-                elif result["status"] == "empty":
-                    counts["empty"] += 1
-                elif result["status"] == "invalid":
-                    counts["invalid"] += 1
-                else:
-                    counts["errors"] += 1
-                report.write(json.dumps(result, ensure_ascii=False, default=str) + "\n")
-                report.flush()
-                print(f'[{i}/{len(selected)}] {result["company"]}: {result["status"]} jobs={result["jobs"]}')
+        for pair in enumerate(selected, start=1):
+            i, result = run_one(pair)
+            if result["status"] == "success":
+                counts["with_jobs"] += 1
+            elif result["status"] == "empty":
+                counts["empty"] += 1
+            elif result["status"] == "invalid":
+                counts["invalid"] += 1
+            else:
+                counts["errors"] += 1
+            report.write(json.dumps(result, ensure_ascii=False, default=str) + "\n")
+            report.flush()
+            print(f'[{i}/{len(selected)}] {result["company"]}: {result["status"]} jobs={result["jobs"]}')
     print(json.dumps({
         "offset": start,
         "limit": len(selected),
