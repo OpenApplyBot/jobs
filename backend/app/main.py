@@ -133,12 +133,17 @@ def run_one(source_id:int,db:Session=Depends(get_db)):
     s=db.get(Source,source_id)
     if not s: raise HTTPException(404,"Source not found")
     if not s.active: raise HTTPException(400,"Source is inactive")
+    # End the read transaction before importing/enqueueing worker code.
+    db.rollback()
     from .worker import run_source
     job=queue.enqueue(run_source,source_id)
     return {"status":"queued","queue_id":job.id,"source_id":source_id}
 @app.post("/api/connectors/run-all",status_code=202)
 def run_all(db:Session=Depends(get_db)):
     ids=list(db.scalars(select(Source.id).where(Source.active.is_(True))).all())
+    # Release the transaction before enqueueing; schema changes must never run
+    # while this request holds a relation lock on sources.
+    db.rollback()
     if not ids:
         return {"status":"queued","count":0,"queue_ids":[]}
     from .worker import run_source
