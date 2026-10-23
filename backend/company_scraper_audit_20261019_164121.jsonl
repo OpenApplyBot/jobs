@@ -1,0 +1,500 @@
+{"rank": 6, "company": "Netflix", "url": "https://jobs.netflix.com/", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 3.26}
+{"rank": 5, "company": "Meta", "url": "https://www.metacareers.com/", "status": "success", "jobs": 1213, "invalid_jobs": 0, "elapsed_seconds": 4.51}
+{"rank": 8, "company": "OpenAI", "url": "https://openai.com/careers/", "status": "success", "jobs": 814, "invalid_jobs": 0, "elapsed_seconds": 7.05}
+{"rank": 9, "company": "Anthropic", "url": "https://www.anthropic.com/careers", "status": "success", "jobs": 659, "invalid_jobs": 0, "elapsed_seconds": 6.08}
+{"rank": 10, "company": "xAI", "url": "https://x.ai/careers", "status": "success", "jobs": 305, "invalid_jobs": 0, "elapsed_seconds": 2.4}
+{"rank": 7, "company": "NVIDIA", "url": "https://www.nvidia.com/en-us/about-nvidia/careers/", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 31.79}
+{"rank": 4, "company": "Apple", "url": "https://jobs.apple.com/", "status": "success", "jobs": 508, "invalid_jobs": 0, "elapsed_seconds": 40.95}
+{"rank": 13, "company": "Tencent", "url": "https://tencent.com/careers", "status": "success", "jobs": 300, "invalid_jobs": 0, "elapsed_seconds": 13.63}
+{"rank": 11, "company": "ByteDance", "url": "https://bytedance.com/careers", "status": "success", "jobs": 1429, "invalid_jobs": 0, "elapsed_seconds": 34.75}
+{"rank": 12, "company": "TikTok", "url": "https://tiktok.com/careers", "status": "success", "jobs": 3000, "invalid_jobs": 0, "elapsed_seconds": 27.63}
+{"rank": 16, "company": "Huawei", "url": "https://huawei.com/careers", "status": "success", "jobs": 2, "invalid_jobs": 0, "elapsed_seconds": 2.01}
+{"rank": 15, "company": "Baidu", "url": "https://baidu.com/careers", "status": "error", "jobs": 0, "error": "RuntimeError: RuntimeError: Baidu official job API returned no rows; keys=['status', 'message']", "elapsed_seconds": 10.21}
+{"rank": 17, "company": "Samsung Electronics", "url": "https://samsung.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 3.13}
+{"rank": 14, "company": "Alibaba", "url": "https://alibaba.com/careers", "status": "success", "jobs": 1000, "invalid_jobs": 0, "elapsed_seconds": 14.28}
+{"rank": 19, "company": "Panasonic", "url": "https://panasonic.com/careers", "status": "success", "jobs": 16, "invalid_jobs": 0, "elapsed_seconds": 3.03}
+{"rank": 18, "company": "Sony", "url": "https://sony.com/careers", "status": "success", "jobs": 118, "invalid_jobs": 0, "elapsed_seconds": 7.3}
+{"rank": 22, "company": "Oracle", "url": "https://careers.oracle.com/", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 3.46}
+{"rank": 23, "company": "Salesforce", "url": "https://careers.salesforce.com/", "status": "success", "jobs": 20, "invalid_jobs": 0, "elapsed_seconds": 2.99}
+{"rank": 24, "company": "Adobe", "url": "https://careers.adobe.com/", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 1.45}
+{"rank": 20, "company": "LG Electronics", "url": "https://lg.com/careers", "status": "success", "jobs": 227, "invalid_jobs": 0, "elapsed_seconds": 11.67}
+{"rank": 21, "company": "IBM", "url": "https://ibm.com/careers", "status": "success", "jobs": 1894, "invalid_jobs": 0, "elapsed_seconds": 9.9}
+{"rank": 26, "company": "Cisco", "url": "https://jobs.cisco.com/", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 0.86}
+{"rank": 27, "company": "Intel", "url": "https://intel.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 2.77}
+{"rank": 28, "company": "AMD", "url": "https://amd.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 3.45}
+{"rank": 30, "company": "Dell Technologies", "url": "https://dell.com/careers", "status": "success", "jobs": 50, "invalid_jobs": 0, "elapsed_seconds": 2.22}
+{"rank": 31, "company": "HP", "url": "https://hp.com/careers", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 19.23}
+{"rank": 29, "company": "Qualcomm", "url": "https://qualcomm.com/careers", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 23.99}
+{"rank": 32, "company": "HPE", "url": "https://hpe.com/careers", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 2.73}
+{"rank": 33, "company": "Lenovo", "url": "https://lenovo.com/careers", "status": "success", "jobs": 6, "invalid_jobs": 0, "elapsed_seconds": 2.62}
+{"rank": 35, "company": "Broadcom", "url": "https://broadcom.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 1.66}
+{"rank": 25, "company": "SAP", "url": "https://jobs.sap.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 31.89}
+{"rank": 37, "company": "Texas Instruments", "url": "https://ti.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 2.44}
+{"rank": 38, "company": "Applied Materials", "url": "https://appliedmaterials.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 3.42}
+{"rank": 39, "company": "ASML", "url": "https://asml.com/careers", "status": "success", "jobs": 17, "invalid_jobs": 0, "elapsed_seconds": 1.3}
+{"rank": 40, "company": "TSMC", "url": "https://tsmc.com/careers", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 5.87}
+{"rank": 36, "company": "Micron", "url": "https://micron.com/careers", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 16.94}
+{"rank": 34, "company": "Arm", "url": "https://arm.com/careers", "status": "success", "jobs": 12, "invalid_jobs": 0, "elapsed_seconds": 20.76}
+{"rank": 42, "company": "Cadence Design Systems", "url": "https://cadence.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 2.92}
+{"rank": 44, "company": "Nokia", "url": "https://nokia.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 2.27}
+{"rank": 41, "company": "Synopsys", "url": "https://synopsys.com/careers", "status": "success", "jobs": 363, "invalid_jobs": 0, "elapsed_seconds": 14.22}
+{"rank": 43, "company": "Ericsson", "url": "https://ericsson.com/careers", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 11.51}
+{"rank": 46, "company": "Arista Networks", "url": "https://arista.com/careers", "status": "success", "jobs": 248, "invalid_jobs": 0, "elapsed_seconds": 6.06}
+{"rank": 48, "company": "Red Hat", "url": "https://redhat.com/careers", "status": "success", "jobs": 173, "invalid_jobs": 0, "elapsed_seconds": 12.95}
+{"rank": 49, "company": "Canonical", "url": "https://canonical.com/careers", "status": "success", "jobs": 309, "invalid_jobs": 0, "elapsed_seconds": 3.6}
+{"rank": 50, "company": "Databricks", "url": "https://databricks.com/careers", "status": "success", "jobs": 898, "invalid_jobs": 0, "elapsed_seconds": 6.82}
+{"rank": 47, "company": "Motorola Solutions", "url": "https://motorolasolutions.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 29.4}
+{"rank": 51, "company": "Snowflake", "url": "https://snowflake.com/careers", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 2.12}
+{"rank": 53, "company": "Scale AI", "url": "https://scale.com/careers", "status": "success", "jobs": 182, "invalid_jobs": 0, "elapsed_seconds": 2.44}
+{"rank": 45, "company": "Juniper Networks", "url": "https://juniper.net/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 39.6}
+{"rank": 54, "company": "Cohere", "url": "https://cohere.com/careers", "status": "success", "jobs": 116, "invalid_jobs": 0, "elapsed_seconds": 4.81}
+{"rank": 55, "company": "Mistral AI", "url": "https://mistral.ai/careers", "status": "success", "jobs": 219, "invalid_jobs": 0, "elapsed_seconds": 5.86}
+{"rank": 56, "company": "Hugging Face", "url": "https://huggingface.co/careers", "status": "success", "jobs": 6, "invalid_jobs": 0, "elapsed_seconds": 2.37}
+{"rank": 57, "company": "Perplexity", "url": "https://perplexity.ai/careers", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 3.28}
+{"rank": 59, "company": "Stability AI", "url": "https://stability.ai/careers", "status": "success", "jobs": 6, "invalid_jobs": 0, "elapsed_seconds": 0.62}
+{"rank": 58, "company": "Runway", "url": "https://runwayml.com/careers", "status": "success", "jobs": 49, "invalid_jobs": 0, "elapsed_seconds": 3.68}
+{"rank": 61, "company": "Character.AI", "url": "https://character.ai/careers", "status": "success", "jobs": 13, "invalid_jobs": 0, "elapsed_seconds": 4.82}
+{"rank": 52, "company": "Palantir", "url": "https://palantir.com/careers", "status": "success", "jobs": 310, "invalid_jobs": 0, "elapsed_seconds": 19.24}
+{"rank": 60, "company": "ElevenLabs", "url": "https://elevenlabs.io/careers", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 6.82}
+{"rank": 62, "company": "Waymo", "url": "https://waymo.com/careers", "status": "success", "jobs": 362, "invalid_jobs": 0, "elapsed_seconds": 2.52}
+{"rank": 64, "company": "MongoDB", "url": "https://mongodb.com/careers", "status": "success", "jobs": 400, "invalid_jobs": 0, "elapsed_seconds": 5.08}
+{"rank": 66, "company": "Confluent", "url": "https://confluent.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.02}
+{"rank": 63, "company": "Anduril", "url": "https://anduril.com/careers", "status": "success", "jobs": 2532, "invalid_jobs": 0, "elapsed_seconds": 37.27}
+{"rank": 67, "company": "Redis", "url": "https://redis.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 33.62}
+{"rank": 68, "company": "Cockroach Labs", "url": "https://cockroachlabs.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.91}
+{"rank": 70, "company": "ClickHouse", "url": "https://clickhouse.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.08}
+{"rank": 1, "company": "Google", "url": "https://www.google.com/about/careers/applications/", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.5}
+{"rank": 2, "company": "Microsoft", "url": "https://careers.microsoft.com/", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.54}
+{"rank": 3, "company": "Amazon", "url": "https://www.amazon.jobs/", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.56}
+{"rank": 71, "company": "PlanetScale", "url": "https://planetscale.com/careers", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 1.93}
+{"rank": 73, "company": "Vercel", "url": "https://vercel.com/careers", "status": "success", "jobs": 93, "invalid_jobs": 0, "elapsed_seconds": 1.9}
+{"rank": 72, "company": "Supabase", "url": "https://supabase.com/careers", "status": "success", "jobs": 54, "invalid_jobs": 0, "elapsed_seconds": 2.26}
+{"rank": 77, "company": "Akamai", "url": "https://akamai.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.74}
+{"rank": 74, "company": "Netlify", "url": "https://netlify.com/careers", "status": "success", "jobs": 5, "invalid_jobs": 0, "elapsed_seconds": 7.0}
+{"rank": 79, "company": "GitLab", "url": "https://about.gitlab.com/jobs/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.43}
+{"rank": 69, "company": "Neo4j", "url": "https://neo4j.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 15.35}
+{"rank": 81, "company": "JetBrains", "url": "https://jetbrains.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.94}
+{"rank": 75, "company": "Cloudflare", "url": "https://www.cloudflare.com/careers/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 15.44}
+{"rank": 78, "company": "GitHub", "url": "https://github.careers/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 22.14}
+{"rank": 84, "company": "Figma", "url": "https://figma.com/careers", "status": "success", "jobs": 140, "invalid_jobs": 0, "elapsed_seconds": 4.44}
+{"rank": 65, "company": "Elastic", "url": "https://elastic.co/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 80.61}
+{"rank": 83, "company": "Postman", "url": "https://postman.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.23}
+{"rank": 76, "company": "Fastly", "url": "https://fastly.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 31.81}
+{"rank": 86, "company": "Notion", "url": "https://notion.com/careers", "status": "success", "jobs": 129, "invalid_jobs": 0, "elapsed_seconds": 2.73}
+{"rank": 80, "company": "Atlassian", "url": "https://www.atlassian.com/company/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 26.83}
+{"rank": 88, "company": "Airtable", "url": "https://airtable.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.09}
+{"rank": 90, "company": "ClickUp", "url": "https://clickup.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.19}
+{"rank": 87, "company": "Linear", "url": "https://linear.app/careers", "status": "success", "jobs": 29, "invalid_jobs": 0, "elapsed_seconds": 7.73}
+{"rank": 85, "company": "Canva", "url": "https://canva.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.83}
+{"rank": 94, "company": "1Password", "url": "https://1password.com/careers", "status": "success", "jobs": 75, "invalid_jobs": 0, "elapsed_seconds": 3.97}
+{"rank": 93, "company": "Zapier", "url": "https://zapier.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.55}
+{"rank": 96, "company": "Datadog", "url": "https://datadoghq.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.19}
+{"rank": 95, "company": "Snyk", "url": "https://snyk.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.34}
+{"rank": 91, "company": "Asana", "url": "https://asana.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.86}
+{"rank": 98, "company": "New Relic", "url": "https://newrelic.com/careers", "status": "success", "jobs": 55, "invalid_jobs": 0, "elapsed_seconds": 1.62}
+{"rank": 97, "company": "Grafana Labs", "url": "https://grafana.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.79}
+{"rank": 89, "company": "Miro", "url": "https://miro.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 22.47}
+{"rank": 99, "company": "Splunk", "url": "https://splunk.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.76}
+{"rank": 101, "company": "HashiCorp", "url": "https://hashicorp.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.53}
+{"rank": 82, "company": "Docker", "url": "https://docker.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 54.99}
+{"rank": 103, "company": "Sonar", "url": "https://sonarsource.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 12.97}
+{"rank": 105, "company": "LaunchDarkly", "url": "https://launchdarkly.com/careers", "status": "success", "jobs": 51, "invalid_jobs": 0, "elapsed_seconds": 2.42}
+{"rank": 100, "company": "Dynatrace", "url": "https://dynatrace.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 18.9}
+{"rank": 104, "company": "CircleCI", "url": "https://circleci.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 14.35}
+{"rank": 107, "company": "Mixpanel", "url": "https://mixpanel.com/careers", "status": "success", "jobs": 47, "invalid_jobs": 0, "elapsed_seconds": 3.02}
+{"rank": 102, "company": "JFrog", "url": "https://jfrog.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 19.61}
+{"rank": 106, "company": "Amplitude", "url": "https://amplitude.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 5.94}
+{"rank": 109, "company": "Contentful", "url": "https://contentful.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.79}
+{"rank": 108, "company": "Algolia", "url": "https://algolia.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.87}
+{"rank": 111, "company": "Block", "url": "https://block.xyz/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.74}
+{"rank": 114, "company": "Adyen", "url": "https://adyen.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.09}
+{"rank": 115, "company": "Klarna", "url": "https://klarna.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.8}
+{"rank": 113, "company": "PayPal", "url": "https://paypal.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.77}
+{"rank": 116, "company": "Checkout.com", "url": "https://checkout.com/careers", "status": "success", "jobs": 169, "invalid_jobs": 0, "elapsed_seconds": 6.13}
+{"rank": 110, "company": "Stripe", "url": "https://stripe.com/jobs", "status": "success", "jobs": 6, "invalid_jobs": 0, "elapsed_seconds": 17.44}
+{"rank": 118, "company": "Brex", "url": "https://brex.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.13}
+{"rank": 120, "company": "Chime", "url": "https://chime.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.95}
+{"rank": 119, "company": "Ramp", "url": "https://ramp.com/careers", "status": "success", "jobs": 167, "invalid_jobs": 0, "elapsed_seconds": 6.27}
+{"rank": 123, "company": "Kraken", "url": "https://kraken.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.13}
+{"rank": 122, "company": "Coinbase", "url": "https://coinbase.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.75}
+{"rank": 121, "company": "Robinhood", "url": "https://robinhood.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.26}
+{"rank": 92, "company": "Monday.com", "url": "https://monday.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 61.54}
+{"rank": 125, "company": "Monzo", "url": "https://monzo.com/careers", "status": "success", "jobs": 71, "invalid_jobs": 0, "elapsed_seconds": 3.66}
+{"rank": 126, "company": "Nubank", "url": "https://nubank.com.br/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.69}
+{"rank": 124, "company": "Revolut", "url": "https://revolut.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.02}
+{"rank": 127, "company": "SoFi", "url": "https://sofi.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.99}
+{"rank": 130, "company": "Morgan Stanley", "url": "https://morganstanley.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.49}
+{"rank": 129, "company": "Goldman Sachs", "url": "https://goldmansachs.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.91}
+{"rank": 117, "company": "Plaid", "url": "https://plaid.com/careers", "status": "success", "jobs": 17, "invalid_jobs": 0, "elapsed_seconds": 22.42}
+{"rank": 131, "company": "Citadel", "url": "https://citadel.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.9}
+{"rank": 112, "company": "Wise", "url": "https://wise.jobs/", "status": "success", "jobs": 11, "invalid_jobs": 0, "elapsed_seconds": 35.88}
+{"rank": 132, "company": "Jane Street", "url": "https://janestreet.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.19}
+{"rank": 136, "company": "Morningstar", "url": "https://morningstar.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.24}
+{"rank": 134, "company": "Bloomberg", "url": "https://bloomberg.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.89}
+{"rank": 128, "company": "JPMorgan Chase", "url": "https://careers.jpmorgan.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.53}
+{"rank": 135, "company": "FactSet", "url": "https://factset.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.64}
+{"rank": 137, "company": "Tata Consultancy Services", "url": "https://www.tcs.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.48}
+{"rank": 138, "company": "Infosys", "url": "https://www.infosys.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.04}
+{"rank": 133, "company": "Two Sigma", "url": "https://twosigma.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.52}
+{"rank": 142, "company": "LTIMindtree", "url": "https://ltimindtree.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.61}
+{"rank": 144, "company": "Mphasis", "url": "https://mphasis.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.99}
+{"rank": 141, "company": "Tech Mahindra", "url": "https://careers.techmahindra.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.42}
+{"rank": 146, "company": "Hexaware", "url": "https://hexaware.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.11}
+{"rank": 139, "company": "Wipro", "url": "https://careers.wipro.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 13.16}
+{"rank": 148, "company": "Zensar Technologies", "url": "https://zensar.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.64}
+{"rank": 143, "company": "Persistent Systems", "url": "https://persistent.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 30.48}
+{"rank": 149, "company": "KPIT Technologies", "url": "https://kpit.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 27.59}
+{"rank": 150, "company": "Tata Elxsi", "url": "https://tataelxsi.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 21.78}
+{"rank": 147, "company": "Birlasoft", "url": "https://birlasoft.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 38.42}
+{"rank": 152, "company": "Happiest Minds", "url": "https://happiestminds.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.7}
+{"rank": 154, "company": "Thoughtworks", "url": "https://thoughtworks.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.23}
+{"rank": 155, "company": "EPAM Systems", "url": "https://epam.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.04}
+{"rank": 156, "company": "Publicis Sapient", "url": "https://publicissapient.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.28}
+{"rank": 145, "company": "Coforge", "url": "https://coforge.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 52.41}
+{"rank": 158, "company": "Capgemini", "url": "https://capgemini.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.97}
+{"rank": 159, "company": "Cognizant", "url": "https://cognizant.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.11}
+{"rank": 161, "company": "NTT DATA", "url": "https://www.nttdata.com/en-us/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.6}
+{"rank": 162, "company": "Kyndryl", "url": "https://kyndryl.com/careers", "status": "success", "jobs": 43, "invalid_jobs": 0, "elapsed_seconds": 8.7}
+{"rank": 160, "company": "DXC Technology", "url": "https://careers.dxc.com/", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 26.5}
+{"rank": 163, "company": "Deloitte", "url": "https://deloitte.com/careers", "status": "success", "jobs": 286, "invalid_jobs": 0, "elapsed_seconds": 8.98}
+{"rank": 157, "company": "Accenture", "url": "https://www.accenture.com/in-en/careers", "status": "success", "jobs": 492, "invalid_jobs": 0, "elapsed_seconds": 46.0}
+{"rank": 140, "company": "HCLTech", "url": "https://www.hcltech.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 100.29}
+{"rank": 166, "company": "KPMG", "url": "https://kpmg.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.53}
+{"rank": 167, "company": "Zoho", "url": "https://www.zoho.com/careers/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.44}
+{"rank": 168, "company": "Freshworks", "url": "https://www.freshworks.com/company/careers/", "status": "success", "jobs": 126, "invalid_jobs": 0, "elapsed_seconds": 1.73}
+{"rank": 169, "company": "BrowserStack", "url": "https://www.browserstack.com/careers", "status": "success", "jobs": 27, "invalid_jobs": 0, "elapsed_seconds": 2.15}
+{"rank": 164, "company": "PwC", "url": "https://pwc.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.93}
+{"rank": 170, "company": "Chargebee", "url": "https://chargebee.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.85}
+{"rank": 171, "company": "Kissflow", "url": "https://kissflow.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.26}
+{"rank": 153, "company": "GlobalLogic", "url": "https://globallogic.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 68.63}
+{"rank": 174, "company": "Amagi", "url": "https://amagi.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.88}
+{"rank": 165, "company": "EY", "url": "https://ey.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.85}
+{"rank": 173, "company": "Hasura", "url": "https://hasura.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.63}
+{"rank": 176, "company": "Glance", "url": "https://glance.com/careers", "status": "success", "jobs": 36, "invalid_jobs": 0, "elapsed_seconds": 1.96}
+{"rank": 177, "company": "ShareChat", "url": "https://sharechat.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.42}
+{"rank": 178, "company": "Meesho", "url": "https://www.meesho.io/jobs", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.9}
+{"rank": 181, "company": "Swiggy", "url": "https://careers.swiggy.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.09}
+{"rank": 175, "company": "InMobi", "url": "https://inmobi.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.13}
+{"rank": 172, "company": "Druva", "url": "https://druva.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.92}
+{"rank": 183, "company": "Zepto", "url": "https://zeptonow.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.87}
+{"rank": 184, "company": "BigBasket", "url": "https://bigbasket.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.71}
+{"rank": 185, "company": "Juspay", "url": "https://juspay.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.14}
+{"rank": 186, "company": "Razorpay", "url": "https://razorpay.com/jobs/", "status": "success", "jobs": 28, "invalid_jobs": 0, "elapsed_seconds": 1.41}
+{"rank": 187, "company": "Cashfree Payments", "url": "https://cashfree.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.77}
+{"rank": 188, "company": "Pine Labs", "url": "https://pinelabs.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.3}
+{"rank": 189, "company": "Paytm", "url": "https://paytm.com/careers", "status": "success", "jobs": 189, "invalid_jobs": 0, "elapsed_seconds": 7.8}
+{"rank": 191, "company": "CRED", "url": "https://careers.cred.club/", "status": "success", "jobs": 9, "invalid_jobs": 0, "elapsed_seconds": 2.69}
+{"rank": 190, "company": "PhonePe", "url": "https://www.phonepe.com/careers/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 14.89}
+{"rank": 192, "company": "Groww", "url": "https://groww.in/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.9}
+{"rank": 193, "company": "Zerodha", "url": "https://zerodha.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.72}
+{"rank": 194, "company": "Upstox", "url": "https://upstox.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.85}
+{"rank": 195, "company": "Angel One", "url": "https://angelone.in/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.7}
+{"rank": 196, "company": "Policybazaar", "url": "https://policybazaar.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.78}
+{"rank": 197, "company": "Acko", "url": "https://acko.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.67}
+{"rank": 198, "company": "Digit Insurance", "url": "https://godigit.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.43}
+{"rank": 199, "company": "Dream11", "url": "https://dreamsports.group/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.44}
+{"rank": 200, "company": "Games24x7", "url": "https://games24x7.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.88}
+{"rank": 201, "company": "Nazara Technologies", "url": "https://nazara.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 0.98}
+{"rank": 203, "company": "PharmEasy", "url": "https://pharmeasy.in/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.13}
+{"rank": 202, "company": "Practo", "url": "https://practo.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.53}
+{"rank": 204, "company": "Tata 1mg", "url": "https://www.1mg.com/jobs", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.89}
+{"rank": 206, "company": "Lenskart", "url": "https://lenskart.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.82}
+{"rank": 207, "company": "Ola", "url": "https://olacabs.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.23}
+{"rank": 205, "company": "Innovaccer", "url": "https://innovaccer.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.27}
+{"rank": 208, "company": "Ola Electric", "url": "https://olaelectric.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.88}
+{"rank": 209, "company": "Ather Energy", "url": "https://atherenergy.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.42}
+{"rank": 211, "company": "NoBroker", "url": "https://nobroker.in/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.46}
+{"rank": 210, "company": "Cars24", "url": "https://cars24.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.95}
+{"rank": 212, "company": "Urban Company", "url": "https://careers.urbancompany.com/jobs", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.16}
+{"rank": 213, "company": "OfBusiness", "url": "https://ofbusiness.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.75}
+{"rank": 215, "company": "Delhivery", "url": "https://delhivery.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 0.85}
+{"rank": 216, "company": "BlackBuck", "url": "https://blackbuck.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.79}
+{"rank": 217, "company": "Xpressbees", "url": "https://xpressbees.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.25}
+{"rank": 179, "company": "Flipkart", "url": "https://www.flipkartcareers.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 74.12}
+{"rank": 219, "company": "Reliance Retail", "url": "https://ril.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.95}
+{"rank": 220, "company": "Airtel", "url": "https://airtel.in/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.76}
+{"rank": 221, "company": "Tata Communications", "url": "https://tatacommunications.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.87}
+{"rank": 222, "company": "VerSe Innovation", "url": "https://verse.in/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.33}
+{"rank": 223, "company": "OYO", "url": "https://oyorooms.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.54}
+{"rank": 180, "company": "Myntra", "url": "https://myntra.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 98.18}
+{"rank": 225, "company": "Cleartrip", "url": "https://careers.cleartrip.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.06}
+{"rank": 182, "company": "Zomato", "url": "https://www.zomato.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 98.47}
+{"rank": 226, "company": "ixigo", "url": "https://ixigo.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.83}
+{"rank": 227, "company": "Navi", "url": "https://navi.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.3}
+{"rank": 228, "company": "Slice", "url": "https://sliceit.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.82}
+{"rank": 230, "company": "INDmoney", "url": "https://indmoney.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.27}
+{"rank": 231, "company": "Smallcase", "url": "https://smallcase.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.28}
+{"rank": 232, "company": "Setu", "url": "https://setu.co/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.26}
+{"rank": 229, "company": "Jupiter", "url": "https://jupiter.money/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.51}
+{"rank": 234, "company": "Signzy", "url": "https://signzy.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.82}
+{"rank": 233, "company": "Perfios", "url": "https://perfios.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.72}
+{"rank": 236, "company": "Observe.AI", "url": "https://observe.ai/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.85}
+{"rank": 235, "company": "Yellow.ai", "url": "https://yellow.ai/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.45}
+{"rank": 237, "company": "Sarvam AI", "url": "https://www.sarvam.ai/careers", "status": "success", "jobs": 42, "invalid_jobs": 0, "elapsed_seconds": 3.95}
+{"rank": 239, "company": "Fractal", "url": "https://fractal.ai/careers", "status": "success", "jobs": 117, "invalid_jobs": 0, "elapsed_seconds": 8.28}
+{"rank": 240, "company": "Tiger Analytics", "url": "https://tigeranalytics.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.09}
+{"rank": 241, "company": "Tredence", "url": "https://tredence.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.81}
+{"rank": 242, "company": "Mu Sigma", "url": "https://mu-sigma.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.27}
+{"rank": 151, "company": "Cyient", "url": "https://cyient.com/careers", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.62}
+{"rank": 243, "company": "LatentView Analytics", "url": "https://latentview.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 14.35}
+{"rank": 218, "company": "Jio Platforms", "url": "https://jio.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 100.08}
+{"rank": 244, "company": "Nagarro", "url": "https://nagarro.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 20.93}
+{"rank": 245, "company": "Mindtickle", "url": "https://mindtickle.com/careers", "status": "success", "jobs": 20, "invalid_jobs": 0, "elapsed_seconds": 19.59}
+{"rank": 224, "company": "MakeMyTrip", "url": "https://makemytrip.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 98.08}
+{"rank": 246, "company": "Whatfix", "url": "https://whatfix.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 18.7}
+{"rank": 250, "company": "MoEngage", "url": "https://moengage.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.6}
+{"rank": 251, "company": "CleverTap", "url": "https://clevertap.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.6}
+{"rank": 252, "company": "Netcore Cloud", "url": "https://netcorecloud.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.85}
+{"rank": 253, "company": "Gupshup", "url": "https://gupshup.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.42}
+{"rank": 247, "company": "Wingify", "url": "https://wingify.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 27.52}
+{"rank": 254, "company": "Exotel", "url": "https://exotel.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.71}
+{"rank": 255, "company": "Uniphore", "url": "https://uniphore.com/careers", "status": "success", "jobs": 36, "invalid_jobs": 0, "elapsed_seconds": 3.02}
+{"rank": 248, "company": "VWO", "url": "https://vwo.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 24.83}
+{"rank": 249, "company": "WebEngage", "url": "https://webengage.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 25.14}
+{"rank": 259, "company": "DoorDash", "url": "https://doordash.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.06}
+{"rank": 256, "company": "Uber", "url": "https://www.uber.com/careers/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.38}
+{"rank": 257, "company": "Airbnb", "url": "https://careers.airbnb.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 14.62}
+{"rank": 260, "company": "Instacart", "url": "https://instacart.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.66}
+{"rank": 261, "company": "eBay", "url": "https://ebayinc.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.99}
+{"rank": 262, "company": "Etsy", "url": "https://etsy.com/careers", "status": "success", "jobs": 2, "invalid_jobs": 0, "elapsed_seconds": 10.85}
+{"rank": 258, "company": "Lyft", "url": "https://lyft.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 25.82}
+{"rank": 266, "company": "Booking.com", "url": "https://booking.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.25}
+{"rank": 267, "company": "Expedia Group", "url": "https://expediagroup.com/careers", "status": "success", "jobs": 170, "invalid_jobs": 0, "elapsed_seconds": 7.97}
+{"rank": 268, "company": "Tripadvisor", "url": "https://tripadvisor.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.75}
+{"rank": 263, "company": "Walmart Global Tech", "url": "https://careers.walmart.com/technology", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 32.26}
+{"rank": 269, "company": "Skyscanner", "url": "https://skyscanner.net/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.65}
+{"rank": 270, "company": "Spotify", "url": "https://www.lifeatspotify.com/jobs", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.46}
+{"rank": 271, "company": "SoundCloud", "url": "https://soundcloud.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.1}
+{"rank": 272, "company": "Twitch", "url": "https://twitch.tv/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.82}
+{"rank": 265, "company": "The Home Depot", "url": "https://homedepot.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 32.14}
+{"rank": 274, "company": "Epic Games", "url": "https://epicgames.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.18}
+{"rank": 264, "company": "Target", "url": "https://target.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 43.14}
+{"rank": 276, "company": "Riot Games", "url": "https://riotgames.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.43}
+{"rank": 277, "company": "Electronic Arts", "url": "https://ea.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.46}
+{"rank": 278, "company": "Ubisoft", "url": "https://www.ubisoft.com/en-us/company/careers/search", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.56}
+{"rank": 279, "company": "Nintendo", "url": "https://nintendo.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.6}
+{"rank": 280, "company": "Valve", "url": "https://valvesoftware.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.96}
+{"rank": 214, "company": "Udaan", "url": "https://udaan.com/careers", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.64}
+{"rank": 282, "company": "ServiceNow", "url": "https://servicenow.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.46}
+{"rank": 284, "company": "Dropbox", "url": "https://www.dropbox.jobs/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.29}
+{"rank": 285, "company": "Box", "url": "https://box.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.44}
+{"rank": 283, "company": "DocuSign", "url": "https://docusign.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 23.17}
+{"rank": 287, "company": "Intercom", "url": "https://intercom.com/careers", "status": "success", "jobs": 106, "invalid_jobs": 0, "elapsed_seconds": 3.88}
+{"rank": 286, "company": "HubSpot", "url": "https://hubspot.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 20.83}
+{"rank": 289, "company": "Twilio", "url": "https://twilio.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.76}
+{"rank": 273, "company": "Roblox", "url": "https://roblox.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 77.82}
+{"rank": 288, "company": "Zendesk", "url": "https://zendesk.com/careers", "status": "success", "jobs": 138, "invalid_jobs": 0, "elapsed_seconds": 14.2}
+{"rank": 281, "company": "Workday", "url": "https://workday.com/careers", "status": "success", "jobs": 383, "invalid_jobs": 0, "elapsed_seconds": 58.55}
+{"rank": 238, "company": "Krutrim", "url": "https://www.krutrim.com/careers", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.56}
+{"rank": 291, "company": "CrowdStrike", "url": "https://crowdstrike.com/careers", "status": "success", "jobs": 357, "invalid_jobs": 0, "elapsed_seconds": 19.44}
+{"rank": 293, "company": "Fortinet", "url": "https://www.fortinet.com/corporate/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.55}
+{"rank": 296, "company": "Wiz", "url": "https://wiz.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.83}
+{"rank": 292, "company": "Palo Alto Networks", "url": "https://paloaltonetworks.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 20.17}
+{"rank": 290, "company": "Okta", "url": "https://okta.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 22.49}
+{"rank": 298, "company": "OVHcloud", "url": "https://careers.ovhcloud.com/en-in/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.21}
+{"rank": 297, "company": "DigitalOcean", "url": "https://digitalocean.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.14}
+{"rank": 299, "company": "Hetzner", "url": "https://hetzner.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.78}
+{"rank": 301, "company": "Equinix", "url": "https://equinix.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.11}
+{"rank": 295, "company": "SentinelOne", "url": "https://sentinelone.com/careers", "status": "success", "jobs": 6, "invalid_jobs": 0, "elapsed_seconds": 13.68}
+{"rank": 303, "company": "Sentry", "url": "https://sentry.io/careers", "status": "success", "jobs": 46, "invalid_jobs": 0, "elapsed_seconds": 3.14}
+{"rank": 304, "company": "Sourcegraph", "url": "https://sourcegraph.com/careers", "status": "success", "jobs": 9, "invalid_jobs": 0, "elapsed_seconds": 1.61}
+{"rank": 300, "company": "Scaleway", "url": "https://scaleway.com/careers", "status": "success", "jobs": 27, "invalid_jobs": 0, "elapsed_seconds": 10.24}
+{"rank": 305, "company": "Replit", "url": "https://replit.com/careers", "status": "success", "jobs": 65, "invalid_jobs": 0, "elapsed_seconds": 1.84}
+{"rank": 308, "company": "Duolingo", "url": "https://duolingo.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.38}
+{"rank": 306, "company": "CodeSignal", "url": "https://codesignal.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.35}
+{"rank": 307, "company": "Coursera", "url": "https://coursera.org/careers", "status": "success", "jobs": 1, "invalid_jobs": 0, "elapsed_seconds": 9.86}
+{"rank": 309, "company": "Khan Academy", "url": "https://khanacademy.org/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.14}
+{"rank": 310, "company": "Udemy", "url": "https://udemy.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.4}
+{"rank": 312, "company": "Quizlet", "url": "https://quizlet.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.91}
+{"rank": 302, "company": "Aiven", "url": "https://aiven.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 18.49}
+{"rank": 315, "company": "Rippling", "url": "https://rippling.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.31}
+{"rank": 316, "company": "Gusto", "url": "https://gusto.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.41}
+{"rank": 317, "company": "Personio", "url": "https://personio.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.69}
+{"rank": 314, "company": "Remote", "url": "https://remote.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.75}
+{"rank": 311, "company": "Chegg", "url": "https://chegg.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 13.51}
+{"rank": 318, "company": "Indeed", "url": "https://indeed.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.47}
+{"rank": 319, "company": "LinkedIn", "url": "https://linkedin.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.26}
+{"rank": 321, "company": "Mastercard", "url": "https://mastercard.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.66}
+{"rank": 294, "company": "Zscaler", "url": "https://zscaler.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 46.05}
+{"rank": 320, "company": "Visa", "url": "https://visa.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.13}
+{"rank": 323, "company": "Capital One", "url": "https://www.capitalonecareers.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.94}
+{"rank": 313, "company": "Deel", "url": "https://deel.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 31.1}
+{"rank": 325, "company": "Wells Fargo", "url": "https://wellsfargo.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.33}
+{"rank": 326, "company": "Barclays", "url": "https://barclays.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.47}
+{"rank": 324, "company": "Bank of America", "url": "https://bankofamerica.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 23.94}
+{"rank": 330, "company": "BNP Paribas", "url": "https://bnpparibas.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.12}
+{"rank": 322, "company": "American Express", "url": "https://americanexpress.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 28.86}
+{"rank": 332, "company": "Allianz", "url": "https://allianz.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.35}
+{"rank": 328, "company": "Deutsche Bank", "url": "https://db.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.07}
+{"rank": 327, "company": "HSBC", "url": "https://hsbc.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 20.63}
+{"rank": 329, "company": "UBS", "url": "https://ubs.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.08}
+{"rank": 336, "company": "Fiserv", "url": "https://fiserv.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.47}
+{"rank": 334, "company": "AXA", "url": "https://axa.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 15.71}
+{"rank": 337, "company": "FIS", "url": "https://fisglobal.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.34}
+{"rank": 338, "company": "S&P Global", "url": "https://spglobal.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.09}
+{"rank": 339, "company": "Moody's", "url": "https://moodys.com/careers", "status": "success", "jobs": 4, "invalid_jobs": 0, "elapsed_seconds": 10.73}
+{"rank": 331, "company": "Standard Chartered", "url": "https://sc.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 44.67}
+{"rank": 335, "company": "Intuit", "url": "https://intuit.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 35.13}
+{"rank": 341, "company": "BlackRock", "url": "https://blackrock.com/careers", "status": "success", "jobs": 1, "invalid_jobs": 0, "elapsed_seconds": 11.48}
+{"rank": 342, "company": "Vanguard", "url": "https://vanguard.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.14}
+{"rank": 343, "company": "Charles Schwab", "url": "https://schwab.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.23}
+{"rank": 345, "company": "BNY", "url": "https://bny.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 14.86}
+{"rank": 344, "company": "State Street", "url": "https://statestreet.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 28.95}
+{"rank": 275, "company": "Unity", "url": "https://unity.com/careers", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 120s execution timeout", "elapsed_seconds": 240.6}
+{"rank": 348, "company": "TD Bank", "url": "https://td.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.61}
+{"rank": 333, "company": "Zurich Insurance", "url": "https://zurich.com/careers", "status": "success", "jobs": 768, "invalid_jobs": 0, "elapsed_seconds": 75.14}
+{"rank": 349, "company": "Scotiabank", "url": "https://scotiabank.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.12}
+{"rank": 346, "company": "Citi", "url": "https://citi.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 36.04}
+{"rank": 347, "company": "RBC", "url": "https://rbc.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 23.61}
+{"rank": 353, "company": "Honeywell", "url": "https://honeywell.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.77}
+{"rank": 350, "company": "Siemens", "url": "https://siemens.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 28.27}
+{"rank": 355, "company": "GE Aerospace", "url": "https://geaerospace.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.31}
+{"rank": 351, "company": "Schneider Electric", "url": "https://se.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 30.07}
+{"rank": 354, "company": "GE Vernova", "url": "https://gevernova.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 27.46}
+{"rank": 358, "company": "BMW Group", "url": "https://bmwgroup.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.68}
+{"rank": 356, "company": "Bosch", "url": "https://bosch.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 12.49}
+{"rank": 359, "company": "Mercedes-Benz", "url": "https://mercedes-benz.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.05}
+{"rank": 360, "company": "Volkswagen", "url": "https://jobs.volkswagen-group.com/VWGIS/?locale=en_US", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.45}
+{"rank": 361, "company": "Toyota", "url": "https://toyota.com/careers", "status": "success", "jobs": 107, "invalid_jobs": 0, "elapsed_seconds": 11.68}
+{"rank": 340, "company": "Nasdaq", "url": "https://nasdaq.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 102.56}
+{"rank": 357, "company": "Continental", "url": "https://continental.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 23.18}
+{"rank": 363, "company": "General Motors", "url": "https://gm.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 12.91}
+{"rank": 366, "company": "SpaceX", "url": "https://spacex.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.64}
+{"rank": 367, "company": "Blue Origin", "url": "https://blueorigin.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.59}
+{"rank": 365, "company": "Lucid Motors", "url": "https://lucidmotors.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.03}
+{"rank": 364, "company": "Rivian", "url": "https://rivian.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 23.78}
+{"rank": 370, "company": "Lockheed Martin", "url": "https://lockheedmartin.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 17.03}
+{"rank": 362, "company": "Ford", "url": "https://ford.com/careers", "status": "success", "jobs": 15, "invalid_jobs": 0, "elapsed_seconds": 41.66}
+{"rank": 373, "company": "Thales", "url": "https://thalesgroup.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.05}
+{"rank": 371, "company": "Northrop Grumman", "url": "https://northropgrumman.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.91}
+{"rank": 374, "company": "Rolls-Royce", "url": "https://rolls-royce.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.23}
+{"rank": 369, "company": "Boeing", "url": "https://boeing.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 36.1}
+{"rank": 376, "company": "John Deere", "url": "https://deere.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.07}
+{"rank": 368, "company": "Airbus", "url": "https://airbus.com/careers", "status": "success", "jobs": 499, "invalid_jobs": 0, "elapsed_seconds": 41.07}
+{"rank": 372, "company": "RTX", "url": "https://rtx.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 24.2}
+{"rank": 352, "company": "ABB", "url": "https://abb.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 105.95}
+{"rank": 381, "company": "Medtronic", "url": "https://medtronic.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.0}
+{"rank": 380, "company": "Philips", "url": "https://philips.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.84}
+{"rank": 382, "company": "GE HealthCare", "url": "https://gehealthcare.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.94}
+{"rank": 378, "company": "Thermo Fisher Scientific", "url": "https://thermofisher.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 14.72}
+{"rank": 385, "company": "Pfizer", "url": "https://pfizer.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.08}
+{"rank": 379, "company": "Siemens Healthineers", "url": "https://siemens-healthineers.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 19.89}
+{"rank": 383, "company": "Illumina", "url": "https://illumina.com/careers", "status": "success", "jobs": 166, "invalid_jobs": 0, "elapsed_seconds": 14.38}
+{"rank": 386, "company": "Roche", "url": "https://roche.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.82}
+{"rank": 387, "company": "Novartis", "url": "https://novartis.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.88}
+{"rank": 384, "company": "Moderna", "url": "https://modernatx.com/careers", "status": "success", "jobs": 272, "invalid_jobs": 0, "elapsed_seconds": 17.32}
+{"rank": 388, "company": "AstraZeneca", "url": "https://astrazeneca.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.04}
+{"rank": 392, "company": "Eli Lilly", "url": "https://lilly.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.86}
+{"rank": 391, "company": "Johnson & Johnson", "url": "https://www.careers.jnj.com/en/locations/asia-pacific/india/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.33}
+{"rank": 393, "company": "Merck", "url": "https://merck.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.83}
+{"rank": 394, "company": "Bayer", "url": "https://bayer.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.38}
+{"rank": 390, "company": "Sanofi", "url": "https://sanofi.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 20.73}
+{"rank": 396, "company": "Optum", "url": "https://optum.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.69}
+{"rank": 397, "company": "CVS Health", "url": "https://cvshealth.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.69}
+{"rank": 389, "company": "GSK", "url": "https://gsk.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 35.68}
+{"rank": 398, "company": "Cigna", "url": "https://thecignagroup.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.76}
+{"rank": 395, "company": "UnitedHealth Group", "url": "https://unitedhealthgroup.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 23.57}
+{"rank": 401, "company": "Tempus AI", "url": "https://tempus.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.34}
+{"rank": 402, "company": "IKEA", "url": "https://jobs.ikea.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.52}
+{"rank": 404, "company": "Zalando", "url": "https://zalando.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.55}
+{"rank": 375, "company": "Caterpillar", "url": "https://caterpillar.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 101.75}
+{"rank": 406, "company": "Inditex", "url": "https://inditex.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.99}
+{"rank": 377, "company": "3M", "url": "https://3m.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 103.67}
+{"rank": 407, "company": "L'Oréal", "url": "https://loreal.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.64}
+{"rank": 399, "company": "Epic Systems", "url": "https://epic.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 55.23}
+{"rank": 409, "company": "Unilever", "url": "https://unilever.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.32}
+{"rank": 408, "company": "Procter & Gamble", "url": "https://pg.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 13.08}
+{"rank": 410, "company": "Nestlé", "url": "https://nestle.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.4}
+{"rank": 412, "company": "PepsiCo", "url": "https://pepsico.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.18}
+{"rank": 400, "company": "Veeva Systems", "url": "https://veeva.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 58.39}
+{"rank": 411, "company": "Coca-Cola", "url": "https://coca-colacompany.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.5}
+{"rank": 416, "company": "UPS", "url": "https://ups.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.03}
+{"rank": 415, "company": "FedEx", "url": "https://fedex.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.8}
+{"rank": 413, "company": "Nike", "url": "https://nike.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 20.39}
+{"rank": 419, "company": "Flexport", "url": "https://flexport.com/careers", "status": "success", "jobs": 210, "invalid_jobs": 0, "elapsed_seconds": 5.85}
+{"rank": 417, "company": "DHL", "url": "https://dhl.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 24.6}
+{"rank": 414, "company": "Adidas", "url": "https://adidas-group.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 37.9}
+{"rank": 422, "company": "Autodesk", "url": "https://autodesk.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.73}
+{"rank": 420, "company": "Samsara", "url": "https://samsara.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 23.62}
+{"rank": 421, "company": "Trimble", "url": "https://trimble.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.91}
+{"rank": 403, "company": "H&M", "url": "https://hm.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 98.98}
+{"rank": 423, "company": "Dassault Systèmes", "url": "https://3ds.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 12.69}
+{"rank": 425, "company": "Bentley Systems", "url": "https://bentley.com/careers", "status": "success", "jobs": 88, "invalid_jobs": 0, "elapsed_seconds": 9.0}
+{"rank": 405, "company": "ASOS", "url": "https://asos.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 99.23}
+{"rank": 427, "company": "MathWorks", "url": "https://mathworks.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.75}
+{"rank": 424, "company": "PTC", "url": "https://ptc.com/careers", "status": "success", "jobs": 174, "invalid_jobs": 0, "elapsed_seconds": 11.54}
+{"rank": 429, "company": "HERE Technologies", "url": "https://here.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.75}
+{"rank": 432, "company": "Gojek", "url": "https://gojek.io/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.75}
+{"rank": 428, "company": "Esri", "url": "https://esri.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.98}
+{"rank": 433, "company": "Sea Group", "url": "https://sea.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.12}
+{"rank": 434, "company": "Shopee", "url": "https://shopee.sg/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.02}
+{"rank": 426, "company": "Ansys", "url": "https://ansys.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 22.29}
+{"rank": 436, "company": "Traveloka", "url": "https://traveloka.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.27}
+{"rank": 437, "company": "Carousell", "url": "https://carousell.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.85}
+{"rank": 438, "company": "Mercado Libre", "url": "https://mercadolibre.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.63}
+{"rank": 439, "company": "Kakao", "url": "https://kakao.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.09}
+{"rank": 430, "company": "TomTom", "url": "https://tomtom.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 26.87}
+{"rank": 442, "company": "Mercari", "url": "https://mercari.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.28}
+{"rank": 440, "company": "Naver", "url": "https://navercorp.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.03}
+{"rank": 441, "company": "Rakuten", "url": "https://rakuten.com/careers", "status": "success", "jobs": 8, "invalid_jobs": 0, "elapsed_seconds": 4.62}
+{"rank": 443, "company": "Xero", "url": "https://xero.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.38}
+{"rank": 444, "company": "MYOB", "url": "https://myob.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.86}
+{"rank": 431, "company": "Grab", "url": "https://grab.com/careers", "status": "success", "jobs": 15, "invalid_jobs": 0, "elapsed_seconds": 34.74}
+{"rank": 446, "company": "Vodafone", "url": "https://vodafone.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.34}
+{"rank": 447, "company": "Orange", "url": "https://orange.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.5}
+{"rank": 448, "company": "BT Group", "url": "https://bt.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.32}
+{"rank": 445, "company": "Telstra", "url": "https://telstra.com.au/careers", "status": "success", "jobs": 201, "invalid_jobs": 0, "elapsed_seconds": 14.57}
+{"rank": 451, "company": "Safaricom", "url": "https://safaricom.co.ke/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.53}
+{"rank": 452, "company": "Yandex", "url": "https://yandex.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.32}
+{"rank": 450, "company": "MTN Group", "url": "https://mtn.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 15.04}
+{"rank": 449, "company": "Deutsche Telekom", "url": "https://careers.telekom.com/en", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 16.23}
+{"rank": 453, "company": "Kaspersky", "url": "https://careers.kaspersky.com/vacancies", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.64}
+{"rank": 418, "company": "Maersk", "url": "https://maersk.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 100.77}
+{"rank": 454, "company": "Bitdefender", "url": "https://bitdefender.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.6}
+{"rank": 435, "company": "Lazada", "url": "https://lazada.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 49.68}
+{"rank": 458, "company": "Darktrace", "url": "https://darktrace.com/careers", "status": "success", "jobs": 70, "invalid_jobs": 0, "elapsed_seconds": 5.25}
+{"rank": 457, "company": "Check Point", "url": "https://checkpoint.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.98}
+{"rank": 460, "company": "Tenable", "url": "https://tenable.com/careers", "status": "success", "jobs": 35, "invalid_jobs": 0, "elapsed_seconds": 3.17}
+{"rank": 456, "company": "Trend Micro", "url": "https://trendmicro.com/careers", "status": "success", "jobs": 174, "invalid_jobs": 0, "elapsed_seconds": 12.91}
+{"rank": 462, "company": "Qualys", "url": "https://qualys.com/careers", "status": "success", "jobs": 174, "invalid_jobs": 0, "elapsed_seconds": 9.14}
+{"rank": 461, "company": "Rapid7", "url": "https://rapid7.com/careers", "status": "success", "jobs": 1, "invalid_jobs": 0, "elapsed_seconds": 11.6}
+{"rank": 463, "company": "Acronis", "url": "https://acronis.com/careers", "status": "success", "jobs": 1, "invalid_jobs": 0, "elapsed_seconds": 10.93}
+{"rank": 466, "company": "Rubrik", "url": "https://rubrik.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.85}
+{"rank": 467, "company": "Nutanix", "url": "https://nutanix.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.84}
+{"rank": 459, "company": "Proofpoint", "url": "https://proofpoint.com/careers", "status": "success", "jobs": 120, "invalid_jobs": 0, "elapsed_seconds": 28.36}
+{"rank": 464, "company": "Veeam", "url": "https://careers.veeam.com/", "status": "success", "jobs": 2, "invalid_jobs": 0, "elapsed_seconds": 31.65}
+{"rank": 469, "company": "NetApp", "url": "https://netapp.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 11.37}
+{"rank": 471, "company": "Ciena", "url": "https://ciena.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.3}
+{"rank": 473, "company": "T-Mobile", "url": "https://t-mobile.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.36}
+{"rank": 472, "company": "Verizon", "url": "https://verizon.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.72}
+{"rank": 468, "company": "Pure Storage", "url": "https://purestorage.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 28.83}
+{"rank": 470, "company": "F5", "url": "https://f5.com/careers", "status": "success", "jobs": 234, "invalid_jobs": 0, "elapsed_seconds": 24.08}
+{"rank": 455, "company": "ESET", "url": "https://eset.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 64.16}
+{"rank": 475, "company": "Warner Bros. Discovery", "url": "https://wbd.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.81}
+{"rank": 476, "company": "The Walt Disney Company", "url": "https://thewaltdisneycompany.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.41}
+{"rank": 479, "company": "Sony Pictures", "url": "https://sonypictures.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.12}
+{"rank": 478, "company": "Paramount", "url": "https://paramount.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 10.25}
+{"rank": 480, "company": "Fox Corporation", "url": "https://foxcorporation.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 8.33}
+{"rank": 482, "company": "Reuters", "url": "https://reuters.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.1}
+{"rank": 474, "company": "Comcast", "url": "https://comcast.com/careers", "status": "success", "jobs": 500, "invalid_jobs": 0, "elapsed_seconds": 22.34}
+{"rank": 465, "company": "Commvault", "url": "https://commvault.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 61.67}
+{"rank": 485, "company": "The Economist Group", "url": "https://economistgroup.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.47}
+{"rank": 486, "company": "Reddit", "url": "https://redditinc.com/careers", "status": "success", "jobs": 147, "invalid_jobs": 0, "elapsed_seconds": 1.96}
+{"rank": 477, "company": "NBCUniversal", "url": "https://nbcuniversal.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 25.3}
+{"rank": 487, "company": "Pinterest", "url": "https://pinterestcareers.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.85}
+{"rank": 489, "company": "Discord", "url": "https://discord.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.34}
+{"rank": 488, "company": "Snap Inc.", "url": "https://careers.snap.com/jobs", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 5.03}
+{"rank": 484, "company": "Financial Times", "url": "https://ft.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 9.87}
+{"rank": 481, "company": "The New York Times", "url": "https://nytimes.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 19.72}
+{"rank": 490, "company": "Signal", "url": "https://signal.org/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.58}
+{"rank": 493, "company": "Automattic", "url": "https://automattic.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.4}
+{"rank": 494, "company": "Squarespace", "url": "https://squarespace.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 4.27}
+{"rank": 496, "company": "GoDaddy", "url": "https://godaddy.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 1.8}
+{"rank": 497, "company": "Namecheap", "url": "https://namecheap.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 2.05}
+{"rank": 492, "company": "Wikimedia Foundation", "url": "https://wikimediafoundation.org/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 7.92}
+{"rank": 498, "company": "Hostinger", "url": "https://www.hostinger.com/career", "status": "success", "jobs": 51, "invalid_jobs": 0, "elapsed_seconds": 2.81}
+{"rank": 495, "company": "Wix", "url": "https://wix.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 6.57}
+{"rank": 500, "company": "Browserbase", "url": "https://browserbase.com/careers", "status": "success", "jobs": 9, "invalid_jobs": 0, "elapsed_seconds": 2.66}
+{"rank": 491, "company": "Mozilla", "url": "https://mozilla.org/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 28.7}
+{"rank": 499, "company": "IONOS", "url": "https://ionos-group.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 38.73}
+{"rank": 483, "company": "The Guardian", "url": "https://theguardian.com/careers", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 72.5}

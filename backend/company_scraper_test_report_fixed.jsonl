@@ -1,0 +1,25 @@
+{"rank": 4, "company": "Apple", "url": "https://jobs.apple.com/", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 2.83}
+{"rank": 2, "company": "Microsoft", "url": "https://careers.microsoft.com/", "status": "error", "jobs": 0, "error": "RuntimeError: RuntimeError: Microsoft Careers endpoints failed: https://apply.careers.microsoft.com/api/pcsx/search: HTTPSConnectionPool(host='apply.careers.microsoft.com', port=443): Max retries exceeded with url: /api/pcsx/search?domain=microsoft.com&hl=en_us&start=0&num=10 (Caused by ResponseError('too many 429 error responses')) | https://apply.careers.microsoft.com/api/apply/v2/jobs: 403 Client Error: Forbidden for url: https://apply.careers.microsoft.com/api/apply/v2/jobs?domain=microsoft.com&hl=en_us&start=0&num=10", "elapsed_seconds": 3.69}
+{"rank": 1, "company": "Google", "url": "https://www.google.com/about/careers/applications/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.69}
+{"rank": 3, "company": "Amazon", "url": "https://www.amazon.jobs/", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 3.71}
+{"rank": 6, "company": "Netflix", "url": "https://jobs.netflix.com/", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 1.19}
+{"rank": 5, "company": "Meta", "url": "https://www.metacareers.com/", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 2.47}
+{"rank": 10, "company": "xAI", "url": "https://x.ai/careers", "status": "success", "jobs": 305, "invalid_jobs": 0, "elapsed_seconds": 4.03}
+{"rank": 9, "company": "Anthropic", "url": "https://www.anthropic.com/careers", "status": "success", "jobs": 659, "invalid_jobs": 0, "elapsed_seconds": 6.95}
+{"rank": 8, "company": "OpenAI", "url": "https://openai.com/careers/", "status": "success", "jobs": 814, "invalid_jobs": 0, "elapsed_seconds": 8.37}
+{"rank": 13, "company": "Tencent", "url": "https://tencent.com/careers", "status": "success", "jobs": 300, "invalid_jobs": 0, "elapsed_seconds": 16.67}
+{"rank": 7, "company": "NVIDIA", "url": "https://www.nvidia.com/en-us/about-nvidia/careers/", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 30s execution timeout", "elapsed_seconds": 30.23}
+{"rank": 11, "company": "ByteDance", "url": "https://bytedance.com/careers", "status": "success", "jobs": 1429, "invalid_jobs": 0, "elapsed_seconds": 28.81}
+{"rank": 16, "company": "Huawei", "url": "https://huawei.com/careers", "status": "success", "jobs": 2, "invalid_jobs": 0, "elapsed_seconds": 2.62}
+{"rank": 12, "company": "TikTok", "url": "https://tiktok.com/careers", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 30s execution timeout", "elapsed_seconds": 30.24}
+{"rank": 14, "company": "Alibaba", "url": "https://alibaba.com/careers", "status": "success", "jobs": 1000, "invalid_jobs": 0, "elapsed_seconds": 13.66}
+{"rank": 17, "company": "Samsung Electronics", "url": "https://samsung.com/careers", "status": "success", "jobs": 40, "invalid_jobs": 0, "elapsed_seconds": 3.31}
+{"rank": 19, "company": "Panasonic", "url": "https://panasonic.com/careers", "status": "success", "jobs": 16, "invalid_jobs": 0, "elapsed_seconds": 2.99}
+{"rank": 21, "company": "IBM", "url": "https://ibm.com/careers", "status": "success", "jobs": 1889, "invalid_jobs": 0, "elapsed_seconds": 9.16}
+{"rank": 22, "company": "Oracle", "url": "https://careers.oracle.com/", "status": "success", "jobs": 100, "invalid_jobs": 0, "elapsed_seconds": 3.47}
+{"rank": 20, "company": "LG Electronics", "url": "https://lg.com/careers", "status": "success", "jobs": 227, "invalid_jobs": 0, "elapsed_seconds": 15.04}
+{"rank": 24, "company": "Adobe", "url": "https://careers.adobe.com/", "status": "success", "jobs": 10, "invalid_jobs": 0, "elapsed_seconds": 0.87}
+{"rank": 23, "company": "Salesforce", "url": "https://careers.salesforce.com/", "status": "success", "jobs": 20, "invalid_jobs": 0, "elapsed_seconds": 2.48}
+{"rank": 25, "company": "SAP", "url": "https://jobs.sap.com/", "status": "empty", "jobs": 0, "invalid_jobs": 0, "elapsed_seconds": 3.27}
+{"rank": 15, "company": "Baidu", "url": "https://baidu.com/careers", "status": "error", "jobs": 0, "error": "TimeoutError: scraper exceeded 30s execution timeout", "elapsed_seconds": 30.25}
+{"rank": 18, "company": "Sony", "url": "https://sony.com/careers", "status": "success", "jobs": 118, "invalid_jobs": 0, "elapsed_seconds": 22.9}

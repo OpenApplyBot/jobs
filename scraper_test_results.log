@@ -1,0 +1,1876 @@
+Testing 501 manifest entries sequentially.
+PASS requires at least one job and valid title + URL fields.
+EMPTY results are not counted as passes.
+------------------------------------------------------------------------------------------
+[Google] Starting official careers scrape: https://www.google.com/about/careers/applications/jobs/results/1/
+[1/501] FAIL    Google                              jobs=    0 valid=    0  2.82s
+[Microsoft] Starting public careers API scrape; page size=10, max pages=300
+[Microsoft] Page 1: 10 API rows, 10 unique normalized jobs / 2433 reported
+[Microsoft] Page 2: 10 API rows, 20 unique normalized jobs / 2433 reported
+[Microsoft] Page 3: 10 API rows, 30 unique normalized jobs / 2433 reported
+[Microsoft] Page 4: 10 API rows, 40 unique normalized jobs / 2433 reported
+[Microsoft] Page 5: 10 API rows, 49 unique normalized jobs / 2433 reported
+[Microsoft] Page 6: 10 API rows, 59 unique normalized jobs / 2433 reported
+[Microsoft] Page 7: 10 API rows, 68 unique normalized jobs / 2433 reported
+[Microsoft] Page 8: 10 API rows, 78 unique normalized jobs / 2433 reported
+[Microsoft] Page 9: 10 API rows, 88 unique normalized jobs / 2433 reported
+[Microsoft] Page 10: 10 API rows, 98 unique normalized jobs / 2433 reported
+[Microsoft] Page 11: 10 API rows, 108 unique normalized jobs / 2433 reported
+[Microsoft] Page 12: 10 API rows, 118 unique normalized jobs / 2433 reported
+[Microsoft] Page 13: 10 API rows, 128 unique normalized jobs / 2433 reported
+[Microsoft] Page 14: 10 API rows, 137 unique normalized jobs / 2433 reported
+[Microsoft] Page 15: 10 API rows, 147 unique normalized jobs / 2433 reported
+[Microsoft] Page 16: 10 API rows, 157 unique normalized jobs / 2433 reported
+[Microsoft] Page 17: 10 API rows, 167 unique normalized jobs / 2433 reported
+[Microsoft] Page 18: 10 API rows, 177 unique normalized jobs / 2433 reported
+[Microsoft] Page 19: 10 API rows, 187 unique normalized jobs / 2433 reported
+[Microsoft] Page 20: 10 API rows, 197 unique normalized jobs / 2433 reported
+[Microsoft] Page 21: 10 API rows, 207 unique normalized jobs / 2433 reported
+[Microsoft] Page 22: 10 API rows, 217 unique normalized jobs / 2433 reported
+[Microsoft] Page 23: 10 API rows, 227 unique normalized jobs / 2433 reported
+[Microsoft] Page 24: 10 API rows, 237 unique normalized jobs / 2433 reported
+[Microsoft] Page 25: 10 API rows, 247 unique normalized jobs / 2433 reported
+[Microsoft] Page 26: 10 API rows, 256 unique normalized jobs / 2433 reported
+[Microsoft] Page 27: 10 API rows, 266 unique normalized jobs / 2433 reported
+[Microsoft] Page 28: 10 API rows, 276 unique normalized jobs / 2433 reported
+[Microsoft] Page 29: 10 API rows, 286 unique normalized jobs / 2433 reported
+[Microsoft] Page 30: 10 API rows, 296 unique normalized jobs / 2433 reported
+[Microsoft] Page 31: 10 API rows, 306 unique normalized jobs / 2433 reported
+[Microsoft] Page 32: 10 API rows, 316 unique normalized jobs / 2433 reported
+[Microsoft] Page 33: 10 API rows, 325 unique normalized jobs / 2433 reported
+[Microsoft] Page 34: 10 API rows, 335 unique normalized jobs / 2433 reported
+[Microsoft] Page 35: 10 API rows, 345 unique normalized jobs / 2433 reported
+[Microsoft] Page 36: 10 API rows, 355 unique normalized jobs / 2433 reported
+[Microsoft] Page 37: 10 API rows, 365 unique normalized jobs / 2433 reported
+[Microsoft] Page 38: 10 API rows, 375 unique normalized jobs / 2433 reported
+[Microsoft] Page 39: 10 API rows, 384 unique normalized jobs / 2433 reported
+[Microsoft] Page 40: 10 API rows, 394 unique normalized jobs / 2433 reported
+[Microsoft] Page 41: 10 API rows, 404 unique normalized jobs / 2433 reported
+[Microsoft] Page 42: 10 API rows, 414 unique normalized jobs / 2433 reported
+[Microsoft] Page 43: 10 API rows, 424 unique normalized jobs / 2433 reported
+[Microsoft] Page 44: 10 API rows, 434 unique normalized jobs / 2433 reported
+[Microsoft] Page 45: 10 API rows, 444 unique normalized jobs / 2433 reported
+[Microsoft] Page 46: 10 API rows, 454 unique normalized jobs / 2433 reported
+[Microsoft] Page 47: 10 API rows, 464 unique normalized jobs / 2433 reported
+[Microsoft] Page 48: 10 API rows, 474 unique normalized jobs / 2433 reported
+[Microsoft] Page 49: 10 API rows, 483 unique normalized jobs / 2433 reported
+[Microsoft] Page 50: 10 API rows, 493 unique normalized jobs / 2433 reported
+[Microsoft] Page 51: 10 API rows, 503 unique normalized jobs / 2433 reported
+[Microsoft] Page 52: 10 API rows, 513 unique normalized jobs / 2433 reported
+[Microsoft] Page 53: 10 API rows, 523 unique normalized jobs / 2433 reported
+[Microsoft] Page 54: 10 API rows, 533 unique normalized jobs / 2433 reported
+[Microsoft] Page 55: 10 API rows, 543 unique normalized jobs / 2433 reported
+[Microsoft] Page 56: 10 API rows, 553 unique normalized jobs / 2433 reported
+[Microsoft] Page 57: 10 API rows, 562 unique normalized jobs / 2433 reported
+[Microsoft] Page 58: 10 API rows, 572 unique normalized jobs / 2433 reported
+[Microsoft] Page 59: 10 API rows, 582 unique normalized jobs / 2433 reported
+[Microsoft] Page 60: 10 API rows, 591 unique normalized jobs / 2433 reported
+[2/501] TIMEOUT Microsoft                           jobs=    0 valid=    0    40s
+[Amazon] Starting official jobs search; page size=50, max pages=100
+[Amazon] Page 1: 50 source rows, 50 normalized unique jobs / 10000 reported
+[Amazon] Page 2: 50 source rows, 100 normalized unique jobs / 10000 reported
+[Amazon] Page 3: 50 source rows, 150 normalized unique jobs / 10000 reported
+[Amazon] Page 4: 50 source rows, 200 normalized unique jobs / 10000 reported
+[Amazon] Page 5: 50 source rows, 249 normalized unique jobs / 10000 reported
+[Amazon] Page 6: 50 source rows, 299 normalized unique jobs / 10000 reported
+[Amazon] Page 7: 50 source rows, 349 normalized unique jobs / 10000 reported
+[Amazon] Page 8: 50 source rows, 399 normalized unique jobs / 10000 reported
+[Amazon] Page 9: 50 source rows, 449 normalized unique jobs / 10000 reported
+[Amazon] Page 10: 50 source rows, 499 normalized unique jobs / 10000 reported
+[Amazon] Page 11: 50 source rows, 549 normalized unique jobs / 10000 reported
+[Amazon] Page 12: 50 source rows, 599 normalized unique jobs / 10000 reported
+[Amazon] Page 13: 50 source rows, 649 normalized unique jobs / 10000 reported
+[Amazon] Page 14: 50 source rows, 699 normalized unique jobs / 10000 reported
+[Amazon] Page 15: 50 source rows, 749 normalized unique jobs / 10000 reported
+[Amazon] Page 16: 50 source rows, 799 normalized unique jobs / 10000 reported
+[Amazon] Page 17: 50 source rows, 849 normalized unique jobs / 10000 reported
+[Amazon] Page 18: 50 source rows, 899 normalized unique jobs / 10000 reported
+[3/501] TIMEOUT Amazon                              jobs=    0 valid=    0    40s
+[Apple] Starting official careers search; API page size=20, max pages=30
+[Apple] Page 1: 20 source rows, 20 normalized unique jobs / 6225 reported
+[Apple] Page 2: 20 source rows, 40 normalized unique jobs / 6225 reported
+[Apple] Page 3: 20 source rows, 60 normalized unique jobs / 6225 reported
+[Apple] Page 4: 20 source rows, 76 normalized unique jobs / 6225 reported
+[Apple] Page 5: 20 source rows, 84 normalized unique jobs / 6225 reported
+[Apple] Page 6: 20 source rows, 95 normalized unique jobs / 6225 reported
+[Apple] Page 7: 20 source rows, 112 normalized unique jobs / 6225 reported
+[Apple] Page 8: 20 source rows, 128 normalized unique jobs / 6225 reported
+[Apple] Page 9: 20 source rows, 144 normalized unique jobs / 6225 reported
+[Apple] Page 10: 20 source rows, 159 normalized unique jobs / 6225 reported
+[4/501] TIMEOUT Apple                               jobs=    0 valid=    0    40s
+[Meta] Source jobs=1257; normalized jobs=1257; detail pages fetched=0
+[5/501] PASS    Meta                                jobs= 1257 valid= 1257  3.71s
+[Netflix] Page 1: 10 embedded positions; total=380
+[Netflix] Page 2: 10 embedded positions; total=380
+[Netflix] Complete: 10 jobs; source total=380; details fetched=0
+[6/501] PASS    Netflix                             jobs=   10 valid=   10  1.82s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[7/501] TIMEOUT NVIDIA                              jobs=    0 valid=    0    40s
+[8/501] PASS    OpenAI                              jobs=  809 valid=  809  1.06s
+[9/501] PASS    Anthropic                           jobs=  678 valid=  678  7.93s
+[10/501] PASS    xAI                                 jobs=  296 valid=  296  1.96s
+[ByteDance] Page 1: 100 source rows, 100 unique jobs
+[ByteDance] Page 2: 100 source rows, 200 unique jobs
+[ByteDance] Page 3: 100 source rows, 300 unique jobs
+[ByteDance] Page 4: 100 source rows, 400 unique jobs
+[ByteDance] Page 5: 100 source rows, 500 unique jobs
+[ByteDance] Page 6: 100 source rows, 600 unique jobs
+[ByteDance] Page 7: 100 source rows, 700 unique jobs
+[ByteDance] Page 8: 100 source rows, 800 unique jobs
+[ByteDance] Page 9: 100 source rows, 900 unique jobs
+[ByteDance] Page 10: 100 source rows, 1000 unique jobs
+[ByteDance] Page 11: 100 source rows, 1100 unique jobs
+[ByteDance] Page 12: 100 source rows, 1200 unique jobs
+[ByteDance] Page 13: 100 source rows, 1300 unique jobs
+[ByteDance] Page 14: 100 source rows, 1400 unique jobs
+[ByteDance] Page 15: 36 source rows, 1436 unique jobs
+[ByteDance] Complete: 1436 jobs
+[11/501] PASS    ByteDance                           jobs= 1436 valid= 1436 29.57s
+[TikTok] Page 1: 100 source rows, 100 new, 100 cumulative
+[TikTok] Page 2: 100 source rows, 100 new, 200 cumulative
+[TikTok] Page 3: 100 source rows, 100 new, 300 cumulative
+[TikTok] Page 4: 100 source rows, 100 new, 400 cumulative
+[TikTok] Page 5: 100 source rows, 100 new, 500 cumulative
+[TikTok] Page 6: 100 source rows, 100 new, 600 cumulative
+[TikTok] Page 7: 100 source rows, 100 new, 700 cumulative
+[TikTok] Page 8: 100 source rows, 100 new, 800 cumulative
+[TikTok] Page 9: 100 source rows, 100 new, 900 cumulative
+[TikTok] Page 10: 100 source rows, 100 new, 1000 cumulative
+[TikTok] Page 11: 100 source rows, 100 new, 1100 cumulative
+[TikTok] Page 12: 100 source rows, 100 new, 1200 cumulative
+[TikTok] Page 13: 100 source rows, 100 new, 1300 cumulative
+[TikTok] Page 14: 100 source rows, 100 new, 1400 cumulative
+[TikTok] Page 15: 100 source rows, 100 new, 1500 cumulative
+[TikTok] Page 16: 100 source rows, 100 new, 1600 cumulative
+[TikTok] Page 17: 100 source rows, 100 new, 1700 cumulative
+[TikTok] Page 18: 100 source rows, 100 new, 1800 cumulative
+[TikTok] Page 19: 100 source rows, 100 new, 1900 cumulative
+[TikTok] Page 20: 100 source rows, 100 new, 2000 cumulative
+[TikTok] Page 21: 100 source rows, 100 new, 2100 cumulative
+[TikTok] Page 22: 100 source rows, 100 new, 2200 cumulative
+[TikTok] Page 23: 100 source rows, 100 new, 2300 cumulative
+[TikTok] Page 24: 100 source rows, 100 new, 2400 cumulative
+[TikTok] Page 25: 100 source rows, 100 new, 2500 cumulative
+[TikTok] Page 26: 100 source rows, 100 new, 2600 cumulative
+[TikTok] Page 27: 100 source rows, 100 new, 2700 cumulative
+[TikTok] Page 28: 100 source rows, 100 new, 2800 cumulative
+[TikTok] Page 29: 100 source rows, 100 new, 2900 cumulative
+[TikTok] Page 30: 100 source rows, 100 new, 3000 cumulative
+[TikTok] Complete: 3000 jobs
+[12/501] PASS    TikTok                              jobs= 3000 valid= 3000 33.32s
+[Tencent] Page 1: 10 source rows, 10 unique jobs
+[Tencent] Page 2: 10 source rows, 20 unique jobs
+[Tencent] Page 3: 10 source rows, 30 unique jobs
+[Tencent] Page 4: 10 source rows, 40 unique jobs
+[Tencent] Page 5: 10 source rows, 50 unique jobs
+[Tencent] Page 6: 10 source rows, 60 unique jobs
+[Tencent] Page 7: 10 source rows, 70 unique jobs
+[Tencent] Page 8: 10 source rows, 80 unique jobs
+[Tencent] Page 9: 10 source rows, 90 unique jobs
+[Tencent] Page 10: 10 source rows, 100 unique jobs
+[Tencent] Page 11: 10 source rows, 110 unique jobs
+[Tencent] Page 12: 10 source rows, 120 unique jobs
+[Tencent] Page 13: 10 source rows, 130 unique jobs
+[Tencent] Page 14: 10 source rows, 140 unique jobs
+[Tencent] Page 15: 10 source rows, 150 unique jobs
+[Tencent] Page 16: 10 source rows, 160 unique jobs
+[Tencent] Page 17: 10 source rows, 170 unique jobs
+[Tencent] Page 18: 10 source rows, 180 unique jobs
+[Tencent] Page 19: 10 source rows, 190 unique jobs
+[Tencent] Page 20: 10 source rows, 200 unique jobs
+[Tencent] Page 21: 10 source rows, 210 unique jobs
+[Tencent] Page 22: 10 source rows, 220 unique jobs
+[Tencent] Page 23: 10 source rows, 230 unique jobs
+[Tencent] Page 24: 10 source rows, 240 unique jobs
+[Tencent] Page 25: 10 source rows, 250 unique jobs
+[Tencent] Page 26: 10 source rows, 260 unique jobs
+[Tencent] Page 27: 10 source rows, 270 unique jobs
+[Tencent] Page 28: 10 source rows, 280 unique jobs
+[Tencent] Page 29: 10 source rows, 290 unique jobs
+[Tencent] Page 30: 10 source rows, 300 unique jobs
+[13/501] PASS    Tencent                             jobs=  300 valid=  300 37.14s
+[Alibaba] Page 1: 50 source rows, 50 normalized, 50 cumulative / 4278
+[Alibaba] Page 2: 50 source rows, 50 normalized, 100 cumulative / 4278
+[Alibaba] Page 3: 50 source rows, 50 normalized, 150 cumulative / 4278
+[Alibaba] Page 4: 50 source rows, 50 normalized, 200 cumulative / 4278
+[Alibaba] Page 5: 50 source rows, 50 normalized, 250 cumulative / 4278
+[Alibaba] Page 6: 50 source rows, 50 normalized, 300 cumulative / 4278
+[Alibaba] Page 7: 50 source rows, 50 normalized, 350 cumulative / 4278
+[Alibaba] Page 8: 50 source rows, 50 normalized, 400 cumulative / 4278
+[Alibaba] Page 9: 50 source rows, 50 normalized, 450 cumulative / 4278
+[Alibaba] Page 10: 50 source rows, 50 normalized, 500 cumulative / 4278
+[Alibaba] Page 11: 50 source rows, 50 normalized, 550 cumulative / 4278
+[Alibaba] Page 12: 50 source rows, 50 normalized, 600 cumulative / 4278
+[Alibaba] Page 13: 50 source rows, 50 normalized, 650 cumulative / 4278
+[Alibaba] Page 14: 50 source rows, 50 normalized, 700 cumulative / 4278
+[Alibaba] Page 15: 50 source rows, 50 normalized, 750 cumulative / 4278
+[Alibaba] Page 16: 50 source rows, 50 normalized, 800 cumulative / 4278
+[Alibaba] Page 17: 50 source rows, 50 normalized, 850 cumulative / 4278
+[Alibaba] Page 18: 50 source rows, 50 normalized, 900 cumulative / 4278
+[Alibaba] Page 19: 50 source rows, 50 normalized, 950 cumulative / 4278
+[Alibaba] Page 20: 50 source rows, 50 normalized, 1000 cumulative / 4278
+[Alibaba] Complete: 1000 jobs
+[14/501] PASS    Alibaba                             jobs= 1000 valid= 1000 15.14s
+[15/501] FAIL    Baidu                               jobs=    0 valid=    0  9.61s
+[Huawei] Page 1: 2 source rows, 2 new, 2 total
+[Huawei] Complete: 2 jobs
+[16/501] PASS    Huawei                              jobs=    2 valid=    2   2.9s
+[Samsung] Page 1: 20 source rows, 20 new, 20 total of 660
+[Samsung] Page 2: 20 source rows, 18 new, 38 total of 0
+[Samsung] Complete: 38 jobs
+[17/501] PASS    Samsung Electronics                 jobs=   38 valid=   38  3.76s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 4 source rows, 124 unique listings
+[Workday] Complete: 124 jobs (details=off)
+[18/501] PASS    Sony                                jobs=  124 valid=  124 13.23s
+[Panasonic] Page 1: 10 source rows, 10 new, 10 total
+[Panasonic] Page 2: 6 source rows, 6 new, 16 total
+[Panasonic] Complete: 16 jobs
+[19/501] PASS    Panasonic                           jobs=   16 valid=   16  3.07s
+[LG] Page 1: 20 source rows, 20 new, 20 total
+[LG] Page 2: 20 source rows, 20 new, 40 total
+[LG] Page 3: 20 source rows, 20 new, 60 total
+[LG] Page 4: 20 source rows, 20 new, 80 total
+[LG] Page 5: 20 source rows, 20 new, 100 total
+[LG] Page 6: 20 source rows, 20 new, 120 total
+[LG] Page 7: 20 source rows, 20 new, 140 total
+[LG] Page 8: 20 source rows, 20 new, 160 total
+[LG] Page 9: 20 source rows, 20 new, 180 total
+[LG] Page 10: 20 source rows, 20 new, 200 total
+[LG] Page 11: 20 source rows, 20 new, 220 total
+[LG] Page 12: 20 source rows, 20 new, 240 total
+[LG] Complete: 240 jobs
+[20/501] PASS    LG Electronics                      jobs=  240 valid=  240 16.34s
+[IBM] Page 1: 100 source rows, 100 new, 100 total of 2154
+[IBM] Page 2: 100 source rows, 100 new, 200 total of 2154
+[IBM] Page 3: 100 source rows, 100 new, 300 total of 2154
+[IBM] Page 4: 100 source rows, 100 new, 400 total of 2154
+[IBM] Page 5: 100 source rows, 95 new, 495 total of 2154
+[IBM] Page 6: 100 source rows, 100 new, 595 total of 2154
+[IBM] Page 7: 100 source rows, 100 new, 695 total of 2154
+[IBM] Page 8: 100 source rows, 78 new, 773 total of 2154
+[IBM] Page 9: 100 source rows, 100 new, 873 total of 2154
+[IBM] Page 10: 100 source rows, 100 new, 973 total of 2154
+[IBM] Page 11: 100 source rows, 100 new, 1073 total of 2154
+[IBM] Page 12: 100 source rows, 73 new, 1146 total of 2154
+[IBM] Page 13: 100 source rows, 100 new, 1246 total of 2154
+[IBM] Page 14: 100 source rows, 100 new, 1346 total of 2154
+[IBM] Page 15: 100 source rows, 89 new, 1435 total of 2154
+[IBM] Page 16: 100 source rows, 80 new, 1515 total of 2154
+[IBM] Page 17: 100 source rows, 98 new, 1613 total of 2154
+[IBM] Page 18: 100 source rows, 100 new, 1713 total of 2154
+[IBM] Page 19: 100 source rows, 90 new, 1803 total of 2154
+[IBM] Page 20: 100 source rows, 95 new, 1898 total of 2154
+[IBM] Complete: 1898 jobs
+[21/501] PASS    IBM                                 jobs= 1898 valid= 1898 10.47s
+[Oracle] Page 1: 50 source rows, 50 new, 50 total of 2381
+[Oracle] Page 2: 50 source rows, 50 new, 100 total of 2381
+[Oracle] Complete: 100 jobs
+[22/501] PASS    Oracle                              jobs=  100 valid=  100  4.48s
+[Salesforce] Page 1: 20 source rows, 20 new, 20 total of 1580
+[Salesforce] Page 2: 20 source rows, 20 new, 40 total of 0
+[Salesforce] Complete: 40 jobs
+[23/501] PASS    Salesforce                          jobs=   40 valid=   40  3.64s
+[Adobe] Page 1: 10 SSR jobs, 10 new, 10 total
+[Adobe] Complete: 10 jobs
+[24/501] PASS    Adobe                               jobs=   10 valid=   10  1.35s
+[25/501] TIMEOUT SAP                                 jobs=    0 valid=    0    40s
+[Cisco] Page 1: 10 SSR jobs, 10 new, 10 total
+[Cisco] Complete: 10 jobs
+[26/501] PASS    Cisco                               jobs=   10 valid=   10  1.04s
+[Intel] Page 1: 20 source rows, 20 new, 20 total of 764
+[Intel] Page 2: 20 source rows, 20 new, 40 total of 0
+[Intel] Complete: 40 jobs
+[27/501] PASS    Intel                               jobs=   40 valid=   40  3.89s
+[AMD] Page 1: 20 source rows, 20 new, 20 total
+[AMD] Page 2: 20 source rows, 20 new, 40 total
+[AMD] Complete: 40 jobs
+[28/501] PASS    AMD                                 jobs=   40 valid=   40  4.76s
+[Qualcomm] Sitemap URLs=2048; detail pages fetched=20; normalized jobs=100
+[Qualcomm] Complete: 100 jobs
+[29/501] PASS    Qualcomm                            jobs=  100 valid=  100 20.02s
+[Dell Technologies] Page 1: 25 source rows, 25 new, 25 total of 503
+[Dell Technologies] Page 2: 25 source rows, 25 new, 50 total of 503
+[Dell Technologies] Complete: 50 jobs
+[30/501] PASS    Dell Technologies                   jobs=   50 valid=   50  3.05s
+[HP] Sitemap URLs=1286; detail pages fetched=20; normalized jobs=100
+[HP] Complete: 100 jobs
+[31/501] PASS    HP                                  jobs=  100 valid=  100 18.77s
+[HPE] Page 1: 10 SSR jobs, 10 new, 10 total
+[HPE] Complete: 10 jobs
+[32/501] PASS    HPE                                 jobs=   10 valid=   10  1.32s
+[Lenovo] Page 1: 8 job links, 8 unique
+[Lenovo] Complete: 8 jobs
+[33/501] PASS    Lenovo                              jobs=    8 valid=    8  3.05s
+[34/501] TIMEOUT Arm                                 jobs=    0 valid=    0    40s
+[Broadcom] Verified public Workday board ID: External_Career
+[Broadcom] Page 1: 20 source rows, 20 new, 20 total of 372
+[Broadcom] Page 2: 20 source rows, 20 new, 40 total of 372
+[Broadcom] Complete: 40 jobs
+[35/501] PASS    Broadcom                            jobs=   40 valid=   40  2.28s
+[Micron] Sitemap URLs=3066; detail pages fetched=20; normalized jobs=100
+[Micron] Complete: 100 jobs
+[36/501] PASS    Micron                              jobs=  100 valid=  100 15.99s
+[TI] Page 1: 20 source rows, 20 new, 20 total of 880
+[TI] Page 2: 20 source rows, 20 new, 40 total of 880
+[TI] Complete: 40 jobs
+[37/501] PASS    Texas Instruments                   jobs=   40 valid=   40  2.69s
+[Applied Materials] Page 1: 20 source rows, 20 new, 20 total of 2000
+[Applied Materials] Page 2: 20 source rows, 20 new, 40 total of 0
+[Applied Materials] Complete: 40 jobs
+[38/501] PASS    Applied Materials                   jobs=   40 valid=   40  3.68s
+[ASML] Complete: 17 jobs
+[39/501] PASS    ASML                                jobs=   17 valid=   17  2.46s
+[TSMC] Feed failed https://careers.tsmc.com/googlefeed.xml: HTTPError: 403 Client Error: Forbidden for url: https://careers.tsmc.com/googlefeed.xml
+[TSMC] Feed https://ro.careers.tsmc.com/googlefeed.xml: 418 source rows, 100 normalized jobs
+[40/501] PASS    TSMC                                jobs=  100 valid=  100  23.6s
+[Synopsys] keyword='software engineer' page=1: 100 source rows, 100 new, 100 unique
+[Synopsys] keyword='software engineer' page=2: 100 source rows, 100 new, 200 unique
+[Synopsys] keyword='intern' page=1: 17 source rows, 13 new, 213 unique
+[Synopsys] keyword='new grad' page=1: 76 source rows, 51 new, 264 unique
+[Synopsys] keyword='development program' page=1: 100 source rows, 49 new, 313 unique
+[Synopsys] keyword='development program' page=2: 100 source rows, 53 new, 366 unique
+[Synopsys] Complete: 366 jobs
+[41/501] PASS    Synopsys                            jobs=  366 valid=  366  3.53s
+[Cadence Design Systems] Page 1: 20 source rows, 20 new, 20 total of 668
+[Cadence Design Systems] Page 2: 20 source rows, 20 new, 40 total of 0
+[Cadence Design Systems] Complete: 40 jobs
+[42/501] PASS    Cadence Design Systems              jobs=   40 valid=   40  2.86s
+[Ericsson] Sitemap URLs=558; detail pages fetched=20; normalized jobs=100
+[Ericsson] Complete: 100 jobs
+[43/501] PASS    Ericsson                            jobs=  100 valid=  100 10.65s
+[Nokia] Page 1: 20 source rows, 20 new, 20 total of 585
+[Nokia] Page 2: 20 source rows, 20 new, 40 total of 585
+[Nokia] Complete: 40 jobs
+[44/501] PASS    Nokia                               jobs=   40 valid=   40  2.18s
+[Workday] Page 1: 20 source rows, 19 unique listings
+[Workday] Page 2: 20 source rows, 39 unique listings
+[Workday] Page 3: 20 source rows, 59 unique listings
+[Workday] Page 4: 20 source rows, 79 unique listings
+[Workday] Page 5: 20 source rows, 99 unique listings
+[Workday] Page 6: 20 source rows, 119 unique listings
+[Workday] Page 7: 20 source rows, 139 unique listings
+[Workday] Page 8: 20 source rows, 159 unique listings
+[Workday] Page 9: 20 source rows, 179 unique listings
+[Workday] Page 10: 20 source rows, 199 unique listings
+[Workday] Page 11: 20 source rows, 219 unique listings
+[Workday] Page 12: 20 source rows, 239 unique listings
+[Workday] Page 13: 20 source rows, 259 unique listings
+[Workday] Page 14: 20 source rows, 279 unique listings
+[Workday] Page 15: 20 source rows, 299 unique listings
+[Workday] Page 16: 20 source rows, 319 unique listings
+[Workday] Page 17: 20 source rows, 339 unique listings
+[Workday] Page 18: 20 source rows, 359 unique listings
+[45/501] TIMEOUT Juniper Networks                    jobs=    0 valid=    0    40s
+[Arista Networks] Complete: 242 jobs
+[46/501] PASS    Arista Networks                     jobs=  242 valid=  242  2.07s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[Workday] Page 32: 20 source rows, 640 unique listings
+[Workday] Page 33: 20 source rows, 660 unique listings
+[47/501] TIMEOUT Motorola Solutions                  jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 2 source rows, 182 unique listings
+[Workday] Complete: 182 jobs (details=off)
+[48/501] PASS    Red Hat                             jobs=  182 valid=  182 13.89s
+[Canonical] Complete: 310 jobs
+[49/501] PASS    Canonical                           jobs=  310 valid=  310  2.54s
+[50/501] PASS    Databricks                          jobs=  899 valid=  899  7.18s
+[Snowflake] Page 1: 10 SSR jobs, 10 new, 10 total
+[Snowflake] Complete: 10 jobs
+[51/501] PASS    Snowflake                           jobs=   10 valid=   10  1.47s
+[52/501] TIMEOUT Palantir                            jobs=    0 valid=    0    40s
+[53/501] PASS    Scale AI                            jobs=  174 valid=  174  1.67s
+[54/501] PASS    Cohere                              jobs=  113 valid=  113  1.33s
+[55/501] PASS    Mistral AI                          jobs=  222 valid=  222  1.85s
+[Hugging Face] Official Workable page parsed 6 records; normalized jobs=6
+[56/501] PASS    Hugging Face                        jobs=    6 valid=    6  1.65s
+[Perplexity] API source rows=127; normalized jobs=100
+[57/501] PASS    Perplexity                          jobs=  100 valid=  100  0.97s
+[58/501] PASS    Runway                              jobs=   48 valid=   48  1.95s
+[59/501] PASS    Stability AI                        jobs=    6 valid=    6  0.52s
+[60/501] PASS    ElevenLabs                          jobs=   40 valid=   40 14.12s
+[61/501] PASS    Character.AI                        jobs=   13 valid=   13  1.12s
+[Waymo] Complete: 360 jobs from official Greenhouse board
+[62/501] PASS    Waymo                               jobs=  360 valid=  360  2.72s
+[Anduril] Complete: 2497 jobs
+[63/501] PASS    Anduril                             jobs= 2497 valid= 2497  27.0s
+[64/501] PASS    MongoDB                             jobs=  386 valid=  386  5.51s
+[65/501] EMPTY   Elastic                             jobs=    0 valid=    0 17.04s
+[66/501] EMPTY   Confluent                           jobs=    0 valid=    0  0.75s
+[67/501] PASS    Redis                               jobs=   30 valid=   30  0.88s
+[68/501] PASS    Cockroach Labs                      jobs=   15 valid=   15  0.86s
+[69/501] PASS    Neo4j                               jobs=   60 valid=   60  1.12s
+[70/501] FAIL    ClickHouse                          jobs=    0 valid=    0  0.46s
+[71/501] PASS    PlanetScale                         jobs=   12 valid=   12  1.46s
+[72/501] PASS    Supabase                            jobs=   58 valid=   58  0.91s
+[73/501] PASS    Vercel                              jobs=   95 valid=   95   3.2s
+[74/501] PASS    Netlify                             jobs=    5 valid=    5  3.24s
+[75/501] TIMEOUT Cloudflare                          jobs=    0 valid=    0    40s
+[76/501] PASS    Fastly                              jobs=   54 valid=   54  1.59s
+[77/501] EMPTY   Akamai                              jobs=    0 valid=    0  1.52s
+[78/501] PASS    GitHub                              jobs=   14 valid=   14 21.35s
+[79/501] PASS    GitLab                              jobs=  232 valid=  232  2.64s
+[80/501] TIMEOUT Atlassian                           jobs=    0 valid=    0    40s
+[81/501] EMPTY   JetBrains                           jobs=    0 valid=    0  3.74s
+[82/501] EMPTY   Docker                              jobs=    0 valid=    0  25.7s
+[83/501] PASS    Postman                             jobs=    1 valid=    1 10.25s
+[84/501] PASS    Figma                               jobs=  140 valid=  140  1.46s
+[85/501] PASS    Canva                               jobs=  101 valid=  101  2.98s
+[86/501] PASS    Notion                              jobs=  137 valid=  137  1.54s
+[87/501] PASS    Linear                              jobs=   34 valid=   34  1.59s
+[88/501] PASS    Airtable                            jobs=    4 valid=    4  0.47s
+[89/501] TIMEOUT Miro                                jobs=    0 valid=    0    40s
+[90/501] EMPTY   ClickUp                             jobs=    0 valid=    0  6.12s
+[91/501] PASS    Asana                               jobs=  105 valid=  105  1.29s
+[92/501] TIMEOUT Monday.com                          jobs=    0 valid=    0    40s
+[93/501] PASS    Zapier                              jobs=    7 valid=    7  12.1s
+[94/501] PASS    1Password                           jobs=   84 valid=   84  1.34s
+[95/501] EMPTY   Snyk                                jobs=    0 valid=    0  4.69s
+[96/501] EMPTY   Datadog                             jobs=    0 valid=    0  6.06s
+[97/501] PASS    Grafana Labs                        jobs=  142 valid=  142  1.77s
+[98/501] PASS    New Relic                           jobs=   57 valid=   57   1.4s
+[99/501] EMPTY   Splunk                              jobs=    0 valid=    0  6.97s
+[100/501] EMPTY   Dynatrace                           jobs=    0 valid=    0 20.67s
+[101/501] EMPTY   HashiCorp                           jobs=    0 valid=    0  3.92s
+[102/501] PASS    JFrog                               jobs=   66 valid=   66  35.2s
+[103/501] EMPTY   Sonar                               jobs=    0 valid=    0 21.55s
+[104/501] PASS    CircleCI                            jobs=   15 valid=   15 23.77s
+[105/501] PASS    LaunchDarkly                        jobs=   52 valid=   52  1.71s
+[106/501] PASS    Amplitude                           jobs=   40 valid=   40  1.68s
+[107/501] PASS    Mixpanel                            jobs=   46 valid=   46  2.71s
+[108/501] PASS    Algolia                             jobs=   32 valid=   32  1.99s
+[109/501] EMPTY   Contentful                          jobs=    0 valid=    0  3.96s
+[110/501] PASS    Stripe                              jobs=    6 valid=    6 13.02s
+[111/501] EMPTY   Block                               jobs=    0 valid=    0  6.33s
+[112/501] TIMEOUT Wise                                jobs=    0 valid=    0    40s
+[113/501] EMPTY   PayPal                              jobs=    0 valid=    0  5.98s
+[114/501] EMPTY   Adyen                               jobs=    0 valid=    0  5.82s
+[115/501] EMPTY   Klarna                              jobs=    0 valid=    0  8.51s
+[116/501] PASS    Checkout.com                        jobs=  175 valid=  175  2.71s
+[117/501] TIMEOUT Plaid                               jobs=    0 valid=    0    40s
+[118/501] EMPTY   Brex                                jobs=    0 valid=    0  4.66s
+[119/501] PASS    Ramp                                jobs=  170 valid=  170  3.61s
+[120/501] EMPTY   Chime                               jobs=    0 valid=    0  3.22s
+[121/501] EMPTY   Robinhood                           jobs=    0 valid=    0  4.61s
+[122/501] EMPTY   Coinbase                            jobs=    0 valid=    0  3.07s
+[123/501] EMPTY   Kraken                              jobs=    0 valid=    0  1.54s
+[124/501] EMPTY   Revolut                             jobs=    0 valid=    0  4.43s
+[125/501] PASS    Monzo                               jobs=   73 valid=   73  1.76s
+[126/501] EMPTY   Nubank                              jobs=    0 valid=    0  1.97s
+[127/501] EMPTY   SoFi                                jobs=    0 valid=    0  2.16s
+[128/501] EMPTY   JPMorgan Chase                      jobs=    0 valid=    0 20.07s
+[129/501] TIMEOUT Goldman Sachs                       jobs=    0 valid=    0    40s
+[130/501] EMPTY   Morgan Stanley                      jobs=    0 valid=    0 29.08s
+[131/501] EMPTY   Citadel                             jobs=    0 valid=    0   3.9s
+[132/501] EMPTY   Jane Street                         jobs=    0 valid=    0  6.38s
+[133/501] TIMEOUT Two Sigma                           jobs=    0 valid=    0    40s
+[134/501] EMPTY   Bloomberg                           jobs=    0 valid=    0  2.78s
+[135/501] EMPTY   FactSet                             jobs=    0 valid=    0  2.48s
+[136/501] EMPTY   Morningstar                         jobs=    0 valid=    0  1.79s
+[137/501] EMPTY   Tata Consultancy Services           jobs=    0 valid=    0  2.29s
+[138/501] EMPTY   Infosys                             jobs=    0 valid=    0   1.6s
+[139/501] TIMEOUT Wipro                               jobs=    0 valid=    0    40s
+[140/501] EMPTY   HCLTech                             jobs=    0 valid=    0  6.25s
+[141/501] TIMEOUT Tech Mahindra                       jobs=    0 valid=    0    40s
+[142/501] PASS    LTIMindtree                         jobs=   38 valid=   38 38.41s
+[143/501] EMPTY   Persistent Systems                  jobs=    0 valid=    0 22.68s
+[144/501] EMPTY   Mphasis                             jobs=    0 valid=    0 19.51s
+[145/501] TIMEOUT Coforge                             jobs=    0 valid=    0    40s
+[146/501] EMPTY   Hexaware                            jobs=    0 valid=    0  9.71s
+[147/501] EMPTY   Birlasoft                           jobs=    0 valid=    0 23.77s
+[148/501] EMPTY   Zensar Technologies                 jobs=    0 valid=    0 24.41s
+[149/501] EMPTY   KPIT Technologies                   jobs=    0 valid=    0 30.34s
+[150/501] EMPTY   Tata Elxsi                          jobs=    0 valid=    0 25.15s
+[151/501] EMPTY   Cyient                              jobs=    0 valid=    0  5.82s
+[152/501] EMPTY   Happiest Minds                      jobs=    0 valid=    0  4.91s
+[153/501] TIMEOUT GlobalLogic                         jobs=    0 valid=    0    40s
+[154/501] PASS    Thoughtworks                        jobs=    5 valid=    5  9.94s
+[155/501] EMPTY   EPAM Systems                        jobs=    0 valid=    0  1.39s
+[156/501] EMPTY   Publicis Sapient                    jobs=    0 valid=    0  3.57s
+[157/501] EMPTY   Accenture                           jobs=    0 valid=    0 16.14s
+[158/501] EMPTY   Capgemini                           jobs=    0 valid=    0 23.96s
+[159/501] EMPTY   Cognizant                           jobs=    0 valid=    0 19.44s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[160/501] TIMEOUT DXC Technology                      jobs=    0 valid=    0    40s
+[161/501] EMPTY   NTT DATA                            jobs=    0 valid=    0  7.61s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 19 source rows, 39 unique listings
+[Workday] Complete: 39 jobs (details=off)
+[162/501] PASS    Kyndryl                             jobs=   39 valid=   39  4.74s
+[163/501] PASS    Deloitte                            jobs=  280 valid=  280 13.78s
+[164/501] EMPTY   PwC                                 jobs=    0 valid=    0 29.66s
+[165/501] TIMEOUT EY                                  jobs=    0 valid=    0    40s
+[166/501] EMPTY   KPMG                                jobs=    0 valid=    0  9.37s
+[167/501] EMPTY   Zoho                                jobs=    0 valid=    0  3.03s
+[168/501] PASS    Freshworks                          jobs=  128 valid=  128 13.37s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 7 source rows, 27 unique listings
+[Workday] Complete: 27 jobs (details=off)
+[169/501] PASS    BrowserStack                        jobs=   27 valid=   27  8.87s
+[170/501] PASS    Chargebee                           jobs=    4 valid=    4 10.29s
+[171/501] EMPTY   Kissflow                            jobs=    0 valid=    0  3.39s
+[172/501] PASS    Druva                               jobs=    1 valid=    1 15.49s
+[173/501] EMPTY   Hasura                              jobs=    0 valid=    0  5.47s
+[174/501] EMPTY   Amagi                               jobs=    0 valid=    0 10.09s
+[175/501] EMPTY   InMobi                              jobs=    0 valid=    0  9.13s
+[176/501] PASS    Glance                              jobs=   39 valid=   39  2.15s
+[177/501] EMPTY   ShareChat                           jobs=    0 valid=    0  2.23s
+[178/501] EMPTY   Meesho                              jobs=    0 valid=    0  2.53s
+[179/501] TIMEOUT Flipkart                            jobs=    0 valid=    0    40s
+[180/501] TIMEOUT Myntra                              jobs=    0 valid=    0    40s
+[181/501] EMPTY   Swiggy                              jobs=    0 valid=    0  1.46s
+[182/501] TIMEOUT Zomato                              jobs=    0 valid=    0    40s
+[183/501] EMPTY   Zepto                               jobs=    0 valid=    0  2.99s
+[184/501] EMPTY   BigBasket                           jobs=    0 valid=    0  3.22s
+[185/501] EMPTY   Juspay                              jobs=    0 valid=    0  1.44s
+[186/501] PASS    Razorpay                            jobs=   25 valid=   25  4.06s
+[187/501] EMPTY   Cashfree Payments                   jobs=    0 valid=    0  11.6s
+[188/501] EMPTY   Pine Labs                           jobs=    0 valid=    0  2.05s
+[189/501] PASS    Paytm                               jobs=  196 valid=  196 18.32s
+[190/501] EMPTY   PhonePe                             jobs=    0 valid=    0   8.6s
+[191/501] PASS    CRED                                jobs=    8 valid=    8  3.46s
+[192/501] EMPTY   Groww                               jobs=    0 valid=    0  3.12s
+[193/501] EMPTY   Zerodha                             jobs=    0 valid=    0  1.92s
+[194/501] EMPTY   Upstox                              jobs=    0 valid=    0 22.53s
+[195/501] TIMEOUT Angel One                           jobs=    0 valid=    0    40s
+[196/501] EMPTY   Policybazaar                        jobs=    0 valid=    0  3.99s
+[197/501] EMPTY   Acko                                jobs=    0 valid=    0   3.9s
+[198/501] EMPTY   Digit Insurance                     jobs=    0 valid=    0  2.16s
+[199/501] EMPTY   Dream11                             jobs=    0 valid=    0  5.98s
+[200/501] EMPTY   Games24x7                           jobs=    0 valid=    0  4.57s
+[201/501] EMPTY   Nazara Technologies                 jobs=    0 valid=    0  2.28s
+[202/501] EMPTY   Practo                              jobs=    0 valid=    0  4.25s
+[203/501] EMPTY   PharmEasy                           jobs=    0 valid=    0  2.96s
+[204/501] EMPTY   Tata 1mg                            jobs=    0 valid=    0  3.41s
+[205/501] EMPTY   Innovaccer                          jobs=    0 valid=    0 19.58s
+[206/501] EMPTY   Lenskart                            jobs=    0 valid=    0  6.83s
+[207/501] TIMEOUT Ola                                 jobs=    0 valid=    0    40s
+[208/501] EMPTY   Ola Electric                        jobs=    0 valid=    0 37.93s
+[209/501] EMPTY   Ather Energy                        jobs=    0 valid=    0  2.94s
+[210/501] TIMEOUT Cars24                              jobs=    0 valid=    0    40s
+[211/501] EMPTY   NoBroker                            jobs=    0 valid=    0   4.1s
+[212/501] EMPTY   Urban Company                       jobs=    0 valid=    0  7.09s
+[213/501] EMPTY   OfBusiness                          jobs=    0 valid=    0 23.67s
+[214/501] TIMEOUT Udaan                               jobs=    0 valid=    0    40s
+[215/501] EMPTY   Delhivery                           jobs=    0 valid=    0  3.61s
+[216/501] EMPTY   BlackBuck                           jobs=    0 valid=    0  4.89s
+[217/501] EMPTY   Xpressbees                          jobs=    0 valid=    0  8.31s
+[218/501] TIMEOUT Jio Platforms                       jobs=    0 valid=    0    40s
+[219/501] EMPTY   Reliance Retail                     jobs=    0 valid=    0 26.83s
+[220/501] EMPTY   Airtel                              jobs=    0 valid=    0  3.52s
+[221/501] EMPTY   Tata Communications                 jobs=    0 valid=    0   6.1s
+[222/501] EMPTY   VerSe Innovation                    jobs=    0 valid=    0  2.34s
+[223/501] EMPTY   OYO                                 jobs=    0 valid=    0 39.65s
+[224/501] TIMEOUT MakeMyTrip                          jobs=    0 valid=    0    40s
+[225/501] EMPTY   Cleartrip                           jobs=    0 valid=    0  2.54s
+[226/501] EMPTY   ixigo                               jobs=    0 valid=    0  4.82s
+[227/501] EMPTY   Navi                                jobs=    0 valid=    0   4.8s
+[228/501] PASS    Slice                               jobs=    1 valid=    1  2.26s
+[229/501] EMPTY   Jupiter                             jobs=    0 valid=    0  3.19s
+[230/501] EMPTY   INDmoney                            jobs=    0 valid=    0  3.78s
+[231/501] EMPTY   Smallcase                           jobs=    0 valid=    0  2.62s
+[232/501] EMPTY   Setu                                jobs=    0 valid=    0  2.12s
+[233/501] EMPTY   Perfios                             jobs=    0 valid=    0 10.24s
+[234/501] EMPTY   Signzy                              jobs=    0 valid=    0  2.16s
+[235/501] EMPTY   Yellow.ai                           jobs=    0 valid=    0  8.05s
+[236/501] PASS    Observe.AI                          jobs=    9 valid=    9  2.69s
+[237/501] PASS    Sarvam AI                           jobs=   42 valid=   42  3.26s
+[238/501] TIMEOUT Krutrim                             jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 19 source rows, 119 unique listings
+[Workday] Complete: 119 jobs (details=off)
+[239/501] PASS    Fractal                             jobs=  119 valid=  119  9.86s
+[240/501] EMPTY   Tiger Analytics                     jobs=    0 valid=    0 12.55s
+[241/501] EMPTY   Tredence                            jobs=    0 valid=    0   7.7s
+[242/501] EMPTY   Mu Sigma                            jobs=    0 valid=    0 11.25s
+[243/501] EMPTY   LatentView Analytics                jobs=    0 valid=    0 18.03s
+[244/501] TIMEOUT Nagarro                             jobs=    0 valid=    0    40s
+[245/501] PASS    Mindtickle                          jobs=   21 valid=   21 15.35s
+[246/501] EMPTY   Whatfix                             jobs=    0 valid=    0 18.85s
+[247/501] EMPTY   Wingify                             jobs=    0 valid=    0 35.11s
+[248/501] TIMEOUT VWO                                 jobs=    0 valid=    0    40s
+[249/501] EMPTY   WebEngage                           jobs=    0 valid=    0 27.82s
+[250/501] PASS    MoEngage                            jobs=    3 valid=    3 13.25s
+[251/501] EMPTY   CleverTap                           jobs=    0 valid=    0  7.32s
+[252/501] EMPTY   Netcore Cloud                       jobs=    0 valid=    0  4.05s
+[253/501] EMPTY   Gupshup                             jobs=    0 valid=    0 12.24s
+[254/501] EMPTY   Exotel                              jobs=    0 valid=    0  9.44s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 17 source rows, 37 unique listings
+[Workday] Complete: 37 jobs (details=off)
+[255/501] PASS    Uniphore                            jobs=   37 valid=   37  4.28s
+[256/501] EMPTY   Uber                                jobs=    0 valid=    0  9.62s
+[257/501] PASS    Airbnb                              jobs=  195 valid=  195   2.7s
+[258/501] PASS    Lyft                                jobs=  178 valid=  178  2.38s
+[259/501] EMPTY   DoorDash                            jobs=    0 valid=    0  3.46s
+[260/501] EMPTY   Instacart                           jobs=    0 valid=    0 10.78s
+[261/501] EMPTY   eBay                                jobs=    0 valid=    0 23.89s
+[262/501] PASS    Etsy                                jobs=   42 valid=   42 20.35s
+[263/501] TIMEOUT Walmart Global Tech                 jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[264/501] TIMEOUT Target                              jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[265/501] TIMEOUT The Home Depot                      jobs=    0 valid=    0    40s
+[266/501] EMPTY   Booking.com                         jobs=    0 valid=    0  9.75s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 9 source rows, 169 unique listings
+[Workday] Complete: 169 jobs (details=off)
+[267/501] PASS    Expedia Group                       jobs=  169 valid=  169 12.78s
+[268/501] EMPTY   Tripadvisor                         jobs=    0 valid=    0  3.66s
+[269/501] EMPTY   Skyscanner                          jobs=    0 valid=    0  5.32s
+[270/501] EMPTY   Spotify                             jobs=    0 valid=    0  5.31s
+[271/501] EMPTY   SoundCloud                          jobs=    0 valid=    0 10.23s
+[272/501] EMPTY   Twitch                              jobs=    0 valid=    0  8.04s
+[273/501] TIMEOUT Roblox                              jobs=    0 valid=    0    40s
+[274/501] EMPTY   Epic Games                          jobs=    0 valid=    0 10.59s
+[275/501] TIMEOUT Unity                               jobs=    0 valid=    0    40s
+[276/501] EMPTY   Riot Games                          jobs=    0 valid=    0  9.49s
+[277/501] TIMEOUT Electronic Arts                     jobs=    0 valid=    0    40s
+[278/501] EMPTY   Ubisoft                             jobs=    0 valid=    0  13.8s
+[279/501] EMPTY   Nintendo                            jobs=    0 valid=    0  22.5s
+[280/501] PASS    Valve                               jobs=   25 valid=   25 30.05s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[281/501] TIMEOUT Workday                             jobs=    0 valid=    0    40s
+[282/501] EMPTY   ServiceNow                          jobs=    0 valid=    0  5.75s
+[283/501] TIMEOUT DocuSign                            jobs=    0 valid=    0    40s
+[284/501] EMPTY   Dropbox                             jobs=    0 valid=    0   4.0s
+[285/501] EMPTY   Box                                 jobs=    0 valid=    0  5.93s
+[286/501] EMPTY   HubSpot                             jobs=    0 valid=    0 39.32s
+[287/501] PASS    Intercom                            jobs=  105 valid=  105  5.56s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 8 source rows, 148 unique listings
+[Workday] Complete: 148 jobs (details=off)
+[288/501] PASS    Zendesk                             jobs=  148 valid=  148 17.35s
+[289/501] EMPTY   Twilio                              jobs=    0 valid=    0  7.65s
+[290/501] TIMEOUT Okta                                jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 1 source rows, 361 unique listings
+[Workday] Complete: 361 jobs (details=off)
+[291/501] PASS    CrowdStrike                         jobs=  361 valid=  361 23.89s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[Workday] Page 32: 20 source rows, 640 unique listings
+[Workday] Page 33: 20 source rows, 660 unique listings
+[Workday] Page 34: 20 source rows, 680 unique listings
+[Workday] Page 35: 20 source rows, 700 unique listings
+[Workday] Page 36: 20 source rows, 720 unique listings
+[Workday] Page 37: 20 source rows, 740 unique listings
+[Workday] Page 38: 20 source rows, 760 unique listings
+[Workday] Page 39: 20 source rows, 780 unique listings
+[292/501] TIMEOUT Palo Alto Networks                  jobs=    0 valid=    0    40s
+[293/501] TIMEOUT Fortinet                            jobs=    0 valid=    0    40s
+[294/501] TIMEOUT Zscaler                             jobs=    0 valid=    0    40s
+[295/501] TIMEOUT SentinelOne                         jobs=    0 valid=    0    40s
+[296/501] EMPTY   Wiz                                 jobs=    0 valid=    0  2.99s
+[297/501] EMPTY   DigitalOcean                        jobs=    0 valid=    0   5.8s
+[298/501] PASS    OVHcloud                            jobs=  100 valid=  100 31.38s
+[299/501] EMPTY   Hetzner                             jobs=    0 valid=    0  9.16s
+[300/501] PASS    Scaleway                            jobs=   31 valid=   31 18.08s
+[301/501] EMPTY   Equinix                             jobs=    0 valid=    0  3.95s
+[302/501] TIMEOUT Aiven                               jobs=    0 valid=    0    40s
+[303/501] PASS    Sentry                              jobs=   43 valid=   43  4.98s
+[304/501] PASS    Sourcegraph                         jobs=    8 valid=    8  2.85s
+[305/501] PASS    Replit                              jobs=   52 valid=   52  3.17s
+[306/501] EMPTY   CodeSignal                          jobs=    0 valid=    0 12.52s
+[307/501] PASS    Coursera                            jobs=   20 valid=   20 12.32s
+[308/501] EMPTY   Duolingo                            jobs=    0 valid=    0  7.77s
+[309/501] EMPTY   Khan Academy                        jobs=    0 valid=    0 11.58s
+[310/501] EMPTY   Udemy                               jobs=    0 valid=    0 17.79s
+[311/501] EMPTY   Chegg                               jobs=    0 valid=    0 11.28s
+[312/501] EMPTY   Quizlet                             jobs=    0 valid=    0  2.76s
+[313/501] TIMEOUT Deel                                jobs=    0 valid=    0    40s
+[314/501] PASS    Remote                              jobs=   51 valid=   51 27.23s
+[315/501] EMPTY   Rippling                            jobs=    0 valid=    0   8.5s
+[316/501] EMPTY   Gusto                               jobs=    0 valid=    0  1.94s
+[317/501] EMPTY   Personio                            jobs=    0 valid=    0  5.71s
+[318/501] EMPTY   Indeed                              jobs=    0 valid=    0 38.19s
+[319/501] EMPTY   LinkedIn                            jobs=    0 valid=    0  3.19s
+[320/501] EMPTY   Visa                                jobs=    0 valid=    0  7.97s
+[321/501] EMPTY   Mastercard                          jobs=    0 valid=    0  6.95s
+[322/501] TIMEOUT American Express                    jobs=    0 valid=    0    40s
+[323/501] EMPTY   Capital One                         jobs=    0 valid=    0 20.19s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[324/501] TIMEOUT Bank of America                     jobs=    0 valid=    0    40s
+[325/501] PASS    Wells Fargo                         jobs=    1 valid=    1 18.91s
+[326/501] EMPTY   Barclays                            jobs=    0 valid=    0 22.89s
+[327/501] PASS    HSBC                                jobs=   20 valid=   20  29.2s
+[328/501] EMPTY   Deutsche Bank                       jobs=    0 valid=    0  24.5s
+[329/501] EMPTY   UBS                                 jobs=    0 valid=    0 32.91s
+[330/501] EMPTY   BNP Paribas                         jobs=    0 valid=    0   1.5s
+[331/501] TIMEOUT Standard Chartered                  jobs=    0 valid=    0    40s
+[332/501] EMPTY   Allianz                             jobs=    0 valid=    0  4.63s
+[Zurich] Starting paginated scrape: https://www.careers.zurich.com/search
+[Zurich] Reported vacancies: 770; listing pages to scan: 31
+[Zurich] Listing page 2/31: 25 new jobs (total 50)
+[Zurich] Listing page 3/31: 25 new jobs (total 75)
+[Zurich] Listing page 4/31: 25 new jobs (total 100)
+[Zurich] Listing page 5/31: 25 new jobs (total 125)
+[Zurich] Listing page 6/31: 25 new jobs (total 150)
+[Zurich] Listing page 7/31: 25 new jobs (total 175)
+[Zurich] Listing page 8/31: 25 new jobs (total 200)
+[Zurich] Listing page 9/31: 25 new jobs (total 225)
+[Zurich] Listing page 10/31: 25 new jobs (total 250)
+[Zurich] Listing page 11/31: 25 new jobs (total 275)
+[Zurich] Listing page 12/31: 25 new jobs (total 300)
+[Zurich] Listing page 13/31: 25 new jobs (total 325)
+[Zurich] Listing page 14/31: 25 new jobs (total 350)
+[Zurich] Listing page 15/31: 25 new jobs (total 375)
+[Zurich] Listing page 16/31: 25 new jobs (total 400)
+[Zurich] Listing page 17/31: 25 new jobs (total 425)
+[Zurich] Listing page 18/31: 25 new jobs (total 450)
+[Zurich] Listing page 19/31: 25 new jobs (total 475)
+[Zurich] Listing page 20/31: 25 new jobs (total 500)
+[Zurich] Listing page 21/31: 25 new jobs (total 525)
+[Zurich] Listing page 22/31: 25 new jobs (total 550)
+[Zurich] Listing page 23/31: 25 new jobs (total 575)
+[Zurich] Listing page 24/31: 25 new jobs (total 600)
+[Zurich] Listing page 25/31: 25 new jobs (total 625)
+[Zurich] Listing page 26/31: 25 new jobs (total 650)
+[Zurich] Listing page 27/31: 25 new jobs (total 675)
+[Zurich] Listing page 28/31: 25 new jobs (total 700)
+[Zurich] Listing page 29/31: 25 new jobs (total 725)
+[Zurich] Listing page 30/31: 25 new jobs (total 750)
+[Zurich] Listing page 31/31: 20 new jobs (total 770)
+[Zurich] Enriching 770 job detail pages with 8 workers
+[Zurich] Details processed: 50/770; normalized jobs: 50
+[Zurich] Details processed: 100/770; normalized jobs: 100
+[Zurich] Details processed: 150/770; normalized jobs: 150
+[Zurich] Details processed: 200/770; normalized jobs: 200
+[Zurich] Details processed: 250/770; normalized jobs: 250
+[Zurich] Details processed: 300/770; normalized jobs: 300
+[Zurich] Details processed: 350/770; normalized jobs: 350
+[Zurich] Details processed: 400/770; normalized jobs: 400
+[Zurich] Details processed: 450/770; normalized jobs: 450
+[Zurich] Details processed: 500/770; normalized jobs: 500
+[Zurich] Details processed: 550/770; normalized jobs: 550
+[333/501] TIMEOUT Zurich Insurance                    jobs=    0 valid=    0    40s
+[334/501] TIMEOUT AXA                                 jobs=    0 valid=    0    40s
+[335/501] TIMEOUT Intuit                              jobs=    0 valid=    0    40s
+[336/501] EMPTY   Fiserv                              jobs=    0 valid=    0  9.66s
+[337/501] EMPTY   FIS                                 jobs=    0 valid=    0 12.87s
+[338/501] EMPTY   S&P Global                          jobs=    0 valid=    0   4.2s
+[339/501] TIMEOUT Moody's                             jobs=    0 valid=    0    40s
+[340/501] TIMEOUT Nasdaq                              jobs=    0 valid=    0    40s
+[341/501] TIMEOUT BlackRock                           jobs=    0 valid=    0    40s
+[342/501] EMPTY   Vanguard                            jobs=    0 valid=    0  5.25s
+[343/501] EMPTY   Charles Schwab                      jobs=    0 valid=    0  6.13s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[344/501] TIMEOUT State Street                        jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://eofe.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/BNY-Careers/jobs
+[345/501] EMPTY   BNY                                 jobs=    0 valid=    0 10.67s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[346/501] TIMEOUT Citi                                jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://jobs.rbc.com
+[347/501] TIMEOUT RBC                                 jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://td.wd3.myworkdayjobs.com/tdbeta
+[348/501] FAIL    TD Bank                             jobs=    0 valid=    0  1.29s
+[Careers URL] Using direct listing URL: https://jobs.scotiabank.com
+[349/501] TIMEOUT Scotiabank                          jobs=    0 valid=    0    40s
+[350/501] TIMEOUT Siemens                             jobs=    0 valid=    0    40s
+[351/501] TIMEOUT Schneider Electric                  jobs=    0 valid=    0    40s
+[352/501] TIMEOUT ABB                                 jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://ibqbjb.fa.ocs.oraclecloud.com/
+[353/501] EMPTY   Honeywell                           jobs=    0 valid=    0  8.99s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[Workday] Page 32: 20 source rows, 640 unique listings
+[Workday] Page 33: 20 source rows, 660 unique listings
+[Workday] Page 34: 20 source rows, 680 unique listings
+[Workday] Page 35: 20 source rows, 700 unique listings
+[Workday] Page 36: 20 source rows, 720 unique listings
+[Workday] Page 37: 20 source rows, 740 unique listings
+[Workday] Page 38: 20 source rows, 760 unique listings
+[Workday] Page 39: 20 source rows, 780 unique listings
+[354/501] TIMEOUT GE Vernova                          jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://careers.geaerospace.com
+[355/501] EMPTY   GE Aerospace                        jobs=    0 valid=    0  6.07s
+[Careers URL] Using direct listing URL: https://jobs.bosch.com
+[356/501] PASS    Bosch                               jobs= 2000 valid= 2000 20.96s
+[Careers URL] Using direct listing URL: https://jobs.continental.com
+[357/501] TIMEOUT Continental                         jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://www.bmwgroup.jobs/
+[358/501] EMPTY   BMW Group                           jobs=    0 valid=    0   5.5s
+[Careers URL] Using direct listing URL: https://jobs.mercedes-benz.com/
+[359/501] EMPTY   Mercedes-Benz                       jobs=    0 valid=    0  2.86s
+[Careers URL] Using direct listing URL: https://jobs.volkswagen-group.com/Volkswagen/
+[360/501] TIMEOUT Volkswagen                          jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 5 source rows, 125 unique listings
+[Workday] Complete: 125 jobs (details=off)
+[361/501] PASS    Toyota                              jobs=  125 valid=  125 13.65s
+[362/501] TIMEOUT Ford                                jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://search-careers.gm.com
+[363/501] EMPTY   General Motors                      jobs=    0 valid=    0  3.74s
+[364/501] TIMEOUT Rivian                              jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://lucidmotors.com/careers/search
+[365/501] TIMEOUT Lucid Motors                        jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://www.spacex.com/careers/jobs
+[366/501] EMPTY   SpaceX                              jobs=    0 valid=    0  1.95s
+[Careers URL] Using direct listing URL: https://www.blueorigin.com/careers/search
+[367/501] EMPTY   Blue Origin                         jobs=    0 valid=    0  7.41s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[368/501] TIMEOUT Airbus                              jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[369/501] TIMEOUT Boeing                              jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://lockheedmartin.eightfold.ai/careers
+[370/501] EMPTY   Lockheed Martin                     jobs=    0 valid=    0  7.12s
+[Careers URL] Using direct listing URL: https://jobs.northropgrumman.com/careers?start=0&pid=1340074844495&sort_by=timestamp
+[371/501] PASS    Northrop Grumman                    jobs=    1 valid=    1  8.51s
+[Careers URL] Using direct listing URL: https://careers.rtx.com/global/en/search-results
+[372/501] EMPTY   RTX                                 jobs=    0 valid=    0 18.46s
+[Careers URL] Using direct listing URL: https://careers.thalesgroup.com/global/en/search-results
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 519 unique listings
+[Workday] Page 27: 20 source rows, 539 unique listings
+[Workday] Page 28: 20 source rows, 559 unique listings
+[Workday] Page 29: 20 source rows, 579 unique listings
+[373/501] TIMEOUT Thales                              jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://careers.rolls-royce.com/en/search
+[374/501] EMPTY   Rolls-Royce                         jobs=    0 valid=    0   1.2s
+[375/501] TIMEOUT Caterpillar                         jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://careers.deere.com/careers
+[376/501] EMPTY   John Deere                          jobs=    0 valid=    0  3.75s
+[Careers URL] Using direct listing URL: https://3m.wd1.myworkdayjobs.com/en-US/Search
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 479 unique listings
+[Workday] Page 25: 20 source rows, 499 unique listings
+[Workday] Page 26: 20 source rows, 519 unique listings
+[Workday] Page 27: 20 source rows, 539 unique listings
+[Workday] Page 28: 20 source rows, 559 unique listings
+[Workday] Page 29: 20 source rows, 578 unique listings
+[Workday] Page 30: 20 source rows, 598 unique listings
+[377/501] TIMEOUT 3M                                  jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://jobs.thermofisher.com/global/en/search-results
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[Workday] Page 32: 20 source rows, 640 unique listings
+[Workday] Page 33: 20 source rows, 660 unique listings
+[Workday] Page 34: 20 source rows, 680 unique listings
+[Workday] Page 35: 20 source rows, 700 unique listings
+[Workday] Page 36: 20 source rows, 720 unique listings
+[Workday] Page 37: 20 source rows, 740 unique listings
+[Workday] Page 38: 20 source rows, 760 unique listings
+[Workday] Page 39: 20 source rows, 780 unique listings
+[Workday] Page 40: 20 source rows, 800 unique listings
+[Workday] Page 41: 20 source rows, 820 unique listings
+[Workday] Page 42: 20 source rows, 840 unique listings
+[Workday] Page 43: 20 source rows, 860 unique listings
+[Workday] Page 44: 20 source rows, 880 unique listings
+[Workday] Page 45: 20 source rows, 900 unique listings
+[Workday] Page 46: 20 source rows, 920 unique listings
+[Workday] Page 47: 20 source rows, 940 unique listings
+[Workday] Page 48: 20 source rows, 960 unique listings
+[Workday] Page 49: 20 source rows, 980 unique listings
+[Workday] Page 50: 20 source rows, 1000 unique listings
+[Workday] Page 51: 20 source rows, 1020 unique listings
+[378/501] TIMEOUT Thermo Fisher Scientific            jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 159 unique listings
+[Workday] Page 9: 20 source rows, 179 unique listings
+[Workday] Page 10: 20 source rows, 199 unique listings
+[Workday] Page 11: 20 source rows, 219 unique listings
+[Workday] Page 12: 20 source rows, 239 unique listings
+[Workday] Page 13: 20 source rows, 259 unique listings
+[Workday] Page 14: 20 source rows, 279 unique listings
+[Workday] Page 15: 20 source rows, 299 unique listings
+[Workday] Page 16: 20 source rows, 319 unique listings
+[Workday] Page 17: 20 source rows, 339 unique listings
+[Workday] Page 18: 20 source rows, 359 unique listings
+[Workday] Page 19: 20 source rows, 379 unique listings
+[Workday] Page 20: 20 source rows, 399 unique listings
+[Workday] Page 21: 20 source rows, 419 unique listings
+[Workday] Page 22: 20 source rows, 439 unique listings
+[Workday] Page 23: 20 source rows, 459 unique listings
+[Workday] Page 24: 20 source rows, 479 unique listings
+[Workday] Page 25: 20 source rows, 499 unique listings
+[Workday] Page 26: 10 source rows, 509 unique listings
+[Workday] Complete: 509 jobs (details=off)
+[379/501] PASS    Siemens Healthineers                jobs=  509 valid=  509  22.5s
+[Careers URL] Using direct listing URL: https://www.careers.philips.com/global/en/search-results
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[380/501] TIMEOUT Philips                             jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://medtronic.wd1.myworkdayjobs.com/MedtronicCareers
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[381/501] TIMEOUT Medtronic                           jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://jobs.gehealthcare.com/
+[382/501] EMPTY   GE HealthCare                       jobs=    0 valid=    0  2.93s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 17 source rows, 157 unique listings
+[Workday] Complete: 157 jobs (details=off)
+[383/501] PASS    Illumina                            jobs=  157 valid=  157 14.07s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 12 source rows, 272 unique listings
+[Workday] Complete: 272 jobs (details=off)
+[384/501] PASS    Moderna                             jobs=  272 valid=  272 20.77s
+[Careers URL] Using direct listing URL: https://www.pfizer.com/about/careers/search-results?langcode=en&count=10&sort=latest
+[385/501] EMPTY   Pfizer                              jobs=    0 valid=    0  3.18s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[Workday] Page 32: 20 source rows, 640 unique listings
+[Workday] Page 33: 20 source rows, 660 unique listings
+[Workday] Page 34: 20 source rows, 680 unique listings
+[Workday] Page 35: 20 source rows, 700 unique listings
+[Workday] Page 36: 20 source rows, 720 unique listings
+[Workday] Page 37: 20 source rows, 740 unique listings
+[Workday] Page 38: 20 source rows, 760 unique listings
+[Workday] Page 39: 20 source rows, 780 unique listings
+[Workday] Page 40: 20 source rows, 800 unique listings
+[Workday] Page 41: 20 source rows, 820 unique listings
+[Workday] Page 42: 20 source rows, 840 unique listings
+[Workday] Page 43: 20 source rows, 860 unique listings
+[Workday] Page 44: 20 source rows, 880 unique listings
+[Workday] Page 45: 20 source rows, 899 unique listings
+[Workday] Page 46: 20 source rows, 919 unique listings
+[Workday] Page 47: 20 source rows, 939 unique listings
+[Workday] Page 48: 20 source rows, 959 unique listings
+[Workday] Page 49: 20 source rows, 979 unique listings
+[Workday] Page 50: 20 source rows, 999 unique listings
+[Workday] Page 51: 20 source rows, 1019 unique listings
+[Workday] Page 52: 20 source rows, 1039 unique listings
+[Workday] Page 53: 20 source rows, 1059 unique listings
+[Workday] Page 54: 20 source rows, 1079 unique listings
+[Workday] Page 55: 20 source rows, 1099 unique listings
+[Workday] Page 56: 20 source rows, 1119 unique listings
+[Workday] Page 57: 20 source rows, 1139 unique listings
+[Workday] Page 58: 20 source rows, 1159 unique listings
+[Workday] Page 59: 20 source rows, 1179 unique listings
+[Workday] Page 60: 20 source rows, 1199 unique listings
+[Workday] Page 61: 20 source rows, 1219 unique listings
+[Workday] Page 62: 20 source rows, 1239 unique listings
+[Workday] Page 63: 20 source rows, 1259 unique listings
+[386/501] TIMEOUT Roche                               jobs=    0 valid=    0    40s
+[387/501] EMPTY   Novartis                            jobs=    0 valid=    0 15.92s
+[388/501] TIMEOUT AstraZeneca                         jobs=    0 valid=    0    40s
+[389/501] TIMEOUT GSK                                 jobs=    0 valid=    0    40s
+[390/501] PASS    Sanofi                              jobs=   48 valid=   48 31.78s
+[Careers URL] Using direct listing URL: https://www.careers.jnj.com/
+[391/501] EMPTY   Johnson & Johnson                   jobs=    0 valid=    0  6.24s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 179 unique listings
+[Workday] Page 10: 20 source rows, 199 unique listings
+[Workday] Page 11: 20 source rows, 219 unique listings
+[Workday] Page 12: 20 source rows, 239 unique listings
+[Workday] Page 13: 20 source rows, 259 unique listings
+[Workday] Page 14: 20 source rows, 279 unique listings
+[Workday] Page 15: 20 source rows, 299 unique listings
+[Workday] Page 16: 20 source rows, 319 unique listings
+[Workday] Page 17: 20 source rows, 339 unique listings
+[Workday] Page 18: 20 source rows, 359 unique listings
+[Workday] Page 19: 20 source rows, 379 unique listings
+[Workday] Page 20: 20 source rows, 399 unique listings
+[Workday] Page 21: 20 source rows, 419 unique listings
+[Workday] Page 22: 20 source rows, 439 unique listings
+[Workday] Page 23: 20 source rows, 459 unique listings
+[Workday] Page 24: 20 source rows, 479 unique listings
+[Workday] Page 25: 20 source rows, 499 unique listings
+[Workday] Page 26: 20 source rows, 519 unique listings
+[Workday] Page 27: 20 source rows, 539 unique listings
+[Workday] Page 28: 20 source rows, 559 unique listings
+[Workday] Page 29: 20 source rows, 579 unique listings
+[Workday] Page 30: 20 source rows, 599 unique listings
+[Workday] Page 31: 20 source rows, 619 unique listings
+[Workday] Page 32: 20 source rows, 639 unique listings
+[Workday] Page 33: 20 source rows, 659 unique listings
+[Workday] Page 34: 20 source rows, 679 unique listings
+[Workday] Page 35: 20 source rows, 699 unique listings
+[Workday] Page 36: 20 source rows, 719 unique listings
+[Workday] Page 37: 20 source rows, 739 unique listings
+[Workday] Page 38: 5 source rows, 744 unique listings
+[Workday] Complete: 744 jobs (details=off)
+[392/501] PASS    Eli Lilly                           jobs=  744 valid=  744 37.25s
+[Careers URL] Using direct listing URL: https://jobs.merck.com/
+[393/501] EMPTY   Merck                               jobs=    0 valid=    0  6.18s
+[394/501] EMPTY   Bayer                               jobs=    0 valid=    0  5.23s
+[395/501] TIMEOUT UnitedHealth Group                  jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://optum.wd1.myworkdayjobs.com/
+[396/501] FAIL    Optum                               jobs=    0 valid=    0  0.11s
+[Careers URL] Using direct listing URL: https://jobs.cvshealth.com/
+[397/501] TIMEOUT CVS Health                          jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://cigna.wd5.myworkdayjobs.com/
+[398/501] FAIL    Cigna                               jobs=    0 valid=    0  0.12s
+[399/501] TIMEOUT Epic Systems                        jobs=    0 valid=    0    40s
+[400/501] TIMEOUT Veeva Systems                       jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 1 source rows, 141 unique listings
+[Workday] Complete: 141 jobs (details=off)
+[401/501] PASS    Tempus AI                           jobs=  141 valid=  141  9.07s
+[Careers URL] Using direct listing URL: https://www.ikea.com/us/en/this-is-ikea/work-with-us/
+[402/501] EMPTY   IKEA                                jobs=    0 valid=    0  9.91s
+[Careers URL] Using direct listing URL: https://career.hm.com/
+[403/501] TIMEOUT H&M                                 jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://jobs.zalando.com/
+[404/501] TIMEOUT Zalando                             jobs=    0 valid=    0    40s
+[405/501] TIMEOUT ASOS                                jobs=    0 valid=    0    40s
+[406/501] EMPTY   Inditex                             jobs=    0 valid=    0  4.02s
+[407/501] PASS    L'Oréal                             jobs=  251 valid=  251 39.29s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[408/501] TIMEOUT Procter & Gamble                    jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://careers.unilever.com/
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 1 source rows, 261 unique listings
+[Workday] Complete: 261 jobs (details=off)
+[409/501] PASS    Unilever                            jobs=  261 valid=  261 16.66s
+[Careers URL] Using direct listing URL: https://www.nestle.com/jobs
+[410/501] EMPTY   Nestlé                              jobs=    0 valid=    0  1.92s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 3 source rows, 223 unique listings
+[Workday] Complete: 223 jobs (details=off)
+[411/501] PASS    Coca-Cola                           jobs=  223 valid=  223 18.01s
+[412/501] TIMEOUT PepsiCo                             jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 18 source rows, 498 unique listings
+[Workday] Complete: 498 jobs (details=off)
+[413/501] PASS    Nike                                jobs=  498 valid=  498 24.06s
+[Careers URL] Using direct listing URL: https://careers.adidas-group.com/
+[414/501] TIMEOUT Adidas                              jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://careers.fedex.com/
+[415/501] TIMEOUT FedEx                               jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 219 unique listings
+[Workday] Page 12: 20 source rows, 239 unique listings
+[Workday] Page 13: 20 source rows, 259 unique listings
+[Workday] Page 14: 20 source rows, 279 unique listings
+[Workday] Page 15: 20 source rows, 298 unique listings
+[Workday] Page 16: 20 source rows, 318 unique listings
+[Workday] Page 17: 20 source rows, 337 unique listings
+[Workday] Page 18: 20 source rows, 357 unique listings
+[Workday] Page 19: 20 source rows, 377 unique listings
+[Workday] Page 20: 20 source rows, 397 unique listings
+[Workday] Page 21: 20 source rows, 417 unique listings
+[Workday] Page 22: 20 source rows, 437 unique listings
+[Workday] Page 23: 20 source rows, 457 unique listings
+[Workday] Page 24: 20 source rows, 477 unique listings
+[Workday] Page 25: 20 source rows, 497 unique listings
+[416/501] TIMEOUT UPS                                 jobs=    0 valid=    0    40s
+[417/501] TIMEOUT DHL                                 jobs=    0 valid=    0    40s
+[418/501] TIMEOUT Maersk                              jobs=    0 valid=    0    40s
+[419/501] PASS    Flexport                            jobs=  193 valid=  193 13.69s
+[420/501] PASS    Samsara                             jobs=  274 valid=  274  4.77s
+[421/501] TIMEOUT Trimble                             jobs=    0 valid=    0    40s
+[422/501] EMPTY   Autodesk                            jobs=    0 valid=    0  4.79s
+[423/501] PASS    Dassault Systèmes                   jobs=   65 valid=   65 23.41s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 6 source rows, 166 unique listings
+[Workday] Complete: 166 jobs (details=off)
+[424/501] PASS    PTC                                 jobs=  166 valid=  166 12.73s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 12 source rows, 92 unique listings
+[Workday] Complete: 92 jobs (details=off)
+[425/501] PASS    Bentley Systems                     jobs=   92 valid=   92 12.62s
+[426/501] TIMEOUT Ansys                               jobs=    0 valid=    0    40s
+[427/501] EMPTY   MathWorks                           jobs=    0 valid=    0  2.85s
+[Careers URL] Using direct listing URL: https://esri.wd1.myworkdayjobs.com/
+[428/501] FAIL    Esri                                jobs=    0 valid=    0   0.1s
+[Careers URL] Using direct listing URL: https://here.wd5.myworkdayjobs.com/
+[429/501] FAIL    HERE Technologies                   jobs=    0 valid=    0  0.09s
+[Careers URL] Using direct listing URL: https://careers.tomtom.com/
+[430/501] EMPTY   TomTom                              jobs=    0 valid=    0  2.39s
+[431/501] TIMEOUT Grab                                jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://www.gojek.io/careers
+[432/501] EMPTY   Gojek                               jobs=    0 valid=    0  5.19s
+[Careers URL] Using direct listing URL: https://careers.seagroup.com/
+[433/501] EMPTY   Sea Group                           jobs=    0 valid=    0  2.44s
+[Careers URL] Using direct listing URL: https://careers.shopee.sg/
+[434/501] EMPTY   Shopee                              jobs=    0 valid=    0  1.49s
+[435/501] TIMEOUT Lazada                              jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://careers.traveloka.com/
+[436/501] EMPTY   Traveloka                           jobs=    0 valid=    0  9.27s
+[Careers URL] Using direct listing URL: https://careers.carousell.com/
+[437/501] EMPTY   Carousell                           jobs=    0 valid=    0  2.49s
+[Careers URL] Using direct listing URL: https://careers.mercadolibre.com/
+[438/501] EMPTY   Mercado Libre                       jobs=    0 valid=    0  2.14s
+[Careers URL] Using direct listing URL: https://careers.kakao.com/
+[439/501] EMPTY   Kakao                               jobs=    0 valid=    0  4.24s
+[Careers URL] Using direct listing URL: https://recruit.navercorp.com/
+[440/501] EMPTY   Naver                               jobs=    0 valid=    0  5.66s
+[Workday] Page 1: 8 source rows, 8 unique listings
+[Workday] Complete: 8 jobs (details=off)
+[441/501] PASS    Rakuten                             jobs=    8 valid=    8  7.05s
+[Careers URL] Using direct listing URL: https://careers.mercari.com/
+[442/501] PASS    Mercari                             jobs=   19 valid=   19 24.54s
+[443/501] EMPTY   Xero                                jobs=    0 valid=    0  5.48s
+[Careers URL] Using direct listing URL: https://careers.myob.com/
+[444/501] EMPTY   MYOB                                jobs=    0 valid=    0  7.19s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 17 source rows, 197 unique listings
+[Workday] Complete: 197 jobs (details=off)
+[445/501] PASS    Telstra                             jobs=  197 valid=  197 12.78s
+[446/501] EMPTY   Vodafone                            jobs=    0 valid=    0  3.63s
+[Careers URL] Using direct listing URL: https://orange.jobs/UNINETTUNI/1/T2/Careers.aspx
+[447/501] TIMEOUT Orange                              jobs=    0 valid=    0    40s
+[Careers URL] Using direct listing URL: https://jobs.bt.com/
+[448/501] EMPTY   BT Group                            jobs=    0 valid=    0 16.72s
+[Careers URL] Using direct listing URL: https://portal.globalcareers.telekom.com/
+[449/501] EMPTY   Deutsche Telekom                    jobs=    0 valid=    0 11.24s
+[450/501] TIMEOUT MTN Group                           jobs=    0 valid=    0    40s
+[451/501] EMPTY   Safaricom                           jobs=    0 valid=    0 10.61s
+[452/501] EMPTY   Yandex                              jobs=    0 valid=    0 14.14s
+[453/501] EMPTY   Kaspersky                           jobs=    0 valid=    0 27.63s
+[454/501] EMPTY   Bitdefender                         jobs=    0 valid=    0  14.8s
+[455/501] TIMEOUT ESET                                jobs=    0 valid=    0    40s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 16 source rows, 176 unique listings
+[Workday] Complete: 176 jobs (details=off)
+[456/501] PASS    Trend Micro                         jobs=  176 valid=  176 16.06s
+[457/501] EMPTY   Check Point                         jobs=    0 valid=    0 13.05s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 10 source rows, 70 unique listings
+[Workday] Complete: 70 jobs (details=off)
+[458/501] PASS    Darktrace                           jobs=   70 valid=   70  7.79s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 2 source rows, 122 unique listings
+[Workday] Complete: 122 jobs (details=off)
+[459/501] PASS    Proofpoint                          jobs=  122 valid=  122 11.26s
+[460/501] PASS    Tenable                             jobs=   36 valid=   36  8.88s
+[461/501] PASS    Rapid7                              jobs=   41 valid=   41 25.11s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 16 source rows, 176 unique listings
+[Workday] Complete: 176 jobs (details=off)
+[462/501] PASS    Qualys                              jobs=  176 valid=  176  9.42s
+[463/501] PASS    Acronis                             jobs=    1 valid=    1 20.85s
+[464/501] TIMEOUT Veeam                               jobs=    0 valid=    0    40s
+[465/501] TIMEOUT Commvault                           jobs=    0 valid=    0    40s
+[466/501] EMPTY   Rubrik                              jobs=    0 valid=    0  7.34s
+[467/501] EMPTY   Nutanix                             jobs=    0 valid=    0  8.76s
+[468/501] EMPTY   Pure Storage                        jobs=    0 valid=    0 26.34s
+[469/501] EMPTY   NetApp                              jobs=    0 valid=    0   5.4s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 2 source rows, 242 unique listings
+[Workday] Complete: 242 jobs (details=off)
+[470/501] PASS    F5                                  jobs=  242 valid=  242 24.13s
+[471/501] EMPTY   Ciena                               jobs=    0 valid=    0  1.56s
+[472/501] EMPTY   Verizon                             jobs=    0 valid=    0  9.92s
+[473/501] EMPTY   T-Mobile                            jobs=    0 valid=    0  5.42s
+[Workday] Page 1: 20 source rows, 20 unique listings
+[Workday] Page 2: 20 source rows, 40 unique listings
+[Workday] Page 3: 20 source rows, 60 unique listings
+[Workday] Page 4: 20 source rows, 80 unique listings
+[Workday] Page 5: 20 source rows, 100 unique listings
+[Workday] Page 6: 20 source rows, 120 unique listings
+[Workday] Page 7: 20 source rows, 140 unique listings
+[Workday] Page 8: 20 source rows, 160 unique listings
+[Workday] Page 9: 20 source rows, 180 unique listings
+[Workday] Page 10: 20 source rows, 200 unique listings
+[Workday] Page 11: 20 source rows, 220 unique listings
+[Workday] Page 12: 20 source rows, 240 unique listings
+[Workday] Page 13: 20 source rows, 260 unique listings
+[Workday] Page 14: 20 source rows, 280 unique listings
+[Workday] Page 15: 20 source rows, 300 unique listings
+[Workday] Page 16: 20 source rows, 320 unique listings
+[Workday] Page 17: 20 source rows, 340 unique listings
+[Workday] Page 18: 20 source rows, 360 unique listings
+[Workday] Page 19: 20 source rows, 380 unique listings
+[Workday] Page 20: 20 source rows, 400 unique listings
+[Workday] Page 21: 20 source rows, 420 unique listings
+[Workday] Page 22: 20 source rows, 440 unique listings
+[Workday] Page 23: 20 source rows, 460 unique listings
+[Workday] Page 24: 20 source rows, 480 unique listings
+[Workday] Page 25: 20 source rows, 500 unique listings
+[Workday] Page 26: 20 source rows, 520 unique listings
+[Workday] Page 27: 20 source rows, 540 unique listings
+[Workday] Page 28: 20 source rows, 560 unique listings
+[Workday] Page 29: 20 source rows, 580 unique listings
+[Workday] Page 30: 20 source rows, 600 unique listings
+[Workday] Page 31: 20 source rows, 620 unique listings
+[Workday] Page 32: 17 source rows, 637 unique listings
+[Workday] Complete: 637 jobs (details=off)
+[474/501] PASS    Comcast                             jobs=  637 valid=  637 29.95s
+[475/501] EMPTY   Warner Bros. Discovery              jobs=    0 valid=    0 23.68s
+[476/501] EMPTY   The Walt Disney Company             jobs=    0 valid=    0  9.91s
+[477/501] TIMEOUT NBCUniversal                        jobs=    0 valid=    0    40s
+[478/501] TIMEOUT Paramount                           jobs=    0 valid=    0    40s
+[479/501] EMPTY   Sony Pictures                       jobs=    0 valid=    0   5.4s
+[480/501] EMPTY   Fox Corporation                     jobs=    0 valid=    0 25.88s
+[Careers URL] Using direct listing URL: https://www.nytco.com/careers/job-listings/
+[481/501] TIMEOUT The New York Times                  jobs=    0 valid=    0    40s
+[482/501] EMPTY   Reuters                             jobs=    0 valid=    0  2.73s
+[483/501] TIMEOUT The Guardian                        jobs=    0 valid=    0    40s
+[484/501] EMPTY   Financial Times                     jobs=    0 valid=    0  8.03s
+[485/501] EMPTY   The Economist Group                 jobs=    0 valid=    0  3.16s
+[486/501] PASS    Reddit                              jobs=  156 valid=  156  3.08s
+[487/501] EMPTY   Pinterest                           jobs=    0 valid=    0   4.4s
+[488/501] EMPTY   Snap Inc.                           jobs=    0 valid=    0  2.97s
+[489/501] EMPTY   Discord                             jobs=    0 valid=    0   2.0s
+[490/501] EMPTY   Signal                              jobs=    0 valid=    0 13.54s
+[491/501] PASS    Mozilla                             jobs=  107 valid=  107  3.83s
