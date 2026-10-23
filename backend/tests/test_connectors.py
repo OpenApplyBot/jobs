@@ -260,3 +260,24 @@ def test_fetch_jobs_separates_hash_verified_unchanged_rows(monkeypatch):
     )
     assert result == []
     assert result.verified_unchanged_ids == {"existing-1"}
+
+
+def test_normalizer_handles_multi_location_and_database_field_lengths():
+    locations = "; ".join(
+        [f"Location {i}, Region {i}, Country {i}" for i in range(40)]
+    )
+    row = normalize(
+        "long-location-job",
+        "Platform Engineer",
+        "https://jobs.example.test/role",
+        location=locations,
+        employment_type="Full-time " * 30,
+        company="Company " * 60,
+    )
+    assert row is not None
+    assert row["location"] is not None and len(row["location"]) <= 500
+    assert row["employment_type"] is not None and len(row["employment_type"]) <= 100
+    assert row["company_name"] is not None and len(row["company_name"]) <= 300
+    assert row["location_city"] is None
+    assert row["location_region"] is None
+    assert row["location_country"] is None
