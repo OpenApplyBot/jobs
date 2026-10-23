@@ -260,3 +260,29 @@ def test_fetch_jobs_separates_hash_verified_unchanged_rows(monkeypatch):
     )
     assert result == []
     assert result.verified_unchanged_ids == {"existing-1"}
+
+
+def test_greenhouse_multilocation_does_not_overflow_location_fields(monkeypatch):
+    locations = "; ".join(
+        [f"Office {i} — " + ("International remote and regional coverage " * 3) for i in range(12)]
+    )
+    monkeypatch.setattr(
+        greenhouse,
+        "get",
+        lambda *a, **k: Response(
+            {"jobs": [{
+                "id": 99,
+                "title": "Solutions Architect",
+                "absolute_url": "https://boards.greenhouse.io/databricks/jobs/99",
+                "location": {"name": locations},
+                "content": "Apply now",
+            }]}
+        ),
+    )
+
+    row = fetch_jobs("greenhouse", "databricks")[0]
+    assert len(row["location"]) > 200
+    assert len(row["location"]) <= 500
+    assert row["location_city"] is None
+    assert row["location_region"] is None
+    assert row["location_country"] is None

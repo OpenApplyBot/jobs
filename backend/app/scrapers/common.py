@@ -55,16 +55,33 @@ def _details(title,description,location,employment_type,raw):
     experience=re.search(r"(\d+)\s*(?:-|to)\s*(\d+)?\s*years?",text)
     education=next((phrase for phrase in ("bachelor's degree","bachelors degree","master's degree","masters degree","computer science degree","degree in computer science") if phrase in text),None)
     countries=[country for country in ("India","United States","United Kingdom","Canada","Germany","Australia") if country.lower() in text]
-    parts=[part.strip() for part in (location or "").split(",") if part.strip()]
-    return {"work_mode":work_mode,"location_city":parts[0] if parts else None,"location_region":parts[1] if len(parts)>2 else None,"location_country":parts[-1] if len(parts)>1 else None,"remote_scope":"Worldwide" if "worldwide" in text else None,"required_skills":skills,"preferred_skills":skills,"programming_languages":[x for x in skills if x in {"python","java","javascript","typescript","c++","go","rust","kotlin","swift"}],"tech_stack":skills,"education_requirements":education,"experience_min_months":int(experience.group(1))*12 if experience else None,"eligible_countries":countries,"visa_sponsorship":True if "visa sponsorship" in text or "sponsorship available" in text else None,"relocation_available":True if "relocation" in text else None,"salary_currency":currency,"salary_period":period,"compensation_text":salary_text,"status":"open" if any(x in text for x in ("apply","job","position")) else "unverified"}
+    location_value=clean(location) or ""
+    parts=[part.strip() for part in location_value.split(",") if part.strip()]
+    # Greenhouse and several other boards use semicolon-separated lists for
+    # multi-location roles. Do not store the entire list as one city; that can
+    # exceed the jobs.location_city VARCHAR(200) column and fail ingestion.
+    if ";" in location_value:
+        city=region=country=None
+    else:
+        city=parts[0][:200] if parts else None
+        region=parts[1][:200] if len(parts)>2 else None
+        country=parts[-1][:200] if len(parts)>1 else None
+    return {"work_mode":work_mode,"location_city":city,"location_region":region,"location_country":country,"remote_scope":"Worldwide" if "worldwide" in text else None,"required_skills":skills,"preferred_skills":skills,"programming_languages":[x for x in skills if x in {"python","java","javascript","typescript","c++","go","rust","kotlin","swift"}],"tech_stack":skills,"education_requirements":education,"experience_min_months":int(experience.group(1))*12 if experience else None,"eligible_countries":countries,"visa_sponsorship":True if "visa sponsorship" in text or "sponsorship available" in text else None,"relocation_available":True if "relocation" in text else None,"salary_currency":currency,"salary_period":period,"compensation_text":salary_text,"status":"open" if any(x in text for x in ("apply","job","position")) else "unverified"}
 
 def normalize(job_id, title, url, location=None, department=None, employment_type=None, description=None, posted_at=None, company=None, raw_payload=None, apply_url=None):
     title, url = clean(title), valid_url(url)
     if not job_id or not title or not url: return None
+    # Keep normalized values within the corresponding SQL VARCHAR limits.
+    title = title[:500]
+    url = url[:2000]
+    apply_url = valid_url(apply_url)[:2000] if valid_url(apply_url) else None
+    location = (clean(location) or "")[:500] or None
+    employment_type = (clean(employment_type) or "")[:100] or None
+    company = (clean(company) or "")[:300] or None
     payload=raw_payload if isinstance(raw_payload,dict) else {}
     details=_details(title,description,location,employment_type,payload)
     raw=json.loads(json.dumps(payload,default=str))
-    resolved_apply=valid_url(apply_url or payload.get("applyUrl") or payload.get("application_url")) or url
+    resolved_apply=(valid_url(apply_url or payload.get("applyUrl") or payload.get("application_url")) or url)[:2000]
     fingerprint = {
         "title": title[:500],
         "url": url,
